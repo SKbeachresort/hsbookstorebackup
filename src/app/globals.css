@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Questrial&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,8 +16,132 @@
   }
 }
 
+::-webkit-scrollbar {
+  width: 0.7vh;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #293275, #2C9CDB);
+  border-radius: 999px;
+}
+
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Montserrat", sans-serif;
+};
+
+.icon-style{
+  @apply text-[2.4vh] hover:scale-125 transition-all duration-300 cursor-pointer
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeLeft {
+  0% {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeRight {
+  0% {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeDown {
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fadeLeft {
+  animation: fadeLeft 0.5s ease-in-out;
+}
+
+.animate-fadeRight {
+  animation: fadeRight 0.5s ease-in-out;
+}
+
+.animate-fadeUp {
+  animation: fadeUp 0.5s ease-in-out;
+}
+
+.animate-fadeDown {
+  animation: fadeDown 0.5s ease-in-out;
+}
+
+.animate-zoomIn {
+  animation: zoomIn 0.3s ease-in-out;
+}
+
+.animate-zoomOut {
+  animation: zoomIn 0.3s ease-in-out forwards;
+}
+
+/* Custom class for Swiper container to force horizontal layout */
+.mySwiper {
+  position: relative;
+}
+
+.swiper-pagination {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.swiper-pagination-bullet {
+  background-color: #2C9CDB  !important;
+  width: 12px;
+  height: 12px;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #293275 !important;
 }
