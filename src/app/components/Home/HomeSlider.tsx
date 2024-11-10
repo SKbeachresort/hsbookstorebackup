@@ -19,34 +19,63 @@ const carouselItems = [
 export const HomeSlider = () => {
   return (
     <div className="relative">
-      <Swiper
-        slidesPerView={1}
-        pagination={{ clickable: true }}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-        }}
-        loop={true}
-        navigation={false}
-        modules={[Pagination, Autoplay, Navigation]}
-        className="mySwiper md:w-[90%] my-[2vh] h-[25vh] md:h-[34vh]"
-      >
-        {carouselItems.map((item) => (
-          <SwiperSlide
-            key={item.id}
-            className="flex items-center justify-center"
-          >
-            <div className="w-full h-full flex flex-col items-center rounded-lg overflow-hidden">
-              <img
-                src={item.imageUrl}
-                alt={`Slide ${item.id}`}
-                className="w-full h-full object-cover shadow-md"
-              />
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-      
+      <img
+        src="/servicebanner.png"
+        className="hidden md:block w-full md:w-[75%] mx-auto"
+      />
+      <img
+        src="/mobileservicebanner.png"
+        className="md:hidden w-full md:w-[75%] mx-auto"
+      />
+
+      <div className="hidden md:block">
+        <Swiper
+          slidesPerView={1}
+          pagination={{ clickable: true }}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          navigation={false}
+          modules={[Pagination, Autoplay, Navigation]}
+          className="mySwiper md:w-[90%] my-[2vh] h-[25vh] md:h-[34vh]"
+        >
+          {carouselItems.map((item) => (
+            <SwiperSlide
+              key={item.id}
+              className="flex items-center justify-center"
+            >
+              <div className="w-full h-full flex flex-col items-center rounded-lg overflow-hidden">
+                <img
+                  src={item.imageUrl}
+                  alt={`Slide ${item.id}`}
+                  className="w-full h-full object-cover shadow-md"
+                />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
+      {/* Responsiveness for Mobile Specific */}
+      <div className="md:hidden flex flex-col justify-center items-center my-[2vh]">
+        <h1 className="text-[2.2vh] font-medium my-[2vh] text-textgray">
+          NEUROANATOMY BOOKS
+        </h1>
+        <h1 className="w-[90%] mx-auto text-[2.7vh] font-medium text-center">
+          A PIONEERING INTERACTIVE APPROACH TO THE TEACHING OF NEUROANATOMY
+        </h1>
+        <button className="text-white px-[4vh] py-[0.5vh] my-[2vh] rounded-full font-semibold text-[1.8vh] bg-secondary">
+          SHOP NOW
+        </button>
+
+        <img
+          src="/herosectionImg.png"
+          alt="hero-sectionImg"
+          className="w-[90%] mx-auto my-[2vh]"
+        />
+      </div>
     </div>
   );
 };

@@ -19,7 +19,7 @@ export const Footer = () => {
           <h3 className="font-semibold text-[2.4vh] text-secondary mb-2">
             About Us
           </h3>
-          <ul className="space-y-1 text-[2vh]">
+          <ul className="space-y-2 text-[2vh]">
             <li>About us</li>
             <li>Blog</li>
             <li>Contact us</li>
@@ -31,7 +31,7 @@ export const Footer = () => {
           <h3 className="font-semibold text-[2.4vh] text-secondary mb-2">
             Help
           </h3>
-          <ul className="space-y-1 text-[2vh]">
+          <ul className="space-y-2 text-[2vh]">
             <li>Account</li>
             <li>My Order</li>
             <li>WishList</li>
@@ -46,13 +46,13 @@ export const Footer = () => {
           </h3>
           <ul className=" text-[2vh]">
             <Link href="/legal/terms-and-conditions">
-              <li className="space-y-1">Terms and Conditions</li>
+              <li className="space-y-2">Terms and Conditions</li>
             </Link>
             <Link href="/legal/privacy-policy">
-              <li className="space-y-1">Privacy Policy</li>
+              <li className="space-y-2">Privacy Policy</li>
             </Link>
             <Link href="/legal/disclaimer">
-              <li className="space-y-1">Disclaimer</li>
+              <li className="space-y-2">Disclaimer</li>
             </Link>
           </ul>
         </div>
@@ -62,7 +62,7 @@ export const Footer = () => {
           <h3 className="font-semibold text-[2.4vh] text-secondary mb-2">
             Contact
           </h3>
-          <ul className="space-y-1 text-[2vh]">
+          <ul className="space-y-2 text-[2vh]">
             <li className="flex items-center">
               <FaWhatsapp size={20} className="mr-2" /> +965 123 555 67
             </li>
