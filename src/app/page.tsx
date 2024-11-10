@@ -11,8 +11,8 @@ export default function Home() {
   return (
     <div className="">
       <HomeSlider />
-      <RecentlyAdded />
       <HomeCategory />
+      <RecentlyAdded />
       <HomeExplore />
       <HomeExploreSpecialists />
       <ProductsRecommendations />

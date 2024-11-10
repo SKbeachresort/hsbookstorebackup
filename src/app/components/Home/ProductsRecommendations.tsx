@@ -2,7 +2,8 @@
 import React from "react";
 import { ProductCard } from "../ProductCard/ProductCard";
 
-export const ProductsRecommendations = () => {const products = [
+export const ProductsRecommendations = () => {
+  const products = [
     {
       name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
       image: "/products/book.png",
@@ -51,7 +52,6 @@ export const ProductsRecommendations = () => {const products = [
       cuttedPrice: 8.0,
       ratings: 4.5,
     },
-    
   ];
 
   return (
@@ -63,7 +63,7 @@ export const ProductsRecommendations = () => {const products = [
         </p>
       </div>
 
-      <div className="px-[2vh]  flex flex-row items-center flex-wrap justify-between overflow-x-scroll">
+      <div className="px-[2vh] gap-x-[1vh] gap-y-[2vh] flex flex-row items-center flex-wrap justify-between overflow-x-scroll">
         {products.map((product, index) => (
           <ProductCard
             key={index}

@@ -10,6 +10,7 @@ import { RiSearchLine } from "react-icons/ri";
 import BackDropLoader from "@/app/elements/BackdropLoader";
 import { CategoryList } from "./Category";
 import { AiFillCloseSquare } from "react-icons/ai";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 export const Navbar = () => {
   const [navOpen, setNavOpen] = useState<boolean>(false);
@@ -53,46 +54,61 @@ export const Navbar = () => {
       </div>
 
       {/* Main Nav Section */}
-      <div className="py-[2.5vh] px-[2vh] shadow-md flex flex-row justify-between">
-        <Link href="/">
-          <img src="/logo.png" className="w-[20vh] md:w-[25vh] my-auto" />
-        </Link>
+      <div className="py-[2.5vh] px-[2vh] shadow-md mb-1 md:mb-0 flex flex-row justify-between">
+        <div className="flex flex-row items-center gap-x-[0.2vh]">
+          <div className="md:hidden rounded-sm">
+            <GiHamburgerMenu
+              onClick={handleNavbarOpen}
+              className="text-[3.5vh] text-primary cursor-pointer"
+            />
+          </div>
+          <Link href="/">
+            <img
+              src="/logo.png"
+              className="hidden md:block w-[20vh] md:w-[25vh] my-auto"
+            />
+          </Link>
+
+          <Link href="/">
+            <img src="/HSlogo.png" className="md:hidden w-[4.5vh] my-auto" />
+          </Link>
+        </div>
 
         {/* Search Section Bar */}
         <form
           onSubmit={handleSearchSubmit}
-          className="md:flex md:flex-row overflow-hidden hidden justify-between items-center md:w-[30vw] lg:w-[45vw]"
+          className="flex flex-row overflow-hidden justify-between items-center w-[60%] md:w-[30vw] lg:w-[45vw]"
         >
           <input
             type="text"
             placeholder="Search by keyword, title, author or IBSN"
-            className="w-full rounded-l-full border-2 border-r-0 border-textgray text-[2.2vh] outline-none px-[2vh] p-[1vh]"
+            className="w-full rounded-l-full border-2 border-r-0 border-textgray text-[1.6vh] md:text-[2.2vh] outline-none md:px-[2vh] px-[1vh] py-[0.5vh] md:p-[1vh]"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <button
             type="submit"
-            className="bg-secondary rounded-r-full h-full px-[2vh] flex flex-col justify-center items-center"
+            className="bg-secondary rounded-r-full h-[3.8vh] md:h-full px-[1vh] md:px-[2vh] flex flex-col justify-center items-center"
           >
             <RiSearchLine
-              className="text-[3vh] cursor-pointer hover:scale-110 transition-all duration-300"
+              className="text-[2vh] md:text-[3vh] cursor-pointer hover:scale-110 transition-all duration-300"
               color="#fff"
             />
           </button>
         </form>
 
         {/* Cart, Account, Location Section */}
-        <div className="flex flex-row justify-center items-center gap-x-[1vh] md:gap-x-[3vh]">
+        <div className="flex flex-row justify-center items-center gap-x-[0vh] md:gap-x-[3vh]">
           {/* Location */}
           <div className="flex flex-row justify-center items-center gap-x-[0.5vh]">
-            <HiOutlineMapPin className="text-[3.5vh] md:text-[4vh]" />
+            <HiOutlineMapPin className="hidden md:block text-[3.5vh] text-textgray md:text-[4vh]" />
             <div className="hidden md:block">
               <p className="md:text-[1.3vh] lg:text-[1.6vh] font-medium text-textgray">
                 Delivery & Site preference
               </p>
-              <div className="flex flex-row md:text-[1.3vh] lg:text-[2vh] md:gap-x-[1vh] lg:gap-x-[2vh]">
+              <div className="flex text-textgray flex-row md:text-[1.3vh] lg:text-[2vh] md:gap-x-[1vh] lg:gap-x-[2vh]">
                 <p className="text-[2vh] font-semibold">KW</p>
-                <p className="text-[2vh] font-semibold">KWB</p>
+                <p className="text-[2vh] font-semibold">KWD</p>
                 <p className="text-[2vh] font-semibold">EN</p>
               </div>
             </div>
@@ -101,7 +117,7 @@ export const Navbar = () => {
           {/* Auth Login */}
           <Link href="/auth/login">
             <div className="flex flex-row justify-center items-center gap-x-[1vh]">
-              <FaRegUser className="text-[3vh] md:text-[2.8vh] lg:text-[3.5vh]" />
+              <FaRegUser className="hidden md:block text-[3vh] text-textgray md:text-[2.8vh] lg:text-[3.5vh]" />
               <div className="hidden md:block">
                 <p className="text-[1.4vh] lg:text-[1.6vh] font-medium text-textgray">
                   Hello, Sign In
@@ -119,16 +135,9 @@ export const Navbar = () => {
               <div className="bg-success absolute -top-[30%] -right-[15%] w-[3vh] h-[3vh] flex flex-col justify-center items-center p-[1vh] rounded-full">
                 <p className="text-[1.5vh] font-bold text-white">3</p>
               </div>
-              <AiOutlineShoppingCart className="text-[4vh]" />
+              <AiOutlineShoppingCart className="text-textgray text-[4vh]" />
             </div>
           </Link>
-
-          <div className="md:hidden rounded-sm ml-[1vh]">
-            <RxHamburgerMenu
-              onClick={handleNavbarOpen}
-              className="text-[4vh] text-primary cursor-pointer"
-            />
-          </div>
         </div>
       </div>
 
@@ -136,10 +145,10 @@ export const Navbar = () => {
         <div className="flex flex-row justify-center items-center gap-x-[2vh]">
           <RxHamburgerMenu size={24} color="#fff" />
           {CategoryList.map((category, index) => {
-            const slug = category.toLowerCase().replace(/ /g, "-");
+            const slug = category.category.toLowerCase().replace(/ /g, "-");
             return (
               <Link href={`/category/${slug}`} key={index}>
-                <p className="text-[2vh] font-medium text-white">{category}</p>
+                <p className="text-[2vh] font-medium text-white">{category.category}</p>
               </Link>
             );
           })}
@@ -188,7 +197,7 @@ export const Navbar = () => {
               </h1>
               <ul>
                 {CategoryList.map((category, index) => {
-                  const slug = category.toLowerCase().replace(/ /g, "-");
+                  const slug = category.category.toLowerCase().replace(/ /g, "-");
                   return (
                     <li
                       key={index}
@@ -196,7 +205,7 @@ export const Navbar = () => {
                     >
                       <Link href={`/category/${slug}`}>
                         <p className="text-[2.2vh] font-medium text-white">
-                          {category}
+                          {category.category}
                         </p>
                       </Link>
                     </li>

@@ -34,6 +34,10 @@ body {
   @apply text-[2.4vh] hover:scale-125 transition-all duration-300 cursor-pointer
 }
 
+.card-hover{
+  @apply hover:scale-105 transition-all duration-300 cursor-pointer
+}
+
 @keyframes zoomIn {
   0% {
     transform: scale(0.7);
