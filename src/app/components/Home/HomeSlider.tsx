@@ -39,7 +39,7 @@ export const HomeSlider = () => {
           loop={true}
           navigation={false}
           modules={[Pagination, Autoplay, Navigation]}
-          className="mySwiper md:w-[90%] my-[2vh] h-[25vh] md:h-[34vh]"
+          className="mySwiper md:w-[75%] my-[2vh] h-[25vh] md:h-[34vh]"
         >
           {carouselItems.map((item) => (
             <SwiperSlide
