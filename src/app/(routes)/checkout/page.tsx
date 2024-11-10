@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Checkout = () => {
+const Checkout = () => {
   return (
     <div>
       <h1 className="text-[3vh] text-center font-medium">
@@ -9,3 +9,5 @@ export const Checkout = () => {
     </div>
   );
 };
+
+export default Checkout;
