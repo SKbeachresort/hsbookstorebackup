@@ -1,4 +1,3 @@
-import { image } from 'framer-motion/client';
 import React from 'react';
 
 interface ExploreProps {
