@@ -8,7 +8,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import Link from "next/link";
 import { RiSearchLine } from "react-icons/ri";
 import BackDropLoader from "@/app/elements/BackdropLoader";
-import { CategoryList } from "./Category";
+import { CategoryList } from "../../data/Category";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 

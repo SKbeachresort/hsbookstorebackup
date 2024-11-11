@@ -1,33 +1,32 @@
-import React from 'react';
+import React from "react";
 
 interface ExploreProps {
-    name: string;
-    imageUrl: string;
+  name: string;
+  imageUrl: string;
 }
 
 export const HomeExplore = () => {
-
-  const exploreSection:ExploreProps[] = [
+  const exploreSection: ExploreProps[] = [
     {
-        name:'Blood Pressure Monitors',
-        imageUrl:'/medicaldress.png'
+      name: "Blood Pressure Monitors",
+      imageUrl: "/medicaldress.png",
     },
     {
-        name:'Stethoscopes',
-        imageUrl:'/sthethoscope.png'
+      name: "Stethoscopes",
+      imageUrl: "/sthethoscope.png",
     },
     {
-        name:'Suturing Kits',
-        imageUrl:'/suits.png'
+      name: "Suturing Kits",
+      imageUrl: "/suits.png",
     },
     {
-        name:'Hydration Bottles',
-        imageUrl:'/bottomkit.png'
-    }
-  ]  
+      name: "Hydration Bottles",
+      imageUrl: "/bottomkit.png",
+    },
+  ];
   return (
     <div>
-        <div className="w-[90%] md:w-[75%] mx-auto my-[5vh]">
+      <div className="w-[90%] md:w-[75%] mx-auto my-[5vh]">
         <div className="flex flex-row flex-wrap gap-y-[2vh] justify-between ">
           {exploreSection.map((explore, index) => (
             <div
@@ -47,5 +46,5 @@ export const HomeExplore = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

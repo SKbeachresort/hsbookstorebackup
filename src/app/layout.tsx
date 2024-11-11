@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "./components/Navbar/Navbar";
 import { Footer } from "./components/Footer/Footer";
+import ClientLayout from "./ClientLayout";
 
 export const metadata: Metadata = {
   title: "HS BookStore",
@@ -23,9 +24,7 @@ export default function RootLayout({
       </head>
       <body>
         <Navbar />
-
-        <main>{children}</main>
-
+        <ClientLayout>{children}</ClientLayout>
         <Footer />
       </body>
     </html>

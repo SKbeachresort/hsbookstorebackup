@@ -1,61 +1,13 @@
 "use client";
 import React from "react";
 import { ProductCard } from "../ProductCard/ProductCard";
+import { products } from "@/app/data/Products";
 
 export const ProductsRecommendations = () => {
-  const products = [
-    {
-      name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-      image: "/products/book.png",
-      currency: "KWD",
-      price: 1.99,
-      cuttedPrice: 2.5,
-      ratings: 4,
-    },
-    {
-      name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-      image: "/products/book2.png",
-      currency: "KWD",
-      price: 3.5,
-      cuttedPrice: 4.0,
-      ratings: 5,
-    },
-    {
-      name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-      image: "/products/book3.png",
-      currency: "KWD",
-      price: 6.99,
-      cuttedPrice: 8.0,
-      ratings: 4.5,
-    },
-    {
-      name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-      image: "/products/pen.png",
-      currency: "KWD",
-      price: 6.99,
-      cuttedPrice: 8.0,
-      ratings: 4.5,
-    },
-    {
-      name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-      image: "/products/shirt.png",
-      currency: "KWD",
-      price: 6.99,
-      cuttedPrice: 8.0,
-      ratings: 4.5,
-    },
-    {
-      name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-      image: "/products/stethoscope.png",
-      currency: "KWD",
-      price: 6.99,
-      cuttedPrice: 8.0,
-      ratings: 4.5,
-    },
-  ];
 
   return (
     <div className="w-[90%] mx-auto my-[7vh] md:w-[75%]">
+      
       <div className="flex flex-row justify-between items-center my-[2vh]">
         <h1 className="text-[2.6vh] font-medium">Recommended for you</h1>
         <p className="text-[2.3vh] font-semibold text-secondary underline">
