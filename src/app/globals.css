@@ -127,8 +127,7 @@ body {
 .animate-zoomOut {
   animation: zoomIn 0.3s ease-in-out forwards;
 }
-
-/* Custom class for Swiper container to force horizontal layout */
+/* 
 .mySwiper {
   position: relative;
 }
@@ -143,10 +142,67 @@ body {
 
 .swiper-pagination-bullet {
   background-color: #2C9CDB  !important;
-  width: 12px;
-  height: 12px;
+  width: 7px;
+  height: 7px;
 }
 
 .swiper-pagination-bullet-active {
   background-color: #293275 !important;
+}
+
+.mySwiper .swiper-button-next,
+.mySwiper .swiper-button-prev {
+  background-color: #2C9CDB; 
+  color: white; 
+  border-radius: 50%; 
+  padding: 20px; 
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+};
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  content: ''; 
+  font-family: 'swiper-icons';
+  font-size: var(--swiper-navigation-size);
+  color: var(--swiper-navigation-color, var(--swiper-theme-color));
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.mySwiper .swiper-button-next:hover,
+.mySwiper .swiper-button-prev:hover {
+  background-color: rgba(0, 0, 0, 0.8); 
+};
+
+.mySwiper .swiper-button-next:after,
+.mySwiper .swiper-button-prev:after {
+  font-size: var(--swiper-navigation-size);
+};
+
+.mySwiper .swiper-button-next {
+  right: 5px; 
+};
+
+.mySwiper .swiper-button-prev {
+  left: 5px; 
+}; */
+
+:root{
+  --swiper-navigation-color:#fff;
+  --swiper-navigation-size:2px
+}
+
+.swiper-button-prev,.swiper-button-next {
+  color: var(--swiper-navigation-color);
+  width: calc(var(--swiper-navigation-size)/44*27);
+  background-color: #fd6500;
+  padding: 3vh;
+  border-radius: 500px;
+  display: none;
 }

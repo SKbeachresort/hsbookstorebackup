@@ -3,6 +3,7 @@ import "./globals.css";
 import { Navbar } from "./components/Navbar/Navbar";
 import { Footer } from "./components/Footer/Footer";
 import ClientLayout from "./ClientLayout";
+import { CartProvider } from "./context/CartContext";
 
 export const metadata: Metadata = {
   title: "HS BookStore",
@@ -23,9 +24,11 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Navbar />
-        <ClientLayout>{children}</ClientLayout>
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          <ClientLayout>{children}</ClientLayout>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

@@ -1,14 +1,15 @@
 "use client";
-import React,{useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { SubCategorySidebar } from "./components/CategoryPage/SubCategorySidebar";
 import { usePathname } from "next/navigation";
+import { CartProvider } from "./context/CartContext";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ClientLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  
   const [isClient, setIsClient] = useState(false);
   const [isCategory, setIsCategory] = useState(false);
 
@@ -17,7 +18,7 @@ export default function ClientLayout({
   useEffect(() => {
     setIsClient(true);
     setIsCategory(currentPath.startsWith("/category"));
-  }, [currentPath]); // Re-run when the path changes
+  }, [currentPath]);
 
   if (!isClient) {
     return null;
@@ -27,8 +28,40 @@ export default function ClientLayout({
     <main>
       <div className="flex flex-row">
         {isCategory && <SubCategorySidebar />}
-        <div className="w-full">{children}</div>
+          <div className="w-full">{children}</div>
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: "#fff",
+              color: "#111",
+              borderRadius: "none",
+              padding: "1.9vh",
+              fontSize: "2vh",
+            },
+            success: {
+              style: {
+                background: "#fff",
+                color: "#111",
+                borderRadius: "none",
+                padding: "1.9vh",
+                fontSize: "2vh",
+              },
+            },
+            error: {
+              style: {
+                background: "#fff",
+                color: "#111",
+                borderRadius: "none",
+                padding: "1.9vh",
+                fontSize: "2vh",
+              },
+            },
+          }}
+        />
       </div>
     </main>
   );
-};
+}

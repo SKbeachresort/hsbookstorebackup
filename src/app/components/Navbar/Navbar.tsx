@@ -11,8 +11,12 @@ import BackDropLoader from "@/app/elements/BackdropLoader";
 import { CategoryList } from "../../data/Category";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useCart } from "@/app/context/CartContext";
 
 export const Navbar = () => {
+
+  const {totalItems} = useCart();
+
   const [navOpen, setNavOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -133,7 +137,9 @@ export const Navbar = () => {
           <Link href="/cart">
             <div className="relative">
               <div className="bg-success absolute -top-[30%] -right-[15%] w-[3vh] h-[3vh] flex flex-col justify-center items-center p-[1vh] rounded-full">
-                <p className="text-[1.5vh] font-bold text-white">3</p>
+                <p className="text-[1.5vh] font-bold text-white">
+                  {totalItems}
+                </p>
               </div>
               <AiOutlineShoppingCart className="text-textgray text-[4vh]" />
             </div>

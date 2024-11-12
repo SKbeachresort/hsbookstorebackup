@@ -5,6 +5,8 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import StarRatings from "react-star-ratings";
 import { FaCircle } from "react-icons/fa";
+import { useCart } from "@/app/context/CartContext";
+import toast from "react-hot-toast";
 
 const bookFormats = [
   { label: "Hardcover", price: 3990, currency: "KWD" },
@@ -14,6 +16,7 @@ const bookFormats = [
 ];
 
 const productsDetails = {
+  id: 1,
   name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders",
   Author: "Simon Sinek",
   mainImage: "/products/book.png",
@@ -40,6 +43,8 @@ const productsDetails = {
 };
 
 const ProductDetailPage = () => {
+  const { addToCart, cartItems, incrementQuantity, decrementQuantity } =
+    useCart();
   const { productslug } = useParams();
 
   const [selectedFormat, setSelectedFormat] = useState(bookFormats[0].label);
@@ -49,13 +54,27 @@ const ProductDetailPage = () => {
     setIsFav(!isFav);
   };
 
+  const cartItem = cartItems.find((item) => item.id === productsDetails.id);
+
+  const handleAddToCart = () => {
+    addToCart({ ...productsDetails, quantity: 1 });
+    toast.success("Product added to cart");
+  };
+
+  const handleDecrement = () => {
+    decrementQuantity(productsDetails.id);
+    if (cartItem && cartItem.quantity === 1) {
+      toast.error("Product removed from cart");
+    }
+  };
+
   return (
-    <div className="p-[2vh] md:w-[85%] w-[90%] h-screen mx-auto">
+    <div className="p-[1vh] md:p-[2vh] md:w-[85%] w-[95%] h-auto mx-auto">
       {/* Main Section  */}
-      <div className="flex flex-row gap-x-[2vh] justify-between">
-        <div className="flex w-[45%] p-[2vh] flex-row gap-x-[2vh]">
+      <div className="flex flex-col md:flex-row gap-x-[2vh] justify-between">
+        <div className="flex md:w-[45%] p-[2vh] flex-col-reverse md:flex-row gap-x-[2vh]">
           {/* Sub Images */}
-          <div className="flex flex-col gap-y-[2vh] w-[20%]">
+          <div className="flex flex-row my-[2vh] md:my-0 md:flex-col gap-[2vh] w-[20%]">
             <img src="/products/book.png" className="w-[12vh]" />
             <img src="/products/book2.png" className="w-[12vh]" />
             <img src="/products/book3.png" className="w-[12vh]" />
@@ -67,14 +86,14 @@ const ProductDetailPage = () => {
             {isFav ? (
               <>
                 <FaHeart
-                  className="absolute cursor-pointer top-0 -right-[4vh] text-secondary text-[3vh]"
+                  className="absolute cursor-pointer top-0 -right-[3vh] md:-right-[4vh] text-secondary text-[3vh]"
                   onClick={toggleFav}
                 />
               </>
             ) : (
               <>
                 <FaRegHeart
-                  className="absolute cursor-pointer top-0 -right-[4vh] text-secondary text-[3vh]"
+                  className="absolute cursor-pointer top-0 -right-[3vh] md:-right-[4vh] text-secondary text-[3vh]"
                   onClick={toggleFav}
                 />
               </>
@@ -82,18 +101,18 @@ const ProductDetailPage = () => {
           </div>
         </div>
 
-        <div className="w-[50%] p-[2vh]">
-          <span className="bg-[#69BBE940] mb-[2vh] font-normal text-primary w-fit text-[1.8vh] p-[1vh]">
+        <div className="md:w-[50%] p-[1vh] md:p-[2vh]">
+          <span className="bg-[#69BBE940] mb-[2vh] font-normal text-primary w-fit text-[1.5vh] md:text-[1.8vh] p-[1vh]">
             Best Seller
           </span>
 
           {/* Title */}
-          <h1 className="text-[3vh] my-[1vh] font-medium">
+          <h1 className="text-[2.5vh] md:text-[3vh] my-[1vh] font-medium">
             {productsDetails.name}
           </h1>
 
           {/* Author Name */}
-          <p className="text-[2.1vh] text-textgray">
+          <p className="text-[1.8vh] md:text-[2.1vh] text-textgray">
             by <span className="underline">{productsDetails.Author}</span>
           </p>
 
@@ -107,20 +126,22 @@ const ProductDetailPage = () => {
               starSpacing="1px"
               name="product-rating"
             />
-            <p className="text-[2vh] mt-1 text-textgray">195 reviews</p>
+            <p className="text-[1.6vh] md:text-[2vh] mt-1 text-textgray">
+              195 reviews
+            </p>
           </div>
 
-          <p className="text-[2.1vh] my-[1vh] text-textgray">
+          <p className="text-[1.8vh] md:text-[2.1vh] my-[1vh] text-textgray">
             Ships from and sold by hsbookstore.com
           </p>
 
           {/* Price Section */}
           <div>
             <div className="flex flex-row gap-x-[2vh] mt-[2vh] md:my-[0vh] ">
-              <p className="text-[2.3vh] md:text-[4vh] font-semibold">
+              <p className="text-[2.7vh] md:text-[4vh] font-semibold">
                 {productsDetails.currency} {productsDetails.price.toFixed(3)}
               </p>
-              <p className="line-through text-textgray text-[3vh] md:text-[2vh] font-medium">
+              <p className="line-through text-textgray text-[1.5vh] md:text-[2vh] font-medium">
                 {productsDetails.currencySymbol}{" "}
                 {productsDetails.cuttedPrice.toFixed(3)}
               </p>
@@ -130,15 +151,43 @@ const ProductDetailPage = () => {
           {/* Availiablity Section */}
           <div className="flex flex-row gap-x-[1vh] items-center">
             <div>
-              <FaCircle color="#5CBD76" className="text-[2vh] text-success" />
+              <FaCircle
+                color="#5CBD76"
+                className="text-[1.7vh] md:text-[2vh] text-success"
+              />
             </div>
-            <p className="text-[2.3vh] text-textgray">Available (In Stock)</p>
+            <p className="text-[1.8vh] md:text-[2.3vh] text-textgray">
+              Available (In Stock)
+            </p>
           </div>
 
           {/* Add to Cart */}
-          <button className="text-white text-[2.5vh] font-medium bg-secondary rounded-full px-[4vh] py-[1vh] my-[3vh]">
-            + Add to Cart
-          </button>
+          {cartItem ? (
+            <div className="flex bg-secondary w-fit px-[2vh] py-[1vh] rounded-full items-center gap-4 my-[3vh]">
+              <button
+                onClick={handleDecrement}
+                className="text-white text-[2.1vh] md:text-[2.5vh] font-medium  rounded-full "
+              >
+                -
+              </button>
+              <span className="text-[2.1vh] text-white md:text-[2.5vh] font-medium">
+                {cartItem.quantity} Added
+              </span>
+              <button
+                onClick={() => incrementQuantity(productsDetails.id)}
+                className="text-white text-[2.1vh] md:text-[2.5vh] font-medium "
+              >
+                +
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={handleAddToCart}
+              className="text-white text-[2.1vh] md:text-[2.5vh] font-medium bg-secondary rounded-full px-[4vh] py-[1vh] my-[3vh]"
+            >
+              + Add to Cart
+            </button>
+          )}
 
           {/* Book Format */}
           <p className="text-[2.6vh]">
@@ -165,6 +214,110 @@ const ProductDetailPage = () => {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* New Release Section */}
+      <div className="flex flex-row gap-x-[1vh] items-center mt-[5vh]">
+        <div>
+          <FaCircle
+            color="#5CBD76"
+            className="text-[1.7vh] md:text-[2vh] text-success"
+          />
+        </div>
+        <p className="text-[1.8vh] md:text-[2.3vh] text-textgray">
+          New Release Available (In Stock)
+        </p>
+      </div>
+
+      <div className="flex flex-row  gap-x-[2vh] my-[3vh]">
+        <div className="w-[35%] md:w-[20vh]">
+          <img
+            src={productsDetails.mainImage}
+            className="w-full md:h-[25vh]"
+            alt={productsDetails.name}
+          />
+        </div>
+        <div className="w-[55%] md:w-auto">
+          <p className="text-[1.9vh] md:text-[2.3vh] text-textColor">
+            {productsDetails.name}
+          </p>
+          <div className="flex flex-row justify-start gap-x-[2vh] my-[0.5vh] md:my-[2vh] items-center">
+            <p className="text-[2vh] font-semibold">
+              {productsDetails.currency} {productsDetails.price.toFixed(3)}
+            </p>
+            <p className="line-through text-textgray text-[1.4vh] font-medium">
+              {productsDetails.currencySymbol}{" "}
+              {productsDetails.cuttedPrice.toFixed(3)}
+            </p>
+          </div>
+
+          <div>
+            <button className="bg-secondary rounded-full text-[1.6vh] md:text-[2.2vh] font-semibold text-white px-[2vh] py-[0.5vh]">
+              + Add
+            </button>
+          </div>
+
+          <div className="flex items-center">
+            <StarRatings
+              rating={productsDetails.ratings}
+              starRatedColor="#FFCE60"
+              numberOfStars={5}
+              starDimension="16px"
+              starSpacing="1px"
+              name="product-rating"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Description Section */}
+      <div>
+        <hr />
+        <h1 className="text-[2.5vh] font-medium my-[2vh]">Book Details</h1>
+        <div className="flex flex-col md:flex-row md:gap-x-[4vh]">
+          <div className="">
+            <h1 className="font-medium">
+              ISBN-13:{" "}
+              <span className="font-normal">{productsDetails.ISBN_NO}</span>
+            </h1>
+            <h1 className="font-medium">
+              Series:{" "}
+              <span className="font-normal">{productsDetails.Series}</span>
+            </h1>
+            <h1 className="font-medium">
+              Publisher:{" "}
+              <span className="font-normal">{productsDetails.Publisher}</span>
+            </h1>
+            <h1 className="font-medium">
+              Publication Date:{" "}
+              <span className="font-normal">
+                {productsDetails.PublicationDate}
+              </span>
+            </h1>
+          </div>
+          <div>
+            <h1 className="font-medium">
+              Cover:{" "}
+              <span className="font-normal">{productsDetails.Cover}</span>
+            </h1>
+            <h1 className="font-medium">
+              Pages:{" "}
+              <span className="font-normal">{productsDetails.Pages}</span>
+            </h1>
+            <h1 className="font-medium">
+              Weight:{" "}
+              <span className="font-normal">{productsDetails.Weight}</span>
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      <div className="my-[2vh]">
+        <hr />
+        <h1 className="text-[2.5vh] font-medium my-[2vh]">Description</h1>
+        <p className="text-[1.8vh] md:text-[2vh] text-textgray">
+          {productsDetails.description}
+        </p>
       </div>
     </div>
   );
