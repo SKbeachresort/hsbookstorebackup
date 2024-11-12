@@ -77,7 +77,7 @@ export const Navbar = () => {
         {/* Search Section Bar */}
         <form
           onSubmit={handleSearchSubmit}
-          className="flex flex-row overflow-hidden justify-between items-center w-[60%] md:w-[30vw] lg:w-[45vw]"
+          className="flex flex-row overflow-hidden justify-between items-center w-[60%]  sm:w-[25vw] md:w-[30vw] lg:w-[40vw]"
         >
           <input
             type="text"

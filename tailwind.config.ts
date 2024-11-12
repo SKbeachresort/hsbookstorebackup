@@ -14,6 +14,7 @@ export default {
         primary: "#293275",
         secondary: "#2C9CDB",
         textgray: "#898989",
+        disableGray:"#C1C1C1",
         textColor:"#363636",
         success: "#5CBD76",
       },
