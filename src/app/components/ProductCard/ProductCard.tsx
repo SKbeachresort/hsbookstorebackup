@@ -11,7 +11,7 @@ interface ProductCardProps {
   price: number;
   cuttedPrice: number;
   ratings: number;
-  navigate:string
+  navigate?:string
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
