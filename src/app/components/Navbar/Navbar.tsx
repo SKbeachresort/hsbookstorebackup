@@ -147,7 +147,7 @@ export const Navbar = () => {
             {/* Cart */}
             <Link href="/cart">
               <div className="relative">
-                <div className="bg-success absolute -top-2 -right-2 w-6 h-6 3xl:w-2 3xl:w-2 flex flex-col justify-center items-center p-[1vh] rounded-full">
+                <div className="bg-success w-6 h-6 absolute -top-3 -right-2 flex flex-col justify-center items-center p-1 rounded-full">
                   <p className="text-sm font-bold text-white">
                     {totalItems}
                   </p>
