@@ -22,7 +22,7 @@ export const ProductsRecommendations = () => {
   ];
 
   return (
-    <div className="w-[95%] mx-auto my-[7vh] md:w-[75%] relative">
+    <div className="my-[7vh]  relative">
       <div className="flex flex-row justify-between items-center my-[2vh]">
         <h1 className="text-[2.3vh] md:text-[2.6vh] font-medium">
           Recommended for you

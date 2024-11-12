@@ -20,11 +20,11 @@ export const HomeSlider = () => {
     <div className="relative">
       <img
         src="/servicebanner.png"
-        className="hidden md:block w-full md:w-[75%] mx-auto"
+        className="hidden md:block"
       />
       <img
         src="/mobileservicebanner.png"
-        className="md:hidden w-full md:w-[75%] mx-auto"
+        className="md:hidden"
       />
 
       <div className="hidden md:block">
@@ -38,7 +38,7 @@ export const HomeSlider = () => {
           loop={true}
           navigation={false}
           modules={[Pagination, Autoplay, Navigation]}
-          className="mySwiper md:w-[75%] my-[2vh] h-[25vh] md:h-[34vh]"
+          className="mySwiper"
         >
           {carouselItems.map((item) => (
             <SwiperSlide

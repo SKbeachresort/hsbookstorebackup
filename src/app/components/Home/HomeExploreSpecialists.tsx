@@ -47,7 +47,7 @@ export const HomeExploreSpecialists = () => {
         Explore more Specialists
       </h1>
 
-      <div className="w-[90%] md:w-[75%] mx-auto mt-[5vh]">
+      <div className="">
         <div className="flex flex-row flex-wrap gap-y-[2vh] justify-between ">
           {exploreSpecialists.map((specialist, index) => (
             <div

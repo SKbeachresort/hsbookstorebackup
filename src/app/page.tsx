@@ -9,7 +9,7 @@ import { RecentlyAdded } from "./components/Home/RecentlyAdded";
 
 export default function Home() {
   return (
-    <div className="">
+    <div className="md:w-[75%] 3xl:w-full mx-auto">
       <HomeSlider />
       <HomeCategory />
       <RecentlyAdded />

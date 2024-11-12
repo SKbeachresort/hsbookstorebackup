@@ -12,10 +12,10 @@ import { CategoryList } from "../../data/Category";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useCart } from "@/app/context/CartContext";
+import Image from "next/image";
 
 export const Navbar = () => {
-
-  const {totalItems} = useCart();
+  const { totalItems } = useCart();
 
   const [navOpen, setNavOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -47,117 +47,133 @@ export const Navbar = () => {
   };
 
   return (
-    <div>
+    <div className="">
       {isLoading && <BackDropLoader open={isLoading} />}
       {/* Header Section */}
-
-      <div className="bg-blue-100 py-[0.5vh]">
-        <p className="text-secondary text-center text-[1.8vh] md:text-[2.2vh] font-medium">
-          Get 10% discount on your first order
-        </p>
-      </div>
-
-      {/* Main Nav Section */}
-      <div className="py-[2.5vh] px-[2vh] shadow-md mb-1 md:mb-0 flex flex-row justify-between">
-        <div className="flex flex-row items-center gap-x-[0.2vh]">
-          <div className="md:hidden rounded-sm">
-            <GiHamburgerMenu
-              onClick={handleNavbarOpen}
-              className="text-[3.5vh] text-primary cursor-pointer"
-            />
-          </div>
-          <Link href="/">
-            <img
-              src="/logo.png"
-              className="hidden md:block w-[20vh] md:w-[25vh] my-auto"
-            />
-          </Link>
-
-          <Link href="/">
-            <img src="/HSlogo.png" className="md:hidden w-[4.5vh] my-auto" />
-          </Link>
+      <div>
+        <div className="bg-blue-100 py-1">
+          <p className="text-secondary text-center text-sm xl:text-lg font-medium">
+            Get 10% discount on your first order
+          </p>
         </div>
 
-        {/* Search Section Bar */}
-        <form
-          onSubmit={handleSearchSubmit}
-          className="flex flex-row overflow-hidden justify-between items-center w-[60%]  sm:w-[25vw] md:w-[30vw] lg:w-[40vw]"
-        >
-          <input
-            type="text"
-            placeholder="Search by keyword, title, author or IBSN"
-            className="w-full rounded-l-full border-2 border-r-0 border-textgray text-[1.6vh] md:text-[2.2vh] outline-none md:px-[2vh] px-[1vh] py-[0.5vh] md:p-[1vh]"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="bg-secondary rounded-r-full h-[3.8vh] md:h-full px-[1vh] md:px-[2vh] flex flex-col justify-center items-center"
+        {/* Main Nav Section */}
+        <div className="py-[2.5vh] w-full max-w-[1920px] mx-auto px-[2vh] shadow-md mb-1 md:mb-0 flex flex-row gap-x-6 justify-between items-center">
+          <div className="flex flex-row items-center gap-x-1">
+            <div className="md:hidden rounded-sm">
+              <GiHamburgerMenu
+                onClick={handleNavbarOpen}
+                className="text-[3.5vh] text-primary cursor-pointer"
+              />
+            </div>
+            <Link href="/">
+              <Image
+                src="/logo.png"
+                width={200}
+                height={40}
+                priority
+                alt="logo"
+                className="hidden md:block"
+              />
+            </Link>
+
+            <Link href="/">
+              <Image
+                src="/HSlogo.png"
+                width={30}
+                height={30}
+                priority
+                alt="logo"
+                className="md:hidden w-[4.5vh] my-auto"
+              />
+            </Link>
+          </div>
+
+          {/* Search Section Bar */}
+          <div
+            onClick={handleSearchSubmit}
+            className="relative flex-1 mx-2"
           >
-            <RiSearchLine
-              className="text-[2vh] md:text-[3vh] cursor-pointer hover:scale-110 transition-all duration-300"
-              color="#fff"
+            <input
+              type="text"
+              placeholder="Search by keyword, title, author or IBSN"
+              className="w-full outline-none px-4 py-2 border-2 border-textgray rounded-full focus:outline-none"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </button>
-        </form>
-
-        {/* Cart, Account, Location Section */}
-        <div className="flex flex-row justify-center items-center gap-x-[0vh] md:gap-x-[3vh]">
-          {/* Location */}
-          <div className="flex flex-row justify-center items-center gap-x-[0.5vh]">
-            <HiOutlineMapPin className="hidden md:block text-[3.5vh] text-textgray md:text-[4vh]" />
-            <div className="hidden md:block">
-              <p className="md:text-[1.3vh] lg:text-[1.6vh] font-medium text-textgray">
-                Delivery & Site preference
-              </p>
-              <div className="flex text-textgray flex-row md:text-[1.3vh] lg:text-[2vh] md:gap-x-[1vh] lg:gap-x-[2vh]">
-                <p className="text-[2vh] font-semibold">KW</p>
-                <p className="text-[2vh] font-semibold">KWD</p>
-                <p className="text-[2vh] font-semibold">EN</p>
-              </div>
-            </div>
+            <button
+              type="submit"
+              className="bg-secondary absolute inset-y-0 right-0 flex items-center justify-center px-4 rounded-r-full"
+            >
+              <RiSearchLine
+                className="text-xl 3xl:text-lg cursor-pointer hover:scale-110 transition-all duration-300"
+                color="#fff"
+              />
+            </button>
           </div>
 
-          {/* Auth Login */}
-          <Link href="/auth/login">
-            <div className="flex flex-row justify-center items-center gap-x-[1vh]">
-              <FaRegUser className="hidden md:block text-[3vh] text-textgray md:text-[2.8vh] lg:text-[3.5vh]" />
+          {/* Cart, Account, Location Section */}
+          <div className="flex flex-row justify-center items-center gap-x-0 md:gap-x-4">
+            {/* Location */}
+            <div className="flex flex-row justify-center items-center gap-x-1">
+              <HiOutlineMapPin className="hidden md:block text-md text-textgray text-2xl" />
               <div className="hidden md:block">
-                <p className="text-[1.4vh] lg:text-[1.6vh] font-medium text-textgray">
-                  Hello, Sign In
+                <p className="text-xs font-medium text-textgray">
+                  Delivery & Site preference
                 </p>
-                <p className="text-[1.5vh] lg:text-[1.8vh] font-semibold text-textgray">
-                  Accounts & Lists
-                </p>
+                <div className="flex text-textgray flex-row text-sm gap-x-2">
+                  <p className="text-md font-semibold">KW</p>
+                  <p className="text-md font-semibold">KWD</p>
+                  <p className="text-md font-semibold">EN</p>
+                </div>
               </div>
             </div>
-          </Link>
 
-          {/* Cart */}
-          <Link href="/cart">
-            <div className="relative">
-              <div className="bg-success absolute -top-[30%] -right-[15%] w-[3vh] h-[3vh] flex flex-col justify-center items-center p-[1vh] rounded-full">
-                <p className="text-[1.5vh] font-bold text-white">
-                  {totalItems}
-                </p>
+            {/* Auth Login */}
+            <Link href="/auth/login">
+              <div className="flex flex-row justify-center items-center gap-x-[1vh]">
+                <FaRegUser className="hidden md:block text-textgray text-2xl" />
+                <div className="hidden md:block">
+                  <p className="text-sm font-medium text-textgray">
+                    Hello, Sign In
+                  </p>
+                  <p className="text-sm font-semibold text-textgray">
+                    Accounts & Lists
+                  </p>
+                </div>
               </div>
-              <AiOutlineShoppingCart className="text-textgray text-[4vh]" />
-            </div>
-          </Link>
+            </Link>
+
+            {/* Cart */}
+            <Link href="/cart">
+              <div className="relative">
+                <div className="bg-success absolute -top-2 -right-2 w-6 h-6 3xl:w-2 3xl:w-2 flex flex-col justify-center items-center p-[1vh] rounded-full">
+                  <p className="text-sm font-bold text-white">
+                    {totalItems}
+                  </p>
+                </div>
+                <AiOutlineShoppingCart className="text-textgray text-3xl" />
+              </div>
+            </Link>
+          </div>
         </div>
-      </div>
 
-      <div className="bg-primary hidden  md:flex flex-row justify-between items-center gap-x-[2vh] p-[1vh]">
-        <div className="flex flex-row justify-center items-center gap-x-[2vh]">
-          <RxHamburgerMenu size={24} color="#fff" />
-          {CategoryList.map((category, index) => {
-            const slug = category.category.toLowerCase().replace(/ /g, "-");
-            return (
-              <Link href={`/category/${slug}`} key={index}>
-                <p className="text-[2vh] font-medium text-white">{category.category}</p>
-              </Link>
-            );
-          })}
+        <div className="bg-primary hidden  md:flex justify-start p-[1vh]">
+          <div className="w-full max-w-[1920px] mx-auto">
+            <div className="px-4 flex flex-row justify-start space-x-4">
+              <RxHamburgerMenu size={24} color="#fff" />
+              {CategoryList.map((category, index) => {
+                const slug = category.category.toLowerCase().replace(/ /g, "-");
+                return (
+                  <Link href={`/category/${slug}`} key={index}>
+                    <p className="text-md font-medium text-white">
+                      {category.category}
+                    </p>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -203,7 +219,9 @@ export const Navbar = () => {
               </h1>
               <ul>
                 {CategoryList.map((category, index) => {
-                  const slug = category.category.toLowerCase().replace(/ /g, "-");
+                  const slug = category.category
+                    .toLowerCase()
+                    .replace(/ /g, "-");
                   return (
                     <li
                       key={index}

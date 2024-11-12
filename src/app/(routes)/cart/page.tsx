@@ -2,7 +2,7 @@
 import React from "react";
 import { FiTruck } from "react-icons/fi";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { useCart } from "@/app/context/CartContext"; // Assuming a context for cart management
+import { useCart } from "@/app/context/CartContext"; 
 import { products } from "@/app/data/Products";
 
 const CartPage = () => {

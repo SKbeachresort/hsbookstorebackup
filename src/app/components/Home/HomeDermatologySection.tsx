@@ -2,7 +2,7 @@ import React from "react";
 
 export const HomeDermatologySection = () => {
   return (
-    <div className="md:w-[75%] mx-auto my-[5vh]">
+    <div className="">
       <img
         src="/dermatologybook.png"
         className="w-full mx-auto hidden md:block"

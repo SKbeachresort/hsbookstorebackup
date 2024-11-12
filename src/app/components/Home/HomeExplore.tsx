@@ -26,7 +26,7 @@ export const HomeExplore = () => {
   ];
   return (
     <div>
-      <div className="w-[90%] md:w-[75%] mx-auto my-[5vh]">
+      <div className="">
         <div className="flex flex-row flex-wrap gap-y-[2vh] justify-between ">
           {exploreSection.map((explore, index) => (
             <div
