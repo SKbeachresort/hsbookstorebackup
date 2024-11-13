@@ -67,22 +67,21 @@ export const HomeSlider = () => {
       </div>
 
       {/* Responsiveness for Mobile Specific */}
-      <div className="md:hidden flex flex-col justify-center items-center my-[2vh]">
+      <div className="md:hidden flex flex-col justify-center items-center my-3">
         
-        <h1 className="text-[2.2vh] font-medium my-[2vh] text-textgray">
+        <h1 className="text-md font-medium my-4 text-textgray">
           NEUROANATOMY BOOKS
         </h1>
-        <h1 className="w-[90%] mx-auto text-[2.7vh] font-medium text-center">
+        <h1 className="w-[90%] mx-auto text-lg font-medium text-center">
           A PIONEERING INTERACTIVE APPROACH TO THE TEACHING OF NEUROANATOMY
         </h1>
-        <button className="text-white px-[4vh] py-[0.5vh] my-[2vh] rounded-full font-semibold text-[1.8vh] bg-secondary">
+        <button className="text-white px-4 py-1 my-3 rounded-full font-semibold text-sm bg-secondary">
           SHOP NOW
         </button>
 
         <Image
           src="/herosectionImg.png"
           alt="hero-sectionImg"
-          // className="w-[90%] mx-auto my-[2vh]"
           width={1920}
           height={600}
         />

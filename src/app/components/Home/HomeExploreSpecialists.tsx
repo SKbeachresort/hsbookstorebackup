@@ -1,9 +1,11 @@
+"use client";
 import React from "react";
+import Image from "next/image";
 
 interface ExploreSpecialistsProps {
   name: string;
   imageUrl: string;
-}
+};
 
 export const HomeExploreSpecialists = () => {
   const exploreSpecialists: ExploreSpecialistsProps[] = [
@@ -42,24 +44,26 @@ export const HomeExploreSpecialists = () => {
   ];
 
   return (
-    <div className="my-[5vh]">
-      <h1 className="text-[2.3vh] md:text-[3vh] text-center font-semibold">
+    <div className="my-5">
+      <h1 className="text-md xl:text-lg 3xl:text-xl 3xl:my-10 text-center font-semibold">
         Explore more Specialists
       </h1>
 
-      <div className="">
+      <div className="my-4">
         <div className="flex flex-row flex-wrap gap-y-[2vh] justify-between ">
           {exploreSpecialists.map((specialist, index) => (
             <div
               key={index}
               className="bg-white rounded-md w-[47%] flex flex-col items-center md:w-[23%]"
             >
-              <img
+              <Image
                 src={specialist.imageUrl}
                 alt={specialist.name}
-                className="card-hover w-full object-cover"
+                className="card-hover 3xl:w-[70%] object-cover"
+                width={200}
+                height={200}
               />
-              <h2 className="text-[1.8vh] font-medium text-center mt-2">
+              <h2 className="text-sm 3xl:text-lg font-medium text-center mt-2">
                 {specialist.name}
               </h2>
             </div>

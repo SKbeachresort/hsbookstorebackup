@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import Image from "next/image";
 
 interface ExploreProps {
   name: string;
@@ -24,21 +26,24 @@ export const HomeExplore = () => {
       imageUrl: "/bottomkit.png",
     },
   ];
+
   return (
     <div>
       <div className="">
-        <div className="flex flex-row flex-wrap gap-y-[2vh] justify-between ">
+        <div className="flex flex-row flex-wrap gap-y-2 justify-between ">
           {exploreSection.map((explore, index) => (
             <div
               key={index}
               className="bg-white rounded-md w-[47%] md:w-[23%] flex flex-col items-center"
             >
-              <img
+              <Image
                 src={explore.imageUrl}
                 alt={explore.name}
-                className="w-full object-cover"
+                width={200}
+                height={400}
+                className="3xl:w-[300px]"
               />
-              <h2 className="text-[2vh] font-medium text-center mt-2">
+              <h2 className="text-sm xl:text-md font-medium text-center mt-2">
                 {explore.name}
               </h2>
             </div>

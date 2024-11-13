@@ -22,21 +22,21 @@ export const RecentlyAdded = () => {
   ];
 
   return (
-    <div className="my-[7vh] relative">
-      <div className="flex flex-row justify-between items-center my-[2vh]">
-        <h1 className="text-[2.3vh] md:text-[2.6vh] font-medium">
+    <div className="my-8 relative">
+      <div className="flex flex-row justify-between items-center my-2">
+        <h1 className="text-md md:text-lg font-medium">
           Recently Added
         </h1>
-        <p className="text-[2vh] md:text-[2.3vh] font-semibold text-secondary underline">
+        <p className="text-sm md:textmd font-semibold text-secondary underline">
           See all
         </p>
       </div>
 
       <div className="relative px-[2vh]">
-        <div className="absolute top-[45%] z-40 left-0 custom-prev bg-disableGray shadow-xl rounded-full p-[0.5vh] ">
+        <div className="absolute top-[45%] z-40 left-0 custom-prev bg-disableGray shadow-xl rounded-full p-1">
           <FiChevronLeft size={30} className="text-white" />
         </div>
-        <div className="custom-next top-[45%] z-40 right-0 absolute custom-prev bg-disableGray shadow-lg rounded-full p-[0.5vh] ">
+        <div className="custom-next top-[45%] z-40 right-0 absolute custom-prev bg-disableGray shadow-lg rounded-full p-1">
           <FiChevronRight size={30} className="text-white" />
         </div>
 
@@ -47,7 +47,9 @@ export const RecentlyAdded = () => {
             1: { slidesPerView: 2 },
             640: { slidesPerView: 2 },
             768: { slidesPerView: 3 },
-            1024: { slidesPerView: 6 },
+            1024: { slidesPerView: 4 },
+            1280: { slidesPerView: 5 },
+            1536: { slidesPerView: 6 },
           }}
           loop={true}
           navigation={{
@@ -55,7 +57,7 @@ export const RecentlyAdded = () => {
             nextEl: ".custom-next",
           }}
           modules={[Pagination, Autoplay, Navigation]}
-          className="mySwiper my-[2vh]"
+          className="mySwiper my-4"
         >
           {products.map((product, index) => {
             const slug = product.name.replace(/\s+/g, "-").toLowerCase();

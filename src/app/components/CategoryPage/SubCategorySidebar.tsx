@@ -29,11 +29,11 @@ export const SubCategorySidebar = () => {
   return (
     <div
       className={`${
-        open ? "w-[18vw]" : "w-[5vh] lg:w-[0vh]"
-      } shadow-md p-[1vh] lg:p-[3vh] text-wrap border-2 border-blue-50 flex flex-col pt-[4vh] relative duration-300`}
+        open ? "w-64" : "w-12"
+      } p-[1vh] lg:p-3 text-wrap border-r-2 border-blue-50 flex flex-col pt-3 relative duration-300`}
     >
       <IoIosArrowDropleftCircle
-        className={`absolute z-30 text-[3vh] md:text-[5vh] text-primary cursor-pointer w-[3.5vh] lg:w-[4vh] -right-[2vh] top-[6vh] border-1 rounded-full ${
+        className={`absolute z-30 text-lg md:text-2xl text-primary cursor-pointer w-[3.5vh] lg:w-[4vh] -right-[2vh] top-5 border-1 rounded-full ${
           !open && "rotate-180"
         }`}
         onClick={() => setOpen(!open)}
@@ -47,12 +47,12 @@ export const SubCategorySidebar = () => {
               <div key={index} className="mb-4">
                 <Link href={`/category/${slug}`}>
                   <div
-                    className={`flex justify-between items-center p-[1vh] cursor-pointer text-primary border-b-[1px] border-textgray font-medium 
+                    className={`flex justify-between items-center p-1 cursor-pointer text-primary border-b-1 border-textgray font-medium 
                   
                     `}
                     onClick={() => handleToggle(categoryItem.category)}
                   >
-                    <span className="text-[2.3vh] font-medium">
+                    <span className="text-md font-medium">
                       {categoryItem.category}
                     </span>
                     <span
@@ -62,13 +62,13 @@ export const SubCategorySidebar = () => {
                           : ""
                       }`}
                     >
-                      <FaChevronDown className="text-[2.2vh]" />
+                      <FaChevronDown className="text-md" />
                     </span>
                   </div>
                 </Link>
 
                 {activeCategory === categoryItem.category.toLowerCase() && (
-                  <div className="pl-[2vh] pt-2">
+                  <div className="pl-2 pt-2">
                     {categoryItem.subcategories.map((subCategory, subIndex) => {
                       const subcategoryslug = subCategory
                         .toLowerCase()
@@ -79,7 +79,7 @@ export const SubCategorySidebar = () => {
                         >
                           <div
                             key={subIndex}
-                            className="text-textgray text-[2vh] my-2 underline"
+                            className="text-textgray text-sm my-2 underline"
                           >
                             {subCategory}
                           </div>

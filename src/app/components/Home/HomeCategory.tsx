@@ -58,9 +58,9 @@ export const HomeCategory = () => {
                   alt={category.name}
                   width={150}
                   height={150}
-                  className="mx-auto 3xl:w-[250px]"
+                  className="mx-auto 3xl:w-[100%]"
                 />
-                <h2 className="text-xs lg:text-sm font-medium text-center mt-2">
+                <h2 className="text-xs lg:text-sm 3xl:text-md font-medium text-center mt-2">
                   {category.name}
                 </h2>
               </Link>

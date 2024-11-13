@@ -2,6 +2,7 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
 import Link from "next/link";
+import Image from "next/image";
 
 interface ProductCardProps {
   name: string;
@@ -11,7 +12,7 @@ interface ProductCardProps {
   price: number;
   cuttedPrice: number;
   ratings: number;
-  navigate?:string
+  navigate?: string;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
@@ -22,23 +23,36 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   price,
   cuttedPrice,
   ratings,
-  navigate
+  navigate,
 }) => {
   return (
     <Link href={`/product/${navigate}`}>
-      <div className="relative w-[40%] md:w-[16vh]">
-        <img src={image} className="w-full md:h-[20vh]" alt={name} />
-        <p className="text-[1.9vh] mt-[3vh] md:mt-[1vh] text-textColor">{name}</p>
-        <div className="flex flex-row justify-between mt-[0.5vh] md:my-[0vh] items-center">
-          <p className="text-[2vh] font-semibold">
+      <div className="relative w-32 md:w-36">
+        <div className="">
+          <Image
+            src={image}
+            width={120}
+            height={170}
+            className="object-cover max-h-[170px] 3xl:w-[230px] 3x:h-[270px] w-full"
+            layout="responsive"
+            objectFit="cover"
+            alt={name}
+          />
+        </div>
+
+        <p className="text-xs mt-3 md:mt-1 text-textColor">{name}</p>
+        <div className="flex flex-row justify-between mt-1 md:my-0 items-center">
+          <p className="text-md font-semibold">
             {currency} {price.toFixed(3)}
           </p>
-          <p className="line-through text-textgray text-[1.4vh] font-medium">
+          <p className="line-through text-textgray text-xs font-medium">
             {currencySymbol} {cuttedPrice.toFixed(3)}
           </p>
         </div>
         <div>
-          <button className="absolute top-[53%] -left-[5%] md:-left-[10%] z-40 bg-secondary rounded-full text-[2vh] md:text-[2.2vh] font-semibold text-white px-[2vh] py-[0.5vh]">+ Add</button>
+          <button className="absolute top-[53%] -left-[5%] md:-left-[10%] z-40 bg-secondary rounded-full text-sm md:text-md font-semibold text-white px-2 py-1">
+            + Add
+          </button>
         </div>
         <div className="flex items-center">
           <StarRatings
