@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface CategoryProps {
   id: number;
@@ -43,22 +44,23 @@ export const HomeCategory = () => {
   ];
 
   return (
-    <div className="my-[3vh]">
-      
+    <div className="my-8">
       <div className="">
-        <div className="flex flex-row flex-wrap gap-y-[2vh] justify-between ">
+        <div className="flex flex-row flex-wrap gap-2 justify-center xl:justify-between">
           {categorySection.map((category, index) => (
             <div
               key={index}
-              className=" bg-white rounded-md w-[47%] flex flex-col items-center md:w-[25vh]"
+              className="bg-white rounded-md flex justify-center flex-col items-center"
             >
               <Link href={`/category/${category.slug}`}>
-                <img
+                <Image
                   src={category.imageUrl}
                   alt={category.name}
-                  className="card-hover w-full md:w-[24vh] h-[24vh] object-cover"
+                  width={150}
+                  height={150}
+                  className="mx-auto 3xl:w-[250px]"
                 />
-                <h2 className="text-[1.8vh] font-medium text-center mt-2">
+                <h2 className="text-xs lg:text-sm font-medium text-center mt-2">
                   {category.name}
                 </h2>
               </Link>

@@ -155,13 +155,13 @@ export const Navbar = () => {
 
         <div className="bg-primary hidden  md:flex justify-start p-[1vh]">
           <div className="w-full max-w-[1920px] mx-auto">
-            <div className="px-4 flex flex-row justify-start space-x-4">
+            <div className="px-4 flex flex-row justify-start items-center space-x-4">
               <RxHamburgerMenu size={24} color="#fff" />
               {CategoryList.map((category, index) => {
                 const slug = category.category.toLowerCase().replace(/ /g, "-");
                 return (
                   <Link href={`/category/${slug}`} key={index}>
-                    <p className="text-md font-medium text-white">
+                    <p className="text-sm lg:text-md font-medium text-white">
                       {category.category}
                     </p>
                   </Link>
