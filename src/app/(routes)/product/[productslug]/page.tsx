@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import ProductMainSection from "@/app/components/ProductPage/ProductMainSection";
 import NewReleaseSection from "@/app/components/ProductPage/NewReleaseSection";
 import AdditionalContents from "@/app/components/ProductPage/AdditionalContents";
+import SavingsPackage from "@/app/components/ProductPage/SavingsPackage";
+import CustomerReviewsRatings from "@/app/components/ProductPage/CustomerReviewsRatings";
 
 const bookFormats = [
   { label: "Hardcover", price: 3990, currency: "KWD" },
@@ -42,6 +44,7 @@ const productsDetails = {
 };
 
 const ProductDetailPage = () => {
+  
   const { productslug } = useParams();
   const { addToCart, cartItems, incrementQuantity, decrementQuantity } =
     useCart();
@@ -66,7 +69,7 @@ const ProductDetailPage = () => {
   };
 
   return (
-    <div className="w-[95%] mx-auto lg:w-[80%] p-2 py-5">
+    <div className="w-[95%] mx-auto xl:w-[80%] p-2 py-5">
       {/* Main Section  */}
       <ProductMainSection
         productsDetails={productsDetails}
@@ -84,6 +87,12 @@ const ProductDetailPage = () => {
 
       {/* Product Details */}
       <AdditionalContents productsDetails={productsDetails} />
+
+      {/* Saving Packages */}
+      <SavingsPackage/>
+
+      {/* Customer Reviews & Ratings */}
+      <CustomerReviewsRatings />
     </div>
   );
 };

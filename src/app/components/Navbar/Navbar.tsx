@@ -58,7 +58,7 @@ export const Navbar = () => {
         </div>
 
         {/* Main Nav Section */}
-        <div className="py-5 w-full max-w-[1920px] mx-auto px-[2vh] shadow-md md:shadow-none mb-1 md:mb-0 flex flex-row gap-x-6 justify-between items-center">
+        <div className="py-5 w-full max-w-[1920px] mx-auto px-[2vh] shadow-md md:shadow-none mb-1 md:mb-0 flex flex-row gap-x-3 md:gap-x-6 justify-between items-center">
           <div className="flex flex-row items-center gap-x-1">
             <div className="md:hidden rounded-sm">
               <GiHamburgerMenu
