@@ -25,7 +25,7 @@ export default function ClientLayout({
   }
 
   return (
-    <main className="mx-auto min-h-[calc(100dvh-133px)] max-w-[1920px] px-4 sm:px-10 lg:px-12">
+    <main className="mx-auto min-h-[calc(100dvh-133px)] max-w-[1920px] px-4">
       <div className="flex flex-row">
         {isCategory && <SubCategorySidebar />}
           <div className="w-full">{children}</div>
@@ -38,16 +38,16 @@ export default function ClientLayout({
               background: "#fff",
               color: "#111",
               borderRadius: "none",
-              padding: "1.9vh",
-              fontSize: "2vh",
+              padding: "20px",
+              fontSize: "16px",
             },
             success: {
               style: {
                 background: "#fff",
                 color: "#111",
                 borderRadius: "none",
-                padding: "1.9vh",
-                fontSize: "2vh",
+                padding: "20px",
+                fontSize: "16px",
               },
             },
             error: {
@@ -55,8 +55,8 @@ export default function ClientLayout({
                 background: "#fff",
                 color: "#111",
                 borderRadius: "none",
-                padding: "1.9vh",
-                fontSize: "2vh",
+                padding: "20px",
+                fontSize: "16px",
               },
             },
           }}
