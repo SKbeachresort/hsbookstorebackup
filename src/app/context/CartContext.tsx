@@ -2,7 +2,6 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import toast from "react-hot-toast";
 
-
 interface CartItem {
   id: number;
   name: string;
@@ -10,7 +9,7 @@ interface CartItem {
   quantity: number;
   currency: string;
   mainImage: string;
-}
+};
 
 // Define the context type
 interface CartContextType {
@@ -20,7 +19,7 @@ interface CartContextType {
   incrementQuantity: (productId: number) => void;
   decrementQuantity: (productId: number) => void;
   totalItems: number;
-}
+};
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 

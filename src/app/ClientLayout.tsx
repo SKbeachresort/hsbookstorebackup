@@ -25,7 +25,7 @@ export default function ClientLayout({
   }
 
   return (
-    <main className="mx-auto min-h-[calc(100dvh-133px)] max-w-[1920px] px-4">
+    <main className="mx-auto min-h-[calc(100dvh-133px)] max-w-[1920px]">
       <div className="flex flex-row">
         {isCategory && <SubCategorySidebar />}
           <div className="w-full">{children}</div>
