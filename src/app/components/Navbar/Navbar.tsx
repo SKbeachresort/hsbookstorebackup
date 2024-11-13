@@ -58,7 +58,7 @@ export const Navbar = () => {
         </div>
 
         {/* Main Nav Section */}
-        <div className="py-[2.5vh] w-full max-w-[1920px] mx-auto px-[2vh] shadow-md mb-1 md:mb-0 flex flex-row gap-x-6 justify-between items-center">
+        <div className="py-[2.5vh] w-full max-w-[1920px] mx-auto px-[2vh] shadow-md md:shadow-none mb-1 md:mb-0 flex flex-row gap-x-6 justify-between items-center">
           <div className="flex flex-row items-center gap-x-1">
             <div className="md:hidden rounded-sm">
               <GiHamburgerMenu
@@ -90,10 +90,7 @@ export const Navbar = () => {
           </div>
 
           {/* Search Section Bar */}
-          <div
-            onClick={handleSearchSubmit}
-            className="relative flex-1 mx-2"
-          >
+          <div onClick={handleSearchSubmit} className="relative flex-1 mx-2">
             <input
               type="text"
               placeholder="Search by keyword, title, author or IBSN"
@@ -113,11 +110,11 @@ export const Navbar = () => {
           </div>
 
           {/* Cart, Account, Location Section */}
-          <div className="flex flex-row justify-center items-center gap-x-0 md:gap-x-4">
+          <div className="flex flex-row justify-center items-center gap-x-0 md:gap-x-2 lg:gap-x-4">
             {/* Location */}
             <div className="flex flex-row justify-center items-center gap-x-1">
               <HiOutlineMapPin className="hidden md:block text-md text-textgray text-2xl" />
-              <div className="hidden md:block">
+              <div className="hidden lg:block">
                 <p className="text-xs font-medium text-textgray">
                   Delivery & Site preference
                 </p>
@@ -133,7 +130,7 @@ export const Navbar = () => {
             <Link href="/auth/login">
               <div className="flex flex-row justify-center items-center gap-x-[1vh]">
                 <FaRegUser className="hidden md:block text-textgray text-2xl" />
-                <div className="hidden md:block">
+                <div className="hidden lg:block">
                   <p className="text-sm font-medium text-textgray">
                     Hello, Sign In
                   </p>
@@ -148,9 +145,7 @@ export const Navbar = () => {
             <Link href="/cart">
               <div className="relative">
                 <div className="bg-success w-6 h-6 absolute -top-3 -right-2 flex flex-col justify-center items-center p-1 rounded-full">
-                  <p className="text-sm font-bold text-white">
-                    {totalItems}
-                  </p>
+                  <p className="text-sm font-bold text-white">{totalItems}</p>
                 </div>
                 <AiOutlineShoppingCart className="text-textgray text-3xl" />
               </div>

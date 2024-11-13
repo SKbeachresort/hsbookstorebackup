@@ -6,6 +6,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 
+import Image from "next/image";
+
 // Import modules
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
@@ -18,16 +20,22 @@ const carouselItems = [
 export const HomeSlider = () => {
   return (
     <div className="relative">
-      <img
+      <Image
         src="/servicebanner.png"
+        width={1920}
+        height={80}
+        alt="service-banner"
         className="hidden md:block"
       />
-      <img
+      <Image
         src="/mobileservicebanner.png"
+        width={1920}
+        height={80}
+        alt="service-banner"
         className="md:hidden"
       />
 
-      <div className="hidden md:block">
+      <div className="hidden md:block my-1">
         <Swiper
           slidesPerView={1}
           pagination={{ clickable: true }}
@@ -46,10 +54,11 @@ export const HomeSlider = () => {
               className="flex items-center justify-center"
             >
               <div className="w-full h-full flex flex-col items-center rounded-lg overflow-hidden">
-                <img
+                <Image
                   src={item.imageUrl}
                   alt={`Slide ${item.id}`}
-                  className="w-full h-full object-cover shadow-md"
+                  width={1920}
+                  height={600}
                 />
               </div>
             </SwiperSlide>
@@ -59,6 +68,7 @@ export const HomeSlider = () => {
 
       {/* Responsiveness for Mobile Specific */}
       <div className="md:hidden flex flex-col justify-center items-center my-[2vh]">
+        
         <h1 className="text-[2.2vh] font-medium my-[2vh] text-textgray">
           NEUROANATOMY BOOKS
         </h1>
@@ -69,11 +79,14 @@ export const HomeSlider = () => {
           SHOP NOW
         </button>
 
-        <img
+        <Image
           src="/herosectionImg.png"
           alt="hero-sectionImg"
-          className="w-[90%] mx-auto my-[2vh]"
+          // className="w-[90%] mx-auto my-[2vh]"
+          width={1920}
+          height={600}
         />
+
       </div>
     </div>
   );
