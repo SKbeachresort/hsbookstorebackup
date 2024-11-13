@@ -44,6 +44,7 @@ export const HomeCategory = () => {
 
   return (
     <div className="my-[3vh]">
+      
       <div className="">
         <div className="flex flex-row flex-wrap gap-y-[2vh] justify-between ">
           {categorySection.map((category, index) => (
