@@ -4,6 +4,8 @@ import { SubCategorySidebar } from "./components/CategoryPage/SubCategorySidebar
 import { usePathname } from "next/navigation";
 import { CartProvider } from "./context/CartContext";
 import toast, { Toaster } from "react-hot-toast";
+import 'aos/dist/aos.css'
+import AOS from 'aos';
 
 export default function ClientLayout({
   children,
@@ -18,12 +20,21 @@ export default function ClientLayout({
   useEffect(() => {
     setIsClient(true);
     setIsCategory(currentPath.startsWith("/category"));
+    AOS.init({
+      duration: 1000,
+      once: true,      
+      easing: 'ease-in-out', 
+    });
+    AOS.refresh();
+    return () => {
+      AOS.refreshHard();
+    };
   }, [currentPath]);
 
   if (!isClient) {
     return null;
-  }
-
+  };
+  
   return (
     <main className="mx-auto min-h-[calc(100dvh-133px)] max-w-[1920px]">
       <div className="flex flex-row">

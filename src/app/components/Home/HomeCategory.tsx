@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
 
 interface CategoryProps {
   id: number;
@@ -52,18 +54,20 @@ export const HomeCategory = () => {
               key={index}
               className="bg-white rounded-md flex justify-center flex-col items-center"
             >
-              <Link href={`/category/${category.slug}`}>
-                <Image
-                  src={category.imageUrl}
-                  alt={category.name}
-                  width={150}
-                  height={150}
-                  className="mx-auto 3xl:w-[100%]"
-                />
-                <h2 className="text-xs lg:text-sm 3xl:text-md font-medium text-center mt-2">
-                  {category.name}
-                </h2>
-              </Link>
+              <ZoomInSlideUp>
+                <Link href={`/category/${category.slug}`}>
+                  <Image
+                    src={category.imageUrl}
+                    alt={category.name}
+                    width={150}
+                    height={150}
+                    className="mx-auto 3xl:w-[100%]"
+                  />
+                  <h2 className="text-xs lg:text-sm 3xl:text-md font-medium text-center mt-2">
+                    {category.name}
+                  </h2>
+                </Link>
+              </ZoomInSlideUp>
             </div>
           ))}
         </div>

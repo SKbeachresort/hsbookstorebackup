@@ -10,6 +10,10 @@ import Image from "next/image";
 
 // Import modules
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
+import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
+import Bounce from "../Animated/Bounce";
+import RotateScale from "../Animated/RotateScale";
+import FadeIn from "../Animated/FadeIn";
 
 const carouselItems = [
   { id: 1, imageUrl: "/slider1.png" },
@@ -20,13 +24,15 @@ const carouselItems = [
 export const HomeSlider = () => {
   return (
     <div className="relative">
-      <Image
-        src="/servicebanner.png"
-        width={1920}
-        height={80}
-        alt="service-banner"
-        className="hidden md:block"
-      />
+      <ZoomInSlideUp>
+        <Image
+          src="/servicebanner.png"
+          width={1920}
+          height={80}
+          alt="service-banner"
+          className="hidden md:block"
+        />
+      </ZoomInSlideUp>
       <Image
         src="/mobileservicebanner.png"
         width={1920}
@@ -35,40 +41,41 @@ export const HomeSlider = () => {
         className="md:hidden"
       />
 
-      <div className="hidden md:block my-1">
-        <Swiper
-          slidesPerView={1}
-          pagination={{ clickable: true }}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          loop={true}
-          navigation={false}
-          modules={[Pagination, Autoplay, Navigation]}
-          className="mySwiper"
-        >
-          {carouselItems.map((item) => (
-            <SwiperSlide
-              key={item.id}
-              className="flex items-center justify-center"
-            >
-              <div className="w-full h-full flex flex-col items-center rounded-lg overflow-hidden">
-                <Image
-                  src={item.imageUrl}
-                  alt={`Slide ${item.id}`}
-                  width={1920}
-                  height={600}
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+      <FadeIn>
+        <div className="hidden md:block my-1">
+          <Swiper
+            slidesPerView={1}
+            pagination={{ clickable: true }}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            loop={true}
+            navigation={false}
+            modules={[Pagination, Autoplay, Navigation]}
+            className="mySwiper"
+          >
+            {carouselItems.map((item) => (
+              <SwiperSlide
+                key={item.id}
+                className="flex items-center justify-center"
+              >
+                <div className="w-full h-full flex flex-col items-center rounded-lg overflow-hidden">
+                  <Image
+                    src={item.imageUrl}
+                    alt={`Slide ${item.id}`}
+                    width={1920}
+                    height={600}
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      </FadeIn>
 
       {/* Responsiveness for Mobile Specific */}
       <div className="md:hidden flex flex-col justify-center items-center my-3">
-        
         <h1 className="text-md font-medium my-4 text-textgray">
           NEUROANATOMY BOOKS
         </h1>
@@ -85,7 +92,6 @@ export const HomeSlider = () => {
           width={1920}
           height={600}
         />
-
       </div>
     </div>
   );

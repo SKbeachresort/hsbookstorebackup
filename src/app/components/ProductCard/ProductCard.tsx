@@ -3,6 +3,7 @@ import React from "react";
 import StarRatings from "react-star-ratings";
 import Link from "next/link";
 import Image from "next/image";
+import AnimateOnScroll from "../Animated/AnimateOnScroll";
 
 interface ProductCardProps {
   name: string;
@@ -28,7 +29,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <Link href={`/product/${navigate}`}>
       <div className="relative w-32 md:w-36">
-        <div className="">
+        <AnimateOnScroll animationType="fade-up">
           <Image
             src={image}
             width={120}
@@ -38,7 +39,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             objectFit="cover"
             alt={name}
           />
-        </div>
+        </AnimateOnScroll>
 
         <p className="text-xs mt-3 md:mt-1 text-textColor">{name}</p>
         <div className="flex flex-row justify-between mt-1 md:my-0 items-center">

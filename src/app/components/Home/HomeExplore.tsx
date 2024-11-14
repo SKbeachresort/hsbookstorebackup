@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import AnimateOnScroll from "../Animated/AnimateOnScroll";
 
 interface ExploreProps {
   name: string;
@@ -36,13 +37,15 @@ export const HomeExplore = () => {
               key={index}
               className="bg-white rounded-md w-[47%] md:w-[23%] flex flex-col items-center"
             >
-              <Image
-                src={explore.imageUrl}
-                alt={explore.name}
-                width={200}
-                height={400}
-                className="3xl:w-[300px]"
-              />
+              <AnimateOnScroll animationType="zoom-in-up">
+                <Image
+                  src={explore.imageUrl}
+                  alt={explore.name}
+                  width={200}
+                  height={400}
+                  className="3xl:w-[300px]"
+                />
+              </AnimateOnScroll>
               <h2 className="text-sm xl:text-md font-medium text-center mt-2">
                 {explore.name}
               </h2>

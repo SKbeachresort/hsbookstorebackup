@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import AnimateOnScroll from "../Animated/AnimateOnScroll";
 
 interface ExploreSpecialistsProps {
   name: string;
   imageUrl: string;
-};
+}
 
 export const HomeExploreSpecialists = () => {
   const exploreSpecialists: ExploreSpecialistsProps[] = [
@@ -56,13 +57,15 @@ export const HomeExploreSpecialists = () => {
               key={index}
               className="bg-white rounded-md w-[47%] flex flex-col items-center md:w-[23%]"
             >
-              <Image
-                src={specialist.imageUrl}
-                alt={specialist.name}
-                className="card-hover 3xl:w-[70%] object-cover"
-                width={200}
-                height={200}
-              />
+              <AnimateOnScroll animationType="fadde-up">
+                <Image
+                  src={specialist.imageUrl}
+                  alt={specialist.name}
+                  className="card-hover 3xl:w-[70%] object-cover"
+                  width={200}
+                  height={200}
+                />
+              </AnimateOnScroll>
               <h2 className="text-sm 3xl:text-lg font-medium text-center mt-2">
                 {specialist.name}
               </h2>
