@@ -81,6 +81,22 @@ export const products = [
     cuttedPrice: 8.0,
     ratings: 4.5,
   },
+  {
+    name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
+    image: "/products/stethoscope.png",
+    currency: "KWD",
+    price: 6.99,
+    cuttedPrice: 8.0,
+    ratings: 4.5,
+  },
+  {
+    name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
+    image: "/products/stethoscope.png",
+    currency: "KWD",
+    price: 6.99,
+    cuttedPrice: 8.0,
+    ratings: 4.5,
+  },
 ];
 
 export const BookProductsDetails = [
