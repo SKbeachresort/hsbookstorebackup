@@ -1,14 +1,60 @@
+// app/components/SubCategorySidebar.tsx
 "use client";
 import React, { useEffect, useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import { useParams } from "next/navigation";
-import { CategoryList } from "@/app/data/Category";
-import { FaChevronDown } from "react-icons/fa6";
+import { CategoryList, Category, Subcategory } from "@/app/data/Category";
+import Accordion from "@/app/elements/Accordion"; 
 import Link from "next/link";
 
-export const SubCategorySidebar = () => {
+const renderNestedAccordion = (subcategories: (string | Subcategory)[], parentSlug: string,) => {
+  return subcategories.map((subcategory, index) => {
+    if (typeof subcategory === "string") {
+      const subCategorySlug = subcategory.toLowerCase().replace(/ /g, "-");
+      return (
+        <div key={index}>
+          <Link
+            href={`/category/${parentSlug}/${subCategorySlug}`}
+            className="text-[#525252] text-sm my-4 font-medium"
+          >
+            {subcategory}
+          </Link>
+        </div>
+      );
+    }
 
-  const { categoryslug } = useParams();
+    const subCategorySlug = subcategory.subcategory.toLowerCase().replace(/ /g, "-");
+
+    return (
+      <div key={index}>
+        <Link
+          href={`/category/${parentSlug}/${subCategorySlug}`}
+          className="text-[#272727] text-sm my-3 font-medium"
+        >
+          {subcategory.subcategory}
+        </Link>
+
+        {/* Render topics if they exist */}
+        {subcategory.topics && (
+          <div className="pl-4">
+            {subcategory.topics.map((topic, topicIndex) => (
+              <Link
+                key={topicIndex}
+                href={`/category/${parentSlug}/${subCategorySlug}/${topic.toLowerCase().replace(/ /g, "-")}`}
+                className="text-textgray text-sm "
+              >
+                <p className="my-1">{topic}</p>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  });
+};
+
+export const SubCategorySidebar = () => {
+  const { categoryslug, subcategoryslug, topicslug } = useParams();
   const [open, setOpen] = useState<boolean>(true);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
@@ -29,7 +75,7 @@ export const SubCategorySidebar = () => {
   return (
     <div
       className={`${
-        open ? "w-64" : "w-12"
+        open ? "w-72" : "w-12"
       } p-[1vh] lg:p-3 text-wrap border-r-2 border-blue-50 flex flex-col pt-3 relative duration-300`}
     >
       <IoIosArrowDropleftCircle
@@ -43,52 +89,19 @@ export const SubCategorySidebar = () => {
         <div>
           {CategoryList.map((categoryItem, index) => {
             const slug = categoryItem.category.toLowerCase().replace(/ /g, "-");
-            return (
-              <div key={index} className="mb-4">
-                <Link href={`/category/${slug}`}>
-                  <div
-                    className={`flex justify-between items-center p-1 cursor-pointer text-primary border-b-1 border-textgray font-medium 
-                  
-                    `}
-                    onClick={() => handleToggle(categoryItem.category)}
-                  >
-                    <span className="text-md font-medium">
-                      {categoryItem.category}
-                    </span>
-                    <span
-                      className={`transform transition-transform ${
-                        activeCategory === categoryItem.category.toLowerCase()
-                          ? "rotate-180"
-                          : ""
-                      }`}
-                    >
-                      <FaChevronDown className="text-md" />
-                    </span>
-                  </div>
-                </Link>
+            const isActiveCategory = activeCategory === categoryItem.category.toLowerCase();
 
-                {activeCategory === categoryItem.category.toLowerCase() && (
-                  <div className="pl-2 pt-2">
-                    {categoryItem.subcategories.map((subCategory, subIndex) => {
-                      const subcategoryslug = subCategory
-                        .toLowerCase()
-                        .replace(/ /g, "-");
-                      return (
-                        <Link
-                          href={`/category/${slug}/${subcategoryslug}`}
-                        >
-                          <div
-                            key={subIndex}
-                            className="text-textgray text-sm my-2 underline"
-                          >
-                            {subCategory}
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+            return (
+              <Accordion
+                key={index}
+                title={categoryItem.category}
+                isActive={isActiveCategory}
+                onToggle={() => handleToggle(categoryItem.category)}
+              >
+                <div className="pl-2 pt-2">
+                  {categoryItem.subcategories && renderNestedAccordion(categoryItem.subcategories, slug)}
+                </div>
+              </Accordion>
             );
           })}
         </div>

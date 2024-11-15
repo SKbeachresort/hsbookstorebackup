@@ -1,11 +1,47 @@
-export const CategoryList = [
+// data/CategoryList.ts
+
+export interface Subcategory {
+  subcategory: string;
+  topics?: string[];
+};
+
+export interface Category {
+  category: string;
+  subcategories: (string | Subcategory)[];
+};
+
+export const CategoryList: Category[] = [
   {
     category: "Books",
     subcategories: [
-      "Medical Textbooks",
-      "Anatomy Books",
-      "Pharmacology Books",
-      "Research Journals",
+      "Basic Medical Sciences",
+      {
+        subcategory: "Dentistry",
+        topics: [
+          "Dental Anatomy & Physiology",
+          "Dental Anesthesiology",
+          "Caries in Dentistry",
+          "Craniomandibular",
+          "Temporomandibular",
+          "Dental Assisting",
+          "Dental Hygiene",
+          "Dental Materials",
+          "Dental Office Practice",
+          "Endodontics",
+          "Oral Pathology",
+          "Oral Radiology",
+          "Oral Surgery",
+          "Orthodontics",
+          "Dental Pediatrics",
+          "Dental Periodontics",
+          "Dental Pharmacology",
+          "Preventive Dentistry",
+          "Prosthodontics",
+        ],
+      },
+      "Medicine",
+      "Nursing",
+      "Pharmacology",
     ],
   },
   {
@@ -14,7 +50,6 @@ export const CategoryList = [
       "Men's Lab Coats",
       "Women's Lab Coats",
       "Unisex Lab Coats",
-      "Custom Lab Coats",
     ],
   },
   {
@@ -38,10 +73,11 @@ export const CategoryList = [
   {
     category: "Medical Devices",
     subcategories: [
+      "Blood Pressure Devices",
       "Thermometers",
-      "Blood Pressure Monitors",
-      "Pulse Oximeters",
-      "Glucometers",
+      "pulse Oximeters",
+      "Otoscopes",
+      "Ophthalmoscopes"
     ],
   },
   {

@@ -8,6 +8,7 @@ import "swiper/css/autoplay";
 // Import modules
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { Swiper as SwiperClass } from "swiper/types";
 
 interface CarouselProps {
   slides: React.ReactNode[];
@@ -15,20 +16,21 @@ interface CarouselProps {
 
 const Carousel: React.FC<CarouselProps> = ({ slides }) => {
 
-  const swiperRef = useRef<any>(null);
+  const swiperRef = useRef<SwiperClass | null>(null);
+
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [progress, setProgress] = useState(0);
 
   const totalSlides = slides.length;
-  const slidesPerView = 6; 
+  const slidesPerView = 6;
   const totalPages = Math.ceil(totalSlides / slidesPerView);
 
-  const updateProgress = (swiper: any) => {
-    const currentSlideIndex = swiper.realIndex + 1; 
-    const progress = (currentSlideIndex / totalSlides) * 100; 
-    setProgress(progress); 
+  const updateProgress = (swiper: SwiperClass) => {
+    const currentSlideIndex = swiper.realIndex + 1;
+    const progress = (currentSlideIndex / totalSlides) * 100;
+    setProgress(progress);
     setCurrentPage(currentSlideIndex);
     setIsAtStart(swiper.isBeginning);
     setIsAtEnd(swiper.isEnd);
@@ -36,41 +38,44 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
 
   useEffect(() => {
     if (swiperRef.current) {
-      updateProgress(swiperRef.current.swiper);
+      updateProgress(swiperRef.current);
     }
   }, [swiperRef]);
 
-  const handleSlideChange = (swiper: any) => {
+  const handleSlideChange = (swiper: SwiperClass) => {
     updateProgress(swiper);
   };
+
   return (
     <div className="relative">
       {/* Previous Button */}
       <div
-        className={`absolute top-[45%] z-40 left-0 custom-prev bg-disableGray shadow-xl rounded-full p-1 ${
+        className={`absolute top-[34%] z-40 -left-[2%] custom-prev bg-white border-2 border-textgray shadow-xl rounded-full p-4 ${
           isAtStart
             ? "opacity-0 cursor-not-allowed"
             : "opacity-100 cursor-pointer"
         }`}
         onClick={() => swiperRef.current?.slidePrev()}
       >
-        <FiChevronLeft size={30} className="text-white" />
+        <FiChevronLeft size={20} className="text-textgray" />
       </div>
 
       {/* Next Button */}
       <div
-        className={`absolute top-[45%] z-40 right-0 custom-next bg-disableGray shadow-lg rounded-full p-1 ${
+        className={`absolute top-[34%] z-40 right-0 custom-next bg-white border-2 border-textgray shadow-lg rounded-full p-4 ${
           isAtEnd
             ? "opacity-0 cursor-not-allowed"
             : "opacity-100 cursor-pointer"
         }`}
         onClick={() => swiperRef.current?.slideNext()}
       >
-        <FiChevronRight size={30} className="text-white" />
+        <FiChevronRight size={20} className="text-textgray" />
       </div>
 
       <Swiper
-        ref={swiperRef}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
         pagination={false}
         autoplay={false}
         loop={false}
@@ -88,7 +93,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
         }}
         onSlideChange={handleSlideChange}
         modules={[Autoplay, Navigation]}
-        className="mySwiper my-4"
+        className="mySwiper my-4 mx-4"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index} className="flex-shrink-0">

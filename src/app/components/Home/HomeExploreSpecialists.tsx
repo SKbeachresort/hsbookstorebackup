@@ -27,7 +27,7 @@ export const HomeExploreSpecialists = () => {
       imageUrl: "/speciality/neurology.png",
     },
     {
-      name: "10% OFF",
+      name: "10% Off",
       imageUrl: "/speciality/10off.png",
     },
     {
@@ -57,7 +57,7 @@ export const HomeExploreSpecialists = () => {
               key={index}
               className="bg-white rounded-md w-[47%] flex flex-col items-center md:w-[23%]"
             >
-              <AnimateOnScroll animationType="fadde-up">
+              <AnimateOnScroll animationType="zoom-in">
                 <Image
                   src={specialist.imageUrl}
                   alt={specialist.name}
@@ -66,7 +66,7 @@ export const HomeExploreSpecialists = () => {
                   height={200}
                 />
               </AnimateOnScroll>
-              <h2 className="text-sm 3xl:text-lg font-medium text-center mt-2">
+              <h2 className="text-sm 3xl:text-lg font-semibold text-center mt-2">
                 {specialist.name}
               </h2>
             </div>

@@ -27,9 +27,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   navigate,
 }) => {
   return (
-    <Link href={`/product/${navigate}`}>
-      <div className="relative w-32 md:w-36">
-        <AnimateOnScroll animationType="fade-up">
+    <div className="relative w-32 md:w-36 mx-4">
+      <AnimateOnScroll animationType="fade-up">
+        <Link href={`/product/${navigate}`}>
           <Image
             src={image}
             width={120}
@@ -39,33 +39,33 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             objectFit="cover"
             alt={name}
           />
-        </AnimateOnScroll>
+        </Link>
+      </AnimateOnScroll>
 
-        <p className="text-xs mt-3 md:mt-1 text-textColor">{name}</p>
-        <div className="flex flex-row justify-between mt-1 md:my-0 items-center">
-          <p className="text-md font-semibold">
-            {currency} {price.toFixed(3)}
-          </p>
-          <p className="line-through text-textgray text-xs font-medium">
-            {currencySymbol} {cuttedPrice.toFixed(3)}
-          </p>
-        </div>
-        <div>
-          <button className="absolute top-[53%] -left-[5%] md:-left-[10%] z-40 bg-secondary rounded-full text-sm md:text-md font-semibold text-white px-2 py-1">
-            + Add
-          </button>
-        </div>
-        <div className="flex items-center">
-          <StarRatings
-            rating={ratings}
-            starRatedColor="#FFCE60"
-            numberOfStars={5}
-            starDimension="16px"
-            starSpacing="1px"
-            name="product-rating"
-          />
-        </div>
+      <p className="text-xs mt-3 md:mt-2 text-textColor">{name}</p>
+      <div className="flex flex-row justify-between mt-1 md:my-0 items-center">
+        <p className="text-md font-semibold">
+          {currency} {price.toFixed(3)}
+        </p>
+        <p className="line-through text-textgray text-xs font-medium">
+          {currencySymbol} {cuttedPrice.toFixed(3)}
+        </p>
       </div>
-    </Link>
+      <div>
+        <button className="absolute top-[53%] -left-[5%] md:-left-[10%] z-40 bg-secondary rounded-full text-sm md:text-md font-semibold text-white px-4 py-2">
+          + Add
+        </button>
+      </div>
+      <div className="flex items-center">
+        <StarRatings
+          rating={ratings}
+          starRatedColor="#FFCE60"
+          numberOfStars={5}
+          starDimension="16px"
+          starSpacing="1px"
+          name="product-rating"
+        />
+      </div>
+    </div>
   );
 };

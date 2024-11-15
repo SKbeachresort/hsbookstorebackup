@@ -14,7 +14,6 @@ export const ProductsRecommendations = () => {
   return (
     <div className="my-8 relative">
 
-
       <div className="flex flex-row justify-between items-center my-4">
         <h1 className="text-md md:text-lg font-medium">Recommended for you</h1>
         <p className="text-sm md:text-md font-semibold text-secondary underline">
@@ -22,7 +21,7 @@ export const ProductsRecommendations = () => {
         </p>
       </div>
 
-      <div className="relative px-4">
+      <div className="relative">
         <Carousel
           slides={products.map((product, index) => {
             const slug = product.name.replace(/\s+/g, "-").toLowerCase();

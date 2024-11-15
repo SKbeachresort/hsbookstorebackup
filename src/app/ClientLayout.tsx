@@ -22,7 +22,7 @@ export default function ClientLayout({
     setIsCategory(currentPath.startsWith("/category"));
     AOS.init({
       duration: 1000,
-      once: true,      
+      once: false,      
       easing: 'ease-in-out', 
     });
     AOS.refresh();
