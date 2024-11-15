@@ -8,6 +8,8 @@ import NewReleaseSection from "@/app/components/ProductPage/NewReleaseSection";
 import AdditionalContents from "@/app/components/ProductPage/AdditionalContents";
 import SavingsPackage from "@/app/components/ProductPage/SavingsPackage";
 import CustomerReviewsRatings from "@/app/components/ProductPage/CustomerReviewsRatings";
+import AddToCartWidjet from "@/app/components/ProductPage/AddToCartWidjet";
+import AnimateOnScroll from "@/app/components/Animated/AnimateOnScroll";
 
 const bookFormats = [
   { label: "Hardcover", price: 3990, currency: "KWD" },
@@ -44,7 +46,6 @@ const productsDetails = {
 };
 
 const ProductDetailPage = () => {
-  
   const { productslug } = useParams();
   const { addToCart, cartItems, incrementQuantity, decrementQuantity } =
     useCart();
@@ -82,17 +83,36 @@ const ProductDetailPage = () => {
         bookFormats={bookFormats}
       />
 
-      {/* New Release Section */}
-      <NewReleaseSection productsDetails={productsDetails} />
+      {/* Sub Section */}
+      <div className="relative flex flex-row justify-between my-3">
+        <div className="md:w-[63%] ">
+          {/* New Release Section */}
+          <NewReleaseSection productsDetails={productsDetails} />
 
-      {/* Product Details */}
-      <AdditionalContents productsDetails={productsDetails} />
+          {/* Product Details */}
+          <AdditionalContents productsDetails={productsDetails} />
 
-      {/* Saving Packages */}
-      <SavingsPackage/>
+          {/* Saving Packages */}
+          <SavingsPackage />
 
-      {/* Customer Reviews & Ratings */}
-      <CustomerReviewsRatings />
+          {/* Customer Reviews & Ratings */}
+          <CustomerReviewsRatings />
+        </div>
+        <div className="h-auto w-[33%] hidden md:block">
+          <div className="sticky top-10 z-30 py-10">
+            <AnimateOnScroll animationType="zoom-in-up">
+              <AddToCartWidjet
+                productsDetails={productsDetails}
+                cartItem={cartItem}
+                handleAddToCart={handleAddToCart}
+                handleDecrement={handleDecrement}
+                incrementQuantity={incrementQuantity}
+                bookFormats={bookFormats}
+              />
+            </AnimateOnScroll>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

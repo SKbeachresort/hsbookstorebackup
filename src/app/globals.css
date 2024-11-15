@@ -206,3 +206,9 @@ body {
   border-radius: 500px;
   display: none;
 }
+
+.sticky {
+  position: sticky;
+  top: 0; /* Adjust based on how far from the top you want it to stick */
+  z-index: 30; /* Ensures it stays above other content */
+}

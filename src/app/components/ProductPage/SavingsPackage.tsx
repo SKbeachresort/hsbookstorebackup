@@ -68,7 +68,6 @@ const SavingsPackage: React.FC = () => {
 
   return (
     <div className="my-5">
-        <hr />
       <h2 className="text-xl font-semibold my-4">Savings Package</h2>
 
       <div className="flex flex-col md:flex-row items-center gap-5 lg:gap-10">
