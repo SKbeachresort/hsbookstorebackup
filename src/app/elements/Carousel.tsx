@@ -52,7 +52,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
       <div
         className={`absolute top-[34%] z-40 -left-[2%] custom-prev bg-white border-2 border-textgray shadow-xl rounded-full p-4 ${
           isAtStart
-            ? "opacity-0 cursor-not-allowed"
+            ? "opacity-0"
             : "opacity-100 cursor-pointer"
         }`}
         onClick={() => swiperRef.current?.slidePrev()}
@@ -64,7 +64,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
       <div
         className={`absolute top-[34%] z-40 right-0 custom-next bg-white border-2 border-textgray shadow-lg rounded-full p-4 ${
           isAtEnd
-            ? "opacity-0 cursor-not-allowed"
+            ? "opacity-0"
             : "opacity-100 cursor-pointer"
         }`}
         onClick={() => swiperRef.current?.slideNext()}
@@ -82,10 +82,8 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
         breakpoints={{
           1: { slidesPerView: 2, slidesPerGroup: 2 },
           640: { slidesPerView: 2, slidesPerGroup: 2 },
-          768: { slidesPerView: 3, slidesPerGroup: 3 },
-          1024: { slidesPerView: 4, slidesPerGroup: 4 },
-          1280: { slidesPerView: 5, slidesPerGroup: 5 },
-          1920: { slidesPerView: 6, slidesPerGroup: 6 },
+          768: { slidesPerView: 4, slidesPerGroup: 4 },
+          1024: { slidesPerView: 6, slidesPerGroup: 6 },
         }}
         navigation={{
           prevEl: ".custom-prev",

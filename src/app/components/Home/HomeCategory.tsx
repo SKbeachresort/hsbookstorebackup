@@ -48,7 +48,7 @@ export const HomeCategory = () => {
   return (
     <div className="my-8">
       <div className="">
-        <div className="flex flex-row flex-wrap gap-2 justify-center xl:justify-between">
+        <div className="flex flex-row flex-wrap gap-2 justify-center lg:justify-between">
           {categorySection.map((category, index) => (
             <div
               key={index}
