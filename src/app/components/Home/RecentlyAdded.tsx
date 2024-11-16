@@ -21,6 +21,7 @@ export const RecentlyAdded = () => {
             const slug = product.name.replace(/\s+/g, "-").toLowerCase();
             return (
               <ProductCard
+                id={product.id}
                 key={index}
                 name={product.name}
                 image={product.image}

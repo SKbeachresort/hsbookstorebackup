@@ -30,6 +30,7 @@ const SubCategoryProducts = () => {
           {products.map((product, index) => (
             <ProductCard
               key={index}
+              id={product.id}
               name={product.name}
               image={product.image}
               currency={product.currency}

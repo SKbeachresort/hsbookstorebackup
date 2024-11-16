@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -21,21 +21,21 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #293275, #2C9CDB);
+  background: linear-gradient(to bottom, #293275, #2c9cdb);
   border-radius: 999px;
 }
 
 body {
   font-family: "Roboto", sans-serif;
-  color: #232323
-};
-
-.icon-style{
-  @apply text-[2.4vh] hover:scale-125 transition-all duration-300 cursor-pointer
+  color: #232323;
 }
 
-.card-hover{
-  @apply hover:scale-105 transition-all duration-300 cursor-pointer
+.icon-style {
+  @apply text-[2.4vh] hover:scale-125 transition-all duration-300 cursor-pointer;
+}
+
+.card-hover {
+  @apply hover:scale-105 transition-all duration-300 cursor-pointer;
 }
 
 @keyframes zoomIn {
@@ -127,80 +127,16 @@ body {
 .animate-zoomOut {
   animation: zoomIn 0.3s ease-in-out forwards;
 }
-/* 
-.mySwiper {
-  position: relative;
+
+:root {
+  --swiper-navigation-color: #fff;
+  --swiper-navigation-size: 2px;
 }
 
-.swiper-pagination {
-  position: absolute;
-  bottom: -20px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-}
-
-.swiper-pagination-bullet {
-  background-color: #2C9CDB  !important;
-  width: 7px;
-  height: 7px;
-}
-
-.swiper-pagination-bullet-active {
-  background-color: #293275 !important;
-}
-
-.mySwiper .swiper-button-next,
-.mySwiper .swiper-button-prev {
-  background-color: #2C9CDB; 
-  color: white; 
-  border-radius: 50%; 
-  padding: 20px; 
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s;
-};
-
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  content: ''; 
-  font-family: 'swiper-icons';
-  font-size: var(--swiper-navigation-size);
-  color: var(--swiper-navigation-color, var(--swiper-theme-color));
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.mySwiper .swiper-button-next:hover,
-.mySwiper .swiper-button-prev:hover {
-  background-color: rgba(0, 0, 0, 0.8); 
-};
-
-.mySwiper .swiper-button-next:after,
-.mySwiper .swiper-button-prev:after {
-  font-size: var(--swiper-navigation-size);
-};
-
-.mySwiper .swiper-button-next {
-  right: 5px; 
-};
-
-.mySwiper .swiper-button-prev {
-  left: 5px; 
-}; */
-
-:root{
-  --swiper-navigation-color:#fff;
-  --swiper-navigation-size:2px
-}
-
-.swiper-button-prev,.swiper-button-next {
+.swiper-button-prev,
+.swiper-button-next {
   color: var(--swiper-navigation-color);
-  width: calc(var(--swiper-navigation-size)/44*27);
+  width: calc(var(--swiper-navigation-size) / 44 * 27);
   background-color: #fd6500;
   padding: 3vh;
   border-radius: 500px;
@@ -209,6 +145,6 @@ body {
 
 .sticky {
   position: sticky;
-  top: 0; /* Adjust based on how far from the top you want it to stick */
-  z-index: 30; /* Ensures it stays above other content */
+  top: 0;
+  z-index: 30;
 }

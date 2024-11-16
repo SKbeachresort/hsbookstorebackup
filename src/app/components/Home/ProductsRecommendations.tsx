@@ -28,6 +28,7 @@ export const ProductsRecommendations = () => {
             return (
               <ProductCard
                 key={index}
+                id={product.id}
                 name={product.name}
                 image={product.image}
                 currency={product.currency}

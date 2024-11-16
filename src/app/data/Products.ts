@@ -2,6 +2,7 @@ import { availableMemory } from "process";
 
 export const products = [
   {
+    id:1,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     image: "/products/book.png",
     currency: "KWD",
@@ -10,6 +11,7 @@ export const products = [
     ratings: 4,
   },
   {
+    id:2,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     image: "/products/book2.png",
     currency: "KWD",
@@ -18,6 +20,7 @@ export const products = [
     ratings: 5,
   },
   {
+    id:3,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     image: "/products/book3.png",
     currency: "KWD",
@@ -26,6 +29,7 @@ export const products = [
     ratings: 4.5,
   },
   {
+    id:4,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     image: "/products/pen.png",
     currency: "KWD",
@@ -34,6 +38,7 @@ export const products = [
     ratings: 4.5,
   },
   {
+    id:5,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     image: "/products/shirt.png",
     currency: "KWD",
@@ -42,6 +47,7 @@ export const products = [
     ratings: 4.5,
   },
   {
+    id:6,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     image: "/products/book2.png",
     currency: "KWD",
@@ -50,6 +56,7 @@ export const products = [
     ratings: 5,
   },
   {
+    id:7,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     image: "/products/book3.png",
     currency: "KWD",
@@ -58,6 +65,7 @@ export const products = [
     ratings: 4.5,
   },
   {
+    id:8,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     image: "/products/pen.png",
     currency: "KWD",
@@ -66,6 +74,7 @@ export const products = [
     ratings: 4.5,
   },
   {
+    id:9,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     image: "/products/shirt.png",
     currency: "KWD",
@@ -74,6 +83,7 @@ export const products = [
     ratings: 4.5,
   },
   {
+    id:10,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     image: "/products/stethoscope.png",
     currency: "KWD",
@@ -82,6 +92,7 @@ export const products = [
     ratings: 4.5,
   },
   {
+    id:11,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     image: "/products/stethoscope.png",
     currency: "KWD",
@@ -90,6 +101,7 @@ export const products = [
     ratings: 4.5,
   },
   {
+    id:12,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     image: "/products/stethoscope.png",
     currency: "KWD",
@@ -101,6 +113,7 @@ export const products = [
 
 export const BookProductsDetails = [
   {
+    id:1,
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders",
     Author: "Simon Sinek",
     mainImage: "/products/book.png",
