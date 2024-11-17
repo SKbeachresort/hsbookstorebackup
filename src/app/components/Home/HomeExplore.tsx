@@ -30,7 +30,7 @@ export const HomeExplore = () => {
 
   return (
     <div>
-      <div className="">
+      <div className="my-4">
         <div className="flex flex-row flex-wrap gap-y-2 justify-between ">
           {exploreSection.map((explore, index) => (
             <div
@@ -41,12 +41,12 @@ export const HomeExplore = () => {
                 <Image
                   src={explore.imageUrl}
                   alt={explore.name}
-                  width={200}
+                  width={300}
                   height={400}
-                  className="3xl:w-[300px]"
+                  className="w-full"
                 />
               </AnimateOnScroll>
-              <h2 className="text-sm xl:text-md font-medium text-center mt-2">
+              <h2 className="text-sm xl:text-md font-semibold text-center mt-2">
                 {explore.name}
               </h2>
             </div>

@@ -70,7 +70,7 @@ const SavingsPackage: React.FC = () => {
     <div className="my-5">
       <h2 className="text-xl font-semibold my-4">Savings Package</h2>
 
-      <div className="flex flex-col md:flex-row items-center gap-5 lg:gap-10">
+      <div className="flex flex-col xl:flex-row items-center md:items-start xl:items-center  xl:gap-10">
         <div className="flex flex-row gap-4">
           {products.map((product) => (
             <div

@@ -55,15 +55,15 @@ export const HomeExploreSpecialists = () => {
           {exploreSpecialists.map((specialist, index) => (
             <div
               key={index}
-              className="bg-white rounded-md w-[47%] flex flex-col items-center md:w-[23%]"
+              className="bg-white rounded-md w-[47%] md:w-[23%] flex flex-col items-center"
             >
               <AnimateOnScroll animationType="zoom-in">
                 <Image
                   src={specialist.imageUrl}
                   alt={specialist.name}
-                  className="card-hover 3xl:w-[70%] object-cover"
-                  width={200}
-                  height={200}
+                  className="card-hover 3xl:w-[100%] object-cover"
+                  width={300}
+                  height={300}
                 />
               </AnimateOnScroll>
               <h2 className="text-sm 3xl:text-lg font-semibold text-center mt-2">

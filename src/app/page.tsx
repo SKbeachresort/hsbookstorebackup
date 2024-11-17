@@ -6,6 +6,7 @@ import { HomeExploreSpecialists } from "./components/Home/HomeExploreSpecialists
 import { HomeDermatologySection } from "./components/Home/HomeDermatologySection";
 import { ProductsRecommendations } from "./components/Home/ProductsRecommendations";
 import { RecentlyAdded } from "./components/Home/RecentlyAdded";
+import { VisitOurBlogSection } from "./components/Home/VisitOurBlogSection";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <HomeExploreSpecialists />
       <ProductsRecommendations />
       <HomeDermatologySection />
+      <VisitOurBlogSection />
     </div>
   );
 }

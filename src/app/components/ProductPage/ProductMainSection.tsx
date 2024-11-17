@@ -4,6 +4,7 @@ import StarRatings from "react-star-ratings";
 import { FaHeart, FaRegHeart, FaCircle } from "react-icons/fa";
 import Image from "next/image";
 import { Product, BookFormat } from "@/app/types/product/product-types";
+import { FaPlus, FaTrashAlt } from "react-icons/fa";
 
 interface ProductDetailsProps {
   productsDetails: Product;
@@ -13,8 +14,9 @@ interface ProductDetailsProps {
   handleAddToCart: () => void;
   handleDecrement: () => void;
   incrementQuantity: (id: number) => void;
+  removeFromCart?: (id: number) => void;
   bookFormats: BookFormat[];
-};
+}
 
 const ProductMainSection: React.FC<ProductDetailsProps> = ({
   productsDetails,
@@ -24,17 +26,17 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   handleAddToCart,
   handleDecrement,
   incrementQuantity,
+  removeFromCart,
   bookFormats,
 }) => {
-
   const [selectedFormat, setSelectedFormat] = useState<string>(
     bookFormats[0]?.label || ""
   );
 
   return (
     <div className="">
-      <div className="flex flex-col md:flex-row gap-x-2 justify-start">
-        <div className="flex p-2 flex-col-reverse md:flex-row gap-x-2">
+      <div className="flex flex-col md:flex-row gap-4 justify-start md:justify-between items-start">
+        <div className="flex p-2 flex-col-reverse md:flex-row justify-between md:w-[60%] 3xl:w-[75%] gap-2">
           {/* Sub Images */}
           <div className="flex flex-row my-3 md:my-0 md:flex-col gap-4 w-[20%]">
             {productsDetails.subImage.map((image, index) => (
@@ -44,18 +46,19 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
                 width={100}
                 height={100}
                 alt="Product Image"
+                className=""
               />
             ))}
           </div>
 
           {/* Main Image */}
-          <div className="relative">
+          <div className="relative md:w-[80%] flex flex-col items-end 3xl:items-center">
             <Image
               src={productsDetails.mainImage}
               width={400}
               height={600}
               alt="Product Image"
-              className="md:w-full lg:w-[86%] "
+              className="w-full md:w-[80%] lg:w-[90%] xl:w-[80%] 3xl:w-[60%]"
             />
             {isFav ? (
               <>
@@ -75,18 +78,18 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
           </div>
         </div>
 
-        <div className="p-1 md:p-2">
+        <div className="p-1 md:p-4 md:w-[35%] h-auto md:border-[1px] md:border-disableGray rounded-lg">
           <span className="bg-[#69BBE940] mb-2 font-normal text-primary w-fit text-xs md:text-sm p-1">
             Best Seller
           </span>
 
           {/* Title */}
-          <h1 className="text-xl md:text-2xl lg:text-3xl my-1 font-medium">
+          <h1 className="text-xl 3xl:text-3xl my-1 font-medium">
             {productsDetails.name}
           </h1>
 
           {/* Author Name */}
-          <p className="text-xs md:text-sm text-textgray">
+          <p className="text-xs text-textgray">
             by <span className="underline">{productsDetails.Author}</span>
           </p>
 
@@ -100,10 +103,10 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
               starSpacing="1px"
               name="product-rating"
             />
-            <p className="text-xs md:text-sm mt-1 text-textgray">195 reviews</p>
+            <p className="text-xs mt-1 text-textgray">195 reviews</p>
           </div>
 
-          <p className="text-sm md:text-md my-1 text-textgray">
+          <p className="text-sm my-1 text-textgray">
             Ships from and sold by hsbookstore.com
           </p>
 
@@ -113,7 +116,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
               <p className="text-xl md:text-2xl font-semibold">
                 {productsDetails.currency} {productsDetails.price.toFixed(3)}
               </p>
-              <p className="line-through text-textgray text-sm md:text-md font-medium">
+              <p className="line-through text-textgray text-sm font-medium">
                 {productsDetails.currencySymbol}{" "}
                 {productsDetails.cuttedPrice.toFixed(3)}
               </p>
@@ -123,46 +126,46 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
           {/* Availiablity Section */}
           <div className="flex flex-row gap-x-1 items-center">
             <div>
-              <FaCircle
-                color="#5CBD76"
-                className="text-sm md:text-md text-success"
-              />
+              <FaCircle color="#5CBD76" className="text-sm text-success" />
             </div>
-            <p className="text-sm md:text-md text-textgray">
-              Available (In Stock)
-            </p>
+            <p className="text-sm text-textgray">Available (In Stock)</p>
           </div>
 
           {/* Add to Cart */}
           {cartItem ? (
             <div className="flex bg-secondary w-fit px-4 py-2 rounded-full items-center gap-4 my-3">
-              <button
-                onClick={handleDecrement}
-                className="text-white text-md font-medium  rounded-full "
+               <button
+                onClick={() => incrementQuantity(productsDetails.id)}
+                className="text-white text-sm font-medium "
               >
-                -
+                <FaPlus />
               </button>
-              <span className="text-md text-white font-medium">
+
+              <span className="text-sm text-white font-medium">
                 {cartItem.quantity} Added
               </span>
-              <button
-                onClick={() => incrementQuantity(productsDetails.id)}
-                className="text-white text-md font-medium "
-              >
-                +
-              </button>
+
+              {removeFromCart ? (
+                <button
+                  onClick={() => removeFromCart!(productsDetails.id)}
+                  className="text-white text-sm font-medium flex items-center gap-1"
+                >
+                  <FaTrashAlt />
+                </button>
+              ) : null}
+            
             </div>
           ) : (
             <button
               onClick={handleAddToCart}
-              className="text-white text-md font-medium bg-secondary rounded-full px-6 py-2 my-3"
+              className="text-white text-sm font-medium bg-secondary rounded-full px-6 py-2 my-3"
             >
               + Add to Cart
             </button>
           )}
 
           {/* Book Format */}
-          <p className="text-lg">
+          <p className="text-sm">
             <span className="font-medium ">Book Format: </span>
             <span>{selectedFormat}</span>
           </p>
@@ -180,8 +183,8 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
                   : "border-2 text-[#cccccc] font-medium border-disableGray"
               }`}
               >
-                <div className="text-md">{format.label}</div>
-                <div className="text-sm">{`${format.currency} ${format.price}`}</div>
+                <div className="text-sm">{format.label}</div>
+                <div className="text-xs">{`${format.currency} ${format.price}`}</div>
               </button>
             ))}
           </div>

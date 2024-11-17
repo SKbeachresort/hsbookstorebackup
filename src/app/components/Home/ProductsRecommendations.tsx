@@ -11,11 +11,12 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 
 export const ProductsRecommendations = () => {
+
   return (
     <div className="my-8 relative">
 
       <div className="flex flex-row justify-between items-center my-4">
-        <h1 className="text-md md:text-lg font-medium">Recommended for you</h1>
+        <h1 className="text-md md:text-lg font-semibold">Recommended for you</h1>
         <p className="text-sm md:text-md font-semibold text-secondary underline">
           See all
         </p>
@@ -42,6 +43,7 @@ export const ProductsRecommendations = () => {
           })}
         />
       </div>
+
     </div>
   );
 };

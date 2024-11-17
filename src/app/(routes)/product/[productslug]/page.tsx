@@ -47,7 +47,7 @@ const productsDetails = {
 
 const ProductDetailPage = () => {
   const { productslug } = useParams();
-  const { addToCart, cartItems, incrementQuantity, decrementQuantity } =
+  const { addToCart, cartItems, incrementQuantity, decrementQuantity, removeFromCart } =
     useCart();
 
   const [isFav, setIsFav] = useState(false);
@@ -69,6 +69,11 @@ const ProductDetailPage = () => {
     }
   };
 
+  const handleRemoveFromCart = () => {
+    removeFromCart(productsDetails.id);
+    toast.error("Product removed from cart");
+  };
+
   return (
     <div className="w-[95%] mx-auto xl:w-[80%] p-2 py-5">
       {/* Main Section  */}
@@ -80,6 +85,7 @@ const ProductDetailPage = () => {
         handleAddToCart={handleAddToCart}
         handleDecrement={handleDecrement}
         incrementQuantity={incrementQuantity}
+        removeFromCart={removeFromCart}
         bookFormats={bookFormats}
       />
 
