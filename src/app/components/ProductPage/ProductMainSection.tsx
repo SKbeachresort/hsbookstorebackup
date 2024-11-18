@@ -29,9 +29,12 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   removeFromCart,
   bookFormats,
 }) => {
+
   const [selectedFormat, setSelectedFormat] = useState<string>(
     bookFormats[0]?.label || ""
   );
+
+  const [mainImage, setMainImage] = useState<string>(productsDetails.mainImage);
 
   return (
     <div className="">
@@ -45,8 +48,9 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
                 src={image}
                 width={100}
                 height={100}
-                alt="Product Image"
-                className=""
+                alt={`Product sub-image ${index + 1}`}
+                onMouseEnter={() => setMainImage(image)}
+                className="cursor-pointer"
               />
             ))}
           </div>

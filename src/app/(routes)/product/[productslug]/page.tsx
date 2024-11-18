@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import { useCart } from "@/app/context/CartContext";
 import toast from "react-hot-toast";
@@ -51,11 +51,21 @@ const productsDetails = {
 };
 
 const ProductDetailPage = () => {
+  
   const { productslug } = useParams();
-  const { addToCart, cartItems, incrementQuantity, decrementQuantity, removeFromCart } =
-    useCart();
+  const {
+    addToCart,
+    cartItems,
+    incrementQuantity,
+    decrementQuantity,
+    removeFromCart,
+  } = useCart();
 
   const [isFav, setIsFav] = useState(false);
+
+  const [showAddToCartWidget, setShowAddToCartWidget] = useState(false);
+  const subsectionRef = useRef<HTMLDivElement | null>(null);
+
   const toggleFav = () => {
     setIsFav(!isFav);
   };
@@ -79,6 +89,20 @@ const ProductDetailPage = () => {
     toast.error("Product removed from cart");
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (subsectionRef.current) {
+        const rect = subsectionRef.current.getBoundingClientRect();
+        setShowAddToCartWidget(rect.top <= 0); 
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div className="w-[95%] mx-auto xl:w-[80%] p-2 py-5">
       {/* Main Section  */}
@@ -95,7 +119,10 @@ const ProductDetailPage = () => {
       />
 
       {/* Sub Section */}
-      <div className="md:relative flex flex-row justify-between my-3">
+      <div
+        ref={subsectionRef}
+        className="md:relative flex flex-row justify-between my-3"
+      >
         <div className="md:w-[63%] ">
           {/* New Release Section */}
           <NewReleaseSection productsDetails={productsDetails} />
@@ -116,17 +143,20 @@ const ProductDetailPage = () => {
           <CustomerReviewsRatings />
         </div>
         <div className="h-auto w-[33%] hidden md:block">
+          {/* Add to Cart Widget */}
           <div className="sticky top-10 z-30 py-10">
-            <AnimateOnScroll animationType="zoom-in-up">
-              <AddToCartWidjet
-                productsDetails={productsDetails}
-                cartItem={cartItem}
-                handleAddToCart={handleAddToCart}
-                handleDecrement={handleDecrement}
-                incrementQuantity={incrementQuantity}
-                bookFormats={bookFormats}
-              />
-            </AnimateOnScroll>
+            {showAddToCartWidget && (
+              <AnimateOnScroll animationType="zoom-in-up">
+                <AddToCartWidjet
+                  productsDetails={productsDetails}
+                  cartItem={cartItem}
+                  handleAddToCart={handleAddToCart}
+                  handleDecrement={handleDecrement}
+                  incrementQuantity={incrementQuantity}
+                  bookFormats={bookFormats}
+                />
+              </AnimateOnScroll>
+            )}
           </div>
         </div>
       </div>
