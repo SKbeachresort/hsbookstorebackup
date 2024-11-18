@@ -15,6 +15,7 @@ export default {
         secondary: "#2C9CDB",
         textgray: "#898989",
         disableGray: "#C1C1C1",
+        borderColor: "#E2E2E2",
         textColor: "#363636",
         success: "#5CBD76",
       },

@@ -7,11 +7,12 @@ import AccordionProductDetail from "@/app/elements/AccordianProductDetail";
 
 interface AdditionalContentsProps {
   productsDetails: Product;
-}
+};
 
 const AdditionalContents: React.FC<AdditionalContentsProps> = ({
   productsDetails,
 }) => {
+  
   const [open, setOpen] = useState<boolean>(false);
 
   const toggleAccordion = () => {

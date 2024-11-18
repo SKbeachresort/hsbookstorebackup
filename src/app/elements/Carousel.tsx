@@ -39,7 +39,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
   useEffect(() => {
     if (swiperRef.current) {
       updateProgress(swiperRef.current);
-    }
+    };
   }, []);
 
   const handleSlideChange = (swiper: SwiperClass) => {
