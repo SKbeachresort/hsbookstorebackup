@@ -33,6 +33,7 @@ export const HomeDermatologySection = () => {
           className="w-[90%] mx-auto"
         />
       </div>
+      
     </div>
   );
 };

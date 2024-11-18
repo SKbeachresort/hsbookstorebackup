@@ -10,9 +10,6 @@ import Image from "next/image";
 
 // Import modules
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
-import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
-import Bounce from "../Animated/Bounce";
-import RotateScale from "../Animated/RotateScale";
 import FadeIn from "../Animated/FadeIn";
 
 const carouselItems = [
@@ -24,22 +21,6 @@ const carouselItems = [
 export const HomeSlider = () => {
   return (
     <div className="relative">
-      <ZoomInSlideUp>
-        <Image
-          src="/servicebanner.png"
-          width={1920}
-          height={80}
-          alt="service-banner"
-          className="hidden md:block"
-        />
-      </ZoomInSlideUp>
-      <Image
-        src="/mobileservicebanner.png"
-        width={1920}
-        height={80}
-        alt="service-banner"
-        className="md:hidden"
-      />
 
       <FadeIn>
         <div className="hidden md:block my-1">

@@ -43,7 +43,7 @@ export const HomeExplore = () => {
                   alt={explore.name}
                   width={300}
                   height={400}
-                  className="w-full"
+                  className="w-full hover:scale-110 transition-transform duration-500"
                 />
               </AnimateOnScroll>
               <h2 className="text-sm xl:text-md font-semibold text-center mt-2">

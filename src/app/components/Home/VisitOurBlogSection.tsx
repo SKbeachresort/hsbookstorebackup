@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import AnimateOnScroll from "../Animated/AnimateOnScroll";
+import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
 
 interface VisitBlogProps {
   name: string;
@@ -33,7 +34,7 @@ export const VisitOurBlogSection = () => {
   ];
 
   return (
-    <div>
+    <div className="mb-8">
       <div className="my-4">
         <div className="flex flex-row flex-wrap gap-y-2 justify-between">
           {visitBlogSection.map((visitBlog, index) => (
@@ -57,6 +58,22 @@ export const VisitOurBlogSection = () => {
           ))}
         </div>
       </div>
+      <ZoomInSlideUp>
+        <Image
+          src="/servicebanner.png"
+          width={1920}
+          height={80}
+          alt="service-banner"
+          className="hidden md:block"
+        />
+      </ZoomInSlideUp>
+      <Image
+        src="/mobileservicebanner.png"
+        width={1920}
+        height={80}
+        alt="service-banner"
+        className="md:hidden"
+      />
     </div>
   );
 };

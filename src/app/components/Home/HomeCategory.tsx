@@ -46,13 +46,13 @@ export const HomeCategory = () => {
   ];
 
   return (
-    <div className="my-8">
+    <div className="my-10">
       <div className="">
-        <div className="flex flex-row flex-wrap gap-2 justify-center lg:justify-between">
+        <div className="flex flex-row flex-wrap gap-2 md:gap-0 justify-center md:justify-between">
           {categorySection.map((category, index) => (
             <div
               key={index}
-              className="bg-white rounded-md flex justify-center flex-col items-center"
+              className="bg-white md:w-[18%] rounded-md flex justify-center flex-col items-center"
             >
               <ZoomInSlideUp>
                 <Link href={`/category/${category.slug}`}>
@@ -61,9 +61,9 @@ export const HomeCategory = () => {
                     alt={category.name}
                     width={150}
                     height={150}
-                    className="mx-auto 3xl:w-[100%] hover:scale-110 transition-all duration-300"
+                    className="md:w-[90%] mx-auto 3xl:w-full hover:scale-110 transition-all duration-300"
                   />
-                  <h2 className="text-xs lg:text-sm 3xl:text-md font-semibold text-center mt-2">
+                  <h2 className="text-[0.6rem] md:text-xs 3xl:text-md font-semibold text-center mt-2">
                     {category.name}
                   </h2>
                 </Link>
