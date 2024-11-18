@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import StarRatings from "react-star-ratings";
-import { FaHeart, FaRegHeart, FaCircle } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaCircle, FaSearchPlus } from "react-icons/fa";
 import Image from "next/image";
 import { Product, BookFormat } from "@/app/types/product/product-types";
 import { FaPlus, FaTrashAlt } from "react-icons/fa";
@@ -29,12 +29,19 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   removeFromCart,
   bookFormats,
 }) => {
-
   const [selectedFormat, setSelectedFormat] = useState<string>(
     bookFormats[0]?.label || ""
   );
 
-  const [mainImage, setMainImage] = useState<string>(productsDetails.mainImage);
+  const [mainImage, setMainImage] = useState<string>(
+    productsDetails.subImage[0]
+  );
+
+  const [isZoomed, setIsZoomed] = useState<boolean>(false);
+
+  const handleMagnifyClick = () => {
+    setIsZoomed(!isZoomed);
+  };
 
   return (
     <div className="">
@@ -50,6 +57,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
                 height={100}
                 alt={`Product sub-image ${index + 1}`}
                 onMouseEnter={() => setMainImage(image)}
+                onClick={() => setMainImage(image)}
                 className="cursor-pointer"
               />
             ))}
@@ -58,27 +66,31 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
           {/* Main Image */}
           <div className="relative md:w-[80%] flex flex-col items-end 3xl:items-center">
             <Image
-              src={productsDetails.mainImage}
+              src={mainImage}
               width={400}
               height={600}
               alt="Product Image"
-              className="w-full md:w-[80%] lg:w-[90%] xl:w-[80%] 3xl:w-[60%]"
+              className={`w-full md:w-[80%] lg:w-[90%] mr-4 xl:w-[80%] 3xl:w-[60%] ${
+                isZoomed ? "scale-150" : ""
+              }`}
             />
-            {isFav ? (
-              <>
-                <FaHeart
-                  className="absolute z-40 top-0 -right-4 lg:right-10 cursor-pointer text-secondary text-xl"
-                  onClick={toggleFav}
-                />
-              </>
-            ) : (
-              <>
-                <FaRegHeart
-                  className="absolute z-40 top-0 -right-4 lg:right-10 cursor-pointer text-secondary text-xl"
-                  onClick={toggleFav}
-                />
-              </>
-            )}
+            <div className="absolute z-40 top-0 -right-4 ">
+              {isFav ? (
+                <>
+                  <FaHeart
+                    className="cursor-pointer text-secondary text-xl"
+                    onClick={toggleFav}
+                  />
+                </>
+              ) : (
+                <>
+                  <FaRegHeart
+                    className="cursor-pointer text-secondary text-xl"
+                    onClick={toggleFav}
+                  />
+                </>
+              )}
+            </div>
           </div>
         </div>
 
@@ -138,7 +150,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
           {/* Add to Cart */}
           {cartItem ? (
             <div className="flex bg-secondary w-fit px-4 py-2 rounded-full items-center gap-4 my-3">
-               <button
+              <button
                 onClick={() => incrementQuantity(productsDetails.id)}
                 className="text-white text-sm font-medium "
               >
@@ -157,7 +169,6 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
                   <FaTrashAlt />
                 </button>
               ) : null}
-            
             </div>
           ) : (
             <button

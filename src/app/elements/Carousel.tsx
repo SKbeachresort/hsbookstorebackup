@@ -12,7 +12,7 @@ import { Swiper as SwiperClass } from "swiper/types";
 
 interface CarouselProps {
   slides: React.ReactNode[];
-}
+};
 
 const Carousel: React.FC<CarouselProps> = ({ slides }) => {
 
@@ -40,7 +40,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
     if (swiperRef.current) {
       updateProgress(swiperRef.current);
     }
-  }, [swiperRef]);
+  }, []);
 
   const handleSlideChange = (swiper: SwiperClass) => {
     updateProgress(swiper);
@@ -51,9 +51,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
       {/* Previous Button */}
       <div
         className={`absolute top-[34%] z-40 -left-[2%] custom-prev bg-white border-2 border-textgray shadow-xl rounded-full p-4 ${
-          isAtStart
-            ? "opacity-0"
-            : "opacity-100 cursor-pointer"
+          isAtStart ? "opacity-0" : "opacity-100 cursor-pointer"
         }`}
         onClick={() => swiperRef.current?.slidePrev()}
       >
@@ -63,9 +61,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
       {/* Next Button */}
       <div
         className={`absolute top-[34%] z-40 right-0 custom-next bg-white border-2 border-textgray shadow-lg rounded-full p-4 ${
-          isAtEnd
-            ? "opacity-0"
-            : "opacity-100 cursor-pointer"
+          isAtEnd ? "opacity-0" : "opacity-100 cursor-pointer"
         }`}
         onClick={() => swiperRef.current?.slideNext()}
       >
@@ -76,21 +72,17 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
         }}
+        onSlideChange={handleSlideChange}
         pagination={false}
         autoplay={false}
         loop={false}
+        modules={[Pagination, Autoplay, Navigation]}
         breakpoints={{
           1: { slidesPerView: 2, slidesPerGroup: 2 },
           640: { slidesPerView: 2, slidesPerGroup: 2 },
           768: { slidesPerView: 4, slidesPerGroup: 4 },
           1024: { slidesPerView: 6, slidesPerGroup: 6 },
         }}
-        navigation={{
-          prevEl: ".custom-prev",
-          nextEl: ".custom-next",
-        }}
-        onSlideChange={handleSlideChange}
-        modules={[Autoplay, Navigation]}
         className="mySwiper my-4 mx-4"
       >
         {slides.map((slide, index) => (
