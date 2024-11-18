@@ -33,7 +33,7 @@ const NewReleaseSection: React.FC<NewReleaseSectionProps> = ({
             src={productsDetails.mainImage}
             width={100}
             height={100}
-            className="w-full"
+            className="md:w-full"
             alt={productsDetails.name}
           />
         </div>

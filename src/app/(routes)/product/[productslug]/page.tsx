@@ -9,6 +9,11 @@ import AdditionalContents from "@/app/components/ProductPage/AdditionalContents"
 import SavingsPackage from "@/app/components/ProductPage/SavingsPackage";
 import CustomerReviewsRatings from "@/app/components/ProductPage/CustomerReviewsRatings";
 import AddToCartWidjet from "@/app/components/ProductPage/AddToCartWidjet";
+import { BestSellers } from "@/app/components/ProductPage/BestSellers";
+import { RecentlyViewed } from "@/app/components/ProductPage/RecentlyViewed";
+import { MoreItemsToExplore } from "@/app/components/ProductPage/MoreItemsToExplore";
+import { PeopleWhoBoughtThis } from "@/app/components/ProductPage/PeopleWhoBoughtThis";
+import { Recommended } from "@/app/components/ProductPage/Recommended";
 import AnimateOnScroll from "@/app/components/Animated/AnimateOnScroll";
 
 const bookFormats = [
@@ -90,7 +95,7 @@ const ProductDetailPage = () => {
       />
 
       {/* Sub Section */}
-      <div className="relative flex flex-row justify-between my-3">
+      <div className="md:relative flex flex-row justify-between my-3">
         <div className="md:w-[63%] ">
           {/* New Release Section */}
           <NewReleaseSection productsDetails={productsDetails} />
@@ -100,6 +105,12 @@ const ProductDetailPage = () => {
 
           {/* Saving Packages */}
           <SavingsPackage />
+
+          {/* People who bought this */}
+          <PeopleWhoBoughtThis />
+
+          {/* Recommended */}
+          <Recommended />
 
           {/* Customer Reviews & Ratings */}
           <CustomerReviewsRatings />
@@ -118,6 +129,17 @@ const ProductDetailPage = () => {
             </AnimateOnScroll>
           </div>
         </div>
+      </div>
+
+      <div>
+        {/* Best Sellers */}
+        <BestSellers />
+
+        {/* Recently Viewed */}
+        <RecentlyViewed />
+
+        {/* More Items to Explore */}
+        <MoreItemsToExplore />
       </div>
     </div>
   );

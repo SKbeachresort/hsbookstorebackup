@@ -71,15 +71,14 @@ const SavingsPackage: React.FC = () => {
       <h2 className="text-xl font-semibold my-4">Savings Package</h2>
 
       <div className="flex flex-col xl:flex-row items-center md:items-start xl:items-center  xl:gap-10">
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-2 md:gap-4">
           {products.map((product) => (
             <div
               key={product.id}
               onClick={() => toggleSelection(product.id)}
-              className="flex flex-col md:flex-row justify-start items-start gap-2 md:gap-3 rounded-md p-2 md:p-4 w-28 md:w-44 cursor-pointer"
+              className="flex flex-col md:flex-row justify-between md:justify-start items-start gap-2 md:gap-3 rounded-md p-2 md:p-4 w-24 md:w-44 cursor-pointer"
             >
               <button
-               
                 className="mb-2 text-md md:text-xl"
               >
                 {product.selected ? <FaCheckSquare className="text-secondary"/> : <FaRegSquare className="text-secondary"/>}
@@ -90,9 +89,9 @@ const SavingsPackage: React.FC = () => {
                   alt={product.name}
                   width={100}
                   height={150}
-                  className="w-full mb-2"
+                  className="w-[100%] md:w-full mb-2"
                 />
-                <p className="text-justify text-xs font-normal">
+                <p className="text-justify text-[0.6rem] md:text-xs font-normal">
                   {product.name}
                 </p>
               </div>
