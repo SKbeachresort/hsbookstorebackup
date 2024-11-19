@@ -8,7 +8,7 @@ import CreateAccount from "../Authentication/CreateAccount";
 interface CheckOutWidgetProps {
   totalAmount: number;
   cartItems: any[];
-}
+};
 
 export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   totalAmount,

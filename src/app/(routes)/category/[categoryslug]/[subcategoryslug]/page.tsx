@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { ProductCard } from "@/app/components/ProductCard/ProductCard";
 import { products } from "@/app/data/Products";
 import { capitalizeWords } from "@/app/utils/Capitalize";
+import SortDropdown from "@/app/components/CategoryPage/SortDropdown";
 
 const SubCategoryProducts = () => {
   const { categoryslug, subcategoryslug } = useParams();
@@ -14,6 +15,10 @@ const SubCategoryProducts = () => {
   const formattedSubCategorySlug =
     typeof subcategoryslug === "string" ? capitalizeWords(subcategoryslug) : "";
 
+  const handleSortSelect = (selectedOption: string) => {
+    console.log("Selected sort option:", selectedOption);
+  };
+
   return (
     <div className="w-[100%] py-2 px-5 h-full">
       <div>
@@ -23,10 +28,15 @@ const SubCategoryProducts = () => {
       </div>
 
       <div className="">
-        <h1 className="text-xl my-4 font-medium">
-          Explore {formattedSubCategorySlug}
-        </h1>
-        <div className="px-2 gap-x-4 md:gap-x-10 gap-y-10 flex flex-row items-center flex-wrap justify-between md:justify-center overflow-x-scroll">
+        
+        <div className="flex items-center justify-between my-5">
+          <h1 className="text-lg font-medium ">
+            Explore {formattedSubCategorySlug}
+          </h1>
+          <SortDropdown onSelect={handleSortSelect} />
+        </div>
+
+        <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
           {products.map((product, index) => (
             <ProductCard
               key={index}
