@@ -7,6 +7,10 @@ import { products } from "@/app/data/Products";
 import { CheckOutWidget } from "@/app/components/Cart/CheckOutWidget";
 import DeliveryAddressCard from "@/app/components/Cart/DeliveryAddressCard";
 import CartItemUI from "@/app/components/Cart/CartItemUI";
+import { PeopleWhoBoughtThis } from "@/app/components/ProductPage/PeopleWhoBoughtThis";
+import { MoreItemsToExplore } from "@/app/components/ProductPage/MoreItemsToExplore";
+import { Recommended } from "@/app/components/ProductPage/Recommended";
+import { RecentlyViewed } from "@/app/components/ProductPage/RecentlyViewed";
 
 const CartPage = () => {
   const { cartItems, incrementQuantity, decrementQuantity,removeFromCart } = useCart();
@@ -29,7 +33,7 @@ const CartPage = () => {
           </h1>
 
           <div className="relative h-auto flex-col flex md:flex-row justify-between ">
-            <div className="md:w-[67%] py-5">
+            <div className="md:w-[55%] lg:w-[67%] py-5">
               {/* Delivery Address */}
               <DeliveryAddressCard />
 
@@ -45,10 +49,20 @@ const CartPage = () => {
                   />
                 ))}
               </div>
+
+              {/* People who bought */}
+              <PeopleWhoBoughtThis />
+
+              {/* Recommended */}
+              <Recommended />
+
             </div>
-            <div className="md:w-[30%] h-auto">
+            <div className="md:w-[40%] lg:w-[30%] h-auto">
               <div className="sticky top-10 py-5 z-40">
-              <CheckOutWidget totalAmount={totalAmount} cartItems={cartItems} />
+                <CheckOutWidget 
+                  totalAmount={totalAmount} 
+                  cartItems={cartItems} 
+                />
               </div>
               
             </div>
