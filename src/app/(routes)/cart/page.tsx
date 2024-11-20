@@ -13,6 +13,7 @@ import { Recommended } from "@/app/components/ProductPage/Recommended";
 import { RecentlyViewed } from "@/app/components/ProductPage/RecentlyViewed";
 
 const CartPage = () => {
+  
   const { cartItems, incrementQuantity, decrementQuantity,removeFromCart } = useCart();
 
   const totalAmount = cartItems.reduce(

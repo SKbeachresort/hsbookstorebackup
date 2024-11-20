@@ -73,7 +73,7 @@ export const Footer = () => {
           <h3 className="font-semibold text-md text-secondary mt-4 mb-2">
             Follow Us
           </h3>
-          <div className="flex space-x-3 ">
+          <div className="flex space-x-3 text-md">
             <FaFacebookF className="cursor-pointer icon-style" />
             <FaTwitter className="cursor-pointer icon-style" />
             <FaInstagram className="cursor-pointer icon-style" />

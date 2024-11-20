@@ -3,6 +3,7 @@ import React from "react";
 import InputField from "@/app/elements/InputField";
 import Image from "next/image";
 import Button from "@/app/elements/Button";
+import Link from "next/link";
 
 interface CreateAccountProps {
   closeModal: () => void;
@@ -27,7 +28,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ closeModal }) => {
           you.
         </p>
       </div>
-      
+
       <InputField
         label="Email Address"
         type="email"
@@ -47,11 +48,13 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ closeModal }) => {
         Create an Account
       </Button>
 
-      <Button variant="secondary" onClick={() => {}}>
-        Guest Checkout
-      </Button>
+      <Link href="/checkout">
+        <Button variant="secondary" onClick={() => {}}>
+          Guest Checkout
+        </Button>
+      </Link>
 
-      <p className="text-xs text-gray-500 mt-4 text-center">
+      <div className="text-xs text-gray-500 mt-4 text-center">
         By Login or Signup to HSBookstore you agree with our{" "}
         <p>
           <a href="#" className="text-secondary underline">
@@ -63,7 +66,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ closeModal }) => {
           </a>
           .
         </p>
-      </p>
+      </div>
     </div>
   );
 };

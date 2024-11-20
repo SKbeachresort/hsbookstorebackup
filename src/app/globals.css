@@ -4,18 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 ::-webkit-scrollbar {
   width: 0.7vh;
 }
@@ -31,7 +19,7 @@ body {
 }
 
 .icon-style {
-  @apply text-[2.4vh] hover:scale-125 transition-all duration-300 cursor-pointer;
+  @apply hover:scale-125 transition-all duration-300 cursor-pointer;
 }
 
 .card-hover {
@@ -148,3 +136,4 @@ body {
   top: 0;
   z-index: 30;
 }
+
