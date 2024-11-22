@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
+
 import "./globals.css";
-import { Navbar } from "./components/Navbar/Navbar";
-import { Footer } from "./components/Footer/Footer";
+import { Navbar } from "@/components/Navbar/Navbar";
+import { Footer } from "@/components/Footer/Footer";
 import ClientLayout from "./ClientLayout";
-import { CartProvider } from "./context/CartContext";
+import { CartProvider } from "@/context/CartContext";
+import createApolloClient from "@/lib/apolloClient";
+import { ApolloProvider } from "@apollo/client";
+import Provider from "@/context/Provider";
 
 export const metadata: Metadata = {
   title: "HS BookStore",
@@ -24,11 +28,11 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <CartProvider>
+        <Provider>
           <Navbar />
           <ClientLayout>{children}</ClientLayout>
           <Footer />
-        </CartProvider>
+        </Provider>
       </body>
     </html>
   );

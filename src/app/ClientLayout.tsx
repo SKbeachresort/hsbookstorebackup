@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { SubCategorySidebar } from "./components/CategoryPage/SubCategorySidebar";
+import { SubCategorySidebar } from "@/components/CategoryPage/SubCategorySidebar";
 import { usePathname } from "next/navigation";
-import { CartProvider } from "./context/CartContext";
+import { CartProvider } from "@/context/CartContext";
 import toast, { Toaster } from "react-hot-toast";
 import 'aos/dist/aos.css'
 import AOS from 'aos';

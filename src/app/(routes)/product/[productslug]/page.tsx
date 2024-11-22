@@ -1,20 +1,20 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
-import { useCart } from "@/app/context/CartContext";
+import { useCart } from "@/context/CartContext";
 import toast from "react-hot-toast";
-import ProductMainSection from "@/app/components/ProductPage/ProductMainSection";
-import NewReleaseSection from "@/app/components/ProductPage/NewReleaseSection";
-import AdditionalContents from "@/app/components/ProductPage/AdditionalContents";
-import SavingsPackage from "@/app/components/ProductPage/SavingsPackage";
-import CustomerReviewsRatings from "@/app/components/ProductPage/CustomerReviewsRatings";
-import AddToCartWidjet from "@/app/components/ProductPage/AddToCartWidjet";
-import { BestSellers } from "@/app/components/ProductPage/BestSellers";
-import { RecentlyViewed } from "@/app/components/ProductPage/RecentlyViewed";
-import { MoreItemsToExplore } from "@/app/components/ProductPage/MoreItemsToExplore";
-import { PeopleWhoBoughtThis } from "@/app/components/ProductPage/PeopleWhoBoughtThis";
-import { Recommended } from "@/app/components/ProductPage/Recommended";
-import AnimateOnScroll from "@/app/components/Animated/AnimateOnScroll";
+import ProductMainSection from "@/components/ProductPage/ProductMainSection";
+import NewReleaseSection from "@/components/ProductPage/NewReleaseSection";
+import AdditionalContents from "@/components/ProductPage/AdditionalContents";
+import SavingsPackage from "@/components/ProductPage/SavingsPackage";
+import CustomerReviewsRatings from "@/components/ProductPage/CustomerReviewsRatings";
+import AddToCartWidjet from "@/components/ProductPage/AddToCartWidjet";
+import { BestSellers } from "@/components/ProductPage/BestSellers";
+import { RecentlyViewed } from "@/components/ProductPage/RecentlyViewed";
+import { MoreItemsToExplore } from "@/components/ProductPage/MoreItemsToExplore";
+import { PeopleWhoBoughtThis } from "@/components/ProductPage/PeopleWhoBoughtThis";
+import { Recommended } from "@/components/ProductPage/Recommended";
+import AnimateOnScroll from "@/components/Animated/AnimateOnScroll";
 
 const bookFormats = [
   { label: "Hardcover", price: 3990, currency: "KWD" },

@@ -1,0 +1,63 @@
+overwrite: true
+schema: https://uat.arabanah.com/api
+documents: "graphql/**/*.{ts,graphql}"
+generates:
+  gql/graphql.tsx:
+    plugins:
+      - add:
+          content: |-
+            import "graphql/language/ast";
+            import * as Scalar from '../scalars';
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+      - "typescript-apollo-client-helpers"
+    config:
+      withHooks: true
+      scalars:
+        Date: "string"
+        DateTime: "string"
+        Day: "number"
+        Decimal: "number"
+        GenericScalar: "unknown"
+        JSON: "unknown"
+        JSONString: "string"
+        Metadata: "Record<string, string>"
+        Minute: "number"
+        PositiveDecimal: "number"
+        UUID: "string"
+        Upload: "unknown"
+        WeightScalar: "unknown"
+        _Any: "unknown"
+  gql/graphql-documents.tsx:
+    plugins:
+      - add:
+          content: |-
+            import "graphql/language/ast";
+            import * as Scalar from '../scalars';
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-apollo-client-helpers"
+      - "typed-document-node"
+    config:
+      documentMode: "string"
+      scalars:
+        Date: "string"
+        DateTime: "string"
+        Day: "number"
+        Decimal: "number"
+        GenericScalar: "unknown"
+        JSON: "unknown"
+        JSONString: "string"
+        Metadata: "Record<string, string>"
+        Minute: "number"
+        PositiveDecimal: "number"
+        UUID: "string"
+        Upload: "unknown"
+        WeightScalar: "unknown"
+        _Any: "unknown"
+      dedupeOperationSuffix: true # Prevent suffix duplication in generated names
+      enumsAsTypes: true
+  ./graphql.schema.json:
+    plugins:
+      - introspection

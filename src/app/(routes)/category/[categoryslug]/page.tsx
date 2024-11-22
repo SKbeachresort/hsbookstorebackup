@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import { useParams } from "next/navigation";
-import { ProductCard } from "@/app/components/ProductCard/ProductCard";
-import { products } from "@/app/data/Products";
-import { capitalizeWords } from "@/app/utils/Capitalize";
-import SortDropdown from "@/app/components/CategoryPage/SortDropdown";
+import { ProductCard } from "@/components/ProductCard/ProductCard";
+import { products } from "@/data/Products";
+import { capitalizeWords } from "@/utils/Capitalize";
+import SortDropdown from "@/components/CategoryPage/SortDropdown";
 
 const CategoryPage = () => {
   const { categoryslug } = useParams();

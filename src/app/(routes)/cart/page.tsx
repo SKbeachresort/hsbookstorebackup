@@ -2,15 +2,15 @@
 import React, { useState, useEffect } from "react";
 import { FiTruck } from "react-icons/fi";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { useCart } from "@/app/context/CartContext";
-import { products } from "@/app/data/Products";
-import { CheckOutWidget } from "@/app/components/Cart/CheckOutWidget";
-import DeliveryAddressCard from "@/app/components/Cart/DeliveryAddressCard";
-import CartItemUI from "@/app/components/Cart/CartItemUI";
-import { PeopleWhoBoughtThis } from "@/app/components/ProductPage/PeopleWhoBoughtThis";
-import { MoreItemsToExplore } from "@/app/components/ProductPage/MoreItemsToExplore";
-import { Recommended } from "@/app/components/ProductPage/Recommended";
-import { RecentlyViewed } from "@/app/components/ProductPage/RecentlyViewed";
+import { useCart } from "@/context/CartContext";
+import { products } from "@/data/Products";
+import { CheckOutWidget } from "@/components/Cart/CheckOutWidget";
+import DeliveryAddressCard from "@/components/Cart/DeliveryAddressCard";
+import CartItemUI from "@/components/Cart/CartItemUI";
+import { PeopleWhoBoughtThis } from "@/components/ProductPage/PeopleWhoBoughtThis";
+import { MoreItemsToExplore } from "@/components/ProductPage/MoreItemsToExplore";
+import { Recommended } from "@/components/ProductPage/Recommended";
+import { RecentlyViewed } from "@/components/ProductPage/RecentlyViewed";
 
 const CartPage = () => {
   

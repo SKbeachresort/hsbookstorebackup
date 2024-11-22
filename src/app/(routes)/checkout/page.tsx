@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import CheckOutStepper from "@/app/components/Checkout/CheckOutStepper";
-import ShippingBillingsDetails from "@/app/components/Checkout/ShippingBillingsDetails";
-import { ReviewOrder } from "@/app/components/Checkout/ReviewOrder";
-import { SelectPaymentMethod } from "@/app/components/Checkout/SelectPaymentMethod";
-import { OrderPlacedStatus } from "@/app/components/Checkout/OrderPlacedStatus";
-import { PlaceOrderWidget } from "@/app/components/Checkout/PlaceOrderWidget";
-import { useCart } from "@/app/context/CartContext";
+import CheckOutStepper from "@/components/Checkout/CheckOutStepper";
+import ShippingBillingsDetails from "@/components/Checkout/ShippingBillingsDetails";
+import { ReviewOrder } from "@/components/Checkout/ReviewOrder";
+import { SelectPaymentMethod } from "@/components/Checkout/SelectPaymentMethod";
+import { OrderPlacedStatus } from "@/components/Checkout/OrderPlacedStatus";
+import { PlaceOrderWidget } from "@/components/Checkout/PlaceOrderWidget";
+import { useCart } from "@/context/CartContext";
 import { totalmem } from "os";
 
 const Checkout = () => {

@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { useParams } from "next/navigation";
-import { ProductCard } from "@/app/components/ProductCard/ProductCard";
-import { products } from "@/app/data/Products";
-import { capitalizeWords } from "@/app/utils/Capitalize";
+import { ProductCard } from "@/components/ProductCard/ProductCard";
+import { products } from "@/data/Products";
+import { capitalizeWords } from "@/utils/Capitalize";
 
 const NestedSubCategory = () => {
   const { categoryslug, subcategoryslug, topicslug } = useParams();

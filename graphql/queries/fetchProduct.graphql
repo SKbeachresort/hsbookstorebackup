@@ -1,0 +1,21 @@
+query fetchProducts {
+  products(channel: "default-channel", first: 10) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+    edges {
+      node {
+        id
+        description
+        media {
+          url
+          productId
+        }
+        name
+        rating
+        slug
+      }
+    }
+  }
+}
