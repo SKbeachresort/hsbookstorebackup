@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
-import { useFetchProductsQuery } from "../../../../gql/graphql";
+import { useFetchProductsQuery } from "../../../../../../gql/graphql";
+import { serverTranslation } from "@/app/i18n"
 
 const TestRoute = () => {
   const { data, loading, error } = useFetchProductsQuery();

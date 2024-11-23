@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import InputField from "@/elements/InputField";
+import InputField from "@/app/elements/InputField";
 import Image from "next/image";
-import Button from "@/elements/Button";
+import Button from "@/app/elements/Button";
 import Link from "next/link";
 
 interface CreateAccountProps {

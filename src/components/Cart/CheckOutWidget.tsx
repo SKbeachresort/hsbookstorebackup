@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import Modal from "@/elements/Modal";
-import Loader from "@/elements/Loader";
+import Modal from "@/app/elements/Modal";
+import Loader from "@/app/elements/Loader";
 import CreateAccount from "../Authentication/CreateAccount";
 
 

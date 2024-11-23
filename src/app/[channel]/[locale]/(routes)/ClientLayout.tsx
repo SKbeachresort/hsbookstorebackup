@@ -19,7 +19,7 @@ export default function ClientLayout({
 
   useEffect(() => {
     setIsClient(true);
-    setIsCategory(currentPath.startsWith("/category"));
+    setIsCategory(currentPath.includes("/category"));
     AOS.init({
       duration: 1000,
       once: false,      

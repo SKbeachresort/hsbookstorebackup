@@ -2,7 +2,7 @@
 import React, { useState, useRef } from "react";
 import { ProductCard } from "../ProductCard/ProductCard";
 import { products } from "@/data/Products";
-import MiniCarousel from "@/elements/MiniCarousel";
+import MiniCarousel from "@/app/elements/MiniCarousel";
 import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
 
 // Import Swiper styles

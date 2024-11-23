@@ -1,5 +1,5 @@
 import React from 'react';
-import Accordion from '@/elements/Accordion';
+import Accordion from '@/app/elements/Accordion';
 
 interface AccordionItem {
   title: string;

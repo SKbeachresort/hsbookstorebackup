@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FaHeart, FaRegHeart, FaCircle } from "react-icons/fa";
 import Image from "next/image";
 import { Product, BookFormat } from "@/types/product/product-types";
-import AccordionProductDetail from "@/elements/AccordianProductDetail";
+import AccordionProductDetail from "@/app/elements/AccordianProductDetail";
 
 interface AdditionalContentsProps {
   productsDetails: Product;

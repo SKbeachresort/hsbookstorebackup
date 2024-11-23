@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { useCart } from "@/context/CartContext";
-import InputField from "@/elements/InputField";
-import Button from "@/elements/Button";
+import InputField from "@/app/elements/InputField";
+import Button from "@/app/elements/Button";
 
 interface ShippingDetailsProps {
   onNext: () => void;

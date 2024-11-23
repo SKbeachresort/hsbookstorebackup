@@ -16,7 +16,7 @@ interface ProductDetailsProps {
   incrementQuantity: (id: number) => void;
   removeFromCart?: (id: number) => void;
   bookFormats: BookFormat[];
-}
+};
 
 const ProductMainSection: React.FC<ProductDetailsProps> = ({
   productsDetails,

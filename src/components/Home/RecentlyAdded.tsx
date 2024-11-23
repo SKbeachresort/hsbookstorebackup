@@ -3,7 +3,7 @@ import React from "react";
 import { ProductCard } from "../ProductCard/ProductCard";
 import { products } from "@/data/Products";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Carousel from "@/elements/Carousel";
+import Carousel from "@/app/elements/Carousel";
 
 export const RecentlyAdded = () => {
   return (

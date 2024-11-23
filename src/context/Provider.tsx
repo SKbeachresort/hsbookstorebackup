@@ -11,10 +11,14 @@ import { deleteCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CartProvider } from "./CartContext";
+import { localeToEnum } from "@/lib/regions";
+import RegionsProvider from "./RegionProviders";
 
 interface ProviderProps {
   children: React.ReactNode;
-}
+  locale:string;
+  channel:string;
+};
 
 const Provider: React.FC<ProviderProps> = ({ children }) => {
   useAuthChange({
@@ -28,7 +32,11 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
   return (
     <SaleorAuthProvider client={saleorAuthClient}>
       <ApolloProvider client={apolloClient}>
-        <CartProvider>{children}</CartProvider>
+        <CartProvider>
+          <RegionsProvider>
+            {children}
+          </RegionsProvider>
+        </CartProvider>
       </ApolloProvider>
     </SaleorAuthProvider>
   );

@@ -7,12 +7,24 @@ import { HiOutlineMapPin } from "react-icons/hi2";
 import { RxHamburgerMenu } from "react-icons/rx";
 import Link from "next/link";
 import { RiSearchLine } from "react-icons/ri";
-import BackDropLoader from "@/elements/BackdropLoader";
+import BackDropLoader from "@/app/elements/BackdropLoader";
 import { CategoryList } from "../../data/Category";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useCart } from "@/context/CartContext";
 import Image from "next/image";
+import PopOverDropDown from "@/app/elements/PopOverDropDown";
+
+const menuOptions = [
+  {
+    label: "Select Language",
+    options: ["English", "Arabic"],
+  },
+  {
+    label: "Select Currency",
+    options: ["KWD", "USD"],
+  },
+];
 
 export const Navbar = () => {
   const { totalItems } = useCart();
@@ -112,19 +124,30 @@ export const Navbar = () => {
           {/* Cart, Account, Location Section */}
           <div className="flex flex-row justify-center items-center gap-x-0 md:gap-x-2 lg:gap-x-4">
             {/* Location */}
-            <div className="flex flex-row justify-center items-center gap-x-1">
-              <HiOutlineMapPin className="hidden md:block text-md text-textgray text-2xl" />
-              <div className="hidden lg:block">
-                <p className="text-xs font-medium text-textgray">
-                  Delivery & Site preference
-                </p>
-                <div className="flex text-textgray flex-row text-sm gap-x-2">
-                  <p className="text-md font-semibold">KW</p>
-                  <p className="text-md font-semibold">KWD</p>
-                  <p className="text-md font-semibold">EN</p>
+            <PopOverDropDown
+              trigger={
+                <div className="flex flex-row justify-center items-center gap-x-1">
+                  <HiOutlineMapPin className="hidden md:block text-md text-textgray text-2xl" />
+                  <div className="hidden lg:block">
+                    <p className="text-xs font-medium text-textgray">
+                      Delivery & Site preference
+                    </p>
+                    <div className="flex text-textgray flex-row text-sm gap-x-2">
+                      <p className="text-md font-semibold">KW</p>
+                      <p className="text-md font-semibold">KWD</p>
+                      <p className="text-md font-semibold">EN</p>
+                    </div>
+                  </div>
                 </div>
+              }
+            >
+              <div className="flex flex-col gap-y-2 p-2 ">
+                <select name="" id="" className="border-[1px] border-borderColor p-1">
+                  <option value="">Kuwait</option>
+                  <option value="">USA-USD</option>
+                </select>
               </div>
-            </div>
+            </PopOverDropDown>
 
             {/* Auth Login */}
             <Link href="/auth/login">

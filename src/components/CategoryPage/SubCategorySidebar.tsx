@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import { useParams } from "next/navigation";
 import { CategoryList, Category, Subcategory } from "@/data/Category";
-import Accordion from "@/elements/Accordion"; 
+import Accordion from "@/app/elements/Accordion"; 
 import Link from "next/link";
 
 const renderNestedAccordion = (subcategories: (string | Subcategory)[], parentSlug: string,) => {

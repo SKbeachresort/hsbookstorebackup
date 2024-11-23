@@ -7,10 +7,14 @@ import { HomeDermatologySection } from "@/components/Home/HomeDermatologySection
 import { ProductsRecommendations } from "@/components/Home/ProductsRecommendations";
 import { RecentlyAdded } from "@/components/Home/RecentlyAdded";
 import { VisitOurBlogSection } from "@/components/Home/VisitOurBlogSection";
+import { serverTranslation } from "@/app/i18n";
 
 export default function Home() {
+
   return (
     <div className="w-[95%] xl:w-[75%] 3xl:w-full mx-auto sm:px-10 lg:px-12">
+
+
       <HomeSlider />
       <HomeCategory />
       <RecentlyAdded />
