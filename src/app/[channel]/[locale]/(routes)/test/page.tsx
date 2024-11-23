@@ -14,7 +14,7 @@ const TestRoute = () => {
 
   if (!products) {
     return <p className="text-center text-lg">No products found</p>;
-  }
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-4">

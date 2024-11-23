@@ -9,6 +9,6 @@ export default middlewareChain([
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|html|assets|favicon.ico|sw.ts).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|sw.ts).*)",
   ],
-}
+};

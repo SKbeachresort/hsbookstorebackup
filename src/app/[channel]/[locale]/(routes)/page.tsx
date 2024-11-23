@@ -13,8 +13,6 @@ export default function Home() {
 
   return (
     <div className="w-[95%] xl:w-[75%] 3xl:w-full mx-auto sm:px-10 lg:px-12">
-
-
       <HomeSlider />
       <HomeCategory />
       <RecentlyAdded />
