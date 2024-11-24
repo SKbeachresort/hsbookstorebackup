@@ -48,7 +48,7 @@ export default function RootLayout({
       <body>
         <Provider locale={locale} channel={channel}>
           <Navbar />
-          <ClientLayout>{children}</ClientLayout>
+            <ClientLayout>{children}</ClientLayout>
           <Footer />
         </Provider>
       </body>
