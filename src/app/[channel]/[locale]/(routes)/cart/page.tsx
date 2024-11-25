@@ -17,7 +17,7 @@ const CartPage = () => {
   const { cartItems, incrementQuantity, decrementQuantity,removeFromCart } = useCart();
 
   const totalAmount = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + (item.price ?? 0) * item.quantity,
     0
   );
 

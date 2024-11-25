@@ -9,8 +9,8 @@ interface CartItemProps {
     id: string;
     mainImage: string;
     name: string;
-    currency: string;
-    price: number;
+    currency?: string;
+    price?: number;
     quantity: number;
   };
   incrementQuantity: (id: string) => void;
@@ -52,7 +52,7 @@ const CartItemUI: React.FC<CartItemProps> = ({
 
         <div className="lg:w-[20%]">
           <p className="text-lg font-semibold my-2">
-            {item.currency} {item.price.toFixed(3)}
+            {item.currency} {(item.price ?? 0) .toFixed(3)}
           </p>
           <div className="flex px-2 gap-x-4 py-1 items-center border-[1px] border-borderColor rounded-full justify-between ">
             <button
