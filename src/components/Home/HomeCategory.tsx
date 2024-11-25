@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image,{StaticImageData} from "next/image";
 import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
 
-
 // Static Images
 import medicalbooks from "../../../public/category/medicalbooks.png";
 import medicaldevices from "../../../public/category/medicaldevices.png";
