@@ -6,6 +6,11 @@ import Image from "next/image";
 import { Product, BookFormat } from "@/types/product/product-types";
 import { FaPlus, FaTrashAlt } from "react-icons/fa";
 
+// Static Images
+import book from "../../../public/products/book.png";
+import book2 from "../../../public/products/book2.png";
+import book3 from "../../../public/products/book3.png";
+
 interface ProductDetailsProps {
   productsDetails: Product;
   isFav: boolean;
@@ -33,9 +38,11 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     bookFormats[0]?.label || ""
   );
 
-  // const [mainImage, setMainImage] = useState<string>(
-  //   productsDetails.subImage[0]
-  // );
+  const subImages = [
+    {image: book},
+    {image: book2},
+    {image: book3},
+  ]
 
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
 
@@ -49,10 +56,10 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
         <div className="flex p-2 flex-col-reverse md:flex-row justify-between md:w-[60%] 3xl:w-[75%] gap-2">
           {/* Sub Images */}
           <div className="flex flex-row my-3 md:my-0 md:flex-col gap-4 w-[20%]">
-            {productsDetails.subImage.map((image, index) => (
+            {subImages.map((image, index) => (
               <Image
                 key={index}
-                src={image}
+                src={image.image}
                 width={100}
                 height={100}
                 alt={`Product sub-image ${index + 1}`}

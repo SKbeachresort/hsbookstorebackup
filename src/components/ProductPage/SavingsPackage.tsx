@@ -1,16 +1,20 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { useCart } from "@/context/CartContext";
 import { FaCheckSquare, FaRegSquare } from "react-icons/fa";
 import toast from "react-hot-toast";
+
+import book from "../../../public/products/book.png";
+import book2 from "../../../public/products/book2.png";
+import book3 from "../../../public/products/book3.png";
 
 interface Product {
   id: string;
   name: string;
   price: number;
   currency: string;
-  mainImage: string;
+  mainImage: StaticImageData;
   selected: boolean;
 }
 
@@ -20,7 +24,7 @@ const productsData: Product[] = [
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     price: 18.0,
     currency: "KWD",
-    mainImage: "/products/book.png",
+    mainImage: book,
     selected: true,
   },
   {
@@ -28,7 +32,7 @@ const productsData: Product[] = [
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     price: 18.0,
     currency: "KWD",
-    mainImage: "/products/book2.png",
+    mainImage: book2,
     selected: true,
   },
   {
@@ -36,7 +40,7 @@ const productsData: Product[] = [
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     price: 18.0,
     currency: "KWD",
-    mainImage: "/products/book3.png",
+    mainImage: book3,
     selected: true,
   },
 ];
@@ -49,12 +53,12 @@ const SavingsPackage: React.FC = () => {
     .filter((product) => product.selected)
     .reduce((sum, product) => sum + product.price, 0);
 
-  const handleAddToCart = () => {
-    products
-      .filter((product) => product.selected)
-      .forEach((product) => addToCart({ ...product, quantity: 1 }));
-      toast.success("Product added to cart");
-  };
+  // const handleAddToCart = () => {
+  //   products
+  //     .filter((product) => product.selected)
+  //     .forEach((product) => addToCart({ ...product, quantity: 1 }));
+  //     toast.success("Product added to cart");
+  // };
 
   const toggleSelection = (id: string) => {
     setProducts((prevProducts) =>
@@ -103,7 +107,7 @@ const SavingsPackage: React.FC = () => {
           <p className="text-2xl font-semibold my-1">Total: ${total.toFixed(2)}</p>
           <p className="text-success text-sm">You Save: $12.36 (12%)</p>
           <button
-            onClick={handleAddToCart}
+            // onClick={handleAddToCart}
             className="bg-secondary text-white rounded-full font-medium text-md px-6 py-2 mt-2"
           >
             Add to cart
