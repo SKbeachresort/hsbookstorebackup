@@ -1,10 +1,16 @@
 import { availableMemory } from "process";
+import book from "../../public/products/book.png";
+import book2 from "../../public/products/book2.png";
+import book3 from "../../public/products/book3.png";
+import pen from "../../public/products/pen.png";
+import shirt from "../../public/products/shirt.png";
+import stethoscope from "../../public/products/stethoscope.png";
 
 export const products = [
   {
     id: "1",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-    image: "/products/book.png",
+    image: book,
     currency: "KWD",
     price: 1.99,
     cuttedPrice: 2.5,
@@ -13,7 +19,7 @@ export const products = [
   {
     id:"2",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-    image: "/products/book2.png",
+    image: book2,
     currency: "KWD",
     price: 3.5,
     cuttedPrice: 4.0,
@@ -22,7 +28,7 @@ export const products = [
   {
     id:"3",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-    image: "/products/book3.png",
+    image: book3,
     currency: "KWD",
     price: 6.99,
     cuttedPrice: 8.0,
@@ -31,7 +37,7 @@ export const products = [
   {
     id:"4",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-    image: "/products/pen.png",
+    image: pen,
     currency: "KWD",
     price: 6.99,
     cuttedPrice: 8.0,
@@ -40,7 +46,7 @@ export const products = [
   {
     id:"5",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-    image: "/products/shirt.png",
+    image: shirt,
     currency: "KWD",
     price: 6.99,
     cuttedPrice: 8.0,
@@ -49,7 +55,7 @@ export const products = [
   {
     id:"6",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-    image: "/products/book2.png",
+    image: book2,
     currency: "KWD",
     price: 3.5,
     cuttedPrice: 4.0,
@@ -58,7 +64,7 @@ export const products = [
   {
     id:"7",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-    image: "/products/book3.png",
+    image: book3,
     currency: "KWD",
     price: 6.99,
     cuttedPrice: 8.0,
@@ -67,7 +73,7 @@ export const products = [
   {
     id:"8",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-    image: "/products/pen.png",
+    image: pen,
     currency: "KWD",
     price: 6.99,
     cuttedPrice: 8.0,
@@ -76,7 +82,7 @@ export const products = [
   {
     id:"9",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-    image: "/products/shirt.png",
+    image: shirt,
     currency: "KWD",
     price: 6.99,
     cuttedPrice: 8.0,
@@ -85,7 +91,7 @@ export const products = [
   {
     id:"10",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-    image: "/products/stethoscope.png",
+    image: stethoscope,
     currency: "KWD",
     price: 6.99,
     cuttedPrice: 8.0,
@@ -94,7 +100,7 @@ export const products = [
   {
     id:"11",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-    image: "/products/stethoscope.png",
+    image: stethoscope,
     currency: "KWD",
     price: 6.99,
     cuttedPrice: 8.0,
@@ -103,7 +109,7 @@ export const products = [
   {
     id:"12",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
-    image: "/products/stethoscope.png",
+    image: stethoscope,
     currency: "KWD",
     price: 6.99,
     cuttedPrice: 8.0,
@@ -116,8 +122,8 @@ export const BookProductsDetails = [
     id:"1",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders",
     Author: "Simon Sinek",
-    mainImage: "/products/book.png",
-    subImage: ["/products/book2.png", "/products/book3.png"],
+    mainImage: book,
+    subImage: [book2, book3],
     available: true,
     currency: "KWD",
     price: 6.99,
