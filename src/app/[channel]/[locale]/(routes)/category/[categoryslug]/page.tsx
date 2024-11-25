@@ -5,6 +5,7 @@ import { ProductCard } from "@/components/ProductCard/ProductCard";
 import { products } from "@/data/Products";
 import { capitalizeWords } from "@/utils/Capitalize";
 import SortDropdown from "@/components/CategoryPage/SortDropdown";
+import { useFetchProductsQuery } from "../../../../../../../gql/graphql";
 
 const CategoryPage = () => {
   const { categoryslug } = useParams();
@@ -15,7 +16,11 @@ const CategoryPage = () => {
   const handleSortSelect = (selectedOption: string) => {
     console.log("Selected sort option:", selectedOption);
   };
-  
+
+  const { data, loading, error } = useFetchProductsQuery();
+
+  const products = data?.products?.edges || [];
+
   return (
     <>
       <div className="w-[100%] px-5 pb-10 h-full">
@@ -24,19 +29,24 @@ const CategoryPage = () => {
           <SortDropdown onSelect={handleSortSelect} />
         </div>
         <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
-          {products.map((product, index) => (
-            <ProductCard
-              key={index}
-              id={product.id}
-              name={product.name}
-              image={product.image}
-              currency={product.currency}
-              currencySymbol="$"
-              price={product.price}
-              cuttedPrice={product.cuttedPrice}
-              ratings={product.ratings}
-            />
-          ))}
+          {products.map(({ node }, index) => {
+            // const slug = node.name.replace(/\s+/g, "-").toLowerCase();
+            const productImage = node.media?.[0]?.url || "/placeholder.png";
+            return (
+              <ProductCard
+                id={node.id}
+                key={index}
+                name={node.name}
+                image={productImage}
+                currency={node.pricing?.priceRangeUndiscounted?.start?.currency}
+                currencySymbol="$"
+                price={node.pricing?.priceRangeUndiscounted?.start?.net?.amount}
+                cuttedPrice={node.pricing?.discount?.net?.amount}
+                ratings={node.rating || 0}
+                navigate={node.slug}
+              />
+            );
+          })}
         </div>
       </div>
     </>

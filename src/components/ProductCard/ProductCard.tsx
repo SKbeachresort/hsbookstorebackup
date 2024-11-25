@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import StarRatings from "react-star-ratings";
 import Link from "next/link";
-import Image from "next/image";
+import Image,{StaticImageData} from "next/image";
 import AnimateOnScroll from "../Animated/AnimateOnScroll";
 import { useCart } from "@/context/CartContext";
 import { FaPlus, FaTrashAlt } from "react-icons/fa";

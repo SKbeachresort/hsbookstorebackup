@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useParams } from "next/navigation";
-import { ProductCard } from "@/components/ProductCard/ProductCard";
+import { StaticProductCard } from "@/components/ProductCard/StaticProductCard";
 import { products } from "@/data/Products";
 import { capitalizeWords } from "@/utils/Capitalize";
 

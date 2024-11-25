@@ -16,7 +16,7 @@ interface Product {
 
 const productsData: Product[] = [
   {
-    id: 1,
+    id: "1",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     price: 18.0,
     currency: "KWD",
@@ -24,7 +24,7 @@ const productsData: Product[] = [
     selected: true,
   },
   {
-    id: 2,
+    id: "2",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     price: 18.0,
     currency: "KWD",
@@ -32,7 +32,7 @@ const productsData: Product[] = [
     selected: true,
   },
   {
-    id: 3,
+    id: "3",
     name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders ...",
     price: 18.0,
     currency: "KWD",
