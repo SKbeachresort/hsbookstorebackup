@@ -1,30 +1,36 @@
 "use client";
 import React from "react";
-import Image from "next/image";
+import Image,{StaticImageData} from "next/image";
 import AnimateOnScroll from "../Animated/AnimateOnScroll";
+
+// Staic Images
+import medicaldress from "../../../public/medicaldress.png";
+import sthethoscope from "../../../public/sthethoscope.png";
+import suits from "../../../public/suits.png";
+import bottomkit from "../../../public/bottomkit.png";
 
 interface ExploreProps {
   name: string;
-  imageUrl: string;
+  imageUrl: StaticImageData;
 }
 
 export const HomeExplore = () => {
   const exploreSection: ExploreProps[] = [
     {
       name: "Blood Pressure Monitors",
-      imageUrl: "/medicaldress.png",
+      imageUrl: medicaldress,
     },
     {
       name: "Stethoscopes",
-      imageUrl: "/sthethoscope.png",
+      imageUrl: sthethoscope,
     },
     {
       name: "Suturing Kits",
-      imageUrl: "/suits.png",
+      imageUrl: suits,
     },
     {
       name: "Hydration Bottles",
-      imageUrl: "/bottomkit.png",
+      imageUrl: bottomkit,
     },
   ];
 

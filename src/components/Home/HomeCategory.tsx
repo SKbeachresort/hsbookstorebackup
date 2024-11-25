@@ -1,46 +1,54 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image,{StaticImageData} from "next/image";
 import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
+
+
+// Static Images
+import medicalbooks from "../../../public/category/medicalbooks.png";
+import medicaldevices from "../../../public/category/medicaldevices.png";
+import sthethoscope from "../../../public/category/sthethoscope.png";
+import scrubs from "../../../public/category/scrubs.png";
+import clipboards from "../../../public/category/clipboard.png";
 
 interface CategoryProps {
   id: number;
   name: string;
-  imageUrl: string;
+  imageUrl: StaticImageData;
   slug: string;
-}
+};
 
 export const HomeCategory = () => {
   const categorySection: CategoryProps[] = [
     {
       id: 1,
       name: "Shop for Books",
-      imageUrl: "/category/medicalbooks.png",
+      imageUrl: medicalbooks,
       slug: "books",
     },
     {
       id: 2,
       name: "Shop for Medical Devices",
-      imageUrl: "/category/medicaldevices.png",
+      imageUrl: medicaldevices,
       slug: "medical-devices",
     },
     {
       id: 3,
       name: "Shop for Stethoscopes",
-      imageUrl: "/category/sthethoscope.png",
+      imageUrl: sthethoscope,
       slug: "sthethoscopes",
     },
     {
       id: 4,
       name: "Shop for Scrubs",
-      imageUrl: "/category/scrubs.png",
+      imageUrl: scrubs,
       slug: "scrubs",
     },
     {
       id: 5,
       name: "Shop for Clipboards",
-      imageUrl: "/category/clipboard.png",
+      imageUrl: clipboards,
       slug: "clipboards",
     },
   ];

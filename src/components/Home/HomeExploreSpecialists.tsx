@@ -1,46 +1,56 @@
 "use client";
 import React from "react";
-import Image from "next/image";
+import Image,{StaticImageData} from "next/image";
 import AnimateOnScroll from "../Animated/AnimateOnScroll";
+
+// Static Images
+import dermatology from "../../../public/speciality/dermatology.png";
+import surgery from "../../../public/speciality/surgery.png";
+import periodtics from "../../../public/speciality/periodtics.png";
+import neurology from "../../../public/speciality/neurology.png";
+import off10 from "../../../public/speciality/10off.png";
+import medicaldevices from "../../../public/speciality/medicaldevices.png";
+import scrubstops from "../../../public/speciality/scrubstops.png";
+import usmile from "../../../public/speciality/usmile.png";
 
 interface ExploreSpecialistsProps {
   name: string;
-  imageUrl: string;
-}
+  imageUrl: StaticImageData;
+};
 
 export const HomeExploreSpecialists = () => {
   const exploreSpecialists: ExploreSpecialistsProps[] = [
     {
       name: "Dermatology",
-      imageUrl: "/speciality/dermatology.png",
+      imageUrl: dermatology,
     },
     {
       name: "Surgery",
-      imageUrl: "/speciality/surgery.png",
+      imageUrl: surgery,
     },
     {
       name: "Pediatrics",
-      imageUrl: "/speciality/periodtics.png",
+      imageUrl: periodtics,
     },
     {
       name: "Neurology",
-      imageUrl: "/speciality/neurology.png",
+      imageUrl: neurology,
     },
     {
       name: "10% Off",
-      imageUrl: "/speciality/10off.png",
+      imageUrl: off10,
     },
     {
       name: "Medical Devices",
-      imageUrl: "/speciality/medicaldevices.png",
+      imageUrl: medicaldevices,
     },
     {
       name: "Scrubs and Tops",
-      imageUrl: "/speciality/scrubstops.png",
+      imageUrl: scrubstops,
     },
     {
       name: "USMILE Step 1",
-      imageUrl: "/speciality/usmile.png",
+      imageUrl: usmile,
     },
   ];
 

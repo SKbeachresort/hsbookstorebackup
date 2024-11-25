@@ -6,16 +6,21 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 
-import Image from "next/image";
+import Image,{StaticImageData} from "next/image";
 
 // Import modules
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import FadeIn from "../Animated/FadeIn";
 
+// Static Images
+import slider1 from "../../../public/slider1.png";
+import slider2 from "../../../public/slider2.png";
+import slider3 from "../../../public/slider3.png";
+
 const carouselItems = [
-  { id: 1, imageUrl: "/slider1.png" },
-  { id: 2, imageUrl: "/slider2.png" },
-  { id: 3, imageUrl: "/slider3.png" },
+  { id: 1, imageUrl: slider1 },
+  { id: 2, imageUrl: slider2 },
+  { id: 3, imageUrl: slider3 },
 ];
 
 export const HomeSlider = () => {

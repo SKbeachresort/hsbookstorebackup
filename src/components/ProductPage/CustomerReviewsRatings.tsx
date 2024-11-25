@@ -5,6 +5,8 @@ import StarRatings from "react-star-ratings";
 import { Reviews } from "@/data/Reviews";
 import Image from "next/image";
 
+import useravatar from "../../../public/useravatar.png";
+
 const ratings = [
   { label: "5 star", value: 62 },
   { label: "4 star", value: 22 },
@@ -66,7 +68,7 @@ const CustomerReviewsRatings = () => {
         <div key={review.id} className="pt-4 mb-4">
           <div className="flex items-center">
             <Image
-              src="/useravatar.png"
+              src={useravatar}
               alt="User avatar"
               width={40}
               height={40}

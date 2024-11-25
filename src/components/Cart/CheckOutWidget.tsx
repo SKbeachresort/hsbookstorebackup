@@ -44,7 +44,7 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
           </div>
           <div className="flex justify-between my-2">
             <span className="text-xstext-textgray">Shipping</span>
-            <span className="text-secondary text-xs">Free</span>
+            <span className="text-green-600 font-semibold text-xs">Free</span>
           </div>
           <div className="flex justify-between mb-2">
             <span className="text-xs">Taxes</span>

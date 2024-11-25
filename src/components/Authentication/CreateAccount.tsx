@@ -2,6 +2,7 @@
 import React from "react";
 import InputField from "@/app/elements/InputField";
 import Image from "next/image";
+import HSlogo from "../../../public/HSlogo.png";
 import Button from "@/app/elements/Button";
 import Link from "next/link";
 
@@ -19,7 +20,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ closeModal }) => {
         ✕
       </button>
       <div className="flex flex-col items-center mb-4">
-        <Image src="/HSlogo.png" alt="HS Logo" width={40} height={40} />
+        <Image src={HSlogo} alt="HS Logo" width={40} height={40} />
         <h2 className="text-md font-semibold my-2">
           Sign in or create your account
         </h2>

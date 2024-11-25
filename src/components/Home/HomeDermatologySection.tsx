@@ -1,12 +1,14 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import dermatologybook from "../../../public/dermatologybook.png";
+import dermatologybookMob from "../../../public/dermatologybookMob.png";
 
 export const HomeDermatologySection = () => {
   return (
     <div className="my-5">
       <Image
-        src="/dermatologybook.png"
+        src={dermatologybook}
         width={1920}
         height={1080}
         alt="dermartology-sectionImg"
@@ -26,7 +28,7 @@ export const HomeDermatologySection = () => {
         </button>
 
         <Image
-          src="/dermatologybookMob.png"
+          src={dermatologybookMob}
           alt="hero-sectionImg"
           width={400}
           height={400}

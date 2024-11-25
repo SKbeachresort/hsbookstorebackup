@@ -12,8 +12,11 @@ import { CategoryList } from "../../data/Category";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useCart } from "@/context/CartContext";
-import Image from "next/image";
+import Image,{StaticImageData} from "next/image";
 import PopOverDropDown from "@/app/elements/PopOverDropDown";
+
+import HSlogo from "../../../public/HSlogo.png";
+import logo from "../../../public/logo.png";
 
 const menuOptions = [
   {
@@ -80,7 +83,7 @@ export const Navbar = () => {
             </div>
             <Link href="/">
               <Image
-                src="/logo.png"
+                src={logo}
                 width={200}
                 height={40}
                 priority
@@ -91,7 +94,7 @@ export const Navbar = () => {
 
             <Link href="/">
               <Image
-                src="/HSlogo.png"
+                src={HSlogo}
                 width={30}
                 height={30}
                 priority

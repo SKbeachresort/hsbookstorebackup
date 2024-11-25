@@ -1,35 +1,45 @@
 "use client";
 import React from "react";
-import Image from "next/image";
+import Image,{StaticImageData} from "next/image";
 import AnimateOnScroll from "../Animated/AnimateOnScroll";
 import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
 
+// Static Images
+import nephrology from "../../../public/nephrology.png";
+import orofacial from "../../../public/orofacial.png";
+import visitblog from "../../../public/visitblog.png";
+import oralsoft from "../../../public/oralsoft.png";
+import hermology from "../../../public/hermology.png";
+
+import servicebanner from "../../../public/servicebanner.png";
+import mobileservicebanner from "../../../public/mobileservicebanner.png";
+
 interface VisitBlogProps {
   name: string;
-  imageUrl: string;
-}
+  imageUrl: StaticImageData;
+};
 
 export const VisitOurBlogSection = () => {
   const visitBlogSection: VisitBlogProps[] = [
     {
       name: "Nephrology: What it is",
-      imageUrl: "/nephrology.png",
+      imageUrl: nephrology,
     },
     {
       name: "Orofacial Pain and Headache",
-      imageUrl: "/orofacial.png",
+      imageUrl: orofacial,
     },
     {
-        name:"",
-        imageUrl: "/visitblog.png",
+      name:"",
+      imageUrl: visitblog,
     },
     {
       name: "Oral soft tissue diseases",
-      imageUrl: "/oralsoft.png",
+      imageUrl: oralsoft,
     },
     {
       name: "What is Hematology?",
-      imageUrl: "/hermology.png",
+      imageUrl: hermology,
     },
   ];
 
@@ -60,7 +70,7 @@ export const VisitOurBlogSection = () => {
       </div>
       <ZoomInSlideUp>
         <Image
-          src="/servicebanner.png"
+          src={servicebanner}
           width={1920}
           height={80}
           alt="service-banner"
@@ -68,7 +78,7 @@ export const VisitOurBlogSection = () => {
         />
       </ZoomInSlideUp>
       <Image
-        src="/mobileservicebanner.png"
+        src={mobileservicebanner}
         width={1920}
         height={80}
         alt="service-banner"
