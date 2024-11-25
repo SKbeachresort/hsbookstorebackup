@@ -55,6 +55,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
       <div className="flex flex-col md:flex-row gap-4 justify-start md:justify-between items-start">
         <div className="flex p-2 flex-col-reverse md:flex-row justify-between md:w-[60%] 3xl:w-[75%] gap-2">
           {/* Sub Images */}
+          
           <div className="flex flex-row my-3 md:my-0 md:flex-col gap-4 w-[20%]">
             {subImages.map((image, index) => (
               <Image
