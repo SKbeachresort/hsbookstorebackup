@@ -1,6 +1,6 @@
 // src/types/product-types.ts
 export interface Product {
-    id: number;
+    id: string;
     name: string;
     Author: string;
     mainImage: string;

@@ -1,21 +1,41 @@
 query fetchProducts {
   products(channel: "default-channel", first: 10) {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-    }
     edges {
       node {
         id
-        description
         media {
           url
           productId
         }
-        name
-        rating
         slug
+        channel
+        name
+        pricing {
+          displayGrossPrices
+          discount {
+            currency
+            net {
+              amount
+              currency
+            }
+          }
+          priceRangeUndiscounted {
+            start {
+              currency
+              net {
+                amount
+                currency
+              }
+            }
+          }
+        }
+        rating
       }
     }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+    totalCount
   }
 }

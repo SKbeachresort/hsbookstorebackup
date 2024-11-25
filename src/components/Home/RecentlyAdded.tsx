@@ -4,8 +4,14 @@ import { ProductCard } from "../ProductCard/ProductCard";
 import { products } from "@/data/Products";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Carousel from "@/app/elements/Carousel";
+import { useFetchProductsQuery } from "../../../gql/graphql";
+import Image from "next/image";
 
 export const RecentlyAdded = () => {
+  const { data, loading, error } = useFetchProductsQuery();
+
+  const products = data?.products?.edges || [];
+
   return (
     <div className="my-10 relative">
       <div className="flex flex-row justify-between items-center my-4">
@@ -17,20 +23,21 @@ export const RecentlyAdded = () => {
 
       <div className="relative">
         <Carousel
-          slides={products.map((product, index) => {
-            const slug = product.name.replace(/\s+/g, "-").toLowerCase();
+          slides={products.map(({node}, index) => {
+            // const slug = node.name.replace(/\s+/g, "-").toLowerCase();
+            const productImage = node.media?.[0]?.url || "/placeholder.png";
             return (
               <ProductCard
-                id={product.id}
+                id={node.id}
                 key={index}
-                name={product.name}
-                image={product.image}
-                currency={product.currency}
+                name={node.name}
+                image={productImage}
+                currency={node.pricing?.priceRangeUndiscounted?.start?.currency}
                 currencySymbol="$"
-                price={product.price}
-                cuttedPrice={product.cuttedPrice}
-                ratings={product.ratings}
-                navigate={slug}
+                price={node.pricing?.priceRangeUndiscounted?.start?.net?.amount}
+                cuttedPrice={node.pricing?.discount?.net?.amount}
+                ratings={node.rating || 0}
+                navigate={node.slug}
               />
             );
           })}

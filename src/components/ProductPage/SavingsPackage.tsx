@@ -6,7 +6,7 @@ import { FaCheckSquare, FaRegSquare } from "react-icons/fa";
 import toast from "react-hot-toast";
 
 interface Product {
-  id: number;
+  id: string;
   name: string;
   price: number;
   currency: string;
@@ -56,7 +56,7 @@ const SavingsPackage: React.FC = () => {
       toast.success("Product added to cart");
   };
 
-  const toggleSelection = (id: number) => {
+  const toggleSelection = (id: string) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
         product.id === id

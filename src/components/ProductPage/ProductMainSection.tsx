@@ -13,8 +13,8 @@ interface ProductDetailsProps {
   cartItem?: { quantity: number };
   handleAddToCart: () => void;
   handleDecrement: () => void;
-  incrementQuantity: (id: number) => void;
-  removeFromCart?: (id: number) => void;
+  incrementQuantity: (id: string) => void;
+  removeFromCart?: (id: string) => void;
   bookFormats: BookFormat[];
 };
 
@@ -33,9 +33,9 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     bookFormats[0]?.label || ""
   );
 
-  const [mainImage, setMainImage] = useState<string>(
-    productsDetails.subImage[0]
-  );
+  // const [mainImage, setMainImage] = useState<string>(
+  //   productsDetails.subImage[0]
+  // );
 
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
 
@@ -56,8 +56,8 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
                 width={100}
                 height={100}
                 alt={`Product sub-image ${index + 1}`}
-                onMouseEnter={() => setMainImage(image)}
-                onClick={() => setMainImage(image)}
+                // onMouseEnter={() => setMainImage(image)}
+                // onClick={() => setMainImage(image)}
                 className="cursor-pointer"
               />
             ))}
@@ -66,7 +66,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
           {/* Main Image */}
           <div className="relative md:w-[80%] flex flex-col items-end 3xl:items-center">
             <Image
-              src={mainImage}
+              src={productsDetails.mainImage}
               width={400}
               height={600}
               alt="Product Image"
@@ -130,7 +130,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
           <div>
             <div className="flex flex-row gap-x-2 my-2">
               <p className="text-xl md:text-2xl font-semibold">
-                {productsDetails.currency} {productsDetails.price.toFixed(3)}
+                {productsDetails.currency} {(productsDetails ?? 0).price.toFixed(3)}
               </p>
               <p className="line-through text-textgray text-sm font-medium">
                 {productsDetails.currencySymbol}{" "}

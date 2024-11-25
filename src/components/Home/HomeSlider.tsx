@@ -16,6 +16,8 @@ import FadeIn from "../Animated/FadeIn";
 import slider1 from "../../../public/slider1.png";
 import slider2 from "../../../public/slider2.png";
 import slider3 from "../../../public/slider3.png";
+import herosectionImg from "../../../public/herosectionImg.png";
+
 
 const carouselItems = [
   { id: 1, imageUrl: slider1 },
@@ -73,7 +75,7 @@ export const HomeSlider = () => {
         </button>
 
         <Image
-          src="/herosectionImg.png"
+          src={herosectionImg}
           alt="hero-sectionImg"
           width={1920}
           height={600}

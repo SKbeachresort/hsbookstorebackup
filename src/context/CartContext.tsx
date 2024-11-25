@@ -3,11 +3,11 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 import toast from "react-hot-toast";
 
 interface CartItem {
-  id: number;
+  id: string;
   name: string;
-  price: number;
+  price?: number;
   quantity: number;
-  currency: string;
+  currency?: string;
   mainImage: string;
 };
 
@@ -15,9 +15,9 @@ interface CartItem {
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (product: CartItem) => void;
-  removeFromCart: (productId: number) => void;
-  incrementQuantity: (productId: number) => void;
-  decrementQuantity: (productId: number) => void;
+  removeFromCart: (productid: string) => void;
+  incrementQuantity: (productid: string) => void;
+  decrementQuantity: (productid: string) => void;
   totalItems: number;
 };
 
@@ -53,27 +53,27 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     });
   };
 
-  const removeFromCart = (productId: number) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
+  const removeFromCart = (productid: string) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== productid));
   };
 
-  const incrementQuantity = (productId: number) => {
+  const incrementQuantity = (productid: string) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === productid ? { ...item, quantity: item.quantity + 1 } : item
       )
     );
   };
 
-  const decrementQuantity = (productId: number) => {
+  const decrementQuantity = (productid: string) => {
     setCartItems((prevItems) => {
       const updatedItems = prevItems.map((item) =>
-        item.id === productId && item.quantity > 1
+        item.id === productid && item.quantity > 1
           ? { ...item, quantity: item.quantity - 1 }
           : item
       );
       const updatedCart = updatedItems.filter((item) => item.quantity > 0);
-      if (updatedItems.some((item) => item.id === productId && item.quantity === 0)) {
+      if (updatedItems.some((item) => item.id === productid && item.quantity === 0)) {
         toast.error("Product removed from cart");
       }
       return updatedCart;

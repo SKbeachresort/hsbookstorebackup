@@ -8,7 +8,7 @@ interface AddToCartWidjetProps {
   cartItem?: { quantity: number };
   handleAddToCart: () => void;
   handleDecrement: () => void;
-  incrementQuantity: (id: number) => void;
+  incrementQuantity: (id: string) => void;
   bookFormats: BookFormat[];
 }
 

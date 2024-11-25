@@ -15,6 +15,7 @@ import { MoreItemsToExplore } from "@/components/ProductPage/MoreItemsToExplore"
 import { PeopleWhoBoughtThis } from "@/components/ProductPage/PeopleWhoBoughtThis";
 import { Recommended } from "@/components/ProductPage/Recommended";
 import AnimateOnScroll from "@/components/Animated/AnimateOnScroll";
+import { useFetchProductDetailBySlugQuery } from "../../../../../../../gql/graphql";
 
 const bookFormats = [
   { label: "Hardcover", price: 3990, currency: "KWD" },
@@ -23,36 +24,11 @@ const bookFormats = [
   { label: "Audiobook", price: 3990, currency: "KWD" },
 ];
 
-const productsDetails = {
-  id: 1,
-  name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders",
-  Author: "Simon Sinek",
-  mainImage: "/products/book.png",
-  subImage: [
-    "/products/book.png",
-    "/products/book2.png",
-    "/products/book3.png",
-  ],
-  available: true,
-  currency: "KWD",
-  price: 6.99,
-  cuttedPrice: 8.0,
-  currencySymbol: "$",
-  ratings: 4.5,
-  description:
-    "The inspirational bestseller that ignited a movement and asked us to find our WHY Discover the book that is captivating millions on TikTok and that served as the basis for one of the most popular TED Talks of all time--with more than 56 million views and counting. Over a decade ago, Simon Sinek started a movement that inspired millions to demand purpose at work, to ask what was the WHY of their organization. Since then, millions have been touched by the power of his ideas, and these ideas remain as relevant and timely as ever.",
-  ISBN_NO: "9781119374749",
-  Series: "Book Series Name",
-  Publisher: "Wiley",
-  PublicationDate: "June, 2018",
-  Cover: "Hardcover",
-  Pages: 320,
-  Weight: "0.544 kg",
-};
-
 const ProductDetailPage = () => {
-  
-  const { productslug } = useParams();
+  const { slug, channel } = useParams();
+  console.log("Product Slug:",slug);
+  console.log("Channel:",channel);
+
   const {
     addToCart,
     cartItems,
@@ -65,6 +41,57 @@ const ProductDetailPage = () => {
 
   const [showAddToCartWidget, setShowAddToCartWidget] = useState(false);
   const subsectionRef = useRef<HTMLDivElement | null>(null);
+
+  const staticProductDetails = {
+    id: "1",
+    name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders",
+    Author: "Simon Sinek",
+    mainImage: "/products/book.png",
+    subImage: [
+      "/products/book.png",
+      "/products/book2.png",
+      "/products/book3.png",
+    ],
+    available: true,
+    currency: "KWD",
+    price: 6.99,
+    cuttedPrice: 8.0,
+    currencySymbol: "$",
+    ratings: 4.5,
+    description:
+      "The inspirational bestseller that ignited a movement and asked us to find our WHY Discover the book that is captivating millions on TikTok and that served as the basis for one of the most popular TED Talks of all time--with more than 56 million views and counting. Over a decade ago, Simon Sinek started a movement that inspired millions to demand purpose at work, to ask what was the WHY of their organization. Since then, millions have been touched by the power of his ideas, and these ideas remain as relevant and timely as ever.",
+    ISBN_NO: "9781119374749",
+    Series: "Book Series Name",
+    Publisher: "Wiley",
+    PublicationDate: "June, 2018",
+    Cover: "Hardcover",
+    Pages: 320,
+    Weight: "0.544 kg",
+  };
+
+  const productSlug = Array.isArray(slug) ? slug[0] : slug;
+  const channelString = Array.isArray(channel) ? channel[0] : channel;
+
+  const { data, loading, error } = useFetchProductDetailBySlugQuery({
+    variables: { channel: channelString || "default-channel", slug: productSlug || "" },
+  });
+  console.log("Fetched Data", data);
+
+  const productsDetails = {
+    ...staticProductDetails,
+    name: data?.product?.name || staticProductDetails.name,
+    mainImage: data?.product?.media?.[0]?.url || staticProductDetails.mainImage,
+    currency:
+      data?.product?.pricing?.priceRange?.start?.gross?.currency ||
+      staticProductDetails.currency,
+    price:
+      data?.product?.pricing?.priceRange?.start?.gross?.amount ||
+      staticProductDetails.price,
+    cuttedPrice:
+      (data?.product?.pricing?.priceRange?.start?.gross?.amount || 0) +
+      (data?.product?.pricing?.discount?.net?.amount || 0),
+    ratings: data?.product?.rating || staticProductDetails.ratings,
+  };
 
   const toggleFav = () => {
     setIsFav(!isFav);
@@ -93,7 +120,7 @@ const ProductDetailPage = () => {
     const handleScroll = () => {
       if (subsectionRef.current) {
         const rect = subsectionRef.current.getBoundingClientRect();
-        setShowAddToCartWidget(rect.top <= 0); 
+        setShowAddToCartWidget(rect.top <= 0);
       }
     };
 

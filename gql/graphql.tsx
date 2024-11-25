@@ -33405,29 +33405,57 @@ export type _Service = {
 export type FetchProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, description?: string | null, name: string, rating?: number | null, slug: string, media?: Array<{ __typename?: 'ProductMedia', url: string, productId?: string | null }> | null } }> } | null };
+export type FetchProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', url: string, productId?: string | null }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean } } | null };
+
+export type FetchProductDetailBySlugQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type FetchProductDetailBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, description?: string | null, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', url: string, productId?: string | null, type: ProductMediaType }> | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } | null };
 
 
 export const FetchProductsDocument = gql`
     query fetchProducts {
   products(channel: "default-channel", first: 10) {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-    }
     edges {
       node {
         id
-        description
         media {
           url
           productId
         }
-        name
-        rating
         slug
+        channel
+        name
+        pricing {
+          displayGrossPrices
+          discount {
+            currency
+            net {
+              amount
+              currency
+            }
+          }
+          priceRangeUndiscounted {
+            start {
+              currency
+              net {
+                amount
+                currency
+              }
+            }
+          }
+        }
+        rating
       }
     }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+    totalCount
   }
 }
     `;
@@ -33463,6 +33491,74 @@ export type FetchProductsQueryHookResult = ReturnType<typeof useFetchProductsQue
 export type FetchProductsLazyQueryHookResult = ReturnType<typeof useFetchProductsLazyQuery>;
 export type FetchProductsSuspenseQueryHookResult = ReturnType<typeof useFetchProductsSuspenseQuery>;
 export type FetchProductsQueryResult = Apollo.QueryResult<FetchProductsQuery, FetchProductsQueryVariables>;
+export const FetchProductDetailBySlugDocument = gql`
+    query fetchProductDetailBySlug($channel: String!, $slug: String!) {
+  product(channel: $channel, slug: $slug) {
+    id
+    media {
+      url
+      productId
+      type
+    }
+    name
+    pricing {
+      discount {
+        currency
+        net {
+          currency
+          amount
+        }
+      }
+      priceRange {
+        start {
+          currency
+          gross {
+            amount
+            currency
+          }
+        }
+      }
+      onSale
+    }
+    description
+    rating
+  }
+}
+    `;
+
+/**
+ * __useFetchProductDetailBySlugQuery__
+ *
+ * To run a query within a React component, call `useFetchProductDetailBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchProductDetailBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchProductDetailBySlugQuery({
+ *   variables: {
+ *      channel: // value for 'channel'
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useFetchProductDetailBySlugQuery(baseOptions: Apollo.QueryHookOptions<FetchProductDetailBySlugQuery, FetchProductDetailBySlugQueryVariables> & ({ variables: FetchProductDetailBySlugQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchProductDetailBySlugQuery, FetchProductDetailBySlugQueryVariables>(FetchProductDetailBySlugDocument, options);
+      }
+export function useFetchProductDetailBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchProductDetailBySlugQuery, FetchProductDetailBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchProductDetailBySlugQuery, FetchProductDetailBySlugQueryVariables>(FetchProductDetailBySlugDocument, options);
+        }
+export function useFetchProductDetailBySlugSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchProductDetailBySlugQuery, FetchProductDetailBySlugQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchProductDetailBySlugQuery, FetchProductDetailBySlugQueryVariables>(FetchProductDetailBySlugDocument, options);
+        }
+export type FetchProductDetailBySlugQueryHookResult = ReturnType<typeof useFetchProductDetailBySlugQuery>;
+export type FetchProductDetailBySlugLazyQueryHookResult = ReturnType<typeof useFetchProductDetailBySlugLazyQuery>;
+export type FetchProductDetailBySlugSuspenseQueryHookResult = ReturnType<typeof useFetchProductDetailBySlugSuspenseQuery>;
+export type FetchProductDetailBySlugQueryResult = Apollo.QueryResult<FetchProductDetailBySlugQuery, FetchProductDetailBySlugQueryVariables>;
 export type AccountAddressCreateKeySpecifier = ('accountErrors' | 'address' | 'errors' | 'user' | AccountAddressCreateKeySpecifier)[];
 export type AccountAddressCreateFieldPolicy = {
 	accountErrors?: FieldPolicy<any> | FieldReadFunction<any>,

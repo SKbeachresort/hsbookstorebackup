@@ -8,16 +8,16 @@ import { useCart } from "@/context/CartContext";
 import { FaPlus, FaTrashAlt } from "react-icons/fa";
 
 interface ProductCardProps {
-  id: number;
+  id: string;
   name: string;
   image: string;
-  currency: string;
-  currencySymbol: string;
-  price: number;
-  cuttedPrice: number;
-  ratings: number;
+  currency?: string;
+  currencySymbol?: string;
+  price?: number;
+  cuttedPrice?: number;
+  ratings?: number;
   navigate?: string;
-}
+};
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   id,
@@ -85,15 +85,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </AnimateOnScroll>
 
       <p className="text-[0.6rem] lg:text-xs mt-3 md:mt-2 text-textColor">
-        {name}
+        {name.length > 30 ? name.slice(0, 30) + "..." : name}
       </p>
       
       <div className="flex flex-row justify-between mt-1 md:my-0 items-center">
         <p className="text-xs xl:text-sm font-semibold">
-          {currency} {price.toFixed(3)}
+          {currency} {(price ?? 0).toFixed(3)}
         </p>
         <p className="line-through text-textgray text-[0.5rem] lg:text-[0.6rem] font-normal">
-          {currencySymbol} {cuttedPrice.toFixed(3)}
+          {currencySymbol} {(cuttedPrice ?? 0).toFixed(3)}
         </p>
       </div>
       
@@ -121,7 +121,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
       <div className="flex items-center -mt-1">
         <StarRatings
-          rating={ratings}
+          rating={ratings || 0}
           starRatedColor="#FFCE60"
           numberOfStars={5}
           starDimension="12px"

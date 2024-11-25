@@ -1,0 +1,32 @@
+query fetchProductDetailBySlug($channel: String!, $slug: String!) {
+  product(channel: $channel, slug: $slug) {
+    id
+    media {
+      url
+      productId
+      type
+    }
+    name
+    pricing {
+      discount {
+        currency
+        net {
+          currency
+          amount
+        }
+      }
+      priceRange {
+        start {
+          currency
+          gross {
+            amount
+            currency
+          }
+        }
+      }
+      onSale
+    }
+    description
+    rating
+  }
+}

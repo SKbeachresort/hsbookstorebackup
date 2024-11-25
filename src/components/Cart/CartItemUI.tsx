@@ -6,16 +6,16 @@ import Image from "next/image";
 
 interface CartItemProps {
   item: {
-    id: number;
+    id: string;
     mainImage: string;
     name: string;
     currency: string;
     price: number;
     quantity: number;
   };
-  incrementQuantity: (id: number) => void;
-  decrementQuantity: (id: number) => void;
-  removeFromCart: (id: number) => void;
+  incrementQuantity: (id: string) => void;
+  decrementQuantity: (id: string) => void;
+  removeFromCart: (id: string) => void;
 }
 
 const CartItemUI: React.FC<CartItemProps> = ({

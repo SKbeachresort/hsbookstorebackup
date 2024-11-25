@@ -33212,7 +33212,15 @@ export type _Service = {
 export type FetchProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean }, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, description?: string | null, name: string, rating?: number | null, slug: string, media?: Array<{ __typename?: 'ProductMedia', url: string, productId?: string | null }> | null } }> } | null };
+export type FetchProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', url: string, productId?: string | null }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean } } | null };
+
+export type FetchProductDetailBySlugQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type FetchProductDetailBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, description?: string | null, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', url: string, productId?: string | null, type: ProductMediaType }> | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } | null };
 
 export type AccountAddressCreateKeySpecifier = ('accountErrors' | 'address' | 'errors' | 'user' | AccountAddressCreateKeySpecifier)[];
 export type AccountAddressCreateFieldPolicy = {
@@ -43647,23 +43655,77 @@ export class TypedDocumentString<TResult, TVariables>
 export const FetchProductsDocument = new TypedDocumentString(`
     query fetchProducts {
   products(channel: "default-channel", first: 10) {
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-    }
     edges {
       node {
         id
-        description
         media {
           url
           productId
         }
-        name
-        rating
         slug
+        channel
+        name
+        pricing {
+          displayGrossPrices
+          discount {
+            currency
+            net {
+              amount
+              currency
+            }
+          }
+          priceRangeUndiscounted {
+            start {
+              currency
+              net {
+                amount
+                currency
+              }
+            }
+          }
+        }
+        rating
       }
     }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+    totalCount
   }
 }
     `) as unknown as TypedDocumentString<FetchProductsQuery, FetchProductsQueryVariables>;
+export const FetchProductDetailBySlugDocument = new TypedDocumentString(`
+    query fetchProductDetailBySlug($channel: String!, $slug: String!) {
+  product(channel: $channel, slug: $slug) {
+    id
+    media {
+      url
+      productId
+      type
+    }
+    name
+    pricing {
+      discount {
+        currency
+        net {
+          currency
+          amount
+        }
+      }
+      priceRange {
+        start {
+          currency
+          gross {
+            amount
+            currency
+          }
+        }
+      }
+      onSale
+    }
+    description
+    rating
+  }
+}
+    `) as unknown as TypedDocumentString<FetchProductDetailBySlugQuery, FetchProductDetailBySlugQueryVariables>;
