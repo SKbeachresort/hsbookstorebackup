@@ -1,0 +1,30 @@
+fragment ProductCardDetails on Product{
+    id
+    slug
+    channel
+    name
+    media{
+        productId
+        url
+    }
+    pricing{
+        displayGrossPrices
+        discount{
+            currency
+            net{
+                amount
+                currency
+            }
+        }
+        priceRangeUndiscounted{
+            start{
+                currency
+                net{
+                    amount
+                    currency
+                }
+            }
+        }
+    }
+    rating
+}

@@ -26,8 +26,6 @@ const bookFormats = [
 
 const ProductDetailPage = () => {
   const { slug, channel } = useParams();
-  console.log("Product Slug:",slug);
-  console.log("Channel:",channel);
 
   const {
     addToCart,

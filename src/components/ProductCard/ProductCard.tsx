@@ -12,7 +12,7 @@ interface ProductCardProps {
   name: string;
   image: string;
   currency?: string;
-  currencySymbol?: string;
+  currencySymbol: string;
   price?: number;
   cuttedPrice?: number;
   ratings?: number;

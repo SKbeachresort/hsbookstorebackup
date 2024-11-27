@@ -33402,6 +33402,10 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']['output']>;
 };
 
+export type PageInfoDetailsFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
+
+export type ProductCardDetailsFragment = { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
+
 export type FetchProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -33415,7 +33419,53 @@ export type FetchProductDetailBySlugQueryVariables = Exact<{
 
 export type FetchProductDetailBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, description?: string | null, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', url: string, productId?: string | null, type: ProductMediaType }> | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } | null };
 
+export type FetchProductsRecommendationQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+}>;
 
+
+export type FetchProductsRecommendationQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+
+export const PageInfoDetailsFragmentDoc = gql`
+    fragment PageInfoDetails on PageInfo {
+  endCursor
+  hasNextPage
+  hasPreviousPage
+  startCursor
+}
+    `;
+export const ProductCardDetailsFragmentDoc = gql`
+    fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+}
+    `;
 export const FetchProductsDocument = gql`
     query fetchProducts {
   products(channel: "default-channel", first: 10) {
@@ -33559,6 +33609,55 @@ export type FetchProductDetailBySlugQueryHookResult = ReturnType<typeof useFetch
 export type FetchProductDetailBySlugLazyQueryHookResult = ReturnType<typeof useFetchProductDetailBySlugLazyQuery>;
 export type FetchProductDetailBySlugSuspenseQueryHookResult = ReturnType<typeof useFetchProductDetailBySlugSuspenseQuery>;
 export type FetchProductDetailBySlugQueryResult = Apollo.QueryResult<FetchProductDetailBySlugQuery, FetchProductDetailBySlugQueryVariables>;
+export const FetchProductsRecommendationDocument = gql`
+    query fetchProductsRecommendation($channel: String!) {
+  products(channel: $channel, first: 15) {
+    edges {
+      node {
+        ...ProductCardDetails
+      }
+    }
+    pageInfo {
+      ...PageInfoDetails
+    }
+    totalCount
+  }
+}
+    ${ProductCardDetailsFragmentDoc}
+${PageInfoDetailsFragmentDoc}`;
+
+/**
+ * __useFetchProductsRecommendationQuery__
+ *
+ * To run a query within a React component, call `useFetchProductsRecommendationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchProductsRecommendationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchProductsRecommendationQuery({
+ *   variables: {
+ *      channel: // value for 'channel'
+ *   },
+ * });
+ */
+export function useFetchProductsRecommendationQuery(baseOptions: Apollo.QueryHookOptions<FetchProductsRecommendationQuery, FetchProductsRecommendationQueryVariables> & ({ variables: FetchProductsRecommendationQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchProductsRecommendationQuery, FetchProductsRecommendationQueryVariables>(FetchProductsRecommendationDocument, options);
+      }
+export function useFetchProductsRecommendationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchProductsRecommendationQuery, FetchProductsRecommendationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchProductsRecommendationQuery, FetchProductsRecommendationQueryVariables>(FetchProductsRecommendationDocument, options);
+        }
+export function useFetchProductsRecommendationSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchProductsRecommendationQuery, FetchProductsRecommendationQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchProductsRecommendationQuery, FetchProductsRecommendationQueryVariables>(FetchProductsRecommendationDocument, options);
+        }
+export type FetchProductsRecommendationQueryHookResult = ReturnType<typeof useFetchProductsRecommendationQuery>;
+export type FetchProductsRecommendationLazyQueryHookResult = ReturnType<typeof useFetchProductsRecommendationLazyQuery>;
+export type FetchProductsRecommendationSuspenseQueryHookResult = ReturnType<typeof useFetchProductsRecommendationSuspenseQuery>;
+export type FetchProductsRecommendationQueryResult = Apollo.QueryResult<FetchProductsRecommendationQuery, FetchProductsRecommendationQueryVariables>;
 export type AccountAddressCreateKeySpecifier = ('accountErrors' | 'address' | 'errors' | 'user' | AccountAddressCreateKeySpecifier)[];
 export type AccountAddressCreateFieldPolicy = {
 	accountErrors?: FieldPolicy<any> | FieldReadFunction<any>,

@@ -15,7 +15,7 @@ const PopOverDropDown: React.FC<PopOverDropDownProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const toggleMenu = () => {
+  const openMenu = () => {
     setIsOpen((prev) => !prev);
   };
 
@@ -42,17 +42,21 @@ const PopOverDropDown: React.FC<PopOverDropDownProps> = ({
     };
   }, []);
 
-
   return (
-    <div className="relative" ref={menuRef}>
-      <div onClick={toggleMenu} className="cursor-pointer">
+    <div
+      className="relative"
+      ref={menuRef}
+      onMouseEnter={openMenu}
+      onMouseLeave={closeMenu}
+    >
+      <div onClick={openMenu} className="cursor-pointer">
         {trigger}
       </div>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute top-full mt-2 w-56 bg-white shadow-lg rounded-lg border border-gray-200 z-10"
+            className="absolute top-full mt-2 w-56 bg-white shadow-2xl rounded-lg border border-gray-200 z-10"
             variants={dropDownVariants}
             initial="hidden"
             animate="visible"

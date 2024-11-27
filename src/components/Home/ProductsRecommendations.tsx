@@ -5,14 +5,24 @@ import { products } from "@/data/Products";
 import Carousel from "@/app/elements/Carousel";
 import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
 import { useFetchProductsQuery } from "../../../gql/graphql";
+import { useFetchProductsRecommendationQuery } from "../../../gql/graphql";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 
-export const ProductsRecommendations = () => {
-  const { data, loading, error } = useFetchProductsQuery();
+interface ProductsRecommendationsProps {
+  channel: string;
+};
+
+export const ProductsRecommendations:React.FC<ProductsRecommendationsProps> = ({channel}) => {
+
+  const { data, loading, error } = useFetchProductsRecommendationQuery({
+    variables: {
+      channel,
+    },
+  });
 
   const products = data?.products?.edges || [];
 

@@ -7,18 +7,18 @@ import { HomeDermatologySection } from "@/components/Home/HomeDermatologySection
 import { ProductsRecommendations } from "@/components/Home/ProductsRecommendations";
 import { RecentlyAdded } from "@/components/Home/RecentlyAdded";
 import { VisitOurBlogSection } from "@/components/Home/VisitOurBlogSection";
-import { serverTranslation } from "@/app/i18n";
+import { PagesProps } from "./layout";
 
-export default function Home() {
+export default function Home({ params: { locale, channel } }: PagesProps) {
 
   return (
     <div className="w-[95%] xl:w-[75%] 3xl:w-full mx-auto sm:px-10 lg:px-12">
       <HomeSlider />
       <HomeCategory />
-      <RecentlyAdded />
+      <RecentlyAdded channel={channel}/>
       <HomeExplore />
       <HomeExploreSpecialists />
-      <ProductsRecommendations />
+      <ProductsRecommendations channel={channel} />
       <HomeDermatologySection />
       <VisitOurBlogSection />
     </div>

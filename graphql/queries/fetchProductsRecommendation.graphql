@@ -1,0 +1,14 @@
+query fetchProductsRecommendation($channel:String!){
+    products(channel:$channel, first:15){
+        edges{
+            node{
+                ...ProductCardDetails
+            }
+        }
+        pageInfo{
+            ...PageInfoDetails
+        }
+        totalCount
+    }
+
+}

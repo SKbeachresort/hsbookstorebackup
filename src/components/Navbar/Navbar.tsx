@@ -7,27 +7,19 @@ import { HiOutlineMapPin } from "react-icons/hi2";
 import { RxHamburgerMenu } from "react-icons/rx";
 import Link from "next/link";
 import { RiSearchLine } from "react-icons/ri";
+import { FaCaretDown } from "react-icons/fa";
 import BackDropLoader from "@/app/elements/BackdropLoader";
 import { CategoryList } from "../../data/Category";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useCart } from "@/context/CartContext";
-import Image,{StaticImageData} from "next/image";
+import Image, { StaticImageData } from "next/image";
 import PopOverDropDown from "@/app/elements/PopOverDropDown";
+import { useRegions } from "@/context/RegionProviders";
+import { setCookie } from "cookies-next";
 
 import HSlogo from "../../../public/HSlogo.png";
 import logo from "../../../public/logo.png";
-
-const menuOptions = [
-  {
-    label: "Select Language",
-    options: ["English", "Arabic"],
-  },
-  {
-    label: "Select Currency",
-    options: ["KWD", "USD"],
-  },
-];
 
 export const Navbar = () => {
   const { totalItems } = useCart();
@@ -35,6 +27,10 @@ export const Navbar = () => {
   const [navOpen, setNavOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { currentLocale, currentChannel, setCurrentChannel } = useRegions();
+  console.log("Current Channel", currentChannel);
+
   const pathname = usePathname();
   const router = useRouter();
   const containerRef = useRef(null);
@@ -59,6 +55,13 @@ export const Navbar = () => {
       console.log("Search Clicked", searchQuery);
       router.push(`/results/${encodeURIComponent(searchQuery)}`);
     }
+  };
+
+  const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newChannelSlug = e.target.value;
+    setCurrentChannel(newChannelSlug);
+    router.push(`/${newChannelSlug}/${currentLocale}`);
+    setCookie("channel", newChannelSlug);
   };
 
   return (
@@ -135,19 +138,32 @@ export const Navbar = () => {
                     <p className="text-xs font-medium text-textgray">
                       Delivery & Site preference
                     </p>
-                    <div className="flex text-textgray flex-row text-sm gap-x-2">
-                      <p className="text-md font-semibold">KW</p>
-                      <p className="text-md font-semibold">KWD</p>
-                      <p className="text-md font-semibold">EN</p>
+                    <div className="flex text-textgray flex-row text-sm gap-x-2 items-center">
+                      <p className="text-md font-semibold">
+                        {currentChannel.name === "United States Dollar"
+                          ? "US"
+                          : "KW"}
+                      </p>
+                      <p className="text-md font-semibold">
+                        {currentChannel.currencyCode}
+                      </p>
+                      <p className="text-md font-semibold">EN </p>
+                      <span className="-ml-1">
+                        <FaCaretDown className="text-sm" />
+                      </span>
                     </div>
                   </div>
                 </div>
               }
             >
               <div className="flex flex-col gap-y-2 p-2 ">
-                <select name="" id="" className="border-[1px] border-borderColor p-1">
-                  <option value="">Kuwait</option>
-                  <option value="">USA-USD</option>
+                <select
+                  value={currentChannel.slug}
+                  onChange={handleRegionChange}
+                  className="border-[1px] border-borderColor outline-none p-1"
+                >
+                  <option value="default-channel">Kuwait - KWD</option>
+                  <option value="channel-usd">USA - USD</option>
                 </select>
               </div>
             </PopOverDropDown>

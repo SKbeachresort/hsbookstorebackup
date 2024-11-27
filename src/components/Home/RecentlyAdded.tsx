@@ -4,11 +4,20 @@ import { ProductCard } from "../ProductCard/ProductCard";
 import { products } from "@/data/Products";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Carousel from "@/app/elements/Carousel";
-import { useFetchProductsQuery } from "../../../gql/graphql";
+import { useFetchProductsRecommendationQuery } from "../../../gql/graphql";
 import Image from "next/image";
 
-export const RecentlyAdded = () => {
-  const { data, loading, error } = useFetchProductsQuery();
+interface RecentlyAddedProps {
+  channel: string;
+};
+
+export const RecentlyAdded:React.FC<RecentlyAddedProps> = ({channel}) => {
+  
+  const { data, loading, error } = useFetchProductsRecommendationQuery({
+    variables: {
+      channel,
+    },
+  });
 
   const products = data?.products?.edges || [];
 
