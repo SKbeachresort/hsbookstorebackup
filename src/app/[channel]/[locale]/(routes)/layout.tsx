@@ -9,7 +9,7 @@ import createApolloClient from "@/lib/apolloClient";
 import { ApolloProvider } from "@apollo/client";
 import Provider from "@/context/Provider";
 import { START_PARAMS } from "@/lib/regions";
-import { dir } from "i18next"
+import { dir } from "i18next";
 
 export const metadata: Metadata = {
   title: "HS BookStore",
@@ -27,15 +27,17 @@ export async function generateStaticParams() {
   return START_PARAMS.map((param) => ({
     locale: param.lng,
     channel: param.channel,
-  }))
+  }));
 }
 
-export default function RootLayout({
-  children,
-  params: { locale, channel },
-}: LayoutProps) {
+export default async function RootLayout(props: LayoutProps) {
+  const params = await props.params;
 
-  const lng = locale.split("-")[0]
+  const { locale, channel } = params;
+
+  const { children } = props;
+
+  const lng = locale.split("-")[0];
 
   return (
     <html lang={lng} dir={dir(lng)}>
@@ -48,10 +50,10 @@ export default function RootLayout({
       <body>
         <Provider locale={locale} channel={channel}>
           <Navbar />
-            <ClientLayout>{children}</ClientLayout>
+          <ClientLayout>{children}</ClientLayout>
           <Footer />
         </Provider>
       </body>
     </html>
   );
-};
+}
