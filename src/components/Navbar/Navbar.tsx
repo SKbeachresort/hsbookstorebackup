@@ -29,7 +29,6 @@ export const Navbar = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { currentLocale, currentChannel, setCurrentChannel } = useRegions();
-  console.log("Current Channel", currentChannel);
 
   const pathname = usePathname();
   const router = useRouter();
