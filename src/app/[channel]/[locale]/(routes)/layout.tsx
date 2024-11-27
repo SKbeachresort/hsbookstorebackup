@@ -27,7 +27,7 @@ export async function generateStaticParams() {
   return START_PARAMS.map((param) => ({
     locale: param.lng,
     channel: param.channel,
-  }));
+  }))
 }
 
 export default function RootLayout({

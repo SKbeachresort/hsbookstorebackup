@@ -7,18 +7,11 @@ import { HomeDermatologySection } from "@/components/Home/HomeDermatologySection
 import { ProductsRecommendations } from "@/components/Home/ProductsRecommendations";
 import { RecentlyAdded } from "@/components/Home/RecentlyAdded";
 import { VisitOurBlogSection } from "@/components/Home/VisitOurBlogSection";
+import { PagesProps } from "./layout";
 
-export type HomeParams = {
-  locale: string;
-  channel: string;
-};
-
-export default async function Home({ params }: { params: HomeParams }) {
-
-  const { locale, channel } = params;
-  console.log("locale", locale);
-  console.log("channel", channel);
-
+export default async function Home({
+  params: { locale, channel },
+}: PagesProps) {
   return (
     <div className="w-[95%] xl:w-[75%] 3xl:w-full mx-auto sm:px-10 lg:px-12">
       <HomeSlider />
@@ -31,4 +24,4 @@ export default async function Home({ params }: { params: HomeParams }) {
       <VisitOurBlogSection />
     </div>
   );
-};
+}
