@@ -64,6 +64,7 @@ export const Navbar = () => {
     setCookie("channel", newChannelSlug);
   };
 
+  
   return (
     <div className="">
       {isLoading && <BackDropLoader open={isLoading} />}
