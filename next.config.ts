@@ -16,7 +16,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "uat.arabanah.com",
+        hostname: "uat.hsbookstore.com",
         pathname: "/**",
       },
     ],

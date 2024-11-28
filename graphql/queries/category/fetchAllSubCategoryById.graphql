@@ -1,0 +1,14 @@
+query fetchAllSubCategoryById($id: ID!) {
+  category(id: $id) {
+    ...CategoryDetails
+    children(first: 20) {
+      totalCount
+      edges {
+        cursor
+        node {
+         ...CategoryDetails 
+        }
+      }
+    }
+  }
+}

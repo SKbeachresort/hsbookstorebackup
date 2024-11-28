@@ -33209,9 +33209,23 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']['output']>;
 };
 
+export type CategoryDetailsFragment = { __typename?: 'Category', id: string, name: string, slug: string };
+
 export type PageInfoDetailsFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
 
 export type ProductCardDetailsFragment = { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
+
+export type FetchAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchAllCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null } | null } }> } | null } }> } | null };
+
+export type FetchAllSubCategoryByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type FetchAllSubCategoryByIdQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string } }> } | null } | null };
 
 export type FetchProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -43662,6 +43676,13 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const CategoryDetailsFragmentDoc = new TypedDocumentString(`
+    fragment CategoryDetails on Category {
+  id
+  name
+  slug
+}
+    `, {"fragmentName":"CategoryDetails"}) as unknown as TypedDocumentString<CategoryDetailsFragment, unknown>;
 export const PageInfoDetailsFragmentDoc = new TypedDocumentString(`
     fragment PageInfoDetails on PageInfo {
   endCursor
@@ -43702,6 +43723,55 @@ export const ProductCardDetailsFragmentDoc = new TypedDocumentString(`
   rating
 }
     `, {"fragmentName":"ProductCardDetails"}) as unknown as TypedDocumentString<ProductCardDetailsFragment, unknown>;
+export const FetchAllCategoriesDocument = new TypedDocumentString(`
+    query fetchAllCategories {
+  categories(level: 0, first: 10) {
+    edges {
+      cursor
+      node {
+        ...CategoryDetails
+        children(first: 20) {
+          edges {
+            cursor
+            node {
+              ...CategoryDetails
+              children {
+                totalCount
+              }
+            }
+          }
+          totalCount
+        }
+      }
+    }
+    totalCount
+  }
+}
+    fragment CategoryDetails on Category {
+  id
+  name
+  slug
+}`) as unknown as TypedDocumentString<FetchAllCategoriesQuery, FetchAllCategoriesQueryVariables>;
+export const FetchAllSubCategoryByIdDocument = new TypedDocumentString(`
+    query fetchAllSubCategoryById($id: ID!) {
+  category(id: $id) {
+    ...CategoryDetails
+    children(first: 20) {
+      totalCount
+      edges {
+        cursor
+        node {
+          ...CategoryDetails
+        }
+      }
+    }
+  }
+}
+    fragment CategoryDetails on Category {
+  id
+  name
+  slug
+}`) as unknown as TypedDocumentString<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables>;
 export const FetchProductsDocument = new TypedDocumentString(`
     query fetchProducts {
   products(channel: "default-channel", first: 10) {

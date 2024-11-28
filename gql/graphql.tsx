@@ -33402,9 +33402,23 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']['output']>;
 };
 
+export type CategoryDetailsFragment = { __typename?: 'Category', id: string, name: string, slug: string };
+
 export type PageInfoDetailsFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
 
 export type ProductCardDetailsFragment = { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
+
+export type FetchAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchAllCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null } | null } }> } | null } }> } | null };
+
+export type FetchAllSubCategoryByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type FetchAllSubCategoryByIdQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string } }> } | null } | null };
 
 export type FetchProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -33426,6 +33440,13 @@ export type FetchProductsRecommendationQueryVariables = Exact<{
 
 export type FetchProductsRecommendationQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
+export const CategoryDetailsFragmentDoc = gql`
+    fragment CategoryDetails on Category {
+  id
+  name
+  slug
+}
+    `;
 export const PageInfoDetailsFragmentDoc = gql`
     fragment PageInfoDetails on PageInfo {
   endCursor
@@ -33466,6 +33487,112 @@ export const ProductCardDetailsFragmentDoc = gql`
   rating
 }
     `;
+export const FetchAllCategoriesDocument = gql`
+    query fetchAllCategories {
+  categories(level: 0, first: 10) {
+    edges {
+      cursor
+      node {
+        ...CategoryDetails
+        children(first: 20) {
+          edges {
+            cursor
+            node {
+              ...CategoryDetails
+              children {
+                totalCount
+              }
+            }
+          }
+          totalCount
+        }
+      }
+    }
+    totalCount
+  }
+}
+    ${CategoryDetailsFragmentDoc}`;
+
+/**
+ * __useFetchAllCategoriesQuery__
+ *
+ * To run a query within a React component, call `useFetchAllCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchAllCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchAllCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFetchAllCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<FetchAllCategoriesQuery, FetchAllCategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchAllCategoriesQuery, FetchAllCategoriesQueryVariables>(FetchAllCategoriesDocument, options);
+      }
+export function useFetchAllCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchAllCategoriesQuery, FetchAllCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchAllCategoriesQuery, FetchAllCategoriesQueryVariables>(FetchAllCategoriesDocument, options);
+        }
+export function useFetchAllCategoriesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchAllCategoriesQuery, FetchAllCategoriesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchAllCategoriesQuery, FetchAllCategoriesQueryVariables>(FetchAllCategoriesDocument, options);
+        }
+export type FetchAllCategoriesQueryHookResult = ReturnType<typeof useFetchAllCategoriesQuery>;
+export type FetchAllCategoriesLazyQueryHookResult = ReturnType<typeof useFetchAllCategoriesLazyQuery>;
+export type FetchAllCategoriesSuspenseQueryHookResult = ReturnType<typeof useFetchAllCategoriesSuspenseQuery>;
+export type FetchAllCategoriesQueryResult = Apollo.QueryResult<FetchAllCategoriesQuery, FetchAllCategoriesQueryVariables>;
+export const FetchAllSubCategoryByIdDocument = gql`
+    query fetchAllSubCategoryById($id: ID!) {
+  category(id: $id) {
+    ...CategoryDetails
+    children(first: 20) {
+      totalCount
+      edges {
+        cursor
+        node {
+          ...CategoryDetails
+        }
+      }
+    }
+  }
+}
+    ${CategoryDetailsFragmentDoc}`;
+
+/**
+ * __useFetchAllSubCategoryByIdQuery__
+ *
+ * To run a query within a React component, call `useFetchAllSubCategoryByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchAllSubCategoryByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchAllSubCategoryByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFetchAllSubCategoryByIdQuery(baseOptions: Apollo.QueryHookOptions<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables> & ({ variables: FetchAllSubCategoryByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables>(FetchAllSubCategoryByIdDocument, options);
+      }
+export function useFetchAllSubCategoryByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables>(FetchAllSubCategoryByIdDocument, options);
+        }
+export function useFetchAllSubCategoryByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables>(FetchAllSubCategoryByIdDocument, options);
+        }
+export type FetchAllSubCategoryByIdQueryHookResult = ReturnType<typeof useFetchAllSubCategoryByIdQuery>;
+export type FetchAllSubCategoryByIdLazyQueryHookResult = ReturnType<typeof useFetchAllSubCategoryByIdLazyQuery>;
+export type FetchAllSubCategoryByIdSuspenseQueryHookResult = ReturnType<typeof useFetchAllSubCategoryByIdSuspenseQuery>;
+export type FetchAllSubCategoryByIdQueryResult = Apollo.QueryResult<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables>;
 export const FetchProductsDocument = gql`
     query fetchProducts {
   products(channel: "default-channel", first: 10) {

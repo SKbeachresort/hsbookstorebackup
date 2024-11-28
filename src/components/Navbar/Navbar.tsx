@@ -20,6 +20,18 @@ import { setCookie } from "cookies-next";
 
 import HSlogo from "../../../public/HSlogo.png";
 import logo from "../../../public/logo.png";
+import {
+  Sheet,
+  SheetTrigger,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetFooter,
+} from "@/components/ui/sheet";
+import { Button } from "../ui/button";
+import { CategorySheet } from "./CategorySheet";
 
 export const Navbar = () => {
   const { totalItems } = useCart();
@@ -29,6 +41,13 @@ export const Navbar = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { currentLocale, currentChannel, setCurrentChannel } = useRegions();
+
+  // Category Sheet
+  const [sheetOpen, setSheetOpen] = useState(false);
+
+  const toggleSheet = () => {
+    setSheetOpen((prev) => !prev);
+  };
 
   const pathname = usePathname();
   const router = useRouter();
@@ -63,9 +82,8 @@ export const Navbar = () => {
     setCookie("channel", newChannelSlug);
   };
 
-  
   return (
-    <div className="">
+    <Sheet>
       {isLoading && <BackDropLoader open={isLoading} />}
       {/* Header Section */}
       <div>
@@ -198,7 +216,14 @@ export const Navbar = () => {
         <div className="bg-primary hidden  md:flex justify-start p-[1vh]">
           <div className="w-full max-w-[1920px] mx-auto">
             <div className="px-4 flex flex-row justify-start items-center space-x-4">
-              <RxHamburgerMenu size={24} color="#fff" />
+              <SheetTrigger asChild>
+                <RxHamburgerMenu
+                  className="cursor-pointer"
+                  size={24}
+                  color="#fff"
+                />
+              </SheetTrigger>
+
               {CategoryList.map((category, index) => {
                 const slug = category.category.toLowerCase().replace(/ /g, "-");
                 return (
@@ -213,6 +238,14 @@ export const Navbar = () => {
           </div>
         </div>
       </div>
+
+      {/* Sheet Content */}
+      <SheetContent side="left">
+        <SheetHeader>
+          <SheetTitle>Explore Categories</SheetTitle>
+        </SheetHeader>
+        <CategorySheet />
+      </SheetContent>
 
       {navOpen && (
         <div className="fixed bg-black z-50 overflow-y-auto overflow-x-hidden inset-0 w-full h-full backdrop-blur-sm bg-opacity-50 flex justify-end items-end transition-opacity duration-300 ease-in-out">
@@ -277,6 +310,20 @@ export const Navbar = () => {
           </div>
         </div>
       )}
-    </div>
+
+      {/* Category Sheet  */}
+      {sheetOpen && (
+        <div className="fixed bg-black z-50 overflow-y-auto overflow-x-hidden inset-0 w-full h-full backdrop-blur-sm bg-opacity-50 flex justify-start items-start transition-opacity duration-300 ease-in-out">
+          <div
+            className={`relative bg-white w-64 h-full overflow-y-scroll px-[2.5vh] md:px-[5vh] animate-fadeRight transform ${
+              sheetOpen ? "translate-x-0" : "translate-x-full"
+            } transition-transform duration-500 ease-in-out`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p onClick={toggleSheet}>CLose</p>
+          </div>
+        </div>
+      )}
+    </Sheet>
   );
 };

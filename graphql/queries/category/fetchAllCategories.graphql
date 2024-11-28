@@ -1,0 +1,23 @@
+query fetchAllCategories{
+    categories(level:0, first:10){
+        edges{
+            cursor
+            node{
+                ...CategoryDetails
+                children(first:20){
+                    edges{
+                        cursor
+                        node{
+                            ...CategoryDetails
+                            children{
+                                totalCount
+                            }
+                        }
+                    }
+                    totalCount
+                }
+            }
+        }
+        totalCount
+    }
+}
