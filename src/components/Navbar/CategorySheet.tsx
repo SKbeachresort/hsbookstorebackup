@@ -19,6 +19,7 @@ import {
 import Link from "next/link";
 
 export const CategorySheet = () => {
+  
   const { data: categoriesData } = useFetchAllCategoriesQuery();
   const [activeSubCategoryId, setActiveSubCategoryId] = useState<string | null>(
     null
@@ -38,14 +39,14 @@ export const CategorySheet = () => {
   }, [childrenData]);
 
   const handleSubCategoryExpand = (subcategoryId: string) => {
-    console.log("SubCategory ID", subcategoryId);
+    // console.log("SubCategory ID", subcategoryId);
     setActiveSubCategoryId((prevId) =>
       prevId === subcategoryId ? null : subcategoryId
     );
   };
 
   useEffect(() => {
-    console.log("Children Data", childrenData);
+    // console.log("Children Data", childrenData);
   }, [childrenData]);
 
   return (

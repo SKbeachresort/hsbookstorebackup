@@ -1,0 +1,12 @@
+query fetchAllProductsByCategorySlug($channel: String!, $slug: String!, $after: String!) {
+  category(slug: $slug) {
+    products(first: 50, channel: $channel, after: $after) {
+      edges {
+        cursor
+        node {
+          ...ProductCardDetails
+        }
+      }
+    }
+  }
+}

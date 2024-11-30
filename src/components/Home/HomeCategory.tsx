@@ -36,19 +36,19 @@ export const HomeCategory = () => {
       id: 3,
       name: "Shop for Stethoscopes",
       imageUrl: sthethoscope,
-      slug: "sthethoscopes",
+      slug: "stethoscopes",
     },
     {
       id: 4,
       name: "Shop for Scrubs",
       imageUrl: scrubs,
-      slug: "scrubs",
+      slug: "scrabs",
     },
     {
       id: 5,
-      name: "Shop for Clipboards",
+      name: "Shop for Accessories",
       imageUrl: clipboards,
-      slug: "clipboards",
+      slug: "accessories-2",
     },
   ];
 

@@ -33420,6 +33420,15 @@ export type FetchAllSubCategoryByIdQueryVariables = Exact<{
 
 export type FetchAllSubCategoryByIdQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string } }> } | null } | null };
 
+export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
+  after: Scalars['String']['input'];
+}>;
+
+
+export type FetchAllProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }> } | null } | null };
+
 export type FetchProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -33593,6 +33602,55 @@ export type FetchAllSubCategoryByIdQueryHookResult = ReturnType<typeof useFetchA
 export type FetchAllSubCategoryByIdLazyQueryHookResult = ReturnType<typeof useFetchAllSubCategoryByIdLazyQuery>;
 export type FetchAllSubCategoryByIdSuspenseQueryHookResult = ReturnType<typeof useFetchAllSubCategoryByIdSuspenseQuery>;
 export type FetchAllSubCategoryByIdQueryResult = Apollo.QueryResult<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables>;
+export const FetchAllProductsByCategorySlugDocument = gql`
+    query fetchAllProductsByCategorySlug($channel: String!, $slug: String!, $after: String!) {
+  category(slug: $slug) {
+    products(first: 50, channel: $channel, after: $after) {
+      edges {
+        cursor
+        node {
+          ...ProductCardDetails
+        }
+      }
+    }
+  }
+}
+    ${ProductCardDetailsFragmentDoc}`;
+
+/**
+ * __useFetchAllProductsByCategorySlugQuery__
+ *
+ * To run a query within a React component, call `useFetchAllProductsByCategorySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchAllProductsByCategorySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchAllProductsByCategorySlugQuery({
+ *   variables: {
+ *      channel: // value for 'channel'
+ *      slug: // value for 'slug'
+ *      after: // value for 'after'
+ *   },
+ * });
+ */
+export function useFetchAllProductsByCategorySlugQuery(baseOptions: Apollo.QueryHookOptions<FetchAllProductsByCategorySlugQuery, FetchAllProductsByCategorySlugQueryVariables> & ({ variables: FetchAllProductsByCategorySlugQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchAllProductsByCategorySlugQuery, FetchAllProductsByCategorySlugQueryVariables>(FetchAllProductsByCategorySlugDocument, options);
+      }
+export function useFetchAllProductsByCategorySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchAllProductsByCategorySlugQuery, FetchAllProductsByCategorySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchAllProductsByCategorySlugQuery, FetchAllProductsByCategorySlugQueryVariables>(FetchAllProductsByCategorySlugDocument, options);
+        }
+export function useFetchAllProductsByCategorySlugSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchAllProductsByCategorySlugQuery, FetchAllProductsByCategorySlugQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchAllProductsByCategorySlugQuery, FetchAllProductsByCategorySlugQueryVariables>(FetchAllProductsByCategorySlugDocument, options);
+        }
+export type FetchAllProductsByCategorySlugQueryHookResult = ReturnType<typeof useFetchAllProductsByCategorySlugQuery>;
+export type FetchAllProductsByCategorySlugLazyQueryHookResult = ReturnType<typeof useFetchAllProductsByCategorySlugLazyQuery>;
+export type FetchAllProductsByCategorySlugSuspenseQueryHookResult = ReturnType<typeof useFetchAllProductsByCategorySlugSuspenseQuery>;
+export type FetchAllProductsByCategorySlugQueryResult = Apollo.QueryResult<FetchAllProductsByCategorySlugQuery, FetchAllProductsByCategorySlugQueryVariables>;
 export const FetchProductsDocument = gql`
     query fetchProducts {
   products(channel: "default-channel", first: 10) {
