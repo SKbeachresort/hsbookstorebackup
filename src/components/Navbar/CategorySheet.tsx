@@ -17,8 +17,11 @@ import {
   useFetchAllSubCategoryByIdQuery,
 } from "../../../gql/graphql";
 import Link from "next/link";
+import { useRegionUrl } from "@/hooks/useRegionUrl";
 
 export const CategorySheet = () => {
+
+  const { getRegionUrl } = useRegionUrl();
   
   const { data: categoriesData } = useFetchAllCategoriesQuery();
   const [activeSubCategoryId, setActiveSubCategoryId] = useState<string | null>(
@@ -56,7 +59,7 @@ export const CategorySheet = () => {
           <Accordion type="single" collapsible>
             {categories.map((category, index) => (
               <AccordionItem key={category.node.id} value={`category-${index}`}>
-                <Link href={`/category/${category.node.slug}`}>
+                <Link href={getRegionUrl(`/category/${category.node.slug}`)}>
                   <AccordionTrigger>{category.node.name}</AccordionTrigger>
                 </Link>
 
@@ -90,7 +93,7 @@ export const CategorySheet = () => {
                                   {currentChildrenData.map((child: any) => (
                                     <li key={child.node.id}>
                                       <Link
-                                        href={`/category/${category.node.slug}/${subCategory.node.slug}/${child.node.slug}`}
+                                        href={getRegionUrl(`/category/${category.node.slug}/${subCategory.node.slug}/${child.node.slug}`)}
                                       >
                                         {child.node.name}
                                       </Link>

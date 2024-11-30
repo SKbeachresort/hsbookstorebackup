@@ -9,48 +9,52 @@ import "swiper/css/autoplay";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { Swiper as SwiperClass } from "swiper/types";
+import { motion } from "framer-motion";
 
 interface CarouselProps {
   slides: React.ReactNode[];
-};
+}
 
 const Carousel: React.FC<CarouselProps> = ({ slides }) => {
-
   const swiperRef = useRef<SwiperClass | null>(null);
 
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [progress, setProgress] = useState(0);
 
   const totalSlides = slides.length;
   const slidesPerView = 6;
-  const totalPages = Math.ceil(totalSlides / slidesPerView);
 
   const updateProgress = (swiper: SwiperClass) => {
+    const isBeginning = swiper.isBeginning;
+    const isEnd = swiper.isEnd;
+
+    // Calculate progress based on the visible slides
     const currentSlideIndex = swiper.realIndex + 1;
-    const progress = (currentSlideIndex / totalSlides) * 100;
+    const visibleSlides = Math.min(slidesPerView, totalSlides);
+    const progress =
+      (currentSlideIndex / (totalSlides - visibleSlides + 1)) * 100;
+
     setProgress(progress);
-    setCurrentPage(currentSlideIndex);
-    setIsAtStart(swiper.isBeginning);
-    setIsAtEnd(swiper.isEnd);
+    setIsAtStart(isBeginning);
+    setIsAtEnd(isEnd);
   };
 
   useEffect(() => {
     if (swiperRef.current) {
       updateProgress(swiperRef.current);
-    };
-  }, []);
+    }
+  }, [slides]);
 
   const handleSlideChange = (swiper: SwiperClass) => {
     updateProgress(swiper);
   };
 
   return (
-    <div className="">
+    <div className="relative">
       {/* Previous Button */}
       <div
-        className={`absolute top-[34%] z-30 -left-[2%] custom-prev bg-white border-2 border-textgray shadow-xl rounded-full p-4 ${
+        className={`absolute top-[34%] translate-y-1/2 z-30 -left-[2%] custom-prev bg-white border-2 border-textgray shadow-xl rounded-full p-4 ${
           isAtStart ? "opacity-0" : "opacity-100 cursor-pointer"
         }`}
         onClick={() => swiperRef.current?.slidePrev()}
@@ -93,13 +97,14 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
       </Swiper>
 
       {/* Progress Bar */}
-      <div className="relative w-full h-1 bg-gray-200 mt-4">
-        <div
+      <div className="relative hidden lg:block w-full h-1 bg-gray-200 mt-4">
+        <motion.div
           className="absolute top-0 left-0 h-full bg-secondary"
-          style={{ width: `${progress}%` }}
-        ></div>
+          animate={{ width: `${progress}%` }}
+          initial={{ width: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        ></motion.div>
       </div>
-      
     </div>
   );
 };

@@ -1,16 +1,8 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React from "react";
 import { ProductCard } from "../ProductCard/ProductCard";
-import { products } from "@/data/Products";
 import Carousel from "@/app/elements/Carousel";
-import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
-import { useFetchProductsQuery } from "../../../gql/graphql";
 import { useFetchProductsRecommendationQuery } from "../../../gql/graphql";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
 
 interface ProductsRecommendationsProps {
   channel: string;

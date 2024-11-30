@@ -33,9 +33,11 @@ import {
 import { Button } from "../ui/button";
 import { CategorySheet } from "./CategorySheet";
 import { CategoryNavbar } from "./CategoryNavbar";
+import { useRegionUrl } from "@/hooks/useRegionUrl";
 
 export const Navbar = () => {
   const { totalItems } = useCart();
+  const { getRegionUrl } = useRegionUrl();
 
   const [navOpen, setNavOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -76,11 +78,10 @@ export const Navbar = () => {
     }
   };
 
-  const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newChannelSlug = e.target.value;
-    setCurrentChannel(newChannelSlug);
-    router.push(`/${newChannelSlug}/${currentLocale}`);
-    setCookie("channel", newChannelSlug);
+  const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => { 
+    router.push(`${pathname.replace(currentChannel.slug, e.target.value)}`);
+    setCookie("channel", e.target.value);
+    setCurrentChannel(e.target.value);
   };
 
   return (
@@ -103,7 +104,7 @@ export const Navbar = () => {
                 className="text-[3.5vh] text-primary cursor-pointer"
               />
             </div>
-            <Link href="/">
+            <Link href={getRegionUrl("/")}>
               <Image
                 src={logo}
                 width={200}
@@ -114,7 +115,7 @@ export const Navbar = () => {
               />
             </Link>
 
-            <Link href="/">
+            <Link href={getRegionUrl("/")}>
               <Image
                 src={HSlogo}
                 width={30}
@@ -188,7 +189,7 @@ export const Navbar = () => {
             </PopOverDropDown>
 
             {/* Auth Login */}
-            <Link href="/auth/login">
+            <Link href={getRegionUrl(`/auth/login`)}>
               <div className="flex flex-row justify-center items-center gap-x-[1vh]">
                 <FaRegUser className="hidden md:block text-textgray text-2xl" />
                 <div className="hidden lg:block">
@@ -203,7 +204,7 @@ export const Navbar = () => {
             </Link>
 
             {/* Cart */}
-            <Link href="/cart">
+            <Link href={getRegionUrl(`/cart`)}>
               <div className="relative">
                 <div className="bg-success w-6 h-6 absolute -top-3 -right-2 flex flex-col justify-center items-center p-1 rounded-full">
                   <p className="text-sm font-bold text-white">{totalItems}</p>

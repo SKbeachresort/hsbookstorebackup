@@ -10,6 +10,7 @@ import medicaldevices from "../../../public/category/medicaldevices.png";
 import sthethoscope from "../../../public/category/sthethoscope.png";
 import scrubs from "../../../public/category/scrubs.png";
 import clipboards from "../../../public/category/clipboard.png";
+import { useRegionUrl } from "@/hooks/useRegionUrl";
 
 interface CategoryProps {
   id: number;
@@ -19,6 +20,7 @@ interface CategoryProps {
 };
 
 export const HomeCategory = () => {
+  const { getRegionUrl } = useRegionUrl();
   const categorySection: CategoryProps[] = [
     {
       id: 1,
@@ -62,7 +64,7 @@ export const HomeCategory = () => {
               className="bg-white md:w-[18%] rounded-md flex justify-center flex-col items-center"
             >
               <ZoomInSlideUp>
-                <Link href={`/category/${category.slug}`}>
+                <Link href={getRegionUrl(`/category/${category.slug}`)}>
                   <Image
                     src={category.imageUrl}
                     alt={category.name}

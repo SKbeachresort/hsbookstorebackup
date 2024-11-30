@@ -24,19 +24,24 @@ const MiniCarousel: React.FC<MiniCarouselProps> = ({ slides }) => {
   const totalPages = Math.ceil(totalSlides / slidesPerView);
 
   const updateProgress = (swiper: SwiperClass) => {
+    const isBeginning = swiper.isBeginning;
+    const isEnd = swiper.isEnd;
+
+    // Calculate progress based on the visible slides
     const currentSlideIndex = swiper.realIndex + 1;
-    const progress = (currentSlideIndex / totalSlides) * 100;
+    const visibleSlides = Math.min(slidesPerView, totalSlides);
+    const progress = (currentSlideIndex / (totalSlides - visibleSlides + 1)) * 100;
+
     setProgress(progress);
-    setCurrentPage(currentSlideIndex);
-    setIsAtStart(swiper.isBeginning);
-    setIsAtEnd(swiper.isEnd);
+    setIsAtStart(isBeginning);
+    setIsAtEnd(isEnd);
   };
 
   useEffect(() => {
     if (swiperRef.current) {
       updateProgress(swiperRef.current);
-    }
-  }, []);
+    };
+  }, [slides]);
 
   const handleSlideChange = (swiper: SwiperClass) => {
     updateProgress(swiper);

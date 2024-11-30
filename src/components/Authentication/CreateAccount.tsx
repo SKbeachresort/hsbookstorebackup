@@ -5,12 +5,16 @@ import Image from "next/image";
 import HSlogo from "../../../public/HSlogo.png";
 import Button from "@/app/elements/Button";
 import Link from "next/link";
+import { useRegionUrl } from "@/hooks/useRegionUrl";
 
 interface CreateAccountProps {
   closeModal: () => void;
 }
 
 const CreateAccount: React.FC<CreateAccountProps> = ({ closeModal }) => {
+
+  const { getRegionUrl } = useRegionUrl();
+
   return (
     <div className="p-6 bg-white rounded-lg  relative">
       <button
@@ -49,7 +53,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ closeModal }) => {
         Create an Account
       </Button>
 
-      <Link href="/checkout">
+      <Link href={getRegionUrl("/checkout")}>
         <Button variant="secondary" onClick={() => {}}>
           Guest Checkout
         </Button>

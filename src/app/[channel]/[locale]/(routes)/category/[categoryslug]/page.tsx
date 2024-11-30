@@ -6,16 +6,13 @@ import { products } from "@/data/Products";
 import { capitalizeWords } from "@/utils/Capitalize";
 import SortDropdown from "@/components/CategoryPage/SortDropdown";
 import { useFetchProductsQuery } from "../../../../../../../gql/graphql";
-import { PagesProps } from "../../layout";
 
-const CategoryPage = (props:PagesProps) => {
+const CategoryPage =  () => {
 
-  const params = props.params;
-  const {locale, channel} = params;
+  const { locale, channel, categoryslug } = useParams();
   console.log("Locale in Category Page", locale);
   console.log("Channel in Category Page", channel);
-
-  const { categoryslug } = useParams();
+  console.log("CategorySlug in Category Page", categoryslug);
 
   const formattedSlug =
     typeof categoryslug === "string" ? capitalizeWords(categoryslug) : "";

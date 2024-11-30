@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   FaFacebookF,
@@ -9,8 +10,12 @@ import {
 import { FaThreads } from "react-icons/fa6";
 import { IoMdMail } from "react-icons/io";
 import Link from "next/link";
+import { useRegionUrl } from "@/hooks/useRegionUrl";
 
 export const Footer = () => {
+
+  const { getRegionUrl } = useRegionUrl();
+
   return (
     <footer className="bg-primary  text-white p-8">
       <div className="container w-[90%] xl:w-[75%] 3xl:w-full mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -45,13 +50,13 @@ export const Footer = () => {
             Legal
           </h3>
           <ul className=" text-sm">
-            <Link href="/legal/terms-and-conditions">
+            <Link href={getRegionUrl(`/legal/terms-and-conditions`)}>
               <li className="space-y-2">Terms and Conditions</li>
             </Link>
-            <Link href="/legal/privacy-policy">
+            <Link href={getRegionUrl(`/legal/privacy-policy`)}>
               <li className="space-y-2">Privacy Policy</li>
             </Link>
-            <Link href="/legal/disclaimer">
+            <Link href={getRegionUrl(`/legal/disclaimer`)}>
               <li className="space-y-2">Disclaimer</li>
             </Link>
           </ul>

@@ -1,11 +1,8 @@
 "use client";
 import React from "react";
 import { ProductCard } from "../ProductCard/ProductCard";
-import { products } from "@/data/Products";
-import { Swiper, SwiperSlide } from "swiper/react";
 import Carousel from "@/app/elements/Carousel";
 import { useFetchProductsRecommendationQuery } from "../../../gql/graphql";
-import Image from "next/image";
 
 interface RecentlyAddedProps {
   channel: string;

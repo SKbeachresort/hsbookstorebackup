@@ -6,6 +6,7 @@ import Image,{StaticImageData} from "next/image";
 import AnimateOnScroll from "../Animated/AnimateOnScroll";
 import { useCart } from "@/context/CartContext";
 import { FaPlus, FaTrashAlt } from "react-icons/fa";
+import { useRegionUrl } from "@/hooks/useRegionUrl";
 
 interface ProductCardProps {
   id: string;
@@ -30,6 +31,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   ratings,
   navigate,
 }) => {
+
+  const { getRegionUrl } = useRegionUrl();
 
   const {
     addToCart,
@@ -71,7 +74,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     <div className="relative w-32 md:w-28 lg:w-[6.5rem] xl:w-32 mx-4">
       
       <AnimateOnScroll animationType="fade-up">
-        <Link href={`/product/${navigate}`}>
+        <Link href={getRegionUrl(`/product/${navigate}`)}>
           <Image
             src={image}
             width={120}
