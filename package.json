@@ -21,6 +21,7 @@
     "@mui/material": "^6.1.6",
     "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-scroll-area": "^1.2.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@saleor/auth-sdk": "^1.0.1",
     "@types/apollo-upload-client": "^18.0.0",

@@ -4,7 +4,7 @@ query fetchAllCategories{
             cursor
             node{
                 ...CategoryDetails
-                children(first:20){
+                children(first:60){
                     edges{
                         cursor
                         node{

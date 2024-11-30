@@ -43730,7 +43730,7 @@ export const FetchAllCategoriesDocument = new TypedDocumentString(`
       cursor
       node {
         ...CategoryDetails
-        children(first: 20) {
+        children(first: 60) {
           edges {
             cursor
             node {
@@ -43756,7 +43756,7 @@ export const FetchAllSubCategoryByIdDocument = new TypedDocumentString(`
     query fetchAllSubCategoryById($id: ID!) {
   category(id: $id) {
     ...CategoryDetails
-    children(first: 20) {
+    children(first: 60) {
       totalCount
       edges {
         cursor
