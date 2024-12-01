@@ -13,7 +13,7 @@ export const CategoryNavbar = () => {
   return (
     <div className="flex flex-row gap-x-4">
       {categories.map((category) => (
-        <Link href={getRegionUrl(`/category/${category.node.slug}`)} key={category.node.id}>
+        <Link href={getRegionUrl(`category/${category.node.slug}`)} key={category.node.id}>
           <p className="text-sm lg:text-md font-medium text-white">
             {category.node.name}
           </p>

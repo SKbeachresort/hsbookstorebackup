@@ -33420,6 +33420,11 @@ export type FetchAllSubCategoryByIdQueryVariables = Exact<{
 
 export type FetchAllSubCategoryByIdQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string } }> } | null } | null };
 
+export type FetchFeaturedCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null };
+
 export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
   channel: Scalars['String']['input'];
   slug: Scalars['String']['input'];
@@ -33602,6 +33607,59 @@ export type FetchAllSubCategoryByIdQueryHookResult = ReturnType<typeof useFetchA
 export type FetchAllSubCategoryByIdLazyQueryHookResult = ReturnType<typeof useFetchAllSubCategoryByIdLazyQuery>;
 export type FetchAllSubCategoryByIdSuspenseQueryHookResult = ReturnType<typeof useFetchAllSubCategoryByIdSuspenseQuery>;
 export type FetchAllSubCategoryByIdQueryResult = Apollo.QueryResult<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables>;
+export const FetchFeaturedCategoriesDocument = gql`
+    query fetchFeaturedCategories {
+  categories(
+    first: 10
+    level: 1
+    filter: {metadata: {key: "Featured", value: "Y"}}
+  ) {
+    totalCount
+    edges {
+      node {
+        id
+        name
+        slug
+        backgroundImage {
+          url
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useFetchFeaturedCategoriesQuery__
+ *
+ * To run a query within a React component, call `useFetchFeaturedCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchFeaturedCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchFeaturedCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFetchFeaturedCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>(FetchFeaturedCategoriesDocument, options);
+      }
+export function useFetchFeaturedCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>(FetchFeaturedCategoriesDocument, options);
+        }
+export function useFetchFeaturedCategoriesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>(FetchFeaturedCategoriesDocument, options);
+        }
+export type FetchFeaturedCategoriesQueryHookResult = ReturnType<typeof useFetchFeaturedCategoriesQuery>;
+export type FetchFeaturedCategoriesLazyQueryHookResult = ReturnType<typeof useFetchFeaturedCategoriesLazyQuery>;
+export type FetchFeaturedCategoriesSuspenseQueryHookResult = ReturnType<typeof useFetchFeaturedCategoriesSuspenseQuery>;
+export type FetchFeaturedCategoriesQueryResult = Apollo.QueryResult<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>;
 export const FetchAllProductsByCategorySlugDocument = gql`
     query fetchAllProductsByCategorySlug($channel: String!, $slug: String!, $after: String!) {
   category(slug: $slug) {

@@ -50,13 +50,13 @@ export const Footer = () => {
             Legal
           </h3>
           <ul className=" text-sm">
-            <Link href={getRegionUrl(`/legal/terms-and-conditions`)}>
+            <Link href={getRegionUrl(`legal/terms-and-conditions`)}>
               <li className="space-y-2">Terms and Conditions</li>
             </Link>
-            <Link href={getRegionUrl(`/legal/privacy-policy`)}>
+            <Link href={getRegionUrl(`legal/privacy-policy`)}>
               <li className="space-y-2">Privacy Policy</li>
             </Link>
-            <Link href={getRegionUrl(`/legal/disclaimer`)}>
+            <Link href={getRegionUrl(`legal/disclaimer`)}>
               <li className="space-y-2">Disclaimer</li>
             </Link>
           </ul>

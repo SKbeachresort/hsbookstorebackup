@@ -1,0 +1,19 @@
+query fetchFeaturedCategories {
+  categories(
+    first: 10
+    level: 1
+    filter: {metadata: {key: "Featured", value: "Y"}}
+  ) {
+    totalCount
+    edges {
+      node {
+        id
+        name
+        slug
+        backgroundImage {
+          url
+        }
+      }
+    }
+  }
+}

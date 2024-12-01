@@ -64,7 +64,7 @@ export const HomeCategory = () => {
               className="bg-white md:w-[18%] rounded-md flex justify-center flex-col items-center"
             >
               <ZoomInSlideUp>
-                <Link href={getRegionUrl(`/category/${category.slug}`)}>
+                <Link href={getRegionUrl(`category/${category.slug}`)}>
                   <Image
                     src={category.imageUrl}
                     alt={category.name}

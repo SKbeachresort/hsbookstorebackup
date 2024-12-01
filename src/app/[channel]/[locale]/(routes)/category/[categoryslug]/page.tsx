@@ -1,59 +1,19 @@
 "use client";
 import React from "react";
 import { useParams } from "next/navigation";
-import { ProductCard } from "@/components/ProductCard/ProductCard";
-import { products } from "@/data/Products";
-import { capitalizeWords } from "@/utils/Capitalize";
-import SortDropdown from "@/components/CategoryPage/SortDropdown";
-import { useFetchProductsQuery } from "../../../../../../../gql/graphql";
+import { FeaturedCategories } from "@/components/CategoryPage/PageComponents/FeaturedCategories";
+import Image from "next/image";
+import slider1 from "../../../../../../../public/slider1.png";
 
 const CategoryPage =  () => {
 
   const { locale, channel, categoryslug } = useParams();
-  console.log("Locale in Category Page", locale);
-  console.log("Channel in Category Page", channel);
-  console.log("CategorySlug in Category Page", categoryslug);
-
-  const formattedSlug =
-    typeof categoryslug === "string" ? capitalizeWords(categoryslug) : "";
-
-  const handleSortSelect = (selectedOption: string) => {
-    console.log("Selected sort option:", selectedOption);
-  };
-
-  const { data, loading, error } = useFetchProductsQuery();
-
-  const products = data?.products?.edges || [];
 
   return (
-    <>
-      <div className="w-[100%] px-5 pb-10 h-full">
-        <div className="flex items-center justify-between my-5">
-          <h1 className="text-lg font-medium ">Explore {formattedSlug}</h1>
-          <SortDropdown onSelect={handleSortSelect} />
-        </div>
-        <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
-          {products.map(({ node }, index) => {
-            // const slug = node.name.replace(/\s+/g, "-").toLowerCase();
-            const productImage = node.media?.[0]?.url || "/placeholder.png";
-            return (
-              <ProductCard
-                id={node.id}
-                key={index}
-                name={node.name}
-                image={productImage}
-                currency={node.pricing?.priceRangeUndiscounted?.start?.currency}
-                currencySymbol="$"
-                price={node.pricing?.priceRangeUndiscounted?.start?.net?.amount}
-                cuttedPrice={node.pricing?.discount?.net?.amount}
-                ratings={node.rating || 0}
-                navigate={node.slug}
-              />
-            );
-          })}
-        </div>
-      </div>
-    </>
+    <div className="w-[90%] mx-auto md:mx-10 py-10">
+      <Image src={slider1} width={1000} height={10} alt="slider" className="w-full md:w-[80%] mx-auto"/>
+      <FeaturedCategories categoryslug={categoryslug as string}/>
+    </div>
   );
 };
 

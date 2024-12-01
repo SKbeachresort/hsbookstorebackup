@@ -33227,6 +33227,11 @@ export type FetchAllSubCategoryByIdQueryVariables = Exact<{
 
 export type FetchAllSubCategoryByIdQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string } }> } | null } | null };
 
+export type FetchFeaturedCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null };
+
 export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
   channel: Scalars['String']['input'];
   slug: Scalars['String']['input'];
@@ -43781,6 +43786,27 @@ export const FetchAllSubCategoryByIdDocument = new TypedDocumentString(`
   name
   slug
 }`) as unknown as TypedDocumentString<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables>;
+export const FetchFeaturedCategoriesDocument = new TypedDocumentString(`
+    query fetchFeaturedCategories {
+  categories(
+    first: 10
+    level: 1
+    filter: {metadata: {key: "Featured", value: "Y"}}
+  ) {
+    totalCount
+    edges {
+      node {
+        id
+        name
+        slug
+        backgroundImage {
+          url
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>;
 export const FetchAllProductsByCategorySlugDocument = new TypedDocumentString(`
     query fetchAllProductsByCategorySlug($channel: String!, $slug: String!, $after: String!) {
   category(slug: $slug) {

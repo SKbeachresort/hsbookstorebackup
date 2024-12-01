@@ -189,7 +189,7 @@ export const Navbar = () => {
             </PopOverDropDown>
 
             {/* Auth Login */}
-            <Link href={getRegionUrl(`/auth/login`)}>
+            <Link href={getRegionUrl(`auth/login`)}>
               <div className="flex flex-row justify-center items-center gap-x-[1vh]">
                 <FaRegUser className="hidden md:block text-textgray text-2xl" />
                 <div className="hidden lg:block">
@@ -204,7 +204,7 @@ export const Navbar = () => {
             </Link>
 
             {/* Cart */}
-            <Link href={getRegionUrl(`/cart`)}>
+            <Link href={getRegionUrl(`cart`)}>
               <div className="relative">
                 <div className="bg-success w-6 h-6 absolute -top-3 -right-2 flex flex-col justify-center items-center p-1 rounded-full">
                   <p className="text-sm font-bold text-white">{totalItems}</p>
