@@ -33239,7 +33239,16 @@ export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
 }>;
 
 
-export type FetchAllProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }> } | null } | null };
+export type FetchAllProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+
+export type FetchBestSellerProductsByCategoryQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+  channel: Scalars['String']['input'];
+  after: Scalars['String']['input'];
+}>;
+
+
+export type FetchBestSellerProductsByCategoryQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type FetchProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -33260,6 +33269,15 @@ export type FetchProductsRecommendationQueryVariables = Exact<{
 
 
 export type FetchProductsRecommendationQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+
+export type FetchRecentlyAddedProductsByCategorySlugQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+  channel: Scalars['String']['input'];
+  after: Scalars['String']['input'];
+}>;
+
+
+export type FetchRecentlyAddedProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type AccountAddressCreateKeySpecifier = ('accountErrors' | 'address' | 'errors' | 'user' | AccountAddressCreateKeySpecifier)[];
 export type AccountAddressCreateFieldPolicy = {
@@ -43810,6 +43828,7 @@ export const FetchFeaturedCategoriesDocument = new TypedDocumentString(`
 export const FetchAllProductsByCategorySlugDocument = new TypedDocumentString(`
     query fetchAllProductsByCategorySlug($channel: String!, $slug: String!, $after: String!) {
   category(slug: $slug) {
+    ...CategoryDetails
     products(first: 50, channel: $channel, after: $after) {
       edges {
         cursor
@@ -43817,10 +43836,25 @@ export const FetchAllProductsByCategorySlugDocument = new TypedDocumentString(`
           ...ProductCardDetails
         }
       }
+      pageInfo {
+        ...PageInfoDetails
+      }
+      totalCount
     }
   }
 }
-    fragment ProductCardDetails on Product {
+    fragment CategoryDetails on Category {
+  id
+  name
+  slug
+}
+fragment PageInfoDetails on PageInfo {
+  endCursor
+  hasNextPage
+  hasPreviousPage
+  startCursor
+}
+fragment ProductCardDetails on Product {
   id
   slug
   channel
@@ -43850,6 +43884,64 @@ export const FetchAllProductsByCategorySlugDocument = new TypedDocumentString(`
   }
   rating
 }`) as unknown as TypedDocumentString<FetchAllProductsByCategorySlugQuery, FetchAllProductsByCategorySlugQueryVariables>;
+export const FetchBestSellerProductsByCategoryDocument = new TypedDocumentString(`
+    query fetchBestSellerProductsByCategory($slug: String!, $channel: String!, $after: String!) {
+  category(slug: $slug) {
+    ...CategoryDetails
+    products(channel: $channel, first: 20, after: $after) {
+      totalCount
+      edges {
+        node {
+          ...ProductCardDetails
+        }
+      }
+      pageInfo {
+        ...PageInfoDetails
+      }
+    }
+  }
+}
+    fragment CategoryDetails on Category {
+  id
+  name
+  slug
+}
+fragment PageInfoDetails on PageInfo {
+  endCursor
+  hasNextPage
+  hasPreviousPage
+  startCursor
+}
+fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+}`) as unknown as TypedDocumentString<FetchBestSellerProductsByCategoryQuery, FetchBestSellerProductsByCategoryQueryVariables>;
 export const FetchProductsDocument = new TypedDocumentString(`
     query fetchProducts {
   products(channel: "default-channel", first: 10) {
@@ -43977,3 +44069,66 @@ fragment ProductCardDetails on Product {
   }
   rating
 }`) as unknown as TypedDocumentString<FetchProductsRecommendationQuery, FetchProductsRecommendationQueryVariables>;
+export const FetchRecentlyAddedProductsByCategorySlugDocument = new TypedDocumentString(`
+    query fetchRecentlyAddedProductsByCategorySlug($slug: String!, $channel: String!, $after: String!) {
+  category(slug: $slug) {
+    ...CategoryDetails
+    products(
+      channel: $channel
+      first: 20
+      sortBy: {direction: ASC, field: CREATED_AT}
+      after: $after
+    ) {
+      totalCount
+      edges {
+        node {
+          ...ProductCardDetails
+        }
+      }
+      pageInfo {
+        ...PageInfoDetails
+      }
+    }
+  }
+}
+    fragment CategoryDetails on Category {
+  id
+  name
+  slug
+}
+fragment PageInfoDetails on PageInfo {
+  endCursor
+  hasNextPage
+  hasPreviousPage
+  startCursor
+}
+fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+}`) as unknown as TypedDocumentString<FetchRecentlyAddedProductsByCategorySlugQuery, FetchRecentlyAddedProductsByCategorySlugQueryVariables>;

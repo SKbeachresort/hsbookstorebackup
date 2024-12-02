@@ -20,9 +20,8 @@ import Link from "next/link";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
 
 export const CategorySheet = () => {
-
   const { getRegionUrl } = useRegionUrl();
-  
+
   const { data: categoriesData } = useFetchAllCategoriesQuery();
   const [activeSubCategoryId, setActiveSubCategoryId] = useState<string | null>(
     null
@@ -54,7 +53,7 @@ export const CategorySheet = () => {
 
   return (
     <>
-      <ScrollArea className="w-full h-[90%] py-6 border p-2">
+      <ScrollArea className="w-full h-[90vh] py-6 border p-2">
         <div>
           <Accordion type="single" collapsible>
             {categories.map((category, index) => (
@@ -72,15 +71,17 @@ export const CategorySheet = () => {
                             key={subCategory.node.id}
                             value={`subcategory-${index}-${subIndex}`}
                           >
-                            
+                            <Link href={getRegionUrl(`category/${category.node.slug}/${subCategory.node.slug}`)}>
                               <AccordionTrigger2
-                                onClick={(e) => {
-                                  e.stopPropagation();
+                                onClick={() => {
+                                  // e.stopPropagation();
                                   handleSubCategoryExpand(subCategory.node.id);
                                 }}
                               >
                                 {subCategory.node.name}
                               </AccordionTrigger2>
+                            </Link>
+
                             <AccordionContent2>
                               {activeSubCategoryId === subCategory.node.id &&
                               childrenLoading ? (
@@ -91,9 +92,11 @@ export const CategorySheet = () => {
                                 currentChildrenData.length > 0 ? (
                                 <ul className="ml-4 list-disc">
                                   {currentChildrenData.map((child: any) => (
-                                    <li key={child.node.id}>
+                                    <li key={child.node.id} className="text-sm mt-1 text-textColor">
                                       <Link
-                                        href={getRegionUrl(`category/${category.node.slug}/${subCategory.node.slug}/${child.node.slug}`)}
+                                        href={getRegionUrl(
+                                          `category/${category.node.slug}/${subCategory.node.slug}/${child.node.slug}`
+                                        )}
                                       >
                                         {child.node.name}
                                       </Link>

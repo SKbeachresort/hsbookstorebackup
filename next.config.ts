@@ -1,3 +1,5 @@
+import { hostname } from "os"
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -16,7 +18,8 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "uat.hsbookstore.com",
+        // hostname: "uat.hsbookstore.com",
+        hostname:"uat.arabanah.com",
         pathname: "/**",
       },
     ],

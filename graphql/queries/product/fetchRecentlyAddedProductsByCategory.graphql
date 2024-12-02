@@ -1,13 +1,18 @@
-query fetchAllProductsByCategorySlug(
-  $channel: String!
+query fetchRecentlyAddedProductsByCategorySlug(
   $slug: String!
+  $channel: String!
   $after: String!
 ) {
   category(slug: $slug) {
     ...CategoryDetails
-    products(first: 50, channel: $channel, after: $after) {
+    products(
+      channel: $channel
+      first: 20
+      sortBy: { direction: ASC, field: CREATED_AT }
+      after: $after
+    ) {
+      totalCount
       edges {
-        cursor
         node {
           ...ProductCardDetails
         }
@@ -15,7 +20,6 @@ query fetchAllProductsByCategorySlug(
       pageInfo {
         ...PageInfoDetails
       }
-      totalCount
     }
   }
 }

@@ -38,7 +38,7 @@ const SubCategoryProducts =  () => {
       </div>
 
       <div className="">
-        <div className="flex items-center justify-between my-5">
+        <div className="flex items-center justify-between my-5 bg-red-400">
           <h1 className="text-lg font-medium ">
             Explore {formattedSubCategorySlug}
           </h1>

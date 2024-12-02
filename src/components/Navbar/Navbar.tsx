@@ -85,10 +85,10 @@ export const Navbar = () => {
   };
 
   return (
-    <Sheet>
+    <>
       {isLoading && <BackDropLoader open={isLoading} />}
       {/* Header Section */}
-      <div>
+      <div className="">
         <div className="bg-blue-100 py-1">
           <p className="text-secondary text-center text-sm xl:text-lg font-medium">
             Get 10% discount on your first order
@@ -180,10 +180,10 @@ export const Navbar = () => {
                 <select
                   value={currentChannel.slug}
                   onChange={handleRegionChange}
-                  className="border-[1px] border-borderColor outline-none p-1"
+                  className="border-[1px] cursor-pointer border-borderColor outline-none p-1"
                 >
-                  <option value="default-channel">Kuwait - KWD</option>
-                  <option value="channel-usd">USA - USD</option>
+                  <option value="default-channel" className="cursor-pointer">Kuwait - KWD</option>
+                  <option value="channel-usd" className="cursor-pointer">USA - USD</option>
                 </select>
               </div>
             </PopOverDropDown>
@@ -304,19 +304,7 @@ export const Navbar = () => {
         </div>
       )}
 
-      {/* Category Sheet  */}
-      {sheetOpen && (
-        <div className="fixed bg-black z-50 overflow-y-auto overflow-x-hidden inset-0 w-full h-full backdrop-blur-sm bg-opacity-50 flex justify-start items-start transition-opacity duration-300 ease-in-out">
-          <div
-            className={`relative bg-white w-64 h-full overflow-y-scroll px-[2.5vh] md:px-[5vh] animate-fadeRight transform ${
-              sheetOpen ? "translate-x-0" : "translate-x-full"
-            } transition-transform duration-500 ease-in-out`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <p onClick={toggleSheet}>CLose</p>
-          </div>
-        </div>
-      )}
-    </Sheet>
+     
+    </>
   );
 };

@@ -6,6 +6,7 @@ import { CartProvider } from "@/context/CartContext";
 import toast, { Toaster } from "react-hot-toast";
 import "aos/dist/aos.css";
 import AOS from "aos";
+import { Sheet } from "@/components/ui/sheet";
 
 export default function ClientLayout({
   children,
@@ -37,23 +38,15 @@ export default function ClientLayout({
 
   return (
     <main className="mx-auto min-h-[calc(100dvh-133px)] max-w-[1920px]">
-      <div className="flex flex-row">
-
-        {isCategory && <SubCategorySidebar />}
-        <div className="w-full">{children}</div>
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: "#fff",
-              color: "#111",
-              borderRadius: "none",
-              padding: "20px",
-              fontSize: "16px",
-            },
-            success: {
+      <>
+        <div className="flex flex-row overflow-hidden">
+          {isCategory && <SubCategorySidebar />}
+          <div className={`${isCategory ? "w-full md:w-[80%]":"w-full"}`}>{children}</div>
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+            toastOptions={{
+              duration: 4000,
               style: {
                 background: "#fff",
                 color: "#111",
@@ -61,19 +54,28 @@ export default function ClientLayout({
                 padding: "20px",
                 fontSize: "16px",
               },
-            },
-            error: {
-              style: {
-                background: "#fff",
-                color: "#111",
-                borderRadius: "none",
-                padding: "20px",
-                fontSize: "16px",
+              success: {
+                style: {
+                  background: "#fff",
+                  color: "#111",
+                  borderRadius: "none",
+                  padding: "20px",
+                  fontSize: "16px",
+                },
               },
-            },
-          }}
-        />
-      </div>
+              error: {
+                style: {
+                  background: "#fff",
+                  color: "#111",
+                  borderRadius: "none",
+                  padding: "20px",
+                  fontSize: "16px",
+                },
+              },
+            }}
+          />
+        </div>
+      </>
     </main>
   );
 }

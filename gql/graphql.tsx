@@ -33432,7 +33432,16 @@ export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
 }>;
 
 
-export type FetchAllProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }> } | null } | null };
+export type FetchAllProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+
+export type FetchBestSellerProductsByCategoryQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+  channel: Scalars['String']['input'];
+  after: Scalars['String']['input'];
+}>;
+
+
+export type FetchBestSellerProductsByCategoryQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type FetchProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -33453,6 +33462,15 @@ export type FetchProductsRecommendationQueryVariables = Exact<{
 
 
 export type FetchProductsRecommendationQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+
+export type FetchRecentlyAddedProductsByCategorySlugQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+  channel: Scalars['String']['input'];
+  after: Scalars['String']['input'];
+}>;
+
+
+export type FetchRecentlyAddedProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export const CategoryDetailsFragmentDoc = gql`
     fragment CategoryDetails on Category {
@@ -33663,6 +33681,7 @@ export type FetchFeaturedCategoriesQueryResult = Apollo.QueryResult<FetchFeature
 export const FetchAllProductsByCategorySlugDocument = gql`
     query fetchAllProductsByCategorySlug($channel: String!, $slug: String!, $after: String!) {
   category(slug: $slug) {
+    ...CategoryDetails
     products(first: 50, channel: $channel, after: $after) {
       edges {
         cursor
@@ -33670,10 +33689,16 @@ export const FetchAllProductsByCategorySlugDocument = gql`
           ...ProductCardDetails
         }
       }
+      pageInfo {
+        ...PageInfoDetails
+      }
+      totalCount
     }
   }
 }
-    ${ProductCardDetailsFragmentDoc}`;
+    ${CategoryDetailsFragmentDoc}
+${ProductCardDetailsFragmentDoc}
+${PageInfoDetailsFragmentDoc}`;
 
 /**
  * __useFetchAllProductsByCategorySlugQuery__
@@ -33709,6 +33734,61 @@ export type FetchAllProductsByCategorySlugQueryHookResult = ReturnType<typeof us
 export type FetchAllProductsByCategorySlugLazyQueryHookResult = ReturnType<typeof useFetchAllProductsByCategorySlugLazyQuery>;
 export type FetchAllProductsByCategorySlugSuspenseQueryHookResult = ReturnType<typeof useFetchAllProductsByCategorySlugSuspenseQuery>;
 export type FetchAllProductsByCategorySlugQueryResult = Apollo.QueryResult<FetchAllProductsByCategorySlugQuery, FetchAllProductsByCategorySlugQueryVariables>;
+export const FetchBestSellerProductsByCategoryDocument = gql`
+    query fetchBestSellerProductsByCategory($slug: String!, $channel: String!, $after: String!) {
+  category(slug: $slug) {
+    ...CategoryDetails
+    products(channel: $channel, first: 20, after: $after) {
+      totalCount
+      edges {
+        node {
+          ...ProductCardDetails
+        }
+      }
+      pageInfo {
+        ...PageInfoDetails
+      }
+    }
+  }
+}
+    ${CategoryDetailsFragmentDoc}
+${ProductCardDetailsFragmentDoc}
+${PageInfoDetailsFragmentDoc}`;
+
+/**
+ * __useFetchBestSellerProductsByCategoryQuery__
+ *
+ * To run a query within a React component, call `useFetchBestSellerProductsByCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchBestSellerProductsByCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchBestSellerProductsByCategoryQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *      channel: // value for 'channel'
+ *      after: // value for 'after'
+ *   },
+ * });
+ */
+export function useFetchBestSellerProductsByCategoryQuery(baseOptions: Apollo.QueryHookOptions<FetchBestSellerProductsByCategoryQuery, FetchBestSellerProductsByCategoryQueryVariables> & ({ variables: FetchBestSellerProductsByCategoryQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchBestSellerProductsByCategoryQuery, FetchBestSellerProductsByCategoryQueryVariables>(FetchBestSellerProductsByCategoryDocument, options);
+      }
+export function useFetchBestSellerProductsByCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchBestSellerProductsByCategoryQuery, FetchBestSellerProductsByCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchBestSellerProductsByCategoryQuery, FetchBestSellerProductsByCategoryQueryVariables>(FetchBestSellerProductsByCategoryDocument, options);
+        }
+export function useFetchBestSellerProductsByCategorySuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchBestSellerProductsByCategoryQuery, FetchBestSellerProductsByCategoryQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchBestSellerProductsByCategoryQuery, FetchBestSellerProductsByCategoryQueryVariables>(FetchBestSellerProductsByCategoryDocument, options);
+        }
+export type FetchBestSellerProductsByCategoryQueryHookResult = ReturnType<typeof useFetchBestSellerProductsByCategoryQuery>;
+export type FetchBestSellerProductsByCategoryLazyQueryHookResult = ReturnType<typeof useFetchBestSellerProductsByCategoryLazyQuery>;
+export type FetchBestSellerProductsByCategorySuspenseQueryHookResult = ReturnType<typeof useFetchBestSellerProductsByCategorySuspenseQuery>;
+export type FetchBestSellerProductsByCategoryQueryResult = Apollo.QueryResult<FetchBestSellerProductsByCategoryQuery, FetchBestSellerProductsByCategoryQueryVariables>;
 export const FetchProductsDocument = gql`
     query fetchProducts {
   products(channel: "default-channel", first: 10) {
@@ -33901,6 +33981,66 @@ export type FetchProductsRecommendationQueryHookResult = ReturnType<typeof useFe
 export type FetchProductsRecommendationLazyQueryHookResult = ReturnType<typeof useFetchProductsRecommendationLazyQuery>;
 export type FetchProductsRecommendationSuspenseQueryHookResult = ReturnType<typeof useFetchProductsRecommendationSuspenseQuery>;
 export type FetchProductsRecommendationQueryResult = Apollo.QueryResult<FetchProductsRecommendationQuery, FetchProductsRecommendationQueryVariables>;
+export const FetchRecentlyAddedProductsByCategorySlugDocument = gql`
+    query fetchRecentlyAddedProductsByCategorySlug($slug: String!, $channel: String!, $after: String!) {
+  category(slug: $slug) {
+    ...CategoryDetails
+    products(
+      channel: $channel
+      first: 20
+      sortBy: {direction: ASC, field: CREATED_AT}
+      after: $after
+    ) {
+      totalCount
+      edges {
+        node {
+          ...ProductCardDetails
+        }
+      }
+      pageInfo {
+        ...PageInfoDetails
+      }
+    }
+  }
+}
+    ${CategoryDetailsFragmentDoc}
+${ProductCardDetailsFragmentDoc}
+${PageInfoDetailsFragmentDoc}`;
+
+/**
+ * __useFetchRecentlyAddedProductsByCategorySlugQuery__
+ *
+ * To run a query within a React component, call `useFetchRecentlyAddedProductsByCategorySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchRecentlyAddedProductsByCategorySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchRecentlyAddedProductsByCategorySlugQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *      channel: // value for 'channel'
+ *      after: // value for 'after'
+ *   },
+ * });
+ */
+export function useFetchRecentlyAddedProductsByCategorySlugQuery(baseOptions: Apollo.QueryHookOptions<FetchRecentlyAddedProductsByCategorySlugQuery, FetchRecentlyAddedProductsByCategorySlugQueryVariables> & ({ variables: FetchRecentlyAddedProductsByCategorySlugQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchRecentlyAddedProductsByCategorySlugQuery, FetchRecentlyAddedProductsByCategorySlugQueryVariables>(FetchRecentlyAddedProductsByCategorySlugDocument, options);
+      }
+export function useFetchRecentlyAddedProductsByCategorySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchRecentlyAddedProductsByCategorySlugQuery, FetchRecentlyAddedProductsByCategorySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchRecentlyAddedProductsByCategorySlugQuery, FetchRecentlyAddedProductsByCategorySlugQueryVariables>(FetchRecentlyAddedProductsByCategorySlugDocument, options);
+        }
+export function useFetchRecentlyAddedProductsByCategorySlugSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchRecentlyAddedProductsByCategorySlugQuery, FetchRecentlyAddedProductsByCategorySlugQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchRecentlyAddedProductsByCategorySlugQuery, FetchRecentlyAddedProductsByCategorySlugQueryVariables>(FetchRecentlyAddedProductsByCategorySlugDocument, options);
+        }
+export type FetchRecentlyAddedProductsByCategorySlugQueryHookResult = ReturnType<typeof useFetchRecentlyAddedProductsByCategorySlugQuery>;
+export type FetchRecentlyAddedProductsByCategorySlugLazyQueryHookResult = ReturnType<typeof useFetchRecentlyAddedProductsByCategorySlugLazyQuery>;
+export type FetchRecentlyAddedProductsByCategorySlugSuspenseQueryHookResult = ReturnType<typeof useFetchRecentlyAddedProductsByCategorySlugSuspenseQuery>;
+export type FetchRecentlyAddedProductsByCategorySlugQueryResult = Apollo.QueryResult<FetchRecentlyAddedProductsByCategorySlugQuery, FetchRecentlyAddedProductsByCategorySlugQueryVariables>;
 export type AccountAddressCreateKeySpecifier = ('accountErrors' | 'address' | 'errors' | 'user' | AccountAddressCreateKeySpecifier)[];
 export type AccountAddressCreateFieldPolicy = {
 	accountErrors?: FieldPolicy<any> | FieldReadFunction<any>,

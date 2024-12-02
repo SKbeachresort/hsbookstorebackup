@@ -13,12 +13,13 @@ import { useRouter } from "next/navigation";
 import { CartProvider } from "./CartContext";
 import { localeToEnum } from "@/lib/regions";
 import RegionsProvider from "./RegionProviders";
+import { Sheet } from "@/components/ui/sheet";
 
 interface ProviderProps {
   children: React.ReactNode;
-  locale:string;
-  channel:string;
-};
+  locale: string;
+  channel: string;
+}
 
 const Provider: React.FC<ProviderProps> = ({ children }) => {
   useAuthChange({
@@ -30,15 +31,15 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
   });
 
   return (
-    <SaleorAuthProvider client={saleorAuthClient}>
-      <ApolloProvider client={apolloClient}>
-        <CartProvider>
-          <RegionsProvider>
-            {children}
-          </RegionsProvider>
-        </CartProvider>
-      </ApolloProvider>
-    </SaleorAuthProvider>
+    <Sheet>
+      <SaleorAuthProvider client={saleorAuthClient}>
+        <ApolloProvider client={apolloClient}>
+          <CartProvider>
+            <RegionsProvider>{children}</RegionsProvider>
+          </CartProvider>
+        </ApolloProvider>
+      </SaleorAuthProvider>
+    </Sheet>
   );
 };
 
