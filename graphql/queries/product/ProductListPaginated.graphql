@@ -1,0 +1,30 @@
+query fetchProductListPaginatedBySlug(
+  $first: Int
+  $last: Int
+  $channel: String!
+  $slug: String!
+  $before: String
+  $after: String
+) {
+  category(slug: $slug) {
+    ...CategoryDetails
+    products(
+      first: $first
+      last: $last
+      channel: $channel
+      before: $before
+      after: $after
+    ) {
+      edges {
+        cursor
+        node {
+          ...ProductCardDetails
+        }
+      }
+      pageInfo {
+        ...PageInfoDetails
+      }
+      totalCount
+    }
+  }
+}

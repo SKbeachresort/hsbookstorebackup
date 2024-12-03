@@ -33425,6 +33425,18 @@ export type FetchFeaturedCategoriesQueryVariables = Exact<{ [key: string]: never
 
 export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null };
 
+export type FetchProductListPaginatedBySlugQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  channel: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type FetchProductListPaginatedBySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+
 export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
   channel: Scalars['String']['input'];
   slug: Scalars['String']['input'];
@@ -33678,6 +33690,71 @@ export type FetchFeaturedCategoriesQueryHookResult = ReturnType<typeof useFetchF
 export type FetchFeaturedCategoriesLazyQueryHookResult = ReturnType<typeof useFetchFeaturedCategoriesLazyQuery>;
 export type FetchFeaturedCategoriesSuspenseQueryHookResult = ReturnType<typeof useFetchFeaturedCategoriesSuspenseQuery>;
 export type FetchFeaturedCategoriesQueryResult = Apollo.QueryResult<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>;
+export const FetchProductListPaginatedBySlugDocument = gql`
+    query fetchProductListPaginatedBySlug($first: Int, $last: Int, $channel: String!, $slug: String!, $before: String, $after: String) {
+  category(slug: $slug) {
+    ...CategoryDetails
+    products(
+      first: $first
+      last: $last
+      channel: $channel
+      before: $before
+      after: $after
+    ) {
+      edges {
+        cursor
+        node {
+          ...ProductCardDetails
+        }
+      }
+      pageInfo {
+        ...PageInfoDetails
+      }
+      totalCount
+    }
+  }
+}
+    ${CategoryDetailsFragmentDoc}
+${ProductCardDetailsFragmentDoc}
+${PageInfoDetailsFragmentDoc}`;
+
+/**
+ * __useFetchProductListPaginatedBySlugQuery__
+ *
+ * To run a query within a React component, call `useFetchProductListPaginatedBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchProductListPaginatedBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchProductListPaginatedBySlugQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *      channel: // value for 'channel'
+ *      slug: // value for 'slug'
+ *      before: // value for 'before'
+ *      after: // value for 'after'
+ *   },
+ * });
+ */
+export function useFetchProductListPaginatedBySlugQuery(baseOptions: Apollo.QueryHookOptions<FetchProductListPaginatedBySlugQuery, FetchProductListPaginatedBySlugQueryVariables> & ({ variables: FetchProductListPaginatedBySlugQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchProductListPaginatedBySlugQuery, FetchProductListPaginatedBySlugQueryVariables>(FetchProductListPaginatedBySlugDocument, options);
+      }
+export function useFetchProductListPaginatedBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchProductListPaginatedBySlugQuery, FetchProductListPaginatedBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchProductListPaginatedBySlugQuery, FetchProductListPaginatedBySlugQueryVariables>(FetchProductListPaginatedBySlugDocument, options);
+        }
+export function useFetchProductListPaginatedBySlugSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FetchProductListPaginatedBySlugQuery, FetchProductListPaginatedBySlugQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchProductListPaginatedBySlugQuery, FetchProductListPaginatedBySlugQueryVariables>(FetchProductListPaginatedBySlugDocument, options);
+        }
+export type FetchProductListPaginatedBySlugQueryHookResult = ReturnType<typeof useFetchProductListPaginatedBySlugQuery>;
+export type FetchProductListPaginatedBySlugLazyQueryHookResult = ReturnType<typeof useFetchProductListPaginatedBySlugLazyQuery>;
+export type FetchProductListPaginatedBySlugSuspenseQueryHookResult = ReturnType<typeof useFetchProductListPaginatedBySlugSuspenseQuery>;
+export type FetchProductListPaginatedBySlugQueryResult = Apollo.QueryResult<FetchProductListPaginatedBySlugQuery, FetchProductListPaginatedBySlugQueryVariables>;
 export const FetchAllProductsByCategorySlugDocument = gql`
     query fetchAllProductsByCategorySlug($channel: String!, $slug: String!, $after: String!) {
   category(slug: $slug) {

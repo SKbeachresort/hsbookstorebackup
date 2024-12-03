@@ -9,7 +9,7 @@ import slider1 from "../../../../../../../public/slider1.png";
 
 interface CategoryPageProps {
   params: { categoryslug: string; channel: string; locale: string };
-}
+};
 
 const CategoryPage = async ({ params }: CategoryPageProps) => {
   const { channel, locale, categoryslug } = await params;

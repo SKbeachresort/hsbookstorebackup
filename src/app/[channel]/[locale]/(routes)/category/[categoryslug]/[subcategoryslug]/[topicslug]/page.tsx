@@ -1,7 +1,6 @@
 "use server";
 import React from "react";
 import { ProductCard } from "@/components/ProductCard/ProductCard";
-// import SortDropdown from "@/components/CategoryPage/SortDropdown";
 import { executeGraphQL } from "@/lib/graphql";
 import { FetchAllProductsByCategorySlugDocument } from "../../../../../../../../../gql/graphql-documents";
 import { capitalizeWords } from "@/utils/Capitalize";
@@ -14,7 +13,7 @@ interface CategoryPageProps {
     subcategoryslug: string;
     topicslug: string;
   };
-}
+};
 
 const NestedSubCategory = async ({ params }: CategoryPageProps) => {
   const { channel, categoryslug, subcategoryslug, topicslug } = await params;

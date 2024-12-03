@@ -22,7 +22,7 @@ export default async function Home(props: PagesProps) {
     <div className="w-[95%] xl:w-[75%] 3xl:w-full mx-auto sm:px-10 lg:px-12">
       <HomeSlider />
       <HomeCategory />
-      <RecentlyAdded channel={channel} />
+      <RecentlyAdded channel={channel as string} />
       <HomeExplore />
       <HomeExploreSpecialists />
       <ProductsRecommendations channel={channel} />
