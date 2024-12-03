@@ -12,6 +12,7 @@ interface FeaturedCategoriesProps {
 export const FeaturedCategories: React.FC<FeaturedCategoriesProps> = ({
   categoryslug,
 }) => {
+  
   const { getRegionUrl } = useRegionUrl();
   const { data, loading, error } = useFetchFeaturedCategoriesQuery();
 

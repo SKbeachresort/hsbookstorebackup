@@ -5,7 +5,7 @@ import { FaChevronDown } from "react-icons/fa";
 
 interface SortDropdownProps {
   onSelect: (selectedOption: string) => void;
-}
+};
 
 const SortDropdown: React.FC<SortDropdownProps> = ({ onSelect }) => {
   const sortOptions = [

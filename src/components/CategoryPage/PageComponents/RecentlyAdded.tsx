@@ -28,6 +28,10 @@ export const RecentlyAdded: React.FC<RecentlyAddedProps> = async ({
 
   const products = data?.category?.products?.edges || [];
 
+  if(products.length === 0) {
+    return null;
+  }
+
   return (
     <div className="">
       <div className="my-10 relative">

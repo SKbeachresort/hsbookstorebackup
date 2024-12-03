@@ -80,7 +80,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             width={120}
             height={170}
             className="object-cover resize lg:max-h-[135px] xl:max-h-[170px] 3xl:w-[230px] 3x:h-[270px] w-full hover:scale-110 transition-all duration-300"
-            layout="responsive"
+            layout="intrinsic"
             objectFit="cover"
             alt={name}
           />

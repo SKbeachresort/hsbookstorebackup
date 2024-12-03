@@ -41,7 +41,7 @@ export default function ClientLayout({
       <>
         <div className="flex flex-row overflow-hidden">
           {isCategory && <SubCategorySidebar />}
-          <div className={`${isCategory ? "w-full md:w-[80%]":"w-full"}`}>{children}</div>
+          <div className={`${isCategory ? "w-full md:w-[80%] mx-auto":"w-full"}`}>{children}</div>
           <Toaster
             position="top-center"
             reverseOrder={false}

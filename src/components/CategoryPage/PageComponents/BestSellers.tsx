@@ -27,6 +27,10 @@ export const  BestSellers: React.FC<BestSellersProps> = async({
 
   const products = res?.category?.products?.edges || [];
 
+  if(products.length === 0) {
+    return null;
+  };
+
   return (
     <div className="">
       <div className="my-10 relative">

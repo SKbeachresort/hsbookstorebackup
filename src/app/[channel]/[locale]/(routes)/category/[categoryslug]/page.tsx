@@ -1,18 +1,18 @@
-"use server"
+"use server";
 import React from "react";
 import { FeaturedCategories } from "@/components/CategoryPage/PageComponents/FeaturedCategories";
 import { BestSellers } from "@/components/CategoryPage/PageComponents/BestSellers";
 import { RecentlyAdded } from "@/components/CategoryPage/PageComponents/RecentlyAdded";
+import { ViewProducts } from "@/components/CategoryPage/PageComponents/ViewProducts";
 import Image from "next/image";
 import slider1 from "../../../../../../../public/slider1.png";
 
 interface CategoryPageProps {
-  params: { categoryslug: string; channel: string };
-};
+  params: { categoryslug: string; channel: string; locale: string };
+}
 
 const CategoryPage = async ({ params }: CategoryPageProps) => {
-
-  const { channel, categoryslug } = await params;
+  const { channel, locale, categoryslug } = await params;
 
   return (
     <div className="w-[90%] mx-auto md:mx-10 py-10">
@@ -23,13 +23,11 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
         alt="slider"
         className="w-full md:w-[80%] mx-auto"
       />
-      <BestSellers
+      <BestSellers channel={channel} slug={categoryslug} after="" />
+      <RecentlyAdded channel={channel} slug={categoryslug} after="" />
+      <ViewProducts
         channel={channel}
-        slug={categoryslug}
-        after=""
-      />
-      <RecentlyAdded
-        channel={channel}
+        locale={locale}
         slug={categoryslug}
         after=""
       />
