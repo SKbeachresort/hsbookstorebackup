@@ -18,8 +18,8 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        // hostname: "uat.hsbookstore.com",
-        hostname:"uat.arabanah.com",
+        hostname: "uat.hsbookstore.com",
+        // hostname:"uat.arabanah.com",
         pathname: "/**",
       },
     ],
