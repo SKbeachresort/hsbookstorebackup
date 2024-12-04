@@ -2,8 +2,11 @@
 import React from "react";
 import { ProductCard } from "@/components/ProductCard/ProductCard";
 import { executeGraphQL } from "@/lib/graphql";
-import { FetchAllProductsByCategorySlugDocument } from "../../../../../../../../../gql/graphql-documents";
+import { FetchProductListPaginatedBySlugDocument } from "../../../../../../../../../gql/graphql-documents";
 import { capitalizeWords } from "@/utils/Capitalize";
+import Pagination from "@/app/elements/Pagination";
+
+const PRODUCTS_PER_PAGE = 50;
 
 interface CategoryPageProps {
   params: {
@@ -13,10 +16,22 @@ interface CategoryPageProps {
     subcategoryslug: string;
     topicslug: string;
   };
-};
+  searchParams: {
+    page?: string;
+    after?: string;
+    before?: string;
+  };
+}
 
-const NestedSubCategory = async ({ params }: CategoryPageProps) => {
-  const { channel, categoryslug, subcategoryslug, topicslug } = await params;
+export default async function NestedSubCategory({
+  params: { categoryslug, subcategoryslug, topicslug, channel, locale },
+  searchParams,
+}: CategoryPageProps) {
+  const page = searchParams.page ?? "1";
+  const after = searchParams.after ?? "";
+  const before = searchParams.before ?? "";
+
+  const path = `/category/${categoryslug}/${subcategoryslug}/${topicslug}`;
 
   const formattedCategorySlug =
     typeof categoryslug === "string" ? capitalizeWords(categoryslug) : "";
@@ -27,16 +42,34 @@ const NestedSubCategory = async ({ params }: CategoryPageProps) => {
   const formattedTopicSlug =
     typeof topicslug === "string" ? capitalizeWords(topicslug) : "";
 
-  const data = await executeGraphQL(FetchAllProductsByCategorySlugDocument, {
-    variables: {
-      channel: channel,
-      slug: topicslug,
-      after: "",
-    },
+  const variables: any = {
+    channel,
+    slug: topicslug,
+  };
+
+  if (before) {
+    variables.last = PRODUCTS_PER_PAGE;
+    variables.before = before;
+  } else {
+    variables.first = PRODUCTS_PER_PAGE;
+    if (after) {
+      variables.after = after;
+    }
+  }
+
+  const data = await executeGraphQL(FetchProductListPaginatedBySlugDocument, {
+    variables,
   });
 
   const products = data?.category?.products?.edges || [];
-  console.log("Products in", subcategoryslug, products);
+  const pageInfo = data?.category?.products?.pageInfo;
+  const totalCount = data?.category?.products?.totalCount || 0;
+
+  const currentPage = parseInt(page, 10);
+  const totalPages = Math.ceil(totalCount / PRODUCTS_PER_PAGE);
+
+  const safeEndCursor = pageInfo?.endCursor || "";
+  const safeStartCursor = pageInfo?.startCursor || "";
 
   if (products.length === 0) {
     return (
@@ -80,8 +113,21 @@ const NestedSubCategory = async ({ params }: CategoryPageProps) => {
           );
         })}
       </div>
+
+      {/* Pagination Section */}
+
+      {totalPages > 1 && (
+        <div className="my-6 mx-auto">
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            path={path}
+            safeEndCursor={safeEndCursor}
+            safeStartCursor={safeStartCursor}
+          />
+        </div>
+      )}
+      
     </div>
   );
-};
-
-export default NestedSubCategory;
+}

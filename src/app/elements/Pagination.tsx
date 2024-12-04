@@ -3,7 +3,7 @@ import Link from "next/link";
 interface PaginationProps {
   totalPages: number;
   currentPage: number;
-  categoryslug: string;
+  path: string;
   safeEndCursor: string;
   safeStartCursor: string;
 };
@@ -11,27 +11,28 @@ interface PaginationProps {
 const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   currentPage,
-  categoryslug,
+  path,
   safeEndCursor,
   safeStartCursor,
 }) => {
+  
   const pageItems = [];
 
   if (currentPage > 1) {
     pageItems.push(
       <Link
         key="prev"
-        href={`/collections/${categoryslug}?page=${
+        href={`${path}?page=${
           currentPage - 1
         }&before=${encodeURIComponent(safeStartCursor)}`}
       >
         <button className="px-3 py-2 text-textColor font-medium rounded-full">Previous</button>
       </Link>
     );
-  }
+  };
 
   pageItems.push(
-    <Link key="1" href={`/collections/${categoryslug}?page=1`}>
+    <Link key="1" href={`${path}?page=1`}>
       <button
         className={`px-3 py-1 border rounded-full ${
           currentPage === 1 ? "bg-secondary text-white" : ""
@@ -48,20 +49,20 @@ const Pagination: React.FC<PaginationProps> = ({
         ...
       </span>
     );
-  }
+  };
 
   if (currentPage > 2) {
     pageItems.push(
       <Link
         key={currentPage - 1}
-        href={`/collections/${categoryslug}?page=${
+        href={`${path}?page=${
           currentPage - 1
         }&before=${encodeURIComponent(safeStartCursor)}`}
       >
         <button className="px-3 py-1 border rounded-full">{currentPage - 1}</button>
       </Link>
     );
-  }
+  };
 
   if (currentPage !== 1 && currentPage !== totalPages) {
     pageItems.push(
@@ -72,20 +73,20 @@ const Pagination: React.FC<PaginationProps> = ({
         {currentPage}
       </span>
     );
-  }
+  };
 
   if (currentPage < totalPages - 1) {
     pageItems.push(
       <Link
         key={currentPage + 1}
-        href={`/collections/${categoryslug}?page=${
+        href={`${path}?page=${
           currentPage + 1
         }&after=${encodeURIComponent(safeEndCursor)}`}
       >
         <button className="px-3 py-1 border rounded-full">{currentPage + 1}</button>
       </Link>
     );
-  }
+  };
 
   if (currentPage < totalPages - 2) {
     pageItems.push(
@@ -93,12 +94,12 @@ const Pagination: React.FC<PaginationProps> = ({
         ...
       </span>
     );
-  }
+  };
 
   pageItems.push(
     <Link
       key={totalPages}
-      href={`/collections/${categoryslug}?page=${totalPages}&after=${encodeURIComponent(
+      href={`${path}?page=${totalPages}&after=${encodeURIComponent(
         safeEndCursor
       )}`}
     >
@@ -116,14 +117,14 @@ const Pagination: React.FC<PaginationProps> = ({
     pageItems.push(
       <Link
         key="next"
-        href={`/collections/${categoryslug}?page=${
+        href={`${path}?page=${
           currentPage + 1
         }&after=${encodeURIComponent(safeEndCursor)}`}
       >
         <button className="px-3 py-2 font-medium text-textColor">Next</button>
       </Link>
     );
-  }
+  };
 
   return <div className="flex justify-center items-center space-x-1">{pageItems}</div>;
 };

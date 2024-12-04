@@ -5,24 +5,23 @@ import { executeGraphQL } from "@/lib/graphql";
 import Link from "next/link";
 import Image from "next/image";
 import { getRegionUrl } from "@/utils/regionUrl";
+import dentistry from "../../../../public/category/medicalbooks.png";
 
-interface FeaturedCategoriesProps {
+interface SubFeaturedCategoriesProps {
   channel: string;
   locale: string;
   categoryslug: string;
+  subcategoryslug: string;
 };
 
-export const FeaturedCategories: React.FC<FeaturedCategoriesProps> = async ({
-  channel,
-  locale,
-  categoryslug,
-}) => {
-
+export const SubFeaturedCategories: React.FC<
+  SubFeaturedCategoriesProps
+> = async ({ channel, locale, categoryslug, subcategoryslug }) => {
   const data = await executeGraphQL(FeaturedCategoriesBySlugAndMetaDocument, {
     variables: {
       first: 20,
       filter: {
-        slugs: [categoryslug],
+        slugs: [subcategoryslug],
         metadata: [
           {
             key: "Featured",
@@ -47,28 +46,29 @@ export const FeaturedCategories: React.FC<FeaturedCategoriesProps> = async ({
       </h1>
 
       <div className="flex flex-row flex-wrap gap-2 md:gap-y-4 md:gap-0 justify-center md:justify-between">
-        {children?.map(({ node }) => (
+        {children?.slice(0, 10).map(({ node }) => (
           <div
             key={node.id}
-            className="md:w-[18%] rounded-md flex flex-col items-start"
+            className="md:w-[18%] rounded-md flex gap-y-2 justify-center flex-col items-start"
           >
             <Link
               href={getRegionUrl(
                 channel,
                 locale,
-                `category/${categoryslug}/${node.slug}`
+                `category/${categoryslug}/${subcategoryslug}/${node.slug}`
               )}
             >
               <div className="">
                 <Image
-                  src={node.backgroundImage?.url || ""}
+                  src={node.backgroundImage?.url || dentistry}
                   alt={node.name}
                   width={150}
                   height={150}
                   className="md:w-[90%] rounded-lg bg-[#EEEEF0] object-contain aspect-square mx-auto 3xl:w-full hover:scale-110 transition-all duration-300"
                 />
               </div>
-              <h2 className="text-[0.6rem] md:text-xs 3xl:text-md font-semibold text-center mt-2">
+
+              <h2 className="text-[0.6rem] md:text-xs 3xl:text-md font-semibold text-center">
                 {node.name}
               </h2>
             </Link>

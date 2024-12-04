@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import Image,{StaticImageData} from "next/image";
+import Image, { StaticImageData } from "next/image";
 import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
 
 // Static Images
@@ -11,72 +11,52 @@ import sthethoscope from "../../../public/category/sthethoscope.png";
 import scrubs from "../../../public/category/scrubs.png";
 import clipboards from "../../../public/category/clipboard.png";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
-
-interface CategoryProps {
-  id: number;
-  name: string;
-  imageUrl: StaticImageData;
-  slug: string;
-};
+import { useHomeFeaturedCategoryQuery } from "../../../gql/graphql";
 
 export const HomeCategory = () => {
   const { getRegionUrl } = useRegionUrl();
-  const categorySection: CategoryProps[] = [
-    {
-      id: 1,
-      name: "Shop for Books",
-      imageUrl: medicalbooks,
-      slug: "books",
+
+  const { data } = useHomeFeaturedCategoryQuery({
+    variables: {
+      filter: {
+        metadata: [
+          {
+            key: "HomeFeatured",
+            value: "Y",
+          },
+        ],
+      },
     },
-    {
-      id: 2,
-      name: "Shop for Medical Devices",
-      imageUrl: medicaldevices,
-      slug: "medical-devices",
-    },
-    {
-      id: 3,
-      name: "Shop for Stethoscopes",
-      imageUrl: sthethoscope,
-      slug: "stethoscopes",
-    },
-    {
-      id: 4,
-      name: "Shop for Scrubs",
-      imageUrl: scrubs,
-      slug: "scrabs",
-    },
-    {
-      id: 5,
-      name: "Shop for Accessories",
-      imageUrl: clipboards,
-      slug: "accessories-2",
-    },
-  ];
+  });
+
+  const categories = data?.categories?.edges || [];
 
   return (
     <div className="my-10">
       <div className="">
         <div className="flex flex-row flex-wrap gap-2 md:gap-0 justify-center md:justify-between">
-          {categorySection.map((category, index) => (
+          {categories.map(({ node }) => (
             <div
-              key={index}
-              className="bg-white md:w-[18%] rounded-md flex justify-center flex-col items-center"
+              key={node.id}
+              className="bg-white md:w-[18%] rounded-md overflow-hidden flex flex-col items-start"
             >
-              <ZoomInSlideUp>
-                <Link href={getRegionUrl(`category/${category.slug}`)}>
-                  <Image
-                    src={category.imageUrl}
-                    alt={category.name}
-                    width={150}
-                    height={150}
-                    className="md:w-[90%] mx-auto 3xl:w-full hover:scale-110 transition-all duration-300"
-                  />
-                  <h2 className="text-[0.6rem] md:text-xs 3xl:text-md font-semibold text-center mt-2">
-                    {category.name}
+              <div className="">
+                <Link href={getRegionUrl(`category/${node.slug}`)}>
+                  <div className="">
+                    <Image
+                      src={node.backgroundImage?.url || ""}
+                      alt={node.name}
+                      width={150}
+                      height={150}
+                      className="md:w-[90%] rounded-lg bg-[#EEEEF0] object-contain aspect-square mx-auto 3xl:w-full hover:scale-110 transition-all duration-300"
+                    />
+                  </div>
+
+                  <h2 className="text-[0.5rem] md:text-xs 3xl:text-md font-semibold text-center mt-2">
+                    Shop for {node.name}
                   </h2>
                 </Link>
-              </ZoomInSlideUp>
+              </div>
             </div>
           ))}
         </div>

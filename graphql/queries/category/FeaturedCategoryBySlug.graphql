@@ -1,0 +1,28 @@
+query FeaturedCategoriesBySlugAndMeta(
+  $first: Int!
+  $filter: CategoryFilterInput!
+  $sortBy: CategorySortingInput
+) {
+  categories(first: 1, sortBy: $sortBy, filter: $filter) {
+    edges {
+      node {
+        ...CategoryDetails
+        children(first: $first) {
+          edges {
+            node {
+              ...CategoryDetails
+              metadata {
+                key
+              }
+              backgroundImage {
+                alt
+                url
+              }
+            }
+          }
+          totalCount
+        }
+      }
+    }
+  }
+}

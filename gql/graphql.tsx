@@ -33402,23 +33402,40 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']['output']>;
 };
 
-export type CategoryDetailsFragment = { __typename?: 'Category', id: string, name: string, slug: string };
+export type CategoryDetailsFragment = { __typename?: 'Category', id: string, name: string, slug: string, level: number };
 
 export type PageInfoDetailsFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
 
 export type ProductCardDetailsFragment = { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
 
+export type FeaturedCategoriesBySlugAndMetaQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  filter: CategoryFilterInput;
+  sortBy?: InputMaybe<CategorySortingInput>;
+}>;
+
+
+export type FeaturedCategoriesBySlugAndMetaQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, metadata: Array<{ __typename?: 'MetadataItem', key: string }>, backgroundImage?: { __typename?: 'Image', alt?: string | null, url: string } | null } }> } | null } }> } | null };
+
+export type HomeFeaturedCategoryQueryVariables = Exact<{
+  filter: CategoryFilterInput;
+  sortBy?: InputMaybe<CategorySortingInput>;
+}>;
+
+
+export type HomeFeaturedCategoryQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, backgroundImage?: { __typename?: 'Image', url: string, alt?: string | null } | null } }> } | null };
+
 export type FetchAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchAllCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null } | null } }> } | null } }> } | null };
+export type FetchAllCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null } | null } }> } | null } }> } | null };
 
 export type FetchAllSubCategoryByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type FetchAllSubCategoryByIdQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string } }> } | null } | null };
+export type FetchAllSubCategoryByIdQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, level: number } }> } | null } | null };
 
 export type FetchFeaturedCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -33435,7 +33452,7 @@ export type FetchProductListPaginatedBySlugQueryVariables = Exact<{
 }>;
 
 
-export type FetchProductListPaginatedBySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+export type FetchProductListPaginatedBySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -33444,7 +33461,7 @@ export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
 }>;
 
 
-export type FetchAllProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+export type FetchAllProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type FetchBestSellerProductsByCategoryQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -33453,7 +33470,7 @@ export type FetchBestSellerProductsByCategoryQueryVariables = Exact<{
 }>;
 
 
-export type FetchBestSellerProductsByCategoryQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+export type FetchBestSellerProductsByCategoryQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type FetchProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -33482,13 +33499,14 @@ export type FetchRecentlyAddedProductsByCategorySlugQueryVariables = Exact<{
 }>;
 
 
-export type FetchRecentlyAddedProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+export type FetchRecentlyAddedProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export const CategoryDetailsFragmentDoc = gql`
     fragment CategoryDetails on Category {
   id
   name
   slug
+  level
 }
     `;
 export const PageInfoDetailsFragmentDoc = gql`
@@ -33531,6 +33549,117 @@ export const ProductCardDetailsFragmentDoc = gql`
   rating
 }
     `;
+export const FeaturedCategoriesBySlugAndMetaDocument = gql`
+    query FeaturedCategoriesBySlugAndMeta($first: Int!, $filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
+  categories(first: 1, sortBy: $sortBy, filter: $filter) {
+    edges {
+      node {
+        ...CategoryDetails
+        children(first: $first) {
+          edges {
+            node {
+              ...CategoryDetails
+              metadata {
+                key
+              }
+              backgroundImage {
+                alt
+                url
+              }
+            }
+          }
+          totalCount
+        }
+      }
+    }
+  }
+}
+    ${CategoryDetailsFragmentDoc}`;
+
+/**
+ * __useFeaturedCategoriesBySlugAndMetaQuery__
+ *
+ * To run a query within a React component, call `useFeaturedCategoriesBySlugAndMetaQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFeaturedCategoriesBySlugAndMetaQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFeaturedCategoriesBySlugAndMetaQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      filter: // value for 'filter'
+ *      sortBy: // value for 'sortBy'
+ *   },
+ * });
+ */
+export function useFeaturedCategoriesBySlugAndMetaQuery(baseOptions: Apollo.QueryHookOptions<FeaturedCategoriesBySlugAndMetaQuery, FeaturedCategoriesBySlugAndMetaQueryVariables> & ({ variables: FeaturedCategoriesBySlugAndMetaQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FeaturedCategoriesBySlugAndMetaQuery, FeaturedCategoriesBySlugAndMetaQueryVariables>(FeaturedCategoriesBySlugAndMetaDocument, options);
+      }
+export function useFeaturedCategoriesBySlugAndMetaLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FeaturedCategoriesBySlugAndMetaQuery, FeaturedCategoriesBySlugAndMetaQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FeaturedCategoriesBySlugAndMetaQuery, FeaturedCategoriesBySlugAndMetaQueryVariables>(FeaturedCategoriesBySlugAndMetaDocument, options);
+        }
+export function useFeaturedCategoriesBySlugAndMetaSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FeaturedCategoriesBySlugAndMetaQuery, FeaturedCategoriesBySlugAndMetaQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FeaturedCategoriesBySlugAndMetaQuery, FeaturedCategoriesBySlugAndMetaQueryVariables>(FeaturedCategoriesBySlugAndMetaDocument, options);
+        }
+export type FeaturedCategoriesBySlugAndMetaQueryHookResult = ReturnType<typeof useFeaturedCategoriesBySlugAndMetaQuery>;
+export type FeaturedCategoriesBySlugAndMetaLazyQueryHookResult = ReturnType<typeof useFeaturedCategoriesBySlugAndMetaLazyQuery>;
+export type FeaturedCategoriesBySlugAndMetaSuspenseQueryHookResult = ReturnType<typeof useFeaturedCategoriesBySlugAndMetaSuspenseQuery>;
+export type FeaturedCategoriesBySlugAndMetaQueryResult = Apollo.QueryResult<FeaturedCategoriesBySlugAndMetaQuery, FeaturedCategoriesBySlugAndMetaQueryVariables>;
+export const HomeFeaturedCategoryDocument = gql`
+    query HomeFeaturedCategory($filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
+  categories(first: 10, sortBy: $sortBy, filter: $filter) {
+    edges {
+      node {
+        ...CategoryDetails
+        backgroundImage {
+          url
+          alt
+        }
+      }
+    }
+    totalCount
+  }
+}
+    ${CategoryDetailsFragmentDoc}`;
+
+/**
+ * __useHomeFeaturedCategoryQuery__
+ *
+ * To run a query within a React component, call `useHomeFeaturedCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeFeaturedCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomeFeaturedCategoryQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *      sortBy: // value for 'sortBy'
+ *   },
+ * });
+ */
+export function useHomeFeaturedCategoryQuery(baseOptions: Apollo.QueryHookOptions<HomeFeaturedCategoryQuery, HomeFeaturedCategoryQueryVariables> & ({ variables: HomeFeaturedCategoryQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeFeaturedCategoryQuery, HomeFeaturedCategoryQueryVariables>(HomeFeaturedCategoryDocument, options);
+      }
+export function useHomeFeaturedCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeFeaturedCategoryQuery, HomeFeaturedCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeFeaturedCategoryQuery, HomeFeaturedCategoryQueryVariables>(HomeFeaturedCategoryDocument, options);
+        }
+export function useHomeFeaturedCategorySuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<HomeFeaturedCategoryQuery, HomeFeaturedCategoryQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<HomeFeaturedCategoryQuery, HomeFeaturedCategoryQueryVariables>(HomeFeaturedCategoryDocument, options);
+        }
+export type HomeFeaturedCategoryQueryHookResult = ReturnType<typeof useHomeFeaturedCategoryQuery>;
+export type HomeFeaturedCategoryLazyQueryHookResult = ReturnType<typeof useHomeFeaturedCategoryLazyQuery>;
+export type HomeFeaturedCategorySuspenseQueryHookResult = ReturnType<typeof useHomeFeaturedCategorySuspenseQuery>;
+export type HomeFeaturedCategoryQueryResult = Apollo.QueryResult<HomeFeaturedCategoryQuery, HomeFeaturedCategoryQueryVariables>;
 export const FetchAllCategoriesDocument = gql`
     query fetchAllCategories {
   categories(level: 0, first: 10) {

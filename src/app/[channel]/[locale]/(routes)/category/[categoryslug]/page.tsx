@@ -16,6 +16,7 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
 
   return (
     <div className="w-[90%] mx-auto md:mx-10 py-10">
+      
       <Image
         src={slider1}
         width={1000}
@@ -23,14 +24,32 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
         alt="slider"
         className="w-full md:w-[80%] mx-auto"
       />
-      <BestSellers channel={channel} slug={categoryslug} after="" />
-      <RecentlyAdded channel={channel} slug={categoryslug} after="" />
+
+      <FeaturedCategories
+        categoryslug={categoryslug}
+        channel={channel}
+        locale={locale}
+      />
+
+      <BestSellers 
+        channel={channel} 
+        slug={categoryslug} 
+        after="" 
+      />
+
+      <RecentlyAdded 
+        channel={channel} 
+        slug={categoryslug} 
+        after="" 
+      />
+
       <ViewProducts
         channel={channel}
         locale={locale}
         slug={categoryslug}
         after=""
       />
+
     </div>
   );
 };

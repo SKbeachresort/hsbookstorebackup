@@ -20,7 +20,7 @@ interface CollectionPageProps {
     after?: string;
     before?: string;
   };
-}
+};
 
 export default async function CollectionsPage({
   params: { categoryslug, channel, locale },
@@ -43,7 +43,7 @@ export default async function CollectionsPage({
     if (after) {
       variables.after = after;
     }
-  }
+  };
 
   const data = await executeGraphQL(FetchProductListPaginatedBySlugDocument, {
     variables,

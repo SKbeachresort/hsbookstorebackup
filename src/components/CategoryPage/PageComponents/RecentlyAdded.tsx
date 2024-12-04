@@ -30,7 +30,7 @@ export const RecentlyAdded: React.FC<RecentlyAddedProps> = async ({
 
   if(products.length === 0) {
     return null;
-  }
+  };
 
   return (
     <div className="">

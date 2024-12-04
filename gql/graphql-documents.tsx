@@ -33209,23 +33209,40 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']['output']>;
 };
 
-export type CategoryDetailsFragment = { __typename?: 'Category', id: string, name: string, slug: string };
+export type CategoryDetailsFragment = { __typename?: 'Category', id: string, name: string, slug: string, level: number };
 
 export type PageInfoDetailsFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
 
 export type ProductCardDetailsFragment = { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
 
+export type FeaturedCategoriesBySlugAndMetaQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  filter: CategoryFilterInput;
+  sortBy?: InputMaybe<CategorySortingInput>;
+}>;
+
+
+export type FeaturedCategoriesBySlugAndMetaQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, metadata: Array<{ __typename?: 'MetadataItem', key: string }>, backgroundImage?: { __typename?: 'Image', alt?: string | null, url: string } | null } }> } | null } }> } | null };
+
+export type HomeFeaturedCategoryQueryVariables = Exact<{
+  filter: CategoryFilterInput;
+  sortBy?: InputMaybe<CategorySortingInput>;
+}>;
+
+
+export type HomeFeaturedCategoryQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, backgroundImage?: { __typename?: 'Image', url: string, alt?: string | null } | null } }> } | null };
+
 export type FetchAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchAllCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null } | null } }> } | null } }> } | null };
+export type FetchAllCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null } | null } }> } | null } }> } | null };
 
 export type FetchAllSubCategoryByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type FetchAllSubCategoryByIdQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string } }> } | null } | null };
+export type FetchAllSubCategoryByIdQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, level: number } }> } | null } | null };
 
 export type FetchFeaturedCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -33242,7 +33259,7 @@ export type FetchProductListPaginatedBySlugQueryVariables = Exact<{
 }>;
 
 
-export type FetchProductListPaginatedBySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+export type FetchProductListPaginatedBySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -33251,7 +33268,7 @@ export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
 }>;
 
 
-export type FetchAllProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+export type FetchAllProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type FetchBestSellerProductsByCategoryQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -33260,7 +33277,7 @@ export type FetchBestSellerProductsByCategoryQueryVariables = Exact<{
 }>;
 
 
-export type FetchBestSellerProductsByCategoryQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+export type FetchBestSellerProductsByCategoryQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type FetchProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -33289,7 +33306,7 @@ export type FetchRecentlyAddedProductsByCategorySlugQueryVariables = Exact<{
 }>;
 
 
-export type FetchRecentlyAddedProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+export type FetchRecentlyAddedProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type AccountAddressCreateKeySpecifier = ('accountErrors' | 'address' | 'errors' | 'user' | AccountAddressCreateKeySpecifier)[];
 export type AccountAddressCreateFieldPolicy = {
@@ -43725,6 +43742,7 @@ export const CategoryDetailsFragmentDoc = new TypedDocumentString(`
   id
   name
   slug
+  level
 }
     `, {"fragmentName":"CategoryDetails"}) as unknown as TypedDocumentString<CategoryDetailsFragment, unknown>;
 export const PageInfoDetailsFragmentDoc = new TypedDocumentString(`
@@ -43767,6 +43785,58 @@ export const ProductCardDetailsFragmentDoc = new TypedDocumentString(`
   rating
 }
     `, {"fragmentName":"ProductCardDetails"}) as unknown as TypedDocumentString<ProductCardDetailsFragment, unknown>;
+export const FeaturedCategoriesBySlugAndMetaDocument = new TypedDocumentString(`
+    query FeaturedCategoriesBySlugAndMeta($first: Int!, $filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
+  categories(first: 1, sortBy: $sortBy, filter: $filter) {
+    edges {
+      node {
+        ...CategoryDetails
+        children(first: $first) {
+          edges {
+            node {
+              ...CategoryDetails
+              metadata {
+                key
+              }
+              backgroundImage {
+                alt
+                url
+              }
+            }
+          }
+          totalCount
+        }
+      }
+    }
+  }
+}
+    fragment CategoryDetails on Category {
+  id
+  name
+  slug
+  level
+}`) as unknown as TypedDocumentString<FeaturedCategoriesBySlugAndMetaQuery, FeaturedCategoriesBySlugAndMetaQueryVariables>;
+export const HomeFeaturedCategoryDocument = new TypedDocumentString(`
+    query HomeFeaturedCategory($filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
+  categories(first: 10, sortBy: $sortBy, filter: $filter) {
+    edges {
+      node {
+        ...CategoryDetails
+        backgroundImage {
+          url
+          alt
+        }
+      }
+    }
+    totalCount
+  }
+}
+    fragment CategoryDetails on Category {
+  id
+  name
+  slug
+  level
+}`) as unknown as TypedDocumentString<HomeFeaturedCategoryQuery, HomeFeaturedCategoryQueryVariables>;
 export const FetchAllCategoriesDocument = new TypedDocumentString(`
     query fetchAllCategories {
   categories(level: 0, first: 10) {
@@ -43795,6 +43865,7 @@ export const FetchAllCategoriesDocument = new TypedDocumentString(`
   id
   name
   slug
+  level
 }`) as unknown as TypedDocumentString<FetchAllCategoriesQuery, FetchAllCategoriesQueryVariables>;
 export const FetchAllSubCategoryByIdDocument = new TypedDocumentString(`
     query fetchAllSubCategoryById($id: ID!) {
@@ -43815,6 +43886,7 @@ export const FetchAllSubCategoryByIdDocument = new TypedDocumentString(`
   id
   name
   slug
+  level
 }`) as unknown as TypedDocumentString<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables>;
 export const FetchFeaturedCategoriesDocument = new TypedDocumentString(`
     query fetchFeaturedCategories {
@@ -43865,6 +43937,7 @@ export const FetchProductListPaginatedBySlugDocument = new TypedDocumentString(`
   id
   name
   slug
+  level
 }
 fragment PageInfoDetails on PageInfo {
   endCursor
@@ -43924,6 +43997,7 @@ export const FetchAllProductsByCategorySlugDocument = new TypedDocumentString(`
   id
   name
   slug
+  level
 }
 fragment PageInfoDetails on PageInfo {
   endCursor
@@ -43982,6 +44056,7 @@ export const FetchBestSellerProductsByCategoryDocument = new TypedDocumentString
   id
   name
   slug
+  level
 }
 fragment PageInfoDetails on PageInfo {
   endCursor
@@ -44172,6 +44247,7 @@ export const FetchRecentlyAddedProductsByCategorySlugDocument = new TypedDocumen
   id
   name
   slug
+  level
 }
 fragment PageInfoDetails on PageInfo {
   endCursor

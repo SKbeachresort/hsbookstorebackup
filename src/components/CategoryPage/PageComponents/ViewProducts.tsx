@@ -34,7 +34,7 @@ export const ViewProducts: React.FC<ViewProductsProps> = async ({
   if (products.length === 0) {
     return (
       <div>
-        <h1 className="text-md text-center">No Products Found</h1>
+        <h1 className="text-md text-center my-4">No Products Found</h1>
       </div>
     );
   };
@@ -49,17 +49,17 @@ export const ViewProducts: React.FC<ViewProductsProps> = async ({
           </span>
         </h1>
 
-        <Link
+        {/* <Link
           href={getRegionUrl(
             channel,
             locale,
             `collections/${slug}`
           )}
-        >
+        > */}
           <p className="text-sm md:textmd font-semibold text-secondary underline">
             See all
           </p>
-        </Link>
+        {/* </Link> */}
       </div>
 
       <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-5">

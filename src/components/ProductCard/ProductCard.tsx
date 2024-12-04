@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import StarRatings from "react-star-ratings";
 import Link from "next/link";
-import Image,{StaticImageData} from "next/image";
+import Image, { StaticImageData } from "next/image";
 import AnimateOnScroll from "../Animated/AnimateOnScroll";
 import { useCart } from "@/context/CartContext";
 import { FaPlus, FaTrashAlt } from "react-icons/fa";
@@ -18,7 +18,7 @@ interface ProductCardProps {
   cuttedPrice?: number;
   ratings?: number;
   navigate?: string;
-};
+}
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   id,
@@ -31,7 +31,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   ratings,
   navigate,
 }) => {
-
   const { getRegionUrl } = useRegionUrl();
 
   const {
@@ -72,25 +71,26 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div className="relative w-32 md:w-28 lg:w-[6.5rem] xl:w-32 mx-4">
-      
       <AnimateOnScroll animationType="fade-up">
         <Link href={getRegionUrl(`product/${navigate}`)}>
-          <Image
-            src={image}
-            width={120}
-            height={170}
-            className="object-cover resize lg:max-h-[135px] xl:max-h-[170px] 3xl:w-[230px] 3x:h-[270px] w-full hover:scale-110 transition-all duration-300"
-            layout="intrinsic"
-            objectFit="cover"
-            alt={name}
-          />
+          <div>
+            <Image
+              src={image}
+              width={120}
+              height={170}
+              className="object-cover aspect-[3/4] resize lg:max-h-[135px] xl:max-h-[170px] 3xl:w-[230px] 3x:h-[270px] w-full hover:scale-110 transition-all duration-300"
+              layout="intrinsic"
+              objectFit="cover"
+              alt={name}
+            />
+          </div>
         </Link>
       </AnimateOnScroll>
 
       <p className="text-[0.6rem] lg:text-xs mt-3 md:mt-2 text-textColor">
         {name.length > 30 ? name.slice(0, 30) + "..." : name}
       </p>
-      
+
       <div className="flex flex-row justify-between mt-1 md:my-0 items-center">
         <p className="text-xs xl:text-sm font-semibold">
           {currency} {(price ?? 0).toFixed(3)}
@@ -99,12 +99,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {currencySymbol} {(cuttedPrice ?? 0).toFixed(3)}
         </p>
       </div>
-      
+
       <div>
         {isInCart ? (
           <div className="absolute top-[48%] xl:top-[53%] -left-[2%] xl:-left-[10%] z-40 bg-secondary rounded-full text-xs xl:text-sm font-semibold text-white py-1 px-3 xl:px-4 xl:py-2">
             <div className="flex items-center justify-center space-x-2">
-              <FaPlus className="cursor-pointer text-xs" onClick={handleIncrement} />
+              <FaPlus
+                className="cursor-pointer text-xs"
+                onClick={handleIncrement}
+              />
               <span className="text-xs">{quantity}</span>
               <FaTrashAlt
                 className="cursor-pointer text-xs"
@@ -132,7 +135,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           name="product-rating"
         />
       </div>
-
     </div>
   );
 };

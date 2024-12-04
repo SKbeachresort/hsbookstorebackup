@@ -1,0 +1,17 @@
+query HomeFeaturedCategory(
+  $filter: CategoryFilterInput!
+  $sortBy: CategorySortingInput
+) {
+  categories(first: 10, sortBy: $sortBy, filter: $filter) {
+    edges {
+      node {
+        ...CategoryDetails
+        backgroundImage {
+          url
+          alt
+        }
+      }
+    }
+    totalCount
+  }
+}
