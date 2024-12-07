@@ -86,7 +86,7 @@ const SearchProduct: React.FC<SearchProductProps> = ({ channel, locale }) => {
         <input
           type="text"
           placeholder="Search by keyword, title, author or IBSN"
-          className="w-fulloutline-none px-4 py-2 border-2 border-textgray rounded-full focus:outline-none"
+          className="w-full outline-none px-4 py-2 border-2 border-textgray rounded-full focus:outline-none"
           value={val}
           onChange={(e) => setVal(e.currentTarget.value)}
         />
