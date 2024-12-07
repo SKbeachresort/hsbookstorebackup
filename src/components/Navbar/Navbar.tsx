@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { FaRegUser } from "react-icons/fa6";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { HiOutlineMapPin } from "react-icons/hi2";
@@ -17,6 +17,7 @@ import Image, { StaticImageData } from "next/image";
 import PopOverDropDown from "@/app/elements/PopOverDropDown";
 import { useRegions } from "@/context/RegionProviders";
 import { setCookie } from "cookies-next";
+import SearchProduct from "./SearchProduct";
 
 import HSlogo from "../../../public/HSlogo.png";
 import logo from "../../../public/logo.png";
@@ -36,6 +37,9 @@ import { CategoryNavbar } from "./CategoryNavbar";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
 
 export const Navbar = () => {
+
+  const {channel, locale} = useParams();
+
   const { totalItems } = useCart();
   const { getRegionUrl } = useRegionUrl();
 
@@ -62,21 +66,11 @@ export const Navbar = () => {
 
   useEffect(() => {
     setIsLoading(true);
-
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
-
     return () => clearTimeout(timer);
   }, [pathname]);
-
-  const handleSearchSubmit = (e: any) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      console.log("Search Clicked", searchQuery);
-      router.push(`/results/${encodeURIComponent(searchQuery)}`);
-    }
-  };
 
   const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => { 
     router.push(`${pathname.replace(currentChannel.slug, e.target.value)}`);
@@ -128,23 +122,8 @@ export const Navbar = () => {
           </div>
 
           {/* Search Section Bar */}
-          <div onClick={handleSearchSubmit} className="relative flex-1 mx-2">
-            <input
-              type="text"
-              placeholder="Search by keyword, title, author or IBSN"
-              className="w-full outline-none px-4 py-2 border-2 border-textgray rounded-full focus:outline-none"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <button
-              type="submit"
-              className="bg-secondary absolute inset-y-0 right-0 flex items-center justify-center px-4 rounded-r-full"
-            >
-              <RiSearchLine
-                className="text-xl 3xl:text-lg cursor-pointer hover:scale-110 transition-all duration-300"
-                color="#fff"
-              />
-            </button>
+          <div className="relative flex-1">
+            <SearchProduct channel={channel as string} locale={locale as string}/> 
           </div>
 
           {/* Cart, Account, Location Section */}
@@ -254,7 +233,6 @@ export const Navbar = () => {
 
             <div className="my-[4vh]">
               <form
-                onSubmit={handleSearchSubmit}
                 className="flex flex-row overflow-hidden justify-between items-center w-[100%] mx-auto"
               >
                 <input

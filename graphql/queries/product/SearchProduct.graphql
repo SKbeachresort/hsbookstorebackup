@@ -1,0 +1,62 @@
+query SearchProducts(
+  $channel: String!
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
+  $sortBy: ProductOrder
+  $filter: ProductFilterInput
+  $where: ProductWhereInput
+  $search: String
+) {
+  products(
+    first: $first
+    after: $after
+    last: $last
+    before: $before
+    channel: $channel
+    sortBy: $sortBy
+    filter: $filter
+    where: $where
+    search: $search
+  ) {
+    totalCount
+    edges {
+      node {
+        ...ProductDetailsFragment
+      }
+      cursor
+    }
+    pageInfo {
+      ...PageInfoDetails
+    }
+  }
+}
+
+# query SearchProductsNew {
+#   products(
+#     channel: "default-channel"
+#     where: { name: { oneOf: "Man" } }
+#     first: 10
+#   ) {
+#     edges {
+#       node {
+#         id
+#       }
+#     }
+#   }
+# }
+
+# query SearchProductsAttributes {
+#   products(
+#     channel: "default-channel"
+#     first: 10
+#     where: { attributes: { slug: "isbn-13", values: "9781501100109" } }
+#   ) {
+#     edges {
+#       node {
+#         id
+#       }
+#     }
+#   }
+# }

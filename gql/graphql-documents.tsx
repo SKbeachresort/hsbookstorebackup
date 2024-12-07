@@ -33219,7 +33219,7 @@ export type PageInfoDetailsFragment = { __typename?: 'PageInfo', endCursor?: str
 
 export type PriceFragment = { __typename?: 'Money', currency: string, amount: number };
 
-export type ProductCardDetailsFragment = { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
+export type ProductCardDetailsFragment = { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
 
 export type ProductDetailsFragment = { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null };
 
@@ -33273,7 +33273,7 @@ export type HomeRecentlyAddedQueryVariables = Exact<{
 }>;
 
 
-export type HomeRecentlyAddedQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }> } | null };
+export type HomeRecentlyAddedQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }> } | null };
 
 export type ProductBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -33293,7 +33293,22 @@ export type FetchProductListPaginatedBySlugQueryVariables = Exact<{
 }>;
 
 
-export type FetchProductListPaginatedBySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+export type FetchProductListPaginatedBySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+
+export type SearchProductsQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  sortBy?: InputMaybe<ProductOrder>;
+  filter?: InputMaybe<ProductFilterInput>;
+  where?: InputMaybe<ProductWhereInput>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type SearchProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
 export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -33302,7 +33317,7 @@ export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
 }>;
 
 
-export type FetchAllProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+export type FetchAllProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type FetchBestSellerProductsByCategoryQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -33311,27 +33326,19 @@ export type FetchBestSellerProductsByCategoryQueryVariables = Exact<{
 }>;
 
 
-export type FetchBestSellerProductsByCategoryQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+export type FetchBestSellerProductsByCategoryQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type FetchProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FetchProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', url: string, productId?: string | null }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean } } | null };
 
-export type FetchProductDetailBySlugQueryVariables = Exact<{
-  channel: Scalars['String']['input'];
-  slug: Scalars['String']['input'];
-}>;
-
-
-export type FetchProductDetailBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, description?: string | null, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', url: string, productId?: string | null, type: ProductMediaType }> | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } | null };
-
 export type FetchProductsRecommendationQueryVariables = Exact<{
   channel: Scalars['String']['input'];
 }>;
 
 
-export type FetchProductsRecommendationQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+export type FetchProductsRecommendationQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
 export type FetchRecentlyAddedProductsByCategorySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -33340,7 +33347,7 @@ export type FetchRecentlyAddedProductsByCategorySlugQueryVariables = Exact<{
 }>;
 
 
-export type FetchRecentlyAddedProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+export type FetchRecentlyAddedProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
 export type AccountAddressCreateKeySpecifier = ('accountErrors' | 'address' | 'errors' | 'user' | AccountAddressCreateKeySpecifier)[];
 export type AccountAddressCreateFieldPolicy = {
@@ -43797,6 +43804,10 @@ export const ProductCardDetailsFragmentDoc = new TypedDocumentString(`
     productId
     url
   }
+  thumbnail {
+    url
+    alt
+  }
   pricing {
     displayGrossPrices
     discount {
@@ -44223,6 +44234,10 @@ export const HomeRecentlyAddedDocument = new TypedDocumentString(`
     productId
     url
   }
+  thumbnail {
+    url
+    alt
+  }
   pricing {
     displayGrossPrices
     discount {
@@ -44426,6 +44441,10 @@ fragment ProductCardDetails on Product {
     productId
     url
   }
+  thumbnail {
+    url
+    alt
+  }
   pricing {
     displayGrossPrices
     discount {
@@ -44447,6 +44466,168 @@ fragment ProductCardDetails on Product {
   }
   rating
 }`) as unknown as TypedDocumentString<FetchProductListPaginatedBySlugQuery, FetchProductListPaginatedBySlugQueryVariables>;
+export const SearchProductsDocument = new TypedDocumentString(`
+    query SearchProducts($channel: String!, $first: Int, $last: Int, $after: String, $before: String, $sortBy: ProductOrder, $filter: ProductFilterInput, $where: ProductWhereInput, $search: String) {
+  products(
+    first: $first
+    after: $after
+    last: $last
+    before: $before
+    channel: $channel
+    sortBy: $sortBy
+    filter: $filter
+    where: $where
+    search: $search
+  ) {
+    totalCount
+    edges {
+      node {
+        ...ProductDetailsFragment
+      }
+      cursor
+    }
+    pageInfo {
+      ...PageInfoDetails
+    }
+  }
+}
+    fragment CategoryBasicFragment on Category {
+  id
+  name
+  slug
+}
+fragment ImageFragment on Image {
+  url
+  alt
+}
+fragment PageInfoDetails on PageInfo {
+  endCursor
+  hasNextPage
+  hasPreviousPage
+  startCursor
+}
+fragment PriceFragment on Money {
+  currency
+  amount
+}
+fragment ProductDetailsFragment on Product {
+  id
+  name
+  slug
+  description
+  seoDescription
+  description
+  seoTitle
+  isAvailableForPurchase
+  rating
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  category {
+    ...CategoryBasicFragment
+  }
+  variants {
+    ...ProductVariantDetailsFragment
+  }
+  defaultVariant {
+    ...ProductVariantDetailsFragment
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        ...PriceFragment
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          ...PriceFragment
+        }
+      }
+    }
+    onSale
+  }
+  media {
+    ...ProductMediaFragment
+  }
+  thumbnail {
+    ...ImageFragment
+  }
+  category {
+    name
+  }
+  productType {
+    ...ProductTypeFragment
+  }
+  weight {
+    unit
+    value
+  }
+}
+fragment ProductTypeFragment on ProductType {
+  kind
+  slug
+  name
+  id
+  isDigital
+  isShippingRequired
+  hasVariants
+}
+fragment ProductMediaFragment on ProductMedia {
+  url
+  alt
+  type
+}
+fragment ProductVariantDetailsFragment on ProductVariant {
+  id
+  name
+  product {
+    id
+    name
+    slug
+    thumbnail {
+      url
+      alt
+    }
+  }
+  quantityAvailable
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  sku
+  media {
+    ...ProductMediaFragment
+  }
+  pricing {
+    price {
+      gross {
+        ...PriceFragment
+      }
+    }
+    priceUndiscounted {
+      gross {
+        ...PriceFragment
+      }
+    }
+  }
+}
+fragment SelectedAttributeDetailsFragment on SelectedAttribute {
+  attribute {
+    id
+    name
+    slug
+    type
+    unit
+  }
+  values {
+    id
+    name
+    value
+  }
+}`) as unknown as TypedDocumentString<SearchProductsQuery, SearchProductsQueryVariables>;
 export const FetchAllProductsByCategorySlugDocument = new TypedDocumentString(`
     query fetchAllProductsByCategorySlug($channel: String!, $slug: String!, $after: String!) {
   category(slug: $slug) {
@@ -44485,6 +44666,10 @@ fragment ProductCardDetails on Product {
   media {
     productId
     url
+  }
+  thumbnail {
+    url
+    alt
   }
   pricing {
     displayGrossPrices
@@ -44544,6 +44729,10 @@ fragment ProductCardDetails on Product {
   media {
     productId
     url
+  }
+  thumbnail {
+    url
+    alt
   }
   pricing {
     displayGrossPrices
@@ -44609,40 +44798,6 @@ export const FetchProductsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<FetchProductsQuery, FetchProductsQueryVariables>;
-export const FetchProductDetailBySlugDocument = new TypedDocumentString(`
-    query fetchProductDetailBySlug($channel: String!, $slug: String!) {
-  product(channel: $channel, slug: $slug) {
-    id
-    media {
-      url
-      productId
-      type
-    }
-    name
-    pricing {
-      discount {
-        currency
-        net {
-          currency
-          amount
-        }
-      }
-      priceRange {
-        start {
-          currency
-          gross {
-            amount
-            currency
-          }
-        }
-      }
-      onSale
-    }
-    description
-    rating
-  }
-}
-    `) as unknown as TypedDocumentString<FetchProductDetailBySlugQuery, FetchProductDetailBySlugQueryVariables>;
 export const FetchProductsRecommendationDocument = new TypedDocumentString(`
     query fetchProductsRecommendation($channel: String!) {
   products(channel: $channel, first: 15) {
@@ -44671,6 +44826,10 @@ fragment ProductCardDetails on Product {
   media {
     productId
     url
+  }
+  thumbnail {
+    url
+    alt
   }
   pricing {
     displayGrossPrices
@@ -44735,6 +44894,10 @@ fragment ProductCardDetails on Product {
   media {
     productId
     url
+  }
+  thumbnail {
+    url
+    alt
   }
   pricing {
     displayGrossPrices
