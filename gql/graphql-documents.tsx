@@ -33209,11 +33209,27 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']['output']>;
 };
 
+export type CategoryBasicFragment = { __typename?: 'Category', id: string, name: string, slug: string };
+
 export type CategoryDetailsFragment = { __typename?: 'Category', id: string, name: string, slug: string, level: number };
+
+export type ImageFragment = { __typename?: 'Image', url: string, alt?: string | null };
 
 export type PageInfoDetailsFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
 
+export type PriceFragment = { __typename?: 'Money', currency: string, amount: number };
+
 export type ProductCardDetailsFragment = { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
+
+export type ProductDetailsFragment = { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null };
+
+export type ProductTypeFragment = { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean };
+
+export type ProductMediaFragment = { __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType };
+
+export type ProductVariantDetailsFragment = { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null };
+
+export type SelectedAttributeDetailsFragment = { __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> };
 
 export type FeaturedCategoriesBySlugAndMetaQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -33248,6 +33264,14 @@ export type FetchFeaturedCategoriesQueryVariables = Exact<{ [key: string]: never
 
 
 export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null };
+
+export type ProductBySlugQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+  channel: Scalars['String']['input'];
+}>;
+
+
+export type ProductBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null } | null };
 
 export type FetchProductListPaginatedBySlugQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -43785,6 +43809,248 @@ export const ProductCardDetailsFragmentDoc = new TypedDocumentString(`
   rating
 }
     `, {"fragmentName":"ProductCardDetails"}) as unknown as TypedDocumentString<ProductCardDetailsFragment, unknown>;
+export const SelectedAttributeDetailsFragmentDoc = new TypedDocumentString(`
+    fragment SelectedAttributeDetailsFragment on SelectedAttribute {
+  attribute {
+    id
+    name
+    slug
+    type
+    unit
+  }
+  values {
+    id
+    name
+    value
+  }
+}
+    `, {"fragmentName":"SelectedAttributeDetailsFragment"}) as unknown as TypedDocumentString<SelectedAttributeDetailsFragment, unknown>;
+export const CategoryBasicFragmentDoc = new TypedDocumentString(`
+    fragment CategoryBasicFragment on Category {
+  id
+  name
+  slug
+}
+    `, {"fragmentName":"CategoryBasicFragment"}) as unknown as TypedDocumentString<CategoryBasicFragment, unknown>;
+export const ProductMediaFragmentDoc = new TypedDocumentString(`
+    fragment ProductMediaFragment on ProductMedia {
+  url
+  alt
+  type
+}
+    `, {"fragmentName":"ProductMediaFragment"}) as unknown as TypedDocumentString<ProductMediaFragment, unknown>;
+export const PriceFragmentDoc = new TypedDocumentString(`
+    fragment PriceFragment on Money {
+  currency
+  amount
+}
+    `, {"fragmentName":"PriceFragment"}) as unknown as TypedDocumentString<PriceFragment, unknown>;
+export const ProductVariantDetailsFragmentDoc = new TypedDocumentString(`
+    fragment ProductVariantDetailsFragment on ProductVariant {
+  id
+  name
+  product {
+    id
+    name
+    slug
+    thumbnail {
+      url
+      alt
+    }
+  }
+  quantityAvailable
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  sku
+  media {
+    ...ProductMediaFragment
+  }
+  pricing {
+    price {
+      gross {
+        ...PriceFragment
+      }
+    }
+    priceUndiscounted {
+      gross {
+        ...PriceFragment
+      }
+    }
+  }
+}
+    fragment PriceFragment on Money {
+  currency
+  amount
+}
+fragment ProductMediaFragment on ProductMedia {
+  url
+  alt
+  type
+}
+fragment SelectedAttributeDetailsFragment on SelectedAttribute {
+  attribute {
+    id
+    name
+    slug
+    type
+    unit
+  }
+  values {
+    id
+    name
+    value
+  }
+}`, {"fragmentName":"ProductVariantDetailsFragment"}) as unknown as TypedDocumentString<ProductVariantDetailsFragment, unknown>;
+export const ImageFragmentDoc = new TypedDocumentString(`
+    fragment ImageFragment on Image {
+  url
+  alt
+}
+    `, {"fragmentName":"ImageFragment"}) as unknown as TypedDocumentString<ImageFragment, unknown>;
+export const ProductTypeFragmentDoc = new TypedDocumentString(`
+    fragment ProductTypeFragment on ProductType {
+  kind
+  slug
+  name
+  id
+  isDigital
+  isShippingRequired
+  hasVariants
+}
+    `, {"fragmentName":"ProductTypeFragment"}) as unknown as TypedDocumentString<ProductTypeFragment, unknown>;
+export const ProductDetailsFragmentDoc = new TypedDocumentString(`
+    fragment ProductDetailsFragment on Product {
+  id
+  name
+  slug
+  description
+  seoDescription
+  description
+  seoTitle
+  isAvailableForPurchase
+  rating
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  category {
+    ...CategoryBasicFragment
+  }
+  variants {
+    ...ProductVariantDetailsFragment
+  }
+  defaultVariant {
+    ...ProductVariantDetailsFragment
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        ...PriceFragment
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          ...PriceFragment
+        }
+      }
+    }
+    onSale
+  }
+  media {
+    ...ProductMediaFragment
+  }
+  thumbnail {
+    ...ImageFragment
+  }
+  category {
+    name
+  }
+  productType {
+    ...ProductTypeFragment
+  }
+  weight {
+    unit
+    value
+  }
+}
+    fragment CategoryBasicFragment on Category {
+  id
+  name
+  slug
+}
+fragment ImageFragment on Image {
+  url
+  alt
+}
+fragment PriceFragment on Money {
+  currency
+  amount
+}
+fragment ProductTypeFragment on ProductType {
+  kind
+  slug
+  name
+  id
+  isDigital
+  isShippingRequired
+  hasVariants
+}
+fragment ProductMediaFragment on ProductMedia {
+  url
+  alt
+  type
+}
+fragment ProductVariantDetailsFragment on ProductVariant {
+  id
+  name
+  product {
+    id
+    name
+    slug
+    thumbnail {
+      url
+      alt
+    }
+  }
+  quantityAvailable
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  sku
+  media {
+    ...ProductMediaFragment
+  }
+  pricing {
+    price {
+      gross {
+        ...PriceFragment
+      }
+    }
+    priceUndiscounted {
+      gross {
+        ...PriceFragment
+      }
+    }
+  }
+}
+fragment SelectedAttributeDetailsFragment on SelectedAttribute {
+  attribute {
+    id
+    name
+    slug
+    type
+    unit
+  }
+  values {
+    id
+    name
+    value
+  }
+}`, {"fragmentName":"ProductDetailsFragment"}) as unknown as TypedDocumentString<ProductDetailsFragment, unknown>;
 export const FeaturedCategoriesBySlugAndMetaDocument = new TypedDocumentString(`
     query FeaturedCategoriesBySlugAndMeta($first: Int!, $filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
   categories(first: 1, sortBy: $sortBy, filter: $filter) {
@@ -43909,6 +44175,143 @@ export const FetchFeaturedCategoriesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>;
+export const ProductBySlugDocument = new TypedDocumentString(`
+    query ProductBySlug($slug: String!, $channel: String!) {
+  product(slug: $slug, channel: $channel) {
+    ...ProductDetailsFragment
+  }
+}
+    fragment CategoryBasicFragment on Category {
+  id
+  name
+  slug
+}
+fragment ImageFragment on Image {
+  url
+  alt
+}
+fragment PriceFragment on Money {
+  currency
+  amount
+}
+fragment ProductDetailsFragment on Product {
+  id
+  name
+  slug
+  description
+  seoDescription
+  description
+  seoTitle
+  isAvailableForPurchase
+  rating
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  category {
+    ...CategoryBasicFragment
+  }
+  variants {
+    ...ProductVariantDetailsFragment
+  }
+  defaultVariant {
+    ...ProductVariantDetailsFragment
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        ...PriceFragment
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          ...PriceFragment
+        }
+      }
+    }
+    onSale
+  }
+  media {
+    ...ProductMediaFragment
+  }
+  thumbnail {
+    ...ImageFragment
+  }
+  category {
+    name
+  }
+  productType {
+    ...ProductTypeFragment
+  }
+  weight {
+    unit
+    value
+  }
+}
+fragment ProductTypeFragment on ProductType {
+  kind
+  slug
+  name
+  id
+  isDigital
+  isShippingRequired
+  hasVariants
+}
+fragment ProductMediaFragment on ProductMedia {
+  url
+  alt
+  type
+}
+fragment ProductVariantDetailsFragment on ProductVariant {
+  id
+  name
+  product {
+    id
+    name
+    slug
+    thumbnail {
+      url
+      alt
+    }
+  }
+  quantityAvailable
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  sku
+  media {
+    ...ProductMediaFragment
+  }
+  pricing {
+    price {
+      gross {
+        ...PriceFragment
+      }
+    }
+    priceUndiscounted {
+      gross {
+        ...PriceFragment
+      }
+    }
+  }
+}
+fragment SelectedAttributeDetailsFragment on SelectedAttribute {
+  attribute {
+    id
+    name
+    slug
+    type
+    unit
+  }
+  values {
+    id
+    name
+    value
+  }
+}`) as unknown as TypedDocumentString<ProductBySlugQuery, ProductBySlugQueryVariables>;
 export const FetchProductListPaginatedBySlugDocument = new TypedDocumentString(`
     query fetchProductListPaginatedBySlug($first: Int, $last: Int, $channel: String!, $slug: String!, $before: String, $after: String) {
   category(slug: $slug) {

@@ -43,11 +43,11 @@ const NewReleaseSection: React.FC<NewReleaseSectionProps> = ({
           </p>
           <div className="flex flex-row justify-start gap-x-4 my-1 md:my-2 items-center">
             <p className="text-md font-semibold">
-              {productsDetails.currency} {productsDetails.price.toFixed(3)}
+              {productsDetails.currency} {productsDetails.price}
             </p>
             <p className="line-through text-textgray text-xs font-medium">
               {productsDetails.currencySymbol}{" "}
-              {productsDetails.cuttedPrice.toFixed(3)}
+              {productsDetails.cuttedPrice}
             </p>
           </div>
 

@@ -1,0 +1,33 @@
+fragment ProductVariantDetailsFragment on ProductVariant {
+  id
+  name
+  product {
+    id
+    name
+    slug
+    thumbnail {
+      url
+      alt
+    }
+  }
+  quantityAvailable
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  sku
+  media {
+    ...ProductMediaFragment
+  }
+  pricing {
+    price {
+      gross {
+        ...PriceFragment
+      }
+    }
+    priceUndiscounted {
+      gross {
+        ...PriceFragment
+      }
+    }
+  }
+}

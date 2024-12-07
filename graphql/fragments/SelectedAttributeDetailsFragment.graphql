@@ -1,0 +1,14 @@
+fragment SelectedAttributeDetailsFragment on SelectedAttribute {
+  attribute {
+    id
+    name
+    slug
+    type
+    unit
+  }
+  values {
+    id
+    name
+    value
+  }
+}

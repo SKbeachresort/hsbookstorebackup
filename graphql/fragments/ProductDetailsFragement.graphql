@@ -1,0 +1,68 @@
+fragment ProductDetailsFragment on Product {
+  id
+  name
+  slug
+  description
+  seoDescription
+  description
+  seoTitle
+  isAvailableForPurchase
+  rating
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  category {
+    ...CategoryBasicFragment
+  }
+  variants {
+    ...ProductVariantDetailsFragment
+  }
+  defaultVariant {
+    ...ProductVariantDetailsFragment
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        ...PriceFragment
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          ...PriceFragment
+        }
+      }
+    }
+    onSale
+  }
+
+  media {
+    ...ProductMediaFragment
+  }
+  thumbnail {
+    ...ImageFragment
+  }
+  category {
+    name
+  }
+  productType {
+    ...ProductTypeFragment
+  }
+  weight {
+    unit
+    value
+  }
+}
+
+fragment ProductTypeFragment on ProductType {
+  kind
+  slug
+  name
+  id
+  isDigital
+  isShippingRequired
+  hasVariants
+}

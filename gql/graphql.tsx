@@ -33402,11 +33402,27 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']['output']>;
 };
 
+export type CategoryBasicFragmentFragment = { __typename?: 'Category', id: string, name: string, slug: string };
+
 export type CategoryDetailsFragment = { __typename?: 'Category', id: string, name: string, slug: string, level: number };
+
+export type ImageFragmentFragment = { __typename?: 'Image', url: string, alt?: string | null };
 
 export type PageInfoDetailsFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
 
+export type PriceFragmentFragment = { __typename?: 'Money', currency: string, amount: number };
+
 export type ProductCardDetailsFragment = { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
+
+export type ProductDetailsFragmentFragment = { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null };
+
+export type ProductTypeFragmentFragment = { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean };
+
+export type ProductMediaFragmentFragment = { __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType };
+
+export type ProductVariantDetailsFragmentFragment = { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null };
+
+export type SelectedAttributeDetailsFragmentFragment = { __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> };
 
 export type FeaturedCategoriesBySlugAndMetaQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -33441,6 +33457,14 @@ export type FetchFeaturedCategoriesQueryVariables = Exact<{ [key: string]: never
 
 
 export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null };
+
+export type ProductBySlugQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+  channel: Scalars['String']['input'];
+}>;
+
+
+export type ProductBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null } | null };
 
 export type FetchProductListPaginatedBySlugQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -33549,6 +33573,161 @@ export const ProductCardDetailsFragmentDoc = gql`
   rating
 }
     `;
+export const SelectedAttributeDetailsFragmentFragmentDoc = gql`
+    fragment SelectedAttributeDetailsFragment on SelectedAttribute {
+  attribute {
+    id
+    name
+    slug
+    type
+    unit
+  }
+  values {
+    id
+    name
+    value
+  }
+}
+    `;
+export const CategoryBasicFragmentFragmentDoc = gql`
+    fragment CategoryBasicFragment on Category {
+  id
+  name
+  slug
+}
+    `;
+export const ProductMediaFragmentFragmentDoc = gql`
+    fragment ProductMediaFragment on ProductMedia {
+  url
+  alt
+  type
+}
+    `;
+export const PriceFragmentFragmentDoc = gql`
+    fragment PriceFragment on Money {
+  currency
+  amount
+}
+    `;
+export const ProductVariantDetailsFragmentFragmentDoc = gql`
+    fragment ProductVariantDetailsFragment on ProductVariant {
+  id
+  name
+  product {
+    id
+    name
+    slug
+    thumbnail {
+      url
+      alt
+    }
+  }
+  quantityAvailable
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  sku
+  media {
+    ...ProductMediaFragment
+  }
+  pricing {
+    price {
+      gross {
+        ...PriceFragment
+      }
+    }
+    priceUndiscounted {
+      gross {
+        ...PriceFragment
+      }
+    }
+  }
+}
+    ${SelectedAttributeDetailsFragmentFragmentDoc}
+${ProductMediaFragmentFragmentDoc}
+${PriceFragmentFragmentDoc}`;
+export const ImageFragmentFragmentDoc = gql`
+    fragment ImageFragment on Image {
+  url
+  alt
+}
+    `;
+export const ProductTypeFragmentFragmentDoc = gql`
+    fragment ProductTypeFragment on ProductType {
+  kind
+  slug
+  name
+  id
+  isDigital
+  isShippingRequired
+  hasVariants
+}
+    `;
+export const ProductDetailsFragmentFragmentDoc = gql`
+    fragment ProductDetailsFragment on Product {
+  id
+  name
+  slug
+  description
+  seoDescription
+  description
+  seoTitle
+  isAvailableForPurchase
+  rating
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  category {
+    ...CategoryBasicFragment
+  }
+  variants {
+    ...ProductVariantDetailsFragment
+  }
+  defaultVariant {
+    ...ProductVariantDetailsFragment
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        ...PriceFragment
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          ...PriceFragment
+        }
+      }
+    }
+    onSale
+  }
+  media {
+    ...ProductMediaFragment
+  }
+  thumbnail {
+    ...ImageFragment
+  }
+  category {
+    name
+  }
+  productType {
+    ...ProductTypeFragment
+  }
+  weight {
+    unit
+    value
+  }
+}
+    ${SelectedAttributeDetailsFragmentFragmentDoc}
+${CategoryBasicFragmentFragmentDoc}
+${ProductVariantDetailsFragmentFragmentDoc}
+${PriceFragmentFragmentDoc}
+${ProductMediaFragmentFragmentDoc}
+${ImageFragmentFragmentDoc}
+${ProductTypeFragmentFragmentDoc}`;
 export const FeaturedCategoriesBySlugAndMetaDocument = gql`
     query FeaturedCategoriesBySlugAndMeta($first: Int!, $filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
   categories(first: 1, sortBy: $sortBy, filter: $filter) {
@@ -33819,6 +33998,47 @@ export type FetchFeaturedCategoriesQueryHookResult = ReturnType<typeof useFetchF
 export type FetchFeaturedCategoriesLazyQueryHookResult = ReturnType<typeof useFetchFeaturedCategoriesLazyQuery>;
 export type FetchFeaturedCategoriesSuspenseQueryHookResult = ReturnType<typeof useFetchFeaturedCategoriesSuspenseQuery>;
 export type FetchFeaturedCategoriesQueryResult = Apollo.QueryResult<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>;
+export const ProductBySlugDocument = gql`
+    query ProductBySlug($slug: String!, $channel: String!) {
+  product(slug: $slug, channel: $channel) {
+    ...ProductDetailsFragment
+  }
+}
+    ${ProductDetailsFragmentFragmentDoc}`;
+
+/**
+ * __useProductBySlugQuery__
+ *
+ * To run a query within a React component, call `useProductBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductBySlugQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *      channel: // value for 'channel'
+ *   },
+ * });
+ */
+export function useProductBySlugQuery(baseOptions: Apollo.QueryHookOptions<ProductBySlugQuery, ProductBySlugQueryVariables> & ({ variables: ProductBySlugQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductBySlugQuery, ProductBySlugQueryVariables>(ProductBySlugDocument, options);
+      }
+export function useProductBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductBySlugQuery, ProductBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductBySlugQuery, ProductBySlugQueryVariables>(ProductBySlugDocument, options);
+        }
+export function useProductBySlugSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ProductBySlugQuery, ProductBySlugQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ProductBySlugQuery, ProductBySlugQueryVariables>(ProductBySlugDocument, options);
+        }
+export type ProductBySlugQueryHookResult = ReturnType<typeof useProductBySlugQuery>;
+export type ProductBySlugLazyQueryHookResult = ReturnType<typeof useProductBySlugLazyQuery>;
+export type ProductBySlugSuspenseQueryHookResult = ReturnType<typeof useProductBySlugSuspenseQuery>;
+export type ProductBySlugQueryResult = Apollo.QueryResult<ProductBySlugQuery, ProductBySlugQueryVariables>;
 export const FetchProductListPaginatedBySlugDocument = gql`
     query fetchProductListPaginatedBySlug($first: Int, $last: Int, $channel: String!, $slug: String!, $before: String, $after: String) {
   category(slug: $slug) {

@@ -6,10 +6,6 @@ import Image from "next/image";
 import { Product, BookFormat } from "@/types/product/product-types";
 import { FaPlus, FaTrashAlt } from "react-icons/fa";
 
-// Static Images
-import book from "../../../public/products/book.png";
-import book2 from "../../../public/products/book2.png";
-import book3 from "../../../public/products/book3.png";
 
 interface ProductDetailsProps {
   productsDetails: Product;
@@ -34,21 +30,19 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   removeFromCart,
   bookFormats,
 }) => {
-  const [selectedFormat, setSelectedFormat] = useState<string>(
-    bookFormats[0]?.label || ""
-  );
 
-  const subImages = [
-    {image: book},
-    {image: book2},
-    {image: book3},
-  ]
+
+  const [selectedFormat, setSelectedFormat] = useState<string>(
+    bookFormats[0]?.label
+  );
 
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
 
   const handleMagnifyClick = () => {
     setIsZoomed(!isZoomed);
   };
+
+  console.log("Product Details", productsDetails.subImage);
 
   return (
     <div className="">
@@ -57,15 +51,13 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
           {/* Sub Images */}
           
           <div className="flex flex-row my-3 md:my-0 md:flex-col gap-4 w-[20%]">
-            {subImages.map((image, index) => (
+            {productsDetails.subImage.map((image, index) => (
               <Image
                 key={index}
-                src={image.image}
+                src={image}
                 width={100}
                 height={100}
                 alt={`Product sub-image ${index + 1}`}
-                // onMouseEnter={() => setMainImage(image)}
-                // onClick={() => setMainImage(image)}
                 className="cursor-pointer"
               />
             ))}
@@ -138,11 +130,11 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
           <div>
             <div className="flex flex-row gap-x-2 my-2">
               <p className="text-xl md:text-2xl font-semibold">
-                {productsDetails.currency} {(productsDetails ?? 0).price.toFixed(3)}
+                {productsDetails.currency} {productsDetails.price}
               </p>
               <p className="line-through text-textgray text-sm font-medium">
                 {productsDetails.currencySymbol}{" "}
-                {productsDetails.cuttedPrice.toFixed(3)}
+                {productsDetails.cuttedPrice}
               </p>
             </div>
           </div>

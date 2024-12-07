@@ -16,13 +16,7 @@ import { PeopleWhoBoughtThis } from "@/components/ProductPage/PeopleWhoBoughtThi
 import { Recommended } from "@/components/ProductPage/Recommended";
 import AnimateOnScroll from "@/components/Animated/AnimateOnScroll";
 import { useFetchProductDetailBySlugQuery } from "../../../../../../../gql/graphql";
-
-const bookFormats = [
-  { label: "Hardcover", price: 3990, currency: "KWD" },
-  { label: "Paperback", price: 3990, currency: "KWD" },
-  { label: "EBook", price: 3990, currency: "KWD" },
-  { label: "Audiobook", price: 3990, currency: "KWD" },
-];
+import { useProductBySlugQuery } from "../../../../../../../gql/graphql";
 
 const ProductDetailPage = () => {
   const { slug, channel } = useParams();
@@ -40,56 +34,68 @@ const ProductDetailPage = () => {
   const [showAddToCartWidget, setShowAddToCartWidget] = useState(false);
   const subsectionRef = useRef<HTMLDivElement | null>(null);
 
-  const staticProductDetails = {
-    id: "1",
-    name: "Lean Six Sigma For Leaders: A Practical Guide For Leaders",
-    Author: "Simon Sinek",
-    mainImage: "/products/book.png",
-    subImage: [
-      "/products/book.png",
-      "/products/book2.png",
-      "/products/book3.png",
-    ],
-    available: true,
-    currency: "KWD",
-    price: 6.99,
-    cuttedPrice: 8.0,
-    currencySymbol: "$",
-    ratings: 4.5,
-    description:
-      "The inspirational bestseller that ignited a movement and asked us to find our WHY Discover the book that is captivating millions on TikTok and that served as the basis for one of the most popular TED Talks of all time--with more than 56 million views and counting. Over a decade ago, Simon Sinek started a movement that inspired millions to demand purpose at work, to ask what was the WHY of their organization. Since then, millions have been touched by the power of his ideas, and these ideas remain as relevant and timely as ever.",
-    ISBN_NO: "9781119374749",
-    Series: "Book Series Name",
-    Publisher: "Wiley",
-    PublicationDate: "June, 2018",
-    Cover: "Hardcover",
-    Pages: 320,
-    Weight: "0.544 kg",
-  };
-
-  const productSlug = Array.isArray(slug) ? slug[0] : slug;
-  const channelString = Array.isArray(channel) ? channel[0] : channel;
-
-  const { data, loading, error } = useFetchProductDetailBySlugQuery({
-    variables: { channel: channelString || "default-channel", slug: productSlug || "" },
+  const { data, loading, error } = useProductBySlugQuery({
+    variables: {
+      channel: (channel as string) || "default-channel",
+      slug: slug as string,
+    },
   });
   console.log("Fetched Data", data);
 
   const productsDetails = {
-    ...staticProductDetails,
-    name: data?.product?.name || staticProductDetails.name,
-    mainImage: data?.product?.media?.[0]?.url || staticProductDetails.mainImage,
+    id: data?.product?.id || "1",
+    name: data?.product?.name || "Unknown Product",
+    mainImage: data?.product?.thumbnail?.url || "/placeholder-image.png",
+    subImage: data?.product?.media?.map((media) => media.url) || [
+      "/placeholder-image.png",
+    ],
+    Author:
+      data?.product?.attributes.find(
+        (attr) => attr.attribute.name === "Authors"
+      )?.values[0]?.name || "Unknown Author",
     currency:
-      data?.product?.pricing?.priceRange?.start?.gross?.currency ||
-      staticProductDetails.currency,
+      data?.product?.pricing?.priceRangeUndiscounted?.start?.currency || "KWD",
+    currencySymbol: "$",
+    available: data?.product?.isAvailableForPurchase ?? true,
     price:
-      data?.product?.pricing?.priceRange?.start?.gross?.amount ||
-      staticProductDetails.price,
-    cuttedPrice:
-      (data?.product?.pricing?.priceRange?.start?.gross?.amount || 0) +
-      (data?.product?.pricing?.discount?.net?.amount || 0),
-    ratings: data?.product?.rating || staticProductDetails.ratings,
+      data?.product?.pricing?.priceRangeUndiscounted?.start?.net?.amount ?? 0,
+    cuttedPrice: data?.product?.pricing?.discount?.net?.amount ?? 0,
+    ratings: data?.product?.rating ?? 0,
+    description: data?.product?.seoDescription || "N/A",
+    ISBN_NO: data?.product?.variants?.[0]?.sku || "N/A",
+    Series: "N/A",
+    Cover:
+      data?.product?.variants?.[0]?.attributes.find(
+        (attr) => attr.attribute.name === "Cover"
+      )?.values[0]?.name || "N/A",
+    Publisher:
+      data?.product?.attributes.find((attr) => attr.attribute.name === "Pub")
+        ?.values[0]?.name || "Unknown Publisher",
+    PublicationDate:
+      data?.product?.attributes.find(
+        (attr) => attr.attribute.name === "Pub Date"
+      )?.values[0]?.name || "N/A",
+    Pages:
+      Number(
+        data?.product?.attributes.find(
+          (attr) => attr.attribute.name === "Pages"
+        )?.values[0]?.name
+      ) || 0,
+    Weight: `${data?.product?.weight?.value || 0} ${
+      data?.product?.weight?.unit || ""
+    }`.trim(),
   };
+
+  const bookFormats = [
+    {
+      label: data?.product?.variants?.[0]?.attributes.find(
+        (attr) => attr.attribute.name === "Cover"
+      )?.values[0]?.name || "N/A",
+      price:
+        data?.product?.pricing?.priceRangeUndiscounted?.start?.net?.amount ?? 0,
+      currency: "KWD",
+    },
+  ];
 
   const toggleFav = () => {
     setIsFav(!isFav);
@@ -156,7 +162,7 @@ const ProductDetailPage = () => {
           <AdditionalContents productsDetails={productsDetails} />
 
           {/* Saving Packages */}
-          <SavingsPackage />
+          {/* <SavingsPackage /> */}
 
           {/* People who bought this */}
           <PeopleWhoBoughtThis />
