@@ -1,0 +1,15 @@
+query HomeRecentlyAdded(
+    $channel: String!
+) {
+  products(
+    first: 20
+    sortBy: {direction: ASC, field: CREATED_AT}
+    channel: $channel
+  ) {
+    edges {
+      node {
+        ...ProductCardDetails
+      }
+    }
+  }
+}

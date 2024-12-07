@@ -45,7 +45,7 @@ const ProductDetailPage = () => {
   const productsDetails = {
     id: data?.product?.id || "1",
     name: data?.product?.name || "Unknown Product",
-    mainImage: data?.product?.thumbnail?.url || "/placeholder-image.png",
+    mainImage: data?.product?.media?.[0]?.url || "/placeholder-image.png",
     subImage: data?.product?.media?.map((media) => media.url) || [
       "/placeholder-image.png",
     ],

@@ -2,7 +2,7 @@
 import React from "react";
 import { ProductCard } from "../ProductCard/ProductCard";
 import Carousel from "@/app/elements/Carousel";
-import { useFetchProductsRecommendationQuery } from "../../../gql/graphql";
+import { useHomeRecentlyAddedQuery } from "../../../gql/graphql";
 
 interface RecentlyAddedProps {
   channel: string;
@@ -10,7 +10,7 @@ interface RecentlyAddedProps {
 
 export const RecentlyAdded:React.FC<RecentlyAddedProps> = ({channel}) => {
   
-  const { data, loading, error } = useFetchProductsRecommendationQuery({
+  const { data, loading, error } = useHomeRecentlyAddedQuery({
     variables: {
       channel,
     },

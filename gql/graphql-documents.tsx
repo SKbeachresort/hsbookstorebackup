@@ -33265,6 +33265,13 @@ export type FetchFeaturedCategoriesQueryVariables = Exact<{ [key: string]: never
 
 export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null };
 
+export type HomeRecentlyAddedQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+}>;
+
+
+export type HomeRecentlyAddedQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }> } | null };
+
 export type ProductBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
   channel: Scalars['String']['input'];
@@ -44175,6 +44182,50 @@ export const FetchFeaturedCategoriesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>;
+export const HomeRecentlyAddedDocument = new TypedDocumentString(`
+    query HomeRecentlyAdded($channel: String!) {
+  products(
+    first: 20
+    sortBy: {direction: ASC, field: CREATED_AT}
+    channel: $channel
+  ) {
+    edges {
+      node {
+        ...ProductCardDetails
+      }
+    }
+  }
+}
+    fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+}`) as unknown as TypedDocumentString<HomeRecentlyAddedQuery, HomeRecentlyAddedQueryVariables>;
 export const ProductBySlugDocument = new TypedDocumentString(`
     query ProductBySlug($slug: String!, $channel: String!) {
   product(slug: $slug, channel: $channel) {
