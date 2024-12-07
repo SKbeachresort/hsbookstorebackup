@@ -18,14 +18,8 @@ export const HomeCategory = () => {
 
   const { data } = useHomeFeaturedCategoryQuery({
     variables: {
-      filter: {
-        metadata: [
-          {
-            key: "HomeFeatured",
-            value: "Y",
-          },
-        ],
-      },
+      key: "HomeFeatured",
+      value: "Y",
     },
   });
 
@@ -35,30 +29,38 @@ export const HomeCategory = () => {
     <div className="my-10">
       <div className="">
         <div className="flex flex-row flex-wrap gap-2 md:gap-0 justify-center md:justify-between">
-          {categories.map(({ node }) => (
-            <div
-              key={node.id}
-              className="bg-white md:w-[18%] rounded-md overflow-hidden flex flex-col items-start"
-            >
-              <div className="">
-                <Link href={getRegionUrl(`category/${node.slug}`)}>
-                  <div className="">
-                    <Image
-                      src={node.backgroundImage?.url || ""}
-                      alt={node.name}
-                      width={150}
-                      height={150}
-                      className="md:w-[90%] rounded-lg bg-[#EEEEF0] object-contain aspect-square mx-auto 3xl:w-full hover:scale-110 transition-all duration-300"
-                    />
-                  </div>
+          {categories.map(({ node }) => {
 
-                  <h2 className="text-[0.5rem] md:text-xs 3xl:text-md font-semibold text-center mt-2">
-                    Shop for {node.name}
-                  </h2>
-                </Link>
+            const categoryUrl = 
+              node.level === 1 && node.parent
+               ? `category/${node.parent.slug}/${node.slug}`
+               : `category/${node.slug}`;
+
+            return (
+              <div
+                key={node.id}
+                className="bg-white md:w-[18%] rounded-md overflow-hidden flex flex-col items-start"
+              >
+                <div className="">
+                  <Link href={getRegionUrl(categoryUrl)}>
+                    <div className="">
+                      <Image
+                        src={node.backgroundImage?.url || ""}
+                        alt={node.name}
+                        width={150}
+                        height={150}
+                        className="md:w-[90%] rounded-lg bg-[#EEEEF0] object-contain aspect-square mx-auto 3xl:w-full hover:scale-110 transition-all duration-300"
+                      />
+                    </div>
+
+                    <h2 className="text-[0.5rem] md:text-xs 3xl:text-md font-semibold text-center mt-2">
+                      Shop for {node.name}
+                    </h2>
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 "use server";
 import React from "react";
-import { FeaturedCategoriesBySlugAndMetaDocument } from "../../../../gql/graphql-documents";
+import { FetchFeaturedCategoriesDocument } from "../../../../gql/graphql-documents";
 import { executeGraphQL } from "@/lib/graphql";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,32 +12,24 @@ interface SubFeaturedCategoriesProps {
   locale: string;
   categoryslug: string;
   subcategoryslug: string;
-};
+}
 
 export const SubFeaturedCategories: React.FC<
   SubFeaturedCategoriesProps
 > = async ({ channel, locale, categoryslug, subcategoryslug }) => {
-  const data = await executeGraphQL(FeaturedCategoriesBySlugAndMetaDocument, {
+  const data = await executeGraphQL(FetchFeaturedCategoriesDocument, {
     variables: {
       first: 20,
-      filter: {
-        slugs: [subcategoryslug],
-        metadata: [
-          {
-            key: "Featured",
-            value: "Y",
-          },
-        ],
-      },
-      sortBy: {
-        direction: "ASC",
-        field: "NAME",
-      },
+      level: 2,
     },
   });
 
-  const parentNode = data?.categories?.edges?.[0]?.node;
-  const children = parentNode?.children?.edges || [];
+  const filteredCategories =
+    data?.categories?.edges?.filter(({ node }) => {
+      return node?.parent?.slug === subcategoryslug;
+    }) || [];
+
+  // console.log("Filtered Categories", filteredCategories);
 
   return (
     <div className="">
@@ -45,8 +37,14 @@ export const SubFeaturedCategories: React.FC<
         Featured Categories
       </h1>
 
-      <div className="flex flex-row flex-wrap gap-2 md:gap-y-4 md:gap-0 justify-center md:justify-between">
-        {children?.slice(0, 10).map(({ node }) => (
+      <div
+        className={`flex flex-row flex-wrap gap-2 md:gap-y-4 md:gap-0 justify-center ${
+          filteredCategories.length > 3
+            ? "md:justify-between"
+            : "md:justify-center"
+        }`}
+      >
+        {filteredCategories?.map(({ node }) => (
           <div
             key={node.id}
             className="md:w-[18%] rounded-md flex gap-y-2 justify-center flex-col items-start"

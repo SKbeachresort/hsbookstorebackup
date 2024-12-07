@@ -63,7 +63,7 @@ const AdditionalContents: React.FC<AdditionalContentsProps> = ({
         </AccordionProductDetail>
       </div>
 
-      {/* <div className="my-4">
+      <div className="my-4">
         <AccordionProductDetail title="Description">
           <div className="px-4">
             <p className="text-sm md:text-md text-justify text-textgray">
@@ -73,13 +73,13 @@ const AdditionalContents: React.FC<AdditionalContentsProps> = ({
         </AccordionProductDetail>
       </div>
 
-      <div>
+      {/* <div>
         <AccordionProductDetail title="Table of Contents">
           <div className="px-4">
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates ipsam ipsum eius totam assumenda! Laborum quis explicabo, vel culpa nobis id, dolor earum ut, tempora odio reiciendis assumenda quia impedit.</p>
           </div>
         </AccordionProductDetail>
-      </div> */}
+      </div>  */}
     </div>
   );
 };

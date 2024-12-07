@@ -1,14 +1,19 @@
 query HomeFeaturedCategory(
-  $filter: CategoryFilterInput!
-  $sortBy: CategorySortingInput
+  $key: String!,
+  $value: String!,
 ) {
-  categories(first: 10, sortBy: $sortBy, filter: $filter) {
+  categories(first: 10, filter: {metadata: {key: $key, value: $value}}) {
     edges {
       node {
         ...CategoryDetails
         backgroundImage {
           url
           alt
+        }
+        parent {
+          name
+          slug
+          level
         }
       }
     }

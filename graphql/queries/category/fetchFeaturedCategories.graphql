@@ -1,17 +1,18 @@
-query fetchFeaturedCategories {
+query fetchFeaturedCategories($first: Int!, $level:Int!) {
   categories(
-    first: 10
-    level: 1
+    first: $first,
+    level: $level,
     filter: {metadata: {key: "Featured", value: "Y"}}
   ) {
     totalCount
     edges {
       node {
-        id
-        name
-        slug
+        ...CategoryDetails
         backgroundImage {
-          url
+          ...ImageFragment
+        }
+        parent{
+          ...CategoryDetails
         }
       }
     }

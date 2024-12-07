@@ -33434,12 +33434,12 @@ export type FeaturedCategoriesBySlugAndMetaQueryVariables = Exact<{
 export type FeaturedCategoriesBySlugAndMetaQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, metadata: Array<{ __typename?: 'MetadataItem', key: string }>, backgroundImage?: { __typename?: 'Image', alt?: string | null, url: string } | null } }> } | null } }> } | null };
 
 export type HomeFeaturedCategoryQueryVariables = Exact<{
-  filter: CategoryFilterInput;
-  sortBy?: InputMaybe<CategorySortingInput>;
+  key: Scalars['String']['input'];
+  value: Scalars['String']['input'];
 }>;
 
 
-export type HomeFeaturedCategoryQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, backgroundImage?: { __typename?: 'Image', url: string, alt?: string | null } | null } }> } | null };
+export type HomeFeaturedCategoryQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, backgroundImage?: { __typename?: 'Image', url: string, alt?: string | null } | null, parent?: { __typename?: 'Category', name: string, slug: string, level: number } | null } }> } | null };
 
 export type FetchAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -33453,10 +33453,13 @@ export type FetchAllSubCategoryByIdQueryVariables = Exact<{
 
 export type FetchAllSubCategoryByIdQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, children?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', cursor: string, node: { __typename?: 'Category', id: string, name: string, slug: string, level: number } }> } | null } | null };
 
-export type FetchFeaturedCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type FetchFeaturedCategoriesQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  level: Scalars['Int']['input'];
+}>;
 
 
-export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null };
+export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, backgroundImage?: { __typename?: 'Image', url: string, alt?: string | null } | null, parent?: { __typename?: 'Category', id: string, name: string, slug: string, level: number } | null } }> } | null };
 
 export type HomeRecentlyAddedQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -33797,14 +33800,19 @@ export type FeaturedCategoriesBySlugAndMetaLazyQueryHookResult = ReturnType<type
 export type FeaturedCategoriesBySlugAndMetaSuspenseQueryHookResult = ReturnType<typeof useFeaturedCategoriesBySlugAndMetaSuspenseQuery>;
 export type FeaturedCategoriesBySlugAndMetaQueryResult = Apollo.QueryResult<FeaturedCategoriesBySlugAndMetaQuery, FeaturedCategoriesBySlugAndMetaQueryVariables>;
 export const HomeFeaturedCategoryDocument = gql`
-    query HomeFeaturedCategory($filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
-  categories(first: 10, sortBy: $sortBy, filter: $filter) {
+    query HomeFeaturedCategory($key: String!, $value: String!) {
+  categories(first: 10, filter: {metadata: {key: $key, value: $value}}) {
     edges {
       node {
         ...CategoryDetails
         backgroundImage {
           url
           alt
+        }
+        parent {
+          name
+          slug
+          level
         }
       }
     }
@@ -33825,8 +33833,8 @@ export const HomeFeaturedCategoryDocument = gql`
  * @example
  * const { data, loading, error } = useHomeFeaturedCategoryQuery({
  *   variables: {
- *      filter: // value for 'filter'
- *      sortBy: // value for 'sortBy'
+ *      key: // value for 'key'
+ *      value: // value for 'value'
  *   },
  * });
  */
@@ -33953,26 +33961,28 @@ export type FetchAllSubCategoryByIdLazyQueryHookResult = ReturnType<typeof useFe
 export type FetchAllSubCategoryByIdSuspenseQueryHookResult = ReturnType<typeof useFetchAllSubCategoryByIdSuspenseQuery>;
 export type FetchAllSubCategoryByIdQueryResult = Apollo.QueryResult<FetchAllSubCategoryByIdQuery, FetchAllSubCategoryByIdQueryVariables>;
 export const FetchFeaturedCategoriesDocument = gql`
-    query fetchFeaturedCategories {
+    query fetchFeaturedCategories($first: Int!, $level: Int!) {
   categories(
-    first: 10
-    level: 1
+    first: $first
+    level: $level
     filter: {metadata: {key: "Featured", value: "Y"}}
   ) {
     totalCount
     edges {
       node {
-        id
-        name
-        slug
+        ...CategoryDetails
         backgroundImage {
-          url
+          ...ImageFragment
+        }
+        parent {
+          ...CategoryDetails
         }
       }
     }
   }
 }
-    `;
+    ${CategoryDetailsFragmentDoc}
+${ImageFragmentFragmentDoc}`;
 
 /**
  * __useFetchFeaturedCategoriesQuery__
@@ -33986,10 +33996,12 @@ export const FetchFeaturedCategoriesDocument = gql`
  * @example
  * const { data, loading, error } = useFetchFeaturedCategoriesQuery({
  *   variables: {
+ *      first: // value for 'first'
+ *      level: // value for 'level'
  *   },
  * });
  */
-export function useFetchFeaturedCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>) {
+export function useFetchFeaturedCategoriesQuery(baseOptions: Apollo.QueryHookOptions<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables> & ({ variables: FetchFeaturedCategoriesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>(FetchFeaturedCategoriesDocument, options);
       }

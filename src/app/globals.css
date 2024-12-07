@@ -13,9 +13,14 @@
   border-radius: 999px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Roboto", sans-serif;
   color: #232323;
+  overflow: scroll;
 }
 
 .icon-style {
@@ -201,4 +206,3 @@ body {
     @apply bg-background text-foreground;
   }
 }
-

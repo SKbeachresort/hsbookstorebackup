@@ -15,8 +15,8 @@ import { MoreItemsToExplore } from "@/components/ProductPage/MoreItemsToExplore"
 import { PeopleWhoBoughtThis } from "@/components/ProductPage/PeopleWhoBoughtThis";
 import { Recommended } from "@/components/ProductPage/Recommended";
 import AnimateOnScroll from "@/components/Animated/AnimateOnScroll";
-import { useFetchProductDetailBySlugQuery } from "../../../../../../../gql/graphql";
 import { useProductBySlugQuery } from "../../../../../../../gql/graphql";
+import BackDropLoader from "@/app/elements/BackdropLoader";
 
 const ProductDetailPage = () => {
   const { slug, channel } = useParams();
@@ -88,9 +88,10 @@ const ProductDetailPage = () => {
 
   const bookFormats = [
     {
-      label: data?.product?.variants?.[0]?.attributes.find(
-        (attr) => attr.attribute.name === "Cover"
-      )?.values[0]?.name || "N/A",
+      label:
+        data?.product?.variants?.[0]?.attributes.find(
+          (attr) => attr.attribute.name === "Cover"
+        )?.values[0]?.name || "N/A",
       price:
         data?.product?.pricing?.priceRangeUndiscounted?.start?.net?.amount ?? 0,
       currency: "KWD",
@@ -134,6 +135,10 @@ const ProductDetailPage = () => {
     };
   }, []);
 
+  if (loading) {
+    return <BackDropLoader open={loading} />;
+  }
+
   return (
     <div className="w-[95%] mx-auto xl:w-[80%] p-2 py-5">
       {/* Main Section  */}
@@ -162,7 +167,7 @@ const ProductDetailPage = () => {
           <AdditionalContents productsDetails={productsDetails} />
 
           {/* Saving Packages */}
-          {/* <SavingsPackage /> */}
+          <SavingsPackage />
 
           {/* People who bought this */}
           <PeopleWhoBoughtThis />
@@ -173,21 +178,20 @@ const ProductDetailPage = () => {
           {/* Customer Reviews & Ratings */}
           <CustomerReviewsRatings />
         </div>
+
         <div className="h-auto w-[33%] hidden md:block">
-          {/* Add to Cart Widget */}
+          {/* Add to Cart Widget Container */}
           <div className="sticky top-10 z-30 py-10">
-            {showAddToCartWidget && (
-              <AnimateOnScroll animationType="zoom-in-up">
-                <AddToCartWidjet
-                  productsDetails={productsDetails}
-                  cartItem={cartItem}
-                  handleAddToCart={handleAddToCart}
-                  handleDecrement={handleDecrement}
-                  incrementQuantity={incrementQuantity}
-                  bookFormats={bookFormats}
-                />
-              </AnimateOnScroll>
-            )}
+            <AnimateOnScroll animationType="zoom-in-up">
+              <AddToCartWidjet
+                productsDetails={productsDetails}
+                cartItem={cartItem}
+                handleAddToCart={handleAddToCart}
+                handleDecrement={handleDecrement}
+                incrementQuantity={incrementQuantity}
+                bookFormats={bookFormats}
+              />
+            </AnimateOnScroll>
           </div>
         </div>
       </div>

@@ -56,7 +56,7 @@ export const HomeExploreSpecialists = () => {
 
   return (
     <div className="my-5">
-      <h1 className="text-md xl:text-lg 3xl:text-xl 3xl:my-10 text-center font-semibold">
+      <h1 className="text-md xl:text-lg my-8 3xl:text-xl 3xl:my-10 text-center font-semibold">
         Explore more Specialists
       </h1>
 
