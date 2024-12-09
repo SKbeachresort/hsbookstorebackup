@@ -6,13 +6,21 @@ interface ButtonProps {
   onClick?: () => void;
   isLoading?: boolean;
   variant?: "primary" | "secondary";
-}
+};
 
-const Button: React.FC<ButtonProps> = ({ children, onClick, isLoading, variant = "primary" }) => {
+const Button: React.FC<ButtonProps> = ({
+  children,
+  onClick,
+  isLoading,
+  variant = "primary",
+}) => {
+
   const baseStyles =
-    "w-full py-2 my-2  text-center font-semibold rounded-full transition-colors duration-300";
-  const primaryStyles = "bg-secondary text-white hover:scale-105 transition-all duration-300";
-  const secondaryStyles = "border border-gray-300 text-gray-700 hover:bg-gray-100";
+    "w-full py-2 my-2 flex flex-col justify-center items-center text-center font-semibold rounded-full transition-colors duration-300";
+  const primaryStyles =
+    "bg-secondary text-white hover:scale-105 transition-all duration-300";
+  const secondaryStyles =
+    "border border-gray-300 text-gray-700 hover:bg-gray-100";
 
   return (
     <button

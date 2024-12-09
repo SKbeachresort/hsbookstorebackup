@@ -1,11 +1,19 @@
 import React from "react";
+import AuthRegisterUI from "@/components/Auth/AuthRegisterUI";
 
-const AuthRegister = () => {
+interface AuthLoginProps {
+  params: {
+    channel: string;
+    locale: string;
+  };
+}
+
+const AuthRegister = ({ params }: AuthLoginProps) => {
+  const { channel, locale } = params;
+
   return (
-    <div className="h-[40vh]">
-      <h1 className="text-[3vh] text-center font-medium">
-        This is Auth Sign Up Page
-      </h1>
+    <div>
+      <AuthRegisterUI channel={channel} locale={locale} />
     </div>
   );
 };

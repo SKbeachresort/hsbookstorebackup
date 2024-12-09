@@ -17,6 +17,7 @@ const InputField: React.FC<InputProps> = ({
   value,
   onChange,
 }) => {
+  
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -34,7 +35,7 @@ const InputField: React.FC<InputProps> = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className="w-full px-4 py-2 border-[1px] border-disableGray rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+          className="w-full px-4 py-2 border-[1px] border-disableGray rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
         />
         {type === "password" && (
           <span

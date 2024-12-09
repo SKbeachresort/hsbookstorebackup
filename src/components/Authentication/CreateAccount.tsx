@@ -6,12 +6,15 @@ import HSlogo from "../../../public/HSlogo.png";
 import Button from "@/app/elements/Button";
 import Link from "next/link";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
+import { AuthFooter } from "../Auth/AuthFooter";
 
 interface CreateAccountProps {
+  channel: string;
+  locale: string;
   closeModal: () => void;
-}
+};
 
-const CreateAccount: React.FC<CreateAccountProps> = ({ closeModal }) => {
+const CreateAccount: React.FC<CreateAccountProps> = ({ closeModal, channel, locale }) => {
 
   const { getRegionUrl } = useRegionUrl();
 
@@ -59,19 +62,8 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ closeModal }) => {
         </Button>
       </Link>
 
-      <div className="text-xs text-gray-500 mt-4 text-center">
-        By Login or Signup to HSBookstore you agree with our{" "}
-        <p>
-          <a href="#" className="text-secondary underline">
-            Terms & Conditions
-          </a>{" "}
-          and{" "}
-          <a href="#" className="text-secondary underline">
-            Privacy Policy
-          </a>
-          .
-        </p>
-      </div>
+      <AuthFooter channel={channel} locale={locale} />
+
     </div>
   );
 };

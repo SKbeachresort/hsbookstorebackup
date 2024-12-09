@@ -5,13 +5,16 @@ import Modal from "@/app/elements/Modal";
 import Loader from "@/app/elements/Loader";
 import CreateAccount from "../Authentication/CreateAccount";
 
-
 interface CheckOutWidgetProps {
+  locale: string;
+  channel: string;
   totalAmount: number;
   cartItems: any[];
 };
 
 export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
+  locale,
+  channel,
   totalAmount,
   cartItems,
 }) => {
@@ -82,7 +85,7 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
 
       {/* Modal */}
       <Modal isOpen={isLogin} onClose={closeModal}>
-        <CreateAccount closeModal={closeModal} />
+        <CreateAccount closeModal={closeModal} channel={channel} locale={locale}/>
       </Modal>
     </>
   );

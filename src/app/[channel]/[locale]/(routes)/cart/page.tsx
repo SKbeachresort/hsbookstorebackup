@@ -12,8 +12,16 @@ import { MoreItemsToExplore } from "@/components/ProductPage/MoreItemsToExplore"
 import { Recommended } from "@/components/ProductPage/Recommended";
 import { RecentlyViewed } from "@/components/ProductPage/RecentlyViewed";
 
-const CartPage = () => {
-  
+interface CartPageProps {
+  params: {
+    channel: string;
+    locale: string;
+  };
+}
+
+const CartPage = ({params}:CartPageProps) => {
+
+  const { channel, locale } = params;
   const { cartItems, incrementQuantity, decrementQuantity,removeFromCart } = useCart();
 
   const totalAmount = cartItems.reduce(
@@ -63,6 +71,8 @@ const CartPage = () => {
                 <CheckOutWidget 
                   totalAmount={totalAmount} 
                   cartItems={cartItems} 
+                  channel={channel}
+                  locale={locale}
                 />
               </div>
               
