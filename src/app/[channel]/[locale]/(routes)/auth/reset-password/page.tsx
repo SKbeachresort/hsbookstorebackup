@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const ResetPassword = () => {
+const ResetPassword = () => {
   return (
     <div className="h-screen">
       <h1 className="text-[3vh] text-center font-medium">
@@ -9,3 +9,5 @@ export const ResetPassword = () => {
     </div>
   )
 };
+
+export default ResetPassword;
