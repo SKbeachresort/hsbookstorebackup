@@ -5,12 +5,15 @@ import CheckOutStepper from "@/components/Checkout/CheckOutStepper";
 import ShippingBillingsDetails from "@/components/Checkout/ShippingBillingsDetails";
 import { ReviewOrder } from "@/components/Checkout/ReviewOrder";
 import { SelectPaymentMethod } from "@/components/Checkout/SelectPaymentMethod";
-import { OrderPlacedStatus } from "@/components/Checkout/OrderPlacedStatus";
+import OrderPlacedStatus from "@/components/Checkout/OrderPlacedStatus";
 import { PlaceOrderWidget } from "@/components/Checkout/PlaceOrderWidget";
 import { useCart } from "@/context/CartContext";
-import { totalmem } from "os";
+import { useParams } from "next/navigation";
 
 const Checkout = () => {
+
+  const { channel, locale } = useParams();
+
   const [currentStep, setCurrentStep] = useState(0);
   const { cartItems } = useCart();
 
@@ -23,14 +26,14 @@ const Checkout = () => {
     if (!isFinalStep) {
       setCurrentStep((prev) => prev + 1);
     } else if (currentStep === stepContent.length - 2) {
-      setCurrentStep((prev) => prev + 1); 
+      setCurrentStep((prev) => prev + 1);
     }
   };
 
   const steps = [
     "Shipping & Billing Details",
-    "Review Order",
-    "Select Payment Method",
+    "Review Details",
+    "Payment Details",
     "Order Placed",
   ];
 
@@ -49,7 +52,11 @@ const Checkout = () => {
       <CheckOutStepper steps={steps} currentStep={currentStep} />
 
       <div className="relative flex-col flex md:flex-row justify-between ">
-        <div className="md:w-[55%] lg:w-[67%] py-5">
+        <div
+          className={` ${
+            isFinalStep ? "w-full" : "md:w-[55%] lg:w-[67%]"
+          } py-5`}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
@@ -63,10 +70,16 @@ const Checkout = () => {
           </AnimatePresence>
         </div>
 
-        <div className="md:w-[40%] lg:w-[28%] h-auto">
+        <div
+          className={`${
+            isFinalStep ? "md:hidden" : "md:block md:w-[40%] lg:w-[28%]"
+          } h-auto`}
+        >
           <div className="sticky top-4 py-5">
             {!isFinalStep && (
               <PlaceOrderWidget
+                channel={channel as string}
+                locale={locale as string}
                 totalAmount={totalAmount}
                 cartItems={cartItems}
                 currentStep={currentStep}
@@ -76,6 +89,7 @@ const Checkout = () => {
             )}
           </div>
         </div>
+
       </div>
     </div>
   );

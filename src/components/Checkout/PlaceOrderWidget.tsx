@@ -4,8 +4,11 @@ import Link from "next/link";
 import Modal from "@/app/elements/Modal";
 import Loader from "@/app/elements/Loader";
 import CreateAccount from "../Authentication/CreateAccount";
+import { useRegions } from "@/context/RegionProviders";
 
 interface PlaceOrderWidgetProps {
+  channel: string;
+  locale: string;
   totalAmount: number;
   cartItems: any[];
   currentStep: number;
@@ -14,12 +17,16 @@ interface PlaceOrderWidgetProps {
 }
 
 export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
+  channel,
+  locale,
   totalAmount,
   cartItems,
   currentStep,
   isSecondLastStep,
   onNext,
 }) => {
+
+  const { currentChannel } = useRegions();
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -43,6 +50,8 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
     }, 1500);
   };
 
+  const CurrencyCode = currentChannel?.currencyCode;
+
   return (
     <>
       <div className="bg-white border-[1px] border-borderColor p-4 shadow rounded-xl">
@@ -52,7 +61,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
           <div className="flex justify-between">
             <span className="text-sm">Subtotal ({cartItems.length} items)</span>
             <span>
-              KWD {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              {CurrencyCode} {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </span>
           </div>
           <div className="flex justify-between my-1">
@@ -70,7 +79,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
           <div className="flex justify-between font-bold text-md">
             <span>Total</span>
             <span>
-              KWD {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              {CurrencyCode} {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </span>
           </div>
         </div>
@@ -100,7 +109,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
 
       {/* Modal */}
       <Modal isOpen={isLogin} onClose={closeModal}>
-        <CreateAccount closeModal={closeModal} />
+        <CreateAccount closeModal={closeModal} channel={channel} locale={locale}/>
       </Modal>
     </>
   );

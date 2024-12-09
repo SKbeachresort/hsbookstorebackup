@@ -4,13 +4,14 @@ import Link from "next/link";
 import Modal from "@/app/elements/Modal";
 import Loader from "@/app/elements/Loader";
 import CreateAccount from "../Authentication/CreateAccount";
+import { useRegions } from "@/context/RegionProviders";
 
 interface CheckOutWidgetProps {
   locale: string;
   channel: string;
   totalAmount: number;
   cartItems: any[];
-};
+}
 
 export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   locale,
@@ -18,6 +19,7 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   totalAmount,
   cartItems,
 }) => {
+  const { currentChannel } = useRegions();
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -33,6 +35,8 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
     setIsLogin(false);
   };
 
+  const CurrencyCode = currentChannel?.currencyCode;
+
   return (
     <>
       <div className="bg-white border-[1px] border-borderColor p-4 shadow rounded-2xl">
@@ -42,7 +46,7 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
           <div className="flex justify-between">
             <span className="text-md">Subtotal ({cartItems.length} items)</span>
             <span>
-              KWD {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              {CurrencyCode} {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </span>
           </div>
           <div className="flex justify-between my-2">
@@ -60,7 +64,7 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
           <div className="flex justify-between font-bold text-lg">
             <span>Total</span>
             <span>
-              KWD {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              {CurrencyCode} {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </span>
           </div>
         </div>
@@ -71,7 +75,7 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
           onClick={openModal}
           className="w-full flex flex-col items-center justify-center mt-4 py-2 text-md bg-secondary text-white font-semibold rounded-full"
         >
-          {loading ? <Loader /> : <>CheckOut</>}
+          {loading ? <Loader /> : <>Checkout</>}
         </button>
         {/* </Link> */}
 
@@ -85,7 +89,11 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
 
       {/* Modal */}
       <Modal isOpen={isLogin} onClose={closeModal}>
-        <CreateAccount closeModal={closeModal} channel={channel} locale={locale}/>
+        <CreateAccount
+          closeModal={closeModal}
+          channel={channel}
+          locale={locale}
+        />
       </Modal>
     </>
   );
