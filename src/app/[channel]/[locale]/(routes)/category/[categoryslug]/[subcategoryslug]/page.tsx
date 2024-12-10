@@ -8,6 +8,8 @@ import Image from "next/image";
 import slider3 from "../../../../../../../../public/slider3.png";
 import { SubFeaturedCategories } from "@/components/CategoryPage/PageComponents/SubCategoriesFeatured";
 import Pagination from "@/app/elements/Pagination";
+import { BestSellers } from "@/components/CategoryPage/PageComponents/BestSellers";
+import { RecentlyAdded } from "@/components/CategoryPage/PageComponents/RecentlyAdded";
 
 const PRODUCTS_PER_PAGE = 50;
 
@@ -97,6 +99,18 @@ export default async function SubCategoryProducts({
         subcategoryslug={subcategoryslug}
         channel={channel}
         locale={locale}
+      />
+
+      <BestSellers
+        slug={subcategoryslug}
+        channel={channel}
+        after=""
+      />  
+
+      <RecentlyAdded
+        slug={subcategoryslug}
+        channel={channel}
+        after=""
       />
 
       <div className="">

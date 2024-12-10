@@ -37,7 +37,7 @@ const AuthRegisterUI: React.FC<AuthRegisterUIProps> = ({
 
   return (
     <div className="flex flex-col">
-      <div className="w-[90%] mx-auto md:w-[50%] rounded-xl shadow-sm p-4 lg:w-[40%] my-6 xl:w-[28%]">
+      <div className="w-[90%] mx-auto md:w-[50%] rounded-xl shadow- p-4 lg:w-[40%] my-6 xl:w-[28%]">
         <div className="flex flex-col items-center mb-4">
           <Image src={HSlogo} alt="HS Logo" width={40} height={40} />
           <h2 className="text-md font-semibold my-2">Create Account</h2>

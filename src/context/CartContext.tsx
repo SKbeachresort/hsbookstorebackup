@@ -1,6 +1,13 @@
-"use client";   
-import React, { createContext, useContext, useState, ReactNode } from "react";
+"use client";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import toast from "react-hot-toast";
+import { getCookie, setCookie } from "cookies-next";
 
 interface CartItem {
   id: string;
@@ -33,10 +40,35 @@ export const useCart = (): CartContextType => {
 
 interface CartProviderProps {
   children: ReactNode;
-};
+}
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    const savedCart = getCookie("cartItems") || localStorage.getItem("cartItems");
+    if (savedCart) {
+      try {
+        setCartItems(JSON.parse(savedCart as string));
+      } catch (error) {
+        console.error("Error parsing cart items from cookies", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if(cartItems.length === 0) return;
+    const cartString = JSON.stringify(cartItems);
+
+    setCookie("cartItems", cartString, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, 
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
+    localStorage.setItem("cartItems", cartString);
+  }, [cartItems]);
 
   const addToCart = (product: CartItem) => {
     setCartItems((prevItems) => {
@@ -54,7 +86,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   };
 
   const removeFromCart = (productid: string) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== productid));
+    setCartItems((prevItems) =>
+      prevItems.filter((item) => item.id !== productid)
+    );
   };
 
   const incrementQuantity = (productid: string) => {
@@ -73,7 +107,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           : item
       );
       const updatedCart = updatedItems.filter((item) => item.quantity > 0);
-      if (updatedItems.some((item) => item.id === productid && item.quantity === 0)) {
+      if (
+        updatedItems.some(
+          (item) => item.id === productid && item.quantity === 0
+        )
+      ) {
         toast.error("Product removed from cart");
       }
       return updatedCart;

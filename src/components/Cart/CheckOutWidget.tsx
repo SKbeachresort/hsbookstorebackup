@@ -11,7 +11,7 @@ interface CheckOutWidgetProps {
   channel: string;
   totalAmount: number;
   cartItems: any[];
-}
+};
 
 export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   locale,

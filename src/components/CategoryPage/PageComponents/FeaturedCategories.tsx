@@ -31,9 +31,12 @@ export const FeaturedCategories: React.FC<FeaturedCategoriesProps> = async ({
 
   return (
     <div className="">
-      <h1 className="text-lg font-semibold text-center my-4">
-        Featured Categories
-      </h1>
+      
+      {filteredCategories.length > 0 && (
+        <h1 className="text-lg font-semibold text-center my-4">
+          Featured Categories
+        </h1>
+      )}
 
       <div
         className={`flex flex-row flex-wrap gap-2 md:gap-y-4 md:gap-0 justify-center ${

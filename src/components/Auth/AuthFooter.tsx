@@ -3,8 +3,8 @@ import Link from "next/link";
 import { getRegionUrl } from "@/utils/regionUrl";
 
 interface AuthFooterProps {
-    channel: string;
-    locale: string;
+  channel: string;
+  locale: string;
 };
 
 export const AuthFooter:React.FC<AuthFooterProps> = ({channel, locale}) => {

@@ -73,9 +73,12 @@ export const Navbar = () => {
   }, [pathname]);
 
   const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => { 
-    router.push(`${pathname.replace(currentChannel.slug, e.target.value)}`);
-    setCookie("channel", e.target.value);
-    setCurrentChannel(e.target.value);
+    const newchannel = e.target.value;
+    if(newchannel !== currentChannel.slug) {
+      setCookie("channel", newchannel);
+      setCurrentChannel(newchannel);
+      router.push(pathname.replace(currentChannel.slug, newchannel));
+    };
   };
 
   return (

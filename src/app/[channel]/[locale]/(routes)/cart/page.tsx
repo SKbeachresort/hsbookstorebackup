@@ -5,17 +5,11 @@ import DeliveryAddressCard from "@/components/Cart/DeliveryAddressCard";
 import CartItemUI from "@/components/Cart/CartItemUI";
 import { PeopleWhoBoughtThis } from "@/components/ProductPage/PeopleWhoBoughtThis";
 import { Recommended } from "@/components/ProductPage/Recommended";
+import { useParams } from "next/navigation";
 
-interface CartPageProps {
-  params: {
-    channel: string;
-    locale: string;
-  };
-};
+const CartPage = () => {
 
-const CartPage = ({params}:CartPageProps) => {
-
-  const { channel, locale } = params;
+  const { channel, locale } = useParams();
   const { cartItems, incrementQuantity, decrementQuantity,removeFromCart } = useCart();
 
   const totalAmount = cartItems.reduce(
@@ -65,8 +59,8 @@ const CartPage = ({params}:CartPageProps) => {
                 <CheckOutWidget 
                   totalAmount={totalAmount} 
                   cartItems={cartItems} 
-                  channel={channel}
-                  locale={locale}
+                  channel={channel as string}
+                  locale={locale as string}
                 />
               </div>
               

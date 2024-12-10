@@ -12,11 +12,12 @@ interface SubFeaturedCategoriesProps {
   locale: string;
   categoryslug: string;
   subcategoryslug: string;
-}
+};
 
 export const SubFeaturedCategories: React.FC<
   SubFeaturedCategoriesProps
 > = async ({ channel, locale, categoryslug, subcategoryslug }) => {
+  
   const data = await executeGraphQL(FetchFeaturedCategoriesDocument, {
     variables: {
       first: 20,
@@ -29,14 +30,15 @@ export const SubFeaturedCategories: React.FC<
       return node?.parent?.slug === subcategoryslug;
     }) || [];
 
-  // console.log("Filtered Categories", filteredCategories);
-
   return (
     <div className="">
-      <h1 className="text-lg font-semibold text-center my-4">
-        Featured Categories
-      </h1>
 
+      {filteredCategories.length > 0 && (
+        <h1 className="text-lg font-semibold text-center my-4">
+          Featured Categories
+        </h1>
+      )}
+      
       <div
         className={`flex flex-row flex-wrap gap-2 md:gap-y-4 md:gap-0 justify-center ${
           filteredCategories.length > 3
