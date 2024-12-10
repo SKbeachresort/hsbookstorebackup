@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import InputField from "@/app/elements/InputField";
-import Button from "@/app/elements/Button";
+import CustomButton from "@/app/elements/Button";
 
 interface ShippingDetailsProps {
   onNext: () => void;
@@ -84,7 +84,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
           ></textarea>
         </div>
 
-        <Button
+        <CustomButton
           children="Save and Continue"
           isLoading={loading}
           onClick={handleSaveAndContinue}

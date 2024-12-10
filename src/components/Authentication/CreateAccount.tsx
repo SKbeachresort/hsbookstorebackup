@@ -3,7 +3,7 @@ import React from "react";
 import InputField from "@/app/elements/InputField";
 import Image from "next/image";
 import HSlogo from "../../../public/HSlogo.png";
-import Button from "@/app/elements/Button";
+import CustomButton from "@/app/elements/Button";
 import Link from "next/link";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
 import { AuthFooter } from "../Auth/AuthFooter";
@@ -49,17 +49,17 @@ const CreateAccount: React.FC<CreateAccountProps> = ({ closeModal, channel, loca
         placeholder="Enter your password"
       />
 
-      <Button onClick={() => {}}>Login</Button>
+      <CustomButton onClick={() => {}}>Login</CustomButton>
       <div className="text-center my-2 text-textgray text-xs">OR</div>
 
-      <Button variant="secondary" onClick={() => {}}>
+      <CustomButton variant="secondary" onClick={() => {}}>
         Create an Account
-      </Button>
+      </CustomButton>
 
       <Link href={getRegionUrl("/checkout")}>
-        <Button variant="secondary" onClick={() => {}}>
+        <CustomButton variant="secondary" onClick={() => {}}>
           Guest Checkout
-        </Button>
+        </CustomButton>
       </Link>
 
       <AuthFooter channel={channel} locale={locale} />

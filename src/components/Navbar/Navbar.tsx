@@ -35,10 +35,14 @@ import { Button } from "../ui/button";
 import { CategorySheet } from "./CategorySheet";
 import { CategoryNavbar } from "./CategoryNavbar";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
+import { getUserDetails } from "@/hooks/getUser";
+import { getAccessToken } from "@/utils/accessToken";
+import { access } from "fs";
 
 export const Navbar = () => {
-
-  const {channel, locale} = useParams();
+  const { channel, locale } = useParams();
+  const accessToken = getAccessToken();
+  const { user, loading, error } = getUserDetails();
 
   const { totalItems } = useCart();
   const { getRegionUrl } = useRegionUrl();
@@ -72,13 +76,13 @@ export const Navbar = () => {
     return () => clearTimeout(timer);
   }, [pathname]);
 
-  const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => { 
+  const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newchannel = e.target.value;
-    if(newchannel !== currentChannel.slug) {
+    if (newchannel !== currentChannel.slug) {
       setCookie("channel", newchannel);
       setCurrentChannel(newchannel);
       router.push(pathname.replace(currentChannel.slug, newchannel));
-    };
+    }
   };
 
   return (
@@ -126,7 +130,10 @@ export const Navbar = () => {
 
           {/* Search Section Bar */}
           <div className="relative flex-1">
-            <SearchProduct channel={channel as string} locale={locale as string}/> 
+            <SearchProduct
+              channel={channel as string}
+              locale={locale as string}
+            />
           </div>
 
           {/* Cart, Account, Location Section */}
@@ -164,26 +171,44 @@ export const Navbar = () => {
                   onChange={handleRegionChange}
                   className="border-[1px] cursor-pointer border-borderColor outline-none p-1"
                 >
-                  <option value="default-channel" className="cursor-pointer">Kuwait - KWD</option>
-                  <option value="channel-usd" className="cursor-pointer">USA - USD</option>
+                  <option value="default-channel" className="cursor-pointer">
+                    Kuwait - KWD
+                  </option>
+                  <option value="channel-usd" className="cursor-pointer">
+                    USA - USD
+                  </option>
                 </select>
               </div>
             </PopOverDropDown>
 
             {/* Auth Login */}
-            <Link href={getRegionUrl(`auth/login`)}>
-              <div className="flex flex-row justify-center items-center gap-x-[1vh]">
-                <FaRegUser className="hidden md:block text-textgray text-2xl" />
-                <div className="hidden lg:block">
-                  <p className="text-sm font-medium text-textgray">
-                    Hello, Sign In
-                  </p>
-                  <p className="text-sm font-semibold text-textgray">
-                    Accounts & Lists
-                  </p>
-                </div>
-              </div>
-            </Link>
+            <div className="flex flex-row justify-center items-center gap-x-[1vh]">
+              <FaRegUser className="hidden md:block text-textgray text-2xl" />
+
+              {accessToken ? (
+                <Link href={getRegionUrl(`me/${user?.id}/page`)}>
+                  <div className="hidden lg:block">
+                    <p className="text-sm font-medium text-textgray">
+                      {user?.firstName} {user?.lastName}
+                    </p>
+                    <p className="text-xs font-semibold text-textgray">
+                      {user?.email}
+                    </p>
+                  </div>
+                </Link>
+              ) : (
+                <Link href={getRegionUrl(`auth/login`)}>
+                  <div className="hidden lg:block">
+                    <p className="text-sm font-medium text-textgray">
+                      Hello, Sign In
+                    </p>
+                    <p className="text-sm font-semibold text-textgray">
+                      Accounts & Lists
+                    </p>
+                  </div>
+                </Link>
+              )}
+            </div>
 
             {/* Cart */}
             <Link href={getRegionUrl(`cart`)}>
@@ -235,9 +260,7 @@ export const Navbar = () => {
             </p>
 
             <div className="my-[4vh]">
-              <form
-                className="flex flex-row overflow-hidden justify-between items-center w-[100%] mx-auto"
-              >
+              <form className="flex flex-row overflow-hidden justify-between items-center w-[100%] mx-auto">
                 <input
                   type="text"
                   placeholder="Search by keyword, title, author or IBSN"
@@ -284,8 +307,6 @@ export const Navbar = () => {
           </div>
         </div>
       )}
-
-     
     </>
   );
 };

@@ -8,7 +8,7 @@ interface ButtonProps {
   variant?: "primary" | "secondary";
 };
 
-const Button: React.FC<ButtonProps> = ({
+const CustomButton: React.FC<ButtonProps> = ({
   children,
   onClick,
   isLoading,
@@ -39,4 +39,4 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-export default Button;
+export default CustomButton;

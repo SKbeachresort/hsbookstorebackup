@@ -1,0 +1,13 @@
+query GetLoginUserDetails {
+  me {
+    avatar {
+      url
+    }
+    email
+    id
+    firstName
+    lastName
+    isConfirmed
+    isActive
+  }
+}

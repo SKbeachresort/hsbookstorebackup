@@ -33449,6 +33449,11 @@ export type SendConfirmationEmailMutationVariables = Exact<{
 
 export type SendConfirmationEmailMutation = { __typename?: 'Mutation', sendConfirmationEmail?: { __typename?: 'SendConfirmationEmail', errors: Array<{ __typename?: 'SendConfirmationEmailError', code: SendConfirmationEmailErrorCode, field?: string | null, message?: string | null }> } | null };
 
+export type GetLoginUserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetLoginUserDetailsQuery = { __typename?: 'Query', me?: { __typename?: 'User', email: string, id: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null };
+
 export type UserTokenCreateMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -33915,6 +33920,53 @@ export function useSendConfirmationEmailMutation(baseOptions?: Apollo.MutationHo
 export type SendConfirmationEmailMutationHookResult = ReturnType<typeof useSendConfirmationEmailMutation>;
 export type SendConfirmationEmailMutationResult = Apollo.MutationResult<SendConfirmationEmailMutation>;
 export type SendConfirmationEmailMutationOptions = Apollo.BaseMutationOptions<SendConfirmationEmailMutation, SendConfirmationEmailMutationVariables>;
+export const GetLoginUserDetailsDocument = gql`
+    query GetLoginUserDetails {
+  me {
+    avatar {
+      url
+    }
+    email
+    id
+    firstName
+    lastName
+    isConfirmed
+    isActive
+  }
+}
+    `;
+
+/**
+ * __useGetLoginUserDetailsQuery__
+ *
+ * To run a query within a React component, call `useGetLoginUserDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLoginUserDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLoginUserDetailsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetLoginUserDetailsQuery(baseOptions?: Apollo.QueryHookOptions<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>(GetLoginUserDetailsDocument, options);
+      }
+export function useGetLoginUserDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>(GetLoginUserDetailsDocument, options);
+        }
+export function useGetLoginUserDetailsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>(GetLoginUserDetailsDocument, options);
+        }
+export type GetLoginUserDetailsQueryHookResult = ReturnType<typeof useGetLoginUserDetailsQuery>;
+export type GetLoginUserDetailsLazyQueryHookResult = ReturnType<typeof useGetLoginUserDetailsLazyQuery>;
+export type GetLoginUserDetailsSuspenseQueryHookResult = ReturnType<typeof useGetLoginUserDetailsSuspenseQuery>;
+export type GetLoginUserDetailsQueryResult = Apollo.QueryResult<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>;
 export const UserTokenCreateDocument = gql`
     mutation UserTokenCreate($email: String!, $password: String!) {
   tokenCreate(email: $email, password: $password) {

@@ -8,7 +8,7 @@ import OtpInput from "./OTPInput";
 import { getRegionUrl } from "@/utils/regionUrl";
 import toast from "react-hot-toast";
 import { Checkbox } from "../ui/checkbox";
-import Button from "@/app/elements/Button";
+import CustomButton from "@/app/elements/Button";
 
 interface VerifyOTPProps {
   channel: string;
@@ -114,7 +114,7 @@ export const VerifyOTP: React.FC<VerifyOTPProps> = ({
         </div>
 
         <div className="mt-6">
-          <Button>Verify and Create Account</Button>
+          <CustomButton>Verify and Create Account</CustomButton>
         </div>
       </div>
     </div>
