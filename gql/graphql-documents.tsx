@@ -33209,6 +33209,8 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']['output']>;
 };
 
+export type BasicUserDetailsFragment = { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null };
+
 export type CategoryBasicFragment = { __typename?: 'Category', id: string, name: string, slug: string };
 
 export type CategoryDetailsFragment = { __typename?: 'Category', id: string, name: string, slug: string, level: number };
@@ -33230,6 +33232,37 @@ export type ProductMediaFragment = { __typename?: 'ProductMedia', url: string, a
 export type ProductVariantDetailsFragment = { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null };
 
 export type SelectedAttributeDetailsFragment = { __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> };
+
+export type AccountConfirmMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+}>;
+
+
+export type AccountConfirmMutation = { __typename?: 'Mutation', confirmAccount?: { __typename?: 'ConfirmAccount', errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+
+export type AccountRegisterMutationVariables = Exact<{
+  input: AccountRegisterInput;
+}>;
+
+
+export type AccountRegisterMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+
+export type SendConfirmationEmailMutationVariables = Exact<{
+  redirectUrl: Scalars['String']['input'];
+  channel: Scalars['String']['input'];
+}>;
+
+
+export type SendConfirmationEmailMutation = { __typename?: 'Mutation', sendConfirmationEmail?: { __typename?: 'SendConfirmationEmail', errors: Array<{ __typename?: 'SendConfirmationEmailError', code: SendConfirmationEmailErrorCode, field?: string | null, message?: string | null }> } | null };
+
+export type UserTokenCreateMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type UserTokenCreateMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
 
 export type FeaturedCategoriesBySlugAndMetaQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -43778,6 +43811,19 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const BasicUserDetailsFragmentDoc = new TypedDocumentString(`
+    fragment BasicUserDetails on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+  }
+  isConfirmed
+  isActive
+}
+    `, {"fragmentName":"BasicUserDetails"}) as unknown as TypedDocumentString<BasicUserDetailsFragment, unknown>;
 export const CategoryDetailsFragmentDoc = new TypedDocumentString(`
     fragment CategoryDetails on Category {
   id
@@ -44072,6 +44118,91 @@ fragment SelectedAttributeDetailsFragment on SelectedAttribute {
     value
   }
 }`, {"fragmentName":"ProductDetailsFragment"}) as unknown as TypedDocumentString<ProductDetailsFragment, unknown>;
+export const AccountConfirmDocument = new TypedDocumentString(`
+    mutation AccountConfirm($email: String!, $token: String!) {
+  confirmAccount(email: $email, token: $token) {
+    errors {
+      code
+      field
+      message
+    }
+    user {
+      ...BasicUserDetails
+    }
+  }
+}
+    fragment BasicUserDetails on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+  }
+  isConfirmed
+  isActive
+}`) as unknown as TypedDocumentString<AccountConfirmMutation, AccountConfirmMutationVariables>;
+export const AccountRegisterDocument = new TypedDocumentString(`
+    mutation AccountRegister($input: AccountRegisterInput!) {
+  accountRegister(input: $input) {
+    errors {
+      code
+      field
+      message
+    }
+    requiresConfirmation
+    user {
+      ...BasicUserDetails
+    }
+  }
+}
+    fragment BasicUserDetails on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+  }
+  isConfirmed
+  isActive
+}`) as unknown as TypedDocumentString<AccountRegisterMutation, AccountRegisterMutationVariables>;
+export const SendConfirmationEmailDocument = new TypedDocumentString(`
+    mutation SendConfirmationEmail($redirectUrl: String!, $channel: String!) {
+  sendConfirmationEmail(redirectUrl: $redirectUrl, channel: $channel) {
+    errors {
+      code
+      field
+      message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SendConfirmationEmailMutation, SendConfirmationEmailMutationVariables>;
+export const UserTokenCreateDocument = new TypedDocumentString(`
+    mutation UserTokenCreate($email: String!, $password: String!) {
+  tokenCreate(email: $email, password: $password) {
+    errors {
+      code
+      field
+      message
+    }
+    token
+    user {
+      ...BasicUserDetails
+    }
+  }
+}
+    fragment BasicUserDetails on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+  }
+  isConfirmed
+  isActive
+}`) as unknown as TypedDocumentString<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
 export const FeaturedCategoriesBySlugAndMetaDocument = new TypedDocumentString(`
     query FeaturedCategoriesBySlugAndMeta($first: Int!, $filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
   categories(first: 1, sortBy: $sortBy, filter: $filter) {

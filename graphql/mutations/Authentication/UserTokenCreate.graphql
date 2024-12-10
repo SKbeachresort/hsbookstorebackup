@@ -1,0 +1,15 @@
+mutation UserTokenCreate($email: String!, $password: String!) {
+  tokenCreate(email: $email, password: $password) {
+    errors {
+      code
+      field
+      message
+    }
+    token
+    user {
+      ...BasicUserDetails
+    }
+  }
+}
+
+# input : { "email","password"} 

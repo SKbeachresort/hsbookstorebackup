@@ -1,0 +1,17 @@
+mutation AccountRegister(
+  $input: AccountRegisterInput!
+) {
+  accountRegister(
+    input: $input
+  ) {
+    errors {
+      code
+      field
+      message
+    }
+    requiresConfirmation
+    user {
+      ...BasicUserDetails
+    }
+  }
+}

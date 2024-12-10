@@ -1,0 +1,11 @@
+fragment BasicUserDetails on User{
+    id
+    email
+    firstName
+    lastName
+    avatar{
+        url
+    }
+    isConfirmed
+    isActive
+}

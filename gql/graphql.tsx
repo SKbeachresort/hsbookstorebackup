@@ -33402,6 +33402,8 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']['output']>;
 };
 
+export type BasicUserDetailsFragment = { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null };
+
 export type CategoryBasicFragmentFragment = { __typename?: 'Category', id: string, name: string, slug: string };
 
 export type CategoryDetailsFragment = { __typename?: 'Category', id: string, name: string, slug: string, level: number };
@@ -33423,6 +33425,37 @@ export type ProductMediaFragmentFragment = { __typename?: 'ProductMedia', url: s
 export type ProductVariantDetailsFragmentFragment = { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null };
 
 export type SelectedAttributeDetailsFragmentFragment = { __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> };
+
+export type AccountConfirmMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+}>;
+
+
+export type AccountConfirmMutation = { __typename?: 'Mutation', confirmAccount?: { __typename?: 'ConfirmAccount', errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+
+export type AccountRegisterMutationVariables = Exact<{
+  input: AccountRegisterInput;
+}>;
+
+
+export type AccountRegisterMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+
+export type SendConfirmationEmailMutationVariables = Exact<{
+  redirectUrl: Scalars['String']['input'];
+  channel: Scalars['String']['input'];
+}>;
+
+
+export type SendConfirmationEmailMutation = { __typename?: 'Mutation', sendConfirmationEmail?: { __typename?: 'SendConfirmationEmail', errors: Array<{ __typename?: 'SendConfirmationEmailError', code: SendConfirmationEmailErrorCode, field?: string | null, message?: string | null }> } | null };
+
+export type UserTokenCreateMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type UserTokenCreateMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
 
 export type FeaturedCategoriesBySlugAndMetaQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -33542,6 +33575,19 @@ export type FetchRecentlyAddedProductsByCategorySlugQueryVariables = Exact<{
 
 export type FetchRecentlyAddedProductsByCategorySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
 
+export const BasicUserDetailsFragmentDoc = gql`
+    fragment BasicUserDetails on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+  }
+  isConfirmed
+  isActive
+}
+    `;
 export const CategoryDetailsFragmentDoc = gql`
     fragment CategoryDetails on Category {
   id
@@ -33749,6 +33795,168 @@ ${PriceFragmentFragmentDoc}
 ${ProductMediaFragmentFragmentDoc}
 ${ImageFragmentFragmentDoc}
 ${ProductTypeFragmentFragmentDoc}`;
+export const AccountConfirmDocument = gql`
+    mutation AccountConfirm($email: String!, $token: String!) {
+  confirmAccount(email: $email, token: $token) {
+    errors {
+      code
+      field
+      message
+    }
+    user {
+      ...BasicUserDetails
+    }
+  }
+}
+    ${BasicUserDetailsFragmentDoc}`;
+export type AccountConfirmMutationFn = Apollo.MutationFunction<AccountConfirmMutation, AccountConfirmMutationVariables>;
+
+/**
+ * __useAccountConfirmMutation__
+ *
+ * To run a mutation, you first call `useAccountConfirmMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAccountConfirmMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [accountConfirmMutation, { data, loading, error }] = useAccountConfirmMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useAccountConfirmMutation(baseOptions?: Apollo.MutationHookOptions<AccountConfirmMutation, AccountConfirmMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AccountConfirmMutation, AccountConfirmMutationVariables>(AccountConfirmDocument, options);
+      }
+export type AccountConfirmMutationHookResult = ReturnType<typeof useAccountConfirmMutation>;
+export type AccountConfirmMutationResult = Apollo.MutationResult<AccountConfirmMutation>;
+export type AccountConfirmMutationOptions = Apollo.BaseMutationOptions<AccountConfirmMutation, AccountConfirmMutationVariables>;
+export const AccountRegisterDocument = gql`
+    mutation AccountRegister($input: AccountRegisterInput!) {
+  accountRegister(input: $input) {
+    errors {
+      code
+      field
+      message
+    }
+    requiresConfirmation
+    user {
+      ...BasicUserDetails
+    }
+  }
+}
+    ${BasicUserDetailsFragmentDoc}`;
+export type AccountRegisterMutationFn = Apollo.MutationFunction<AccountRegisterMutation, AccountRegisterMutationVariables>;
+
+/**
+ * __useAccountRegisterMutation__
+ *
+ * To run a mutation, you first call `useAccountRegisterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAccountRegisterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [accountRegisterMutation, { data, loading, error }] = useAccountRegisterMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAccountRegisterMutation(baseOptions?: Apollo.MutationHookOptions<AccountRegisterMutation, AccountRegisterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AccountRegisterMutation, AccountRegisterMutationVariables>(AccountRegisterDocument, options);
+      }
+export type AccountRegisterMutationHookResult = ReturnType<typeof useAccountRegisterMutation>;
+export type AccountRegisterMutationResult = Apollo.MutationResult<AccountRegisterMutation>;
+export type AccountRegisterMutationOptions = Apollo.BaseMutationOptions<AccountRegisterMutation, AccountRegisterMutationVariables>;
+export const SendConfirmationEmailDocument = gql`
+    mutation SendConfirmationEmail($redirectUrl: String!, $channel: String!) {
+  sendConfirmationEmail(redirectUrl: $redirectUrl, channel: $channel) {
+    errors {
+      code
+      field
+      message
+    }
+  }
+}
+    `;
+export type SendConfirmationEmailMutationFn = Apollo.MutationFunction<SendConfirmationEmailMutation, SendConfirmationEmailMutationVariables>;
+
+/**
+ * __useSendConfirmationEmailMutation__
+ *
+ * To run a mutation, you first call `useSendConfirmationEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendConfirmationEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendConfirmationEmailMutation, { data, loading, error }] = useSendConfirmationEmailMutation({
+ *   variables: {
+ *      redirectUrl: // value for 'redirectUrl'
+ *      channel: // value for 'channel'
+ *   },
+ * });
+ */
+export function useSendConfirmationEmailMutation(baseOptions?: Apollo.MutationHookOptions<SendConfirmationEmailMutation, SendConfirmationEmailMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendConfirmationEmailMutation, SendConfirmationEmailMutationVariables>(SendConfirmationEmailDocument, options);
+      }
+export type SendConfirmationEmailMutationHookResult = ReturnType<typeof useSendConfirmationEmailMutation>;
+export type SendConfirmationEmailMutationResult = Apollo.MutationResult<SendConfirmationEmailMutation>;
+export type SendConfirmationEmailMutationOptions = Apollo.BaseMutationOptions<SendConfirmationEmailMutation, SendConfirmationEmailMutationVariables>;
+export const UserTokenCreateDocument = gql`
+    mutation UserTokenCreate($email: String!, $password: String!) {
+  tokenCreate(email: $email, password: $password) {
+    errors {
+      code
+      field
+      message
+    }
+    token
+    user {
+      ...BasicUserDetails
+    }
+  }
+}
+    ${BasicUserDetailsFragmentDoc}`;
+export type UserTokenCreateMutationFn = Apollo.MutationFunction<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
+
+/**
+ * __useUserTokenCreateMutation__
+ *
+ * To run a mutation, you first call `useUserTokenCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUserTokenCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [userTokenCreateMutation, { data, loading, error }] = useUserTokenCreateMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useUserTokenCreateMutation(baseOptions?: Apollo.MutationHookOptions<UserTokenCreateMutation, UserTokenCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UserTokenCreateMutation, UserTokenCreateMutationVariables>(UserTokenCreateDocument, options);
+      }
+export type UserTokenCreateMutationHookResult = ReturnType<typeof useUserTokenCreateMutation>;
+export type UserTokenCreateMutationResult = Apollo.MutationResult<UserTokenCreateMutation>;
+export type UserTokenCreateMutationOptions = Apollo.BaseMutationOptions<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
 export const FeaturedCategoriesBySlugAndMetaDocument = gql`
     query FeaturedCategoriesBySlugAndMeta($first: Int!, $filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
   categories(first: 1, sortBy: $sortBy, filter: $filter) {
