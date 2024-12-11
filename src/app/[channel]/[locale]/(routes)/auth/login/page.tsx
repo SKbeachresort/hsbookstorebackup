@@ -8,8 +8,8 @@ interface AuthLoginProps {
   };
 };
 
-const AuthLogin = ({ params }: AuthLoginProps) => {
-  const { channel, locale } =  params;
+const AuthLogin = async({ params }: AuthLoginProps) => {
+  const { channel, locale } = await params;
 
   return (
     <AuthLoginUI channel={channel} locale={locale} />

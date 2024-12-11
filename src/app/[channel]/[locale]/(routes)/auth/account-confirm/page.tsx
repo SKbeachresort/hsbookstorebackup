@@ -5,8 +5,7 @@ import toast from "react-hot-toast";
 import { useSearchParams, useRouter } from "next/navigation";
 
 const AccountConfirm = () => {
-  const [accountConfirm, { loading, data, error }] =
-    useAccountConfirmMutation();
+  const [accountConfirm, { loading, data, error }] = useAccountConfirmMutation();
   const [status, setStatus] = useState<string>("");
   const [timer, setTimer] = useState<number>(5);
   const router = useRouter();
@@ -28,7 +27,8 @@ const AccountConfirm = () => {
         },
       })
         .then(({ data }) => {
-          if (data?.confirmAccount?.user?.isConfirmed === true) {
+          console.log("Account Confirmed Response", data);
+          if (data?.confirmAccount?.user?.isConfirmed) {
             setStatus("Your Email Address Verified");
             let countdown = 5;
             const interval = setInterval(() => {
@@ -39,7 +39,6 @@ const AccountConfirm = () => {
                 router.push(`/auth/login`);
               }
             }, 1000);
-            console.log("Account Confirmed");
           } else {
             setStatus("Invalid Token");
             setTimeout(() => {
@@ -49,9 +48,10 @@ const AccountConfirm = () => {
         })
         .catch((error) => {
           toast.error("Invalid Token");
+          console.error("Account Confirm Error", error);
           setStatus("Invalid Token");
           setTimeout(() => {
-            router.push("/auth/register"); // Redirect to create account after a delay
+            router.push("/auth/register"); 
           }, 3000);
         });
     }
