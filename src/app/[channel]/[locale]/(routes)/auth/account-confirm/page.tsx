@@ -25,6 +25,7 @@ const AccountConfirm = () => {
           email: decodedEmail,
           token: token as string,
         },
+        fetchPolicy: "no-cache",
       })
         .then(({ data }) => {
           console.log("Account Confirmed Response", data);

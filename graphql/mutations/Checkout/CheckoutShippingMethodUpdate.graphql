@@ -1,0 +1,16 @@
+mutation CheckoutShippingMethodUpdate($id: ID!, $deliveryMethodId: ID!, $locale: LanguageCodeEnum!) {
+  checkoutDeliveryMethodUpdate(deliveryMethodId: $deliveryMethodId, id: $id) {
+    checkout {
+      ...CheckoutDetailsFragment
+      __typename
+    }
+    errors {
+      field
+      message
+      code
+      __typename
+    }
+    __typename
+  }
+}
+

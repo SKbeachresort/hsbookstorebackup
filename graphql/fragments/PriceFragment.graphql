@@ -1,4 +1,6 @@
 fragment PriceFragment on Money {
   currency
   amount
+  __typename
 }
+

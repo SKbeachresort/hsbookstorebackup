@@ -1,0 +1,26 @@
+fragment UserFragment on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+    alt
+    __typename
+  }
+  isActive
+  isConfirmed
+  addresses {
+    ...AddressDetailsFragment
+    __typename
+  }
+  defaultBillingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  defaultShippingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  __typename
+}

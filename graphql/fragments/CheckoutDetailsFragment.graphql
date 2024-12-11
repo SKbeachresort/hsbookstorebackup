@@ -1,0 +1,76 @@
+fragment CheckoutDetailsFragment on Checkout {
+  id
+  token
+  email
+  channel {
+    id
+    slug
+    __typename
+  }
+  billingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  shippingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  deliveryMethod {
+    ...DeliveryMethodFragment
+    __typename
+  }
+  isShippingRequired
+  shippingMethods {
+    ...DeliveryMethodFragment
+    __typename
+  }
+  availablePaymentGateways {
+    id
+    name
+    config {
+      field
+      value
+      __typename
+    }
+    __typename
+  }
+  lines {
+    ...CheckoutLineDetailsFragment
+    __typename
+  }
+  discount {
+    ...PriceFragment
+    __typename
+  }
+  discountName
+  subtotalPrice {
+    net {
+      ...PriceFragment
+      __typename
+    }
+    tax {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  shippingPrice {
+    gross {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  totalPrice {
+    gross {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  user {
+    ...UserFragment
+    __typename
+  }
+  __typename
+}

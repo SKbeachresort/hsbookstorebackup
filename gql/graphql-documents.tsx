@@ -33209,29 +33209,39 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']['output']>;
 };
 
+export type AddressDetailsFragment = { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> };
+
 export type BasicUserDetailsFragment = { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null };
 
 export type CategoryBasicFragment = { __typename?: 'Category', id: string, name: string, slug: string };
 
 export type CategoryDetailsFragment = { __typename?: 'Category', id: string, name: string, slug: string, level: number };
 
-export type ImageFragment = { __typename?: 'Image', url: string, alt?: string | null };
+export type CheckoutDetailsFragment = { __typename: 'Checkout', id: string, token: string, email?: string | null, isShippingRequired: boolean, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, deliveryMethod?: { __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } } | { __typename: 'Warehouse' } | null, shippingMethods: Array<{ __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } }>, availablePaymentGateways: Array<{ __typename: 'PaymentGateway', id: string, name: string, config: Array<{ __typename: 'GatewayConfigLine', field: string, value?: string | null }> }>, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, translation?: { __typename: 'ProductTranslation', id: string, name?: string | null } | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null, translation?: { __typename: 'ProductVariantTranslation', id: string, name: string } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, subtotalPrice: { __typename: 'TaxedMoney', net: { __typename: 'Money', currency: string, amount: number }, tax: { __typename: 'Money', currency: string, amount: number } }, shippingPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null };
+
+export type CheckoutLineDetailsFragment = { __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, translation?: { __typename: 'ProductTranslation', id: string, name?: string | null } | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null, translation?: { __typename: 'ProductVariantTranslation', id: string, name: string } | null } };
+
+export type DeliveryMethodFragment = { __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } };
+
+export type ImageFragment = { __typename: 'Image', url: string, alt?: string | null };
 
 export type PageInfoDetailsFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
 
-export type PriceFragment = { __typename?: 'Money', currency: string, amount: number };
+export type PriceFragment = { __typename: 'Money', currency: string, amount: number };
 
 export type ProductCardDetailsFragment = { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
 
-export type ProductDetailsFragment = { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null };
+export type ProductDetailsFragment = { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null };
 
 export type ProductTypeFragment = { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean };
 
 export type ProductMediaFragment = { __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType };
 
-export type ProductVariantDetailsFragment = { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null };
+export type ProductVariantDetailsFragment = { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null };
 
 export type SelectedAttributeDetailsFragment = { __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> };
+
+export type UserFragment = { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null };
 
 export type AccountConfirmMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -33263,6 +33273,40 @@ export type UserTokenCreateMutationVariables = Exact<{
 
 
 export type UserTokenCreateMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+
+export type Checkout_AddressMutationVariables = Exact<{
+  checkoutId: Scalars['ID']['input'];
+  shippingAddress: AddressInput;
+}>;
+
+
+export type Checkout_AddressMutation = { __typename?: 'Mutation', checkoutShippingAddressUpdate?: { __typename?: 'CheckoutShippingAddressUpdate', errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null }>, checkout?: { __typename?: 'Checkout', id: string, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingMethods: Array<{ __typename?: 'ShippingMethod', id: string, name: string, active: boolean, price: { __typename?: 'Money', amount: number, currency: string } }> } | null } | null };
+
+export type CheckoutBillingAddressUpdateMutationVariables = Exact<{
+  checkoutId: Scalars['ID']['input'];
+  billingAddress: AddressInput;
+}>;
+
+
+export type CheckoutBillingAddressUpdateMutation = { __typename?: 'Mutation', checkoutBillingAddressUpdate?: { __typename?: 'CheckoutBillingAddressUpdate', checkout?: { __typename?: 'Checkout', id: string, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null }> } | null };
+
+export type Checkout_TestingMutationVariables = Exact<{
+  lines: Array<CheckoutLineInput> | CheckoutLineInput;
+  channel?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type Checkout_TestingMutation = { __typename?: 'Mutation', checkoutCreate?: { __typename?: 'CheckoutCreate', checkout?: { __typename?: 'Checkout', id: string, lines: Array<{ __typename?: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } } }> } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null }> } | null };
+
+export type CheckoutShippingMethodUpdateMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  deliveryMethodId: Scalars['ID']['input'];
+  locale: LanguageCodeEnum;
+}>;
+
+
+export type CheckoutShippingMethodUpdateMutation = { __typename?: 'Mutation', checkoutDeliveryMethodUpdate?: { __typename: 'CheckoutDeliveryMethodUpdate', checkout?: { __typename: 'Checkout', id: string, token: string, email?: string | null, isShippingRequired: boolean, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, deliveryMethod?: { __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } } | { __typename: 'Warehouse' } | null, shippingMethods: Array<{ __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } }>, availablePaymentGateways: Array<{ __typename: 'PaymentGateway', id: string, name: string, config: Array<{ __typename: 'GatewayConfigLine', field: string, value?: string | null }> }>, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, translation?: { __typename: 'ProductTranslation', id: string, name?: string | null } | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null, translation?: { __typename: 'ProductVariantTranslation', id: string, name: string } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, subtotalPrice: { __typename: 'TaxedMoney', net: { __typename: 'Money', currency: string, amount: number }, tax: { __typename: 'Money', currency: string, amount: number } }, shippingPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null } | null, errors: Array<{ __typename: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
 
 export type GetLoginUserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -33304,7 +33348,7 @@ export type FetchFeaturedCategoriesQueryVariables = Exact<{
 }>;
 
 
-export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, backgroundImage?: { __typename?: 'Image', url: string, alt?: string | null } | null, parent?: { __typename?: 'Category', id: string, name: string, slug: string, level: number } | null } }> } | null };
+export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, backgroundImage?: { __typename: 'Image', url: string, alt?: string | null } | null, parent?: { __typename?: 'Category', id: string, name: string, slug: string, level: number } | null } }> } | null };
 
 export type HomeRecentlyAddedQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -33319,7 +33363,7 @@ export type ProductBySlugQueryVariables = Exact<{
 }>;
 
 
-export type ProductBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null } | null };
+export type ProductBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null } | null };
 
 export type FetchProductListPaginatedBySlugQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -33346,7 +33390,7 @@ export type SearchProductsQueryVariables = Exact<{
 }>;
 
 
-export type SearchProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+export type SearchProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
 export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -43837,6 +43881,387 @@ export const CategoryDetailsFragmentDoc = new TypedDocumentString(`
   level
 }
     `, {"fragmentName":"CategoryDetails"}) as unknown as TypedDocumentString<CategoryDetailsFragment, unknown>;
+export const AddressDetailsFragmentDoc = new TypedDocumentString(`
+    fragment AddressDetailsFragment on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}
+    `, {"fragmentName":"AddressDetailsFragment"}) as unknown as TypedDocumentString<AddressDetailsFragment, unknown>;
+export const PriceFragmentDoc = new TypedDocumentString(`
+    fragment PriceFragment on Money {
+  currency
+  amount
+  __typename
+}
+    `, {"fragmentName":"PriceFragment"}) as unknown as TypedDocumentString<PriceFragment, unknown>;
+export const DeliveryMethodFragmentDoc = new TypedDocumentString(`
+    fragment DeliveryMethodFragment on ShippingMethod {
+  id
+  name
+  active
+  description
+  translation(languageCode: $locale) {
+    id
+    name
+    __typename
+  }
+  price {
+    ...PriceFragment
+    __typename
+  }
+  minimumDeliveryDays
+  maximumDeliveryDays
+  __typename
+}
+    fragment PriceFragment on Money {
+  currency
+  amount
+  __typename
+}`, {"fragmentName":"DeliveryMethodFragment"}) as unknown as TypedDocumentString<DeliveryMethodFragment, unknown>;
+export const ImageFragmentDoc = new TypedDocumentString(`
+    fragment ImageFragment on Image {
+  url
+  alt
+  __typename
+}
+    `, {"fragmentName":"ImageFragment"}) as unknown as TypedDocumentString<ImageFragment, unknown>;
+export const CheckoutLineDetailsFragmentDoc = new TypedDocumentString(`
+    fragment CheckoutLineDetailsFragment on CheckoutLine {
+  id
+  totalPrice {
+    gross {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  variant {
+    id
+    product {
+      id
+      name
+      translation(languageCode: $locale) {
+        id
+        name
+        __typename
+      }
+      slug
+      thumbnail {
+        ...ImageFragment
+        __typename
+      }
+      __typename
+    }
+    pricing {
+      price {
+        gross {
+          ...PriceFragment
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    name
+    translation(languageCode: $locale) {
+      id
+      name
+      __typename
+    }
+    __typename
+  }
+  quantity
+  __typename
+}
+    fragment ImageFragment on Image {
+  url
+  alt
+  __typename
+}
+fragment PriceFragment on Money {
+  currency
+  amount
+  __typename
+}`, {"fragmentName":"CheckoutLineDetailsFragment"}) as unknown as TypedDocumentString<CheckoutLineDetailsFragment, unknown>;
+export const UserFragmentDoc = new TypedDocumentString(`
+    fragment UserFragment on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+    alt
+    __typename
+  }
+  isActive
+  isConfirmed
+  addresses {
+    ...AddressDetailsFragment
+    __typename
+  }
+  defaultBillingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  defaultShippingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  __typename
+}
+    fragment AddressDetailsFragment on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}`, {"fragmentName":"UserFragment"}) as unknown as TypedDocumentString<UserFragment, unknown>;
+export const CheckoutDetailsFragmentDoc = new TypedDocumentString(`
+    fragment CheckoutDetailsFragment on Checkout {
+  id
+  token
+  email
+  channel {
+    id
+    slug
+    __typename
+  }
+  billingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  shippingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  deliveryMethod {
+    ...DeliveryMethodFragment
+    __typename
+  }
+  isShippingRequired
+  shippingMethods {
+    ...DeliveryMethodFragment
+    __typename
+  }
+  availablePaymentGateways {
+    id
+    name
+    config {
+      field
+      value
+      __typename
+    }
+    __typename
+  }
+  lines {
+    ...CheckoutLineDetailsFragment
+    __typename
+  }
+  discount {
+    ...PriceFragment
+    __typename
+  }
+  discountName
+  subtotalPrice {
+    net {
+      ...PriceFragment
+      __typename
+    }
+    tax {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  shippingPrice {
+    gross {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  totalPrice {
+    gross {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  user {
+    ...UserFragment
+    __typename
+  }
+  __typename
+}
+    fragment AddressDetailsFragment on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}
+fragment CheckoutLineDetailsFragment on CheckoutLine {
+  id
+  totalPrice {
+    gross {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  variant {
+    id
+    product {
+      id
+      name
+      translation(languageCode: $locale) {
+        id
+        name
+        __typename
+      }
+      slug
+      thumbnail {
+        ...ImageFragment
+        __typename
+      }
+      __typename
+    }
+    pricing {
+      price {
+        gross {
+          ...PriceFragment
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    name
+    translation(languageCode: $locale) {
+      id
+      name
+      __typename
+    }
+    __typename
+  }
+  quantity
+  __typename
+}
+fragment DeliveryMethodFragment on ShippingMethod {
+  id
+  name
+  active
+  description
+  translation(languageCode: $locale) {
+    id
+    name
+    __typename
+  }
+  price {
+    ...PriceFragment
+    __typename
+  }
+  minimumDeliveryDays
+  maximumDeliveryDays
+  __typename
+}
+fragment ImageFragment on Image {
+  url
+  alt
+  __typename
+}
+fragment PriceFragment on Money {
+  currency
+  amount
+  __typename
+}
+fragment UserFragment on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+    alt
+    __typename
+  }
+  isActive
+  isConfirmed
+  addresses {
+    ...AddressDetailsFragment
+    __typename
+  }
+  defaultBillingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  defaultShippingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  __typename
+}`, {"fragmentName":"CheckoutDetailsFragment"}) as unknown as TypedDocumentString<CheckoutDetailsFragment, unknown>;
 export const PageInfoDetailsFragmentDoc = new TypedDocumentString(`
     fragment PageInfoDetails on PageInfo {
   endCursor
@@ -43911,12 +44336,6 @@ export const ProductMediaFragmentDoc = new TypedDocumentString(`
   type
 }
     `, {"fragmentName":"ProductMediaFragment"}) as unknown as TypedDocumentString<ProductMediaFragment, unknown>;
-export const PriceFragmentDoc = new TypedDocumentString(`
-    fragment PriceFragment on Money {
-  currency
-  amount
-}
-    `, {"fragmentName":"PriceFragment"}) as unknown as TypedDocumentString<PriceFragment, unknown>;
 export const ProductVariantDetailsFragmentDoc = new TypedDocumentString(`
     fragment ProductVariantDetailsFragment on ProductVariant {
   id
@@ -43954,6 +44373,7 @@ export const ProductVariantDetailsFragmentDoc = new TypedDocumentString(`
     fragment PriceFragment on Money {
   currency
   amount
+  __typename
 }
 fragment ProductMediaFragment on ProductMedia {
   url
@@ -43974,12 +44394,6 @@ fragment SelectedAttributeDetailsFragment on SelectedAttribute {
     value
   }
 }`, {"fragmentName":"ProductVariantDetailsFragment"}) as unknown as TypedDocumentString<ProductVariantDetailsFragment, unknown>;
-export const ImageFragmentDoc = new TypedDocumentString(`
-    fragment ImageFragment on Image {
-  url
-  alt
-}
-    `, {"fragmentName":"ImageFragment"}) as unknown as TypedDocumentString<ImageFragment, unknown>;
 export const ProductTypeFragmentDoc = new TypedDocumentString(`
     fragment ProductTypeFragment on ProductType {
   kind
@@ -44057,10 +44471,12 @@ export const ProductDetailsFragmentDoc = new TypedDocumentString(`
 fragment ImageFragment on Image {
   url
   alt
+  __typename
 }
 fragment PriceFragment on Money {
   currency
   amount
+  __typename
 }
 fragment ProductTypeFragment on ProductType {
   kind
@@ -44208,6 +44624,345 @@ export const UserTokenCreateDocument = new TypedDocumentString(`
   isConfirmed
   isActive
 }`) as unknown as TypedDocumentString<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
+export const Checkout_AddressDocument = new TypedDocumentString(`
+    mutation checkout_address($checkoutId: ID!, $shippingAddress: AddressInput!) {
+  checkoutShippingAddressUpdate(
+    shippingAddress: $shippingAddress
+    checkoutId: $checkoutId
+  ) {
+    errors {
+      field
+      message
+    }
+    checkout {
+      id
+      shippingAddress {
+        ...AddressDetailsFragment
+      }
+      shippingMethods {
+        id
+        name
+        active
+        price {
+          amount
+          currency
+        }
+      }
+    }
+  }
+}
+    fragment AddressDetailsFragment on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}`) as unknown as TypedDocumentString<Checkout_AddressMutation, Checkout_AddressMutationVariables>;
+export const CheckoutBillingAddressUpdateDocument = new TypedDocumentString(`
+    mutation checkoutBillingAddressUpdate($checkoutId: ID!, $billingAddress: AddressInput!) {
+  checkoutBillingAddressUpdate(
+    billingAddress: $billingAddress
+    checkoutId: $checkoutId
+  ) {
+    checkout {
+      id
+      billingAddress {
+        ...AddressDetailsFragment
+      }
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    fragment AddressDetailsFragment on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}`) as unknown as TypedDocumentString<CheckoutBillingAddressUpdateMutation, CheckoutBillingAddressUpdateMutationVariables>;
+export const Checkout_TestingDocument = new TypedDocumentString(`
+    mutation checkout_testing($lines: [CheckoutLineInput!]!, $channel: String, $email: String) {
+  checkoutCreate(input: {lines: $lines, channel: $channel, email: $email}) {
+    checkout {
+      id
+      lines {
+        id
+        quantity
+        totalPrice {
+          gross {
+            amount
+            currency
+          }
+        }
+      }
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<Checkout_TestingMutation, Checkout_TestingMutationVariables>;
+export const CheckoutShippingMethodUpdateDocument = new TypedDocumentString(`
+    mutation CheckoutShippingMethodUpdate($id: ID!, $deliveryMethodId: ID!, $locale: LanguageCodeEnum!) {
+  checkoutDeliveryMethodUpdate(deliveryMethodId: $deliveryMethodId, id: $id) {
+    checkout {
+      ...CheckoutDetailsFragment
+      __typename
+    }
+    errors {
+      field
+      message
+      code
+      __typename
+    }
+    __typename
+  }
+}
+    fragment AddressDetailsFragment on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}
+fragment CheckoutDetailsFragment on Checkout {
+  id
+  token
+  email
+  channel {
+    id
+    slug
+    __typename
+  }
+  billingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  shippingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  deliveryMethod {
+    ...DeliveryMethodFragment
+    __typename
+  }
+  isShippingRequired
+  shippingMethods {
+    ...DeliveryMethodFragment
+    __typename
+  }
+  availablePaymentGateways {
+    id
+    name
+    config {
+      field
+      value
+      __typename
+    }
+    __typename
+  }
+  lines {
+    ...CheckoutLineDetailsFragment
+    __typename
+  }
+  discount {
+    ...PriceFragment
+    __typename
+  }
+  discountName
+  subtotalPrice {
+    net {
+      ...PriceFragment
+      __typename
+    }
+    tax {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  shippingPrice {
+    gross {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  totalPrice {
+    gross {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  user {
+    ...UserFragment
+    __typename
+  }
+  __typename
+}
+fragment CheckoutLineDetailsFragment on CheckoutLine {
+  id
+  totalPrice {
+    gross {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  variant {
+    id
+    product {
+      id
+      name
+      translation(languageCode: $locale) {
+        id
+        name
+        __typename
+      }
+      slug
+      thumbnail {
+        ...ImageFragment
+        __typename
+      }
+      __typename
+    }
+    pricing {
+      price {
+        gross {
+          ...PriceFragment
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    name
+    translation(languageCode: $locale) {
+      id
+      name
+      __typename
+    }
+    __typename
+  }
+  quantity
+  __typename
+}
+fragment DeliveryMethodFragment on ShippingMethod {
+  id
+  name
+  active
+  description
+  translation(languageCode: $locale) {
+    id
+    name
+    __typename
+  }
+  price {
+    ...PriceFragment
+    __typename
+  }
+  minimumDeliveryDays
+  maximumDeliveryDays
+  __typename
+}
+fragment ImageFragment on Image {
+  url
+  alt
+  __typename
+}
+fragment PriceFragment on Money {
+  currency
+  amount
+  __typename
+}
+fragment UserFragment on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+    alt
+    __typename
+  }
+  isActive
+  isConfirmed
+  addresses {
+    ...AddressDetailsFragment
+    __typename
+  }
+  defaultBillingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  defaultShippingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  __typename
+}`) as unknown as TypedDocumentString<CheckoutShippingMethodUpdateMutation, CheckoutShippingMethodUpdateMutationVariables>;
 export const GetLoginUserDetailsDocument = new TypedDocumentString(`
     query GetLoginUserDetails {
   me {
@@ -44361,6 +45116,7 @@ export const FetchFeaturedCategoriesDocument = new TypedDocumentString(`
 fragment ImageFragment on Image {
   url
   alt
+  __typename
 }`) as unknown as TypedDocumentString<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>;
 export const HomeRecentlyAddedDocument = new TypedDocumentString(`
     query HomeRecentlyAdded($channel: String!) {
@@ -44424,10 +45180,12 @@ export const ProductBySlugDocument = new TypedDocumentString(`
 fragment ImageFragment on Image {
   url
   alt
+  __typename
 }
 fragment PriceFragment on Money {
   currency
   amount
+  __typename
 }
 fragment ProductDetailsFragment on Product {
   id
@@ -44650,6 +45408,7 @@ export const SearchProductsDocument = new TypedDocumentString(`
 fragment ImageFragment on Image {
   url
   alt
+  __typename
 }
 fragment PageInfoDetails on PageInfo {
   endCursor
@@ -44660,6 +45419,7 @@ fragment PageInfoDetails on PageInfo {
 fragment PriceFragment on Money {
   currency
   amount
+  __typename
 }
 fragment ProductDetailsFragment on Product {
   id

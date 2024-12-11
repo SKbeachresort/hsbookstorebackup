@@ -1,0 +1,26 @@
+mutation checkout_address($checkoutId: ID!, $shippingAddress: AddressInput!) {
+  checkoutShippingAddressUpdate(
+    shippingAddress: $shippingAddress
+    checkoutId: $checkoutId
+  ) {
+    errors {
+      field
+      message
+    }
+    checkout {
+      id
+      shippingAddress {
+        ...AddressDetailsFragment
+      }
+      shippingMethods {
+        id
+        name
+        active
+        price {
+          amount
+          currency
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+mutation checkout_testing(
+  $lines: [CheckoutLineInput!]!
+  $channel: String
+  $email: String
+) {
+  checkoutCreate(input: { lines: $lines, channel: $channel, email: $email }) {
+    checkout {
+      id
+      lines {
+        id
+        quantity
+        totalPrice {
+          gross {
+            amount
+            currency
+          }
+        }
+      }
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
