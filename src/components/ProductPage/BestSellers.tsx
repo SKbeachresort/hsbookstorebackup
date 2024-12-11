@@ -4,15 +4,24 @@ import { ProductCard } from "../ProductCard/ProductCard";
 import { products } from "@/data/Products";
 import Carousel from "@/app/elements/Carousel";
 import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
-import { useFetchProductsQuery } from "../../../gql/graphql";
+import { useFetchProductsRecommendationQuery } from "../../../gql/graphql";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 
-export const BestSellers = () => {
-  const { data, loading, error } = useFetchProductsQuery();
+interface BestSellersProps {
+  channel: string;
+}
+
+export const BestSellers:React.FC<BestSellersProps> = ({channel}) => {
+
+  const { data, loading, error } = useFetchProductsRecommendationQuery({
+    variables: {
+      channel,
+    },
+  });
 
   const products = data?.products?.edges || [];
 
@@ -43,6 +52,7 @@ export const BestSellers = () => {
                 cuttedPrice={node.pricing?.discount?.net?.amount}
                 ratings={node.rating || 0}
                 navigate={node.slug}
+                variantId={node.variants?.[0]?.id || ""}
               />
             );
           })}

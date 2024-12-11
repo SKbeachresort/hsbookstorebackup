@@ -61,6 +61,7 @@ export const  BestSellers: React.FC<BestSellersProps> = async({
                   cuttedPrice={node.pricing?.discount?.net?.amount}
                   ratings={node.rating || 0}
                   navigate={node.slug}
+                  variantId={node.variants?.[0]?.id || ""}
                 />
               );
             })}

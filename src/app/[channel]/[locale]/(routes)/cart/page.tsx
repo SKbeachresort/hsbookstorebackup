@@ -11,6 +11,7 @@ const CartPage = () => {
 
   const { channel, locale } = useParams();
   const { cartItems, incrementQuantity, decrementQuantity,removeFromCart } = useCart();
+  console.log("Cart Items", cartItems);
 
   const totalAmount = cartItems.reduce(
     (total, item) => total + (item.price ?? 0) * item.quantity,
@@ -48,10 +49,10 @@ const CartPage = () => {
               </div>
 
               {/* People who bought */}
-              <PeopleWhoBoughtThis />
+              <PeopleWhoBoughtThis channel={channel as string}/>
 
               {/* Recommended */}
-              <Recommended />
+              <Recommended channel={channel as string}/>
 
             </div>
             <div className="md:w-[40%] lg:w-[30%] h-auto">

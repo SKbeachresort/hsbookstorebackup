@@ -7,6 +7,7 @@ import Image from "next/image";
 interface CartItemProps {
   item: {
     id: string;
+    variantId: string;
     mainImage: string;
     name: string;
     currency?: string;
@@ -16,7 +17,7 @@ interface CartItemProps {
   incrementQuantity: (id: string) => void;
   decrementQuantity: (id: string) => void;
   removeFromCart: (id: string) => void;
-}
+};
 
 const CartItemUI: React.FC<CartItemProps> = ({
   item,
@@ -32,7 +33,7 @@ const CartItemUI: React.FC<CartItemProps> = ({
           alt={item.name}
           width={80}
           height={80}
-          className="w-full"
+          className="w-[80%] md:w-full"
         />
       </div>
 

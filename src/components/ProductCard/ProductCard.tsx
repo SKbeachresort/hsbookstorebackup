@@ -18,7 +18,8 @@ interface ProductCardProps {
   cuttedPrice?: number;
   ratings?: number;
   navigate?: string;
-}
+  variantId: string;
+};
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   id,
@@ -30,6 +31,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   cuttedPrice,
   ratings,
   navigate,
+  variantId,
 }) => {
   const { getRegionUrl } = useRegionUrl();
 
@@ -56,6 +58,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       currency,
       mainImage: image,
       quantity: 1,
+      variantId,
     });
     setIsInCart(true);
   };

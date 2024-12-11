@@ -31,4 +31,8 @@ fragment ProductCardDetails on Product {
     }
   }
   rating
+  variants {
+    id
+    name
+  }
 }

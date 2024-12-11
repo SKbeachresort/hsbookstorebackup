@@ -11,7 +11,7 @@ export const getUserDetails = () => {
   useEffect(() => {
     const token = getAccessToken();
     if (token) {
-      setAccessToken(token);  // Dynamically update the access token
+      setAccessToken(token);  
     }
   }, []);
   

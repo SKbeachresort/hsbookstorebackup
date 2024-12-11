@@ -135,6 +135,7 @@ export default async function SubCategoryProducts({
                 cuttedPrice={node.pricing?.discount?.net?.amount}
                 ratings={node.rating || 0}
                 navigate={node.slug}
+                variantId={node.variants?.[0]?.id || ""}
               />
             );
           })}
@@ -151,7 +152,7 @@ export default async function SubCategoryProducts({
               safeStartCursor={safeStartCursor}
             />
           </div>
-        )}
+        )};
         
       </div>
     </div>

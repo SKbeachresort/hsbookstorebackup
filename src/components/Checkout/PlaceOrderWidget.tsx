@@ -5,6 +5,8 @@ import Modal from "@/app/elements/Modal";
 import Loader from "@/app/elements/Loader";
 import CreateAccount from "../Authentication/CreateAccount";
 import { useRegions } from "@/context/RegionProviders";
+import { getUserDetails } from "@/hooks/getUser";
+import { useIsAuthenticated } from "@/hooks/userIsAuthenticated";
 
 interface PlaceOrderWidgetProps {
   channel: string;
@@ -14,7 +16,7 @@ interface PlaceOrderWidgetProps {
   currentStep: number;
   isSecondLastStep: boolean;
   onNext: () => void;
-}
+};
 
 export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   channel,
@@ -29,6 +31,9 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   const { currentChannel } = useRegions();
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const isAuthenticated = useIsAuthenticated();
+  const { user } = getUserDetails();
 
   const openModal = () => {
     setLoading(true);
@@ -99,12 +104,26 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
         </button>
         {/* </Link> */}
 
-        <div className="text-xs mt-2 underline">
-          For the best experience{" "}
-          <a href="#" className="ml-1 font-semibold text-secondary">
-            Sign in
-          </a>
-        </div>
+        {isAuthenticated && user ? (
+          <>
+            <div className="text-sm mt-2">
+              Current User Signed:{" "}
+              <span className="ml-2 font-semibold text-secondary">
+                {user?.firstName}{" "} {user?.lastName}
+              </span>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="text-sm mt-2 underline">
+              For the best experience{" "}
+              <a href="#" className="ml-2 font-semibold text-secondary">
+                Sign in
+              </a>
+            </div>
+          </>
+        )}
+
       </div>
 
       {/* Modal */}

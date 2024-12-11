@@ -5,6 +5,10 @@ import Modal from "@/app/elements/Modal";
 import Loader from "@/app/elements/Loader";
 import CreateAccount from "../Authentication/CreateAccount";
 import { useRegions } from "@/context/RegionProviders";
+import { getUserDetails } from "@/hooks/getUser";
+import { useIsAuthenticated } from "@/hooks/userIsAuthenticated";
+import { useCheckoutCreateMutation } from "../../../gql/graphql";
+import { useRouter } from "next/navigation";
 
 interface CheckOutWidgetProps {
   locale: string;
@@ -20,19 +24,34 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   cartItems,
 }) => {
   const { currentChannel } = useRegions();
-  const [isLogin, setIsLogin] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
+
+  const [checkout, { loading: checkoutLoading, data, error }] =
+    useCheckoutCreateMutation();
+
+  const isAuthenticated = useIsAuthenticated();
+  const { user } = getUserDetails();
+  const router = useRouter();
 
   const openModal = () => {
-    setLoading(true);
+    setIsLoading(true);
     setTimeout(() => {
-      setLoading(false);
-      setIsLogin(true);
+      setIsLoading(false);
+      setIsModalOpen(true);  
     }, 2000);
   };
 
   const closeModal = () => {
-    setIsLogin(false);
+    setIsModalOpen(false);
+  };
+
+  const handleProceedToCheckout = () => {
+    if (isAuthenticated) {
+      router.replace(`/checkout`);
+    } else {
+      openModal();
+    };
   };
 
   const CurrencyCode = currentChannel?.currencyCode;
@@ -46,7 +65,8 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
           <div className="flex justify-between">
             <span className="text-md">Subtotal ({cartItems.length} items)</span>
             <span>
-              {CurrencyCode} {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              {CurrencyCode}{" "}
+              {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </span>
           </div>
           <div className="flex justify-between my-2">
@@ -64,7 +84,8 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
           <div className="flex justify-between font-bold text-lg">
             <span>Total</span>
             <span>
-              {CurrencyCode} {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              {CurrencyCode}{" "}
+              {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </span>
           </div>
         </div>
@@ -72,29 +93,44 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
 
         {/* <Link href="/checkout"> */}
         <button
-          onClick={openModal}
+          onClick={handleProceedToCheckout}
           className="w-full flex flex-col items-center justify-center mt-4 py-2 text-md bg-secondary text-white font-semibold rounded-full"
         >
-          {loading ? <Loader /> : <>Checkout</>}
+          {isloading ? <Loader /> : <>Checkout</>}
         </button>
         {/* </Link> */}
 
-        <div className="text-sm mt-2 underline">
-          For the best experience{" "}
-          <a href="#" className="ml-2 font-semibold text-secondary">
-            Sign in
-          </a>
-        </div>
+        {isAuthenticated && user ? (
+          <>
+            <div className="text-sm mt-2">
+              Current User Signed:{" "}
+              <span className="ml-2 font-semibold text-secondary">
+                {user?.firstName} {user?.lastName}
+              </span>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="text-sm mt-2 underline">
+              For the best experience{" "}
+              <a href="#" className="ml-2 font-semibold text-secondary">
+                Sign in
+              </a>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Modal */}
-      <Modal isOpen={isLogin} onClose={closeModal}>
-        <CreateAccount
-          closeModal={closeModal}
-          channel={channel}
-          locale={locale}
-        />
-      </Modal>
+      {!isAuthenticated && isModalOpen && (
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          <CreateAccount
+            closeModal={closeModal}  
+            channel={channel}
+            locale={locale}
+          />
+        </Modal>
+      )}
     </>
   );
 };

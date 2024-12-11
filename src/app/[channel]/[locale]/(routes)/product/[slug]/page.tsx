@@ -84,6 +84,7 @@ const ProductDetailPage = () => {
     Weight: `${data?.product?.weight?.value || 0} ${
       data?.product?.weight?.unit || ""
     }`.trim(),
+    variantId: data?.product?.variants?.[0]?.id || "",
   };
 
   const bookFormats = [
@@ -167,16 +168,16 @@ const ProductDetailPage = () => {
           <AdditionalContents productsDetails={productsDetails} />
 
           {/* Saving Packages */}
-          <SavingsPackage />
+          {/* <SavingsPackage /> */}
 
           {/* People who bought this */}
-          <PeopleWhoBoughtThis />
+          <PeopleWhoBoughtThis channel={channel as string}/>
 
           {/* Recommended */}
-          <Recommended />
+          <Recommended channel={channel as string}/>
 
           {/* Customer Reviews & Ratings */}
-          <CustomerReviewsRatings />
+          {/* <CustomerReviewsRatings /> */}
         </div>
 
         <div className="h-auto w-[33%] hidden md:block">
@@ -198,13 +199,13 @@ const ProductDetailPage = () => {
 
       <div>
         {/* Best Sellers */}
-        <BestSellers />
+        <BestSellers channel={channel as string}/>
 
         {/* Recently Viewed */}
-        <RecentlyViewed />
+        <RecentlyViewed channel={channel as string}/>
 
         {/* More Items to Explore */}
-        <MoreItemsToExplore />
+        <MoreItemsToExplore channel={channel as string}/>
       </div>
     </div>
   );

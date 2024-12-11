@@ -16,6 +16,7 @@ interface CartItem {
   quantity: number;
   currency?: string;
   mainImage: string;
+  variantId: string;
 };
 
 // Define the context type

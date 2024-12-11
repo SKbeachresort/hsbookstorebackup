@@ -4,15 +4,24 @@ import { ProductCard } from "../ProductCard/ProductCard";
 import { products } from "@/data/Products";
 import MiniCarousel from "@/app/elements/MiniCarousel";
 import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
-import { useFetchProductsQuery } from "../../../gql/graphql";
+import { useFetchProductsRecommendationQuery } from "../../../gql/graphql";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 
-export const PeopleWhoBoughtThis = () => {
-  const { data, loading, error } = useFetchProductsQuery();
+interface PeopleWhoBoughtThisProps {
+  channel: string;
+};
+
+export const PeopleWhoBoughtThis:React.FC<PeopleWhoBoughtThisProps> = ({channel}) => {
+
+  const { data, loading, error } = useFetchProductsRecommendationQuery({
+    variables: {
+      channel,
+    },
+  });
 
   const products = data?.products?.edges || [];
   return (
@@ -43,6 +52,7 @@ export const PeopleWhoBoughtThis = () => {
                 cuttedPrice={node.pricing?.discount?.net?.amount}
                 ratings={node.rating || 0}
                 navigate={node.slug}
+                variantId={node.variants?.[0]?.id || ""}
               />
             );
           })}

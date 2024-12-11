@@ -1,4 +1,4 @@
-mutation checkout_testing(
+mutation checkoutCreate(
   $lines: [CheckoutLineInput!]!
   $channel: String
   $email: String
