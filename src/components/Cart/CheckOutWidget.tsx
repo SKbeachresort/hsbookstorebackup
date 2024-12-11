@@ -15,7 +15,7 @@ interface CheckOutWidgetProps {
   channel: string;
   totalAmount: number;
   cartItems: any[];
-};
+}
 
 export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   locale,
@@ -26,6 +26,8 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   const { currentChannel } = useRegions();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isloading, setIsLoading] = useState(false);
+
+  // console.log("Cart Items: ", cartItems);
 
   const [checkout, { loading: checkoutLoading, data, error }] =
     useCheckoutCreateMutation();
@@ -38,7 +40,7 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      setIsModalOpen(true);  
+      setIsModalOpen(true);
     }, 2000);
   };
 
@@ -46,12 +48,36 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
     setIsModalOpen(false);
   };
 
-  const handleProceedToCheckout = () => {
-    if (isAuthenticated) {
-      router.replace(`/checkout`);
-    } else {
-      openModal();
-    };
+  const handleProceedToCheckout = async () => {
+
+    const checkoutLines = cartItems.map((items) => ({
+      quantity: items.quantity,
+      variantId: items.variantId,
+    }));
+    
+    const guestEmail = localStorage.getItem("guestEmail");
+
+    const email = isAuthenticated ? user?.email : guestEmail;
+
+    try {
+      const response = await checkout({
+        variables: {
+          lines: checkoutLines,
+          email: email,
+          channel: channel,
+        },
+      });
+
+      console.log("Checkout Response: ", response);
+
+      if (isAuthenticated) {
+        router.replace(`/checkout`);
+      } else {
+        openModal();
+      }
+    } catch (error) {
+      console.error("Checkout Error: ", error);
+    }
   };
 
   const CurrencyCode = currentChannel?.currencyCode;
@@ -125,7 +151,7 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
       {!isAuthenticated && isModalOpen && (
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <CreateAccount
-            closeModal={closeModal}  
+            closeModal={closeModal}
             channel={channel}
             locale={locale}
           />

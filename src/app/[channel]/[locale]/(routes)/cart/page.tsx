@@ -11,7 +11,6 @@ const CartPage = () => {
 
   const { channel, locale } = useParams();
   const { cartItems, incrementQuantity, decrementQuantity,removeFromCart } = useCart();
-  console.log("Cart Items", cartItems);
 
   const totalAmount = cartItems.reduce(
     (total, item) => total + (item.price ?? 0) * item.quantity,
