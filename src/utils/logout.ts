@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react'; // Import useState to manage loading state
+import { useState } from 'react'; 
 import { useRouter } from 'next/navigation';
 import { setCookie } from 'cookies-next';
 import { useAuth } from '@/context/AuthContext'; 
@@ -8,7 +8,7 @@ import BackDropLoader from '@/app/elements/BackdropLoader';
 export const useLogout = () => {
   const router = useRouter();
   const { setIsAuthenticated } = useAuth();
-  const [isloading, setIsLoading] = useState(false); // Manage loading state
+  const [isloading, setIsLoading] = useState(false); 
 
   const logout = async () => {
     try {
@@ -18,7 +18,7 @@ export const useLogout = () => {
       localStorage.removeItem('accessToken');
       setIsAuthenticated(false);
 
-      await router.replace('auth/login');
+      await router.push('auth/login');
     } catch (error) {
       console.error("Logout Error: ", error);
     } finally {
