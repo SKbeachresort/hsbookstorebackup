@@ -71,7 +71,7 @@ const AuthRegisterUI: React.FC<AuthRegisterUIProps> = ({ channel, locale }) => {
             lastName: data.lastName,
             password: data.password,
             redirectUrl: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/${channel}/${locale}/auth/account-confirm`,
-            channel: "channel-pln", //change the channel to the correct channel
+            channel: channel, //change the channel to the correct channel
           },
         },
       });

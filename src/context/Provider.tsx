@@ -14,14 +14,16 @@ import { CartProvider } from "./CartContext";
 import { localeToEnum } from "@/lib/regions";
 import RegionsProvider from "./RegionProviders";
 import { Sheet } from "@/components/ui/sheet";
+import { AuthProvider } from "./AuthContext";
 
 interface ProviderProps {
   children: React.ReactNode;
   locale: string;
   channel: string;
-}
+};
 
 const Provider: React.FC<ProviderProps> = ({ children }) => {
+  
   useAuthChange({
     saleorApiUrl,
     onSignedOut: () => apolloClient.resetStore(),
@@ -34,9 +36,11 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
     <Sheet>
       <SaleorAuthProvider client={saleorAuthClient}>
         <ApolloProvider client={apolloClient}>
-          <CartProvider>
-            <RegionsProvider>{children}</RegionsProvider>
-          </CartProvider>
+          <AuthProvider>
+            <CartProvider>
+              <RegionsProvider>{children}</RegionsProvider>
+            </CartProvider>
+          </AuthProvider>
         </ApolloProvider>
       </SaleorAuthProvider>
     </Sheet>

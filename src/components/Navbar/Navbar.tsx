@@ -18,6 +18,7 @@ import PopOverDropDown from "@/app/elements/PopOverDropDown";
 import { useRegions } from "@/context/RegionProviders";
 import { setCookie } from "cookies-next";
 import SearchProduct from "./SearchProduct";
+import { useIsAuthenticated } from "@/hooks/userIsAuthenticated";
 
 import HSlogo from "../../../public/HSlogo.png";
 import logo from "../../../public/logo.png";
@@ -37,12 +38,23 @@ import { CategoryNavbar } from "./CategoryNavbar";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
 import { getUserDetails } from "@/hooks/getUser";
 import { getAccessToken } from "@/utils/accessToken";
-import { access } from "fs";
+import { useAuth } from "@/context/AuthContext";
+
 
 export const Navbar = () => {
   const { channel, locale } = useParams();
-  const accessToken = getAccessToken();
+
+  const router = useRouter();
+
+  const {isAuthenticated} = useAuth();
+
   const { user, loading, error } = getUserDetails();
+
+  useEffect(() => {
+    if(isAuthenticated && user){
+      router.push(getRegionUrl(`me/${user?.id}`));
+    }
+  },[isAuthenticated, user, router]);
 
   const { totalItems } = useCart();
   const { getRegionUrl } = useRegionUrl();
@@ -61,7 +73,6 @@ export const Navbar = () => {
   };
 
   const pathname = usePathname();
-  const router = useRouter();
   const containerRef = useRef(null);
 
   const handleNavbarOpen = () => {
@@ -82,6 +93,14 @@ export const Navbar = () => {
       setCookie("channel", newchannel);
       setCurrentChannel(newchannel);
       router.push(pathname.replace(currentChannel.slug, newchannel));
+    }
+  };
+
+  const handleAuthRedirect = () => {
+    if (isAuthenticated) {
+      router.push(getRegionUrl(`me/${user?.id}`));
+    } else {
+      router.push(getRegionUrl(`auth/login`));
     }
   };
 
@@ -182,22 +201,26 @@ export const Navbar = () => {
             </PopOverDropDown>
 
             {/* Auth Login */}
-            <div className="flex flex-row justify-center items-center gap-x-[1vh]">
-              <FaRegUser className="hidden md:block text-textgray text-2xl" />
-
-              {accessToken ? (
-                <Link href={getRegionUrl(`me/${user?.id}/page`)}>
+            {isAuthenticated && user ? (
+              <Link href={getRegionUrl(`me/${user?.id}`)} passHref>
+                <div className="flex flex-row justify-center items-center gap-x-[1vh]">
+                  <FaRegUser className="hidden md:block text-textgray text-2xl" />
                   <div className="hidden lg:block">
                     <p className="text-sm font-medium text-textgray">
-                      {user?.firstName} {user?.lastName}
+                      {loading ? `loading` : `${user?.firstName}`}{" "}
+                      {loading ? `loading` : `${user?.lastName}`}
                     </p>
                     <p className="text-xs font-semibold text-textgray">
-                      {user?.email}
+                      {loading ? `loading` : `${user?.email}`}
                     </p>
                   </div>
-                </Link>
-              ) : (
-                <Link href={getRegionUrl(`auth/login`)}>
+                </div>
+              </Link>
+            ) : (
+              <Link href={getRegionUrl(`auth/login`)}>
+                <div className="flex flex-row justify-center items-center gap-x-[1vh]">
+                  <FaRegUser className="hidden md:block text-textgray text-2xl" />
+
                   <div className="hidden lg:block">
                     <p className="text-sm font-medium text-textgray">
                       Hello, Sign In
@@ -206,9 +229,9 @@ export const Navbar = () => {
                       Accounts & Lists
                     </p>
                   </div>
-                </Link>
-              )}
-            </div>
+                </div>
+              </Link>
+            )}
 
             {/* Cart */}
             <Link href={getRegionUrl(`cart`)}>

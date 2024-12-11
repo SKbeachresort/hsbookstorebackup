@@ -33256,11 +33256,6 @@ export type SendConfirmationEmailMutationVariables = Exact<{
 
 export type SendConfirmationEmailMutation = { __typename?: 'Mutation', sendConfirmationEmail?: { __typename?: 'SendConfirmationEmail', errors: Array<{ __typename?: 'SendConfirmationEmailError', code: SendConfirmationEmailErrorCode, field?: string | null, message?: string | null }> } | null };
 
-export type GetLoginUserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetLoginUserDetailsQuery = { __typename?: 'Query', me?: { __typename?: 'User', email: string, id: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null };
-
 export type UserTokenCreateMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -33268,6 +33263,11 @@ export type UserTokenCreateMutationVariables = Exact<{
 
 
 export type UserTokenCreateMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+
+export type GetLoginUserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetLoginUserDetailsQuery = { __typename?: 'Query', me?: { __typename?: 'User', email: string, id: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null };
 
 export type FeaturedCategoriesBySlugAndMetaQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -44183,21 +44183,6 @@ export const SendConfirmationEmailDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SendConfirmationEmailMutation, SendConfirmationEmailMutationVariables>;
-export const GetLoginUserDetailsDocument = new TypedDocumentString(`
-    query GetLoginUserDetails {
-  me {
-    avatar {
-      url
-    }
-    email
-    id
-    firstName
-    lastName
-    isConfirmed
-    isActive
-  }
-}
-    `) as unknown as TypedDocumentString<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>;
 export const UserTokenCreateDocument = new TypedDocumentString(`
     mutation UserTokenCreate($email: String!, $password: String!) {
   tokenCreate(email: $email, password: $password) {
@@ -44223,6 +44208,21 @@ export const UserTokenCreateDocument = new TypedDocumentString(`
   isConfirmed
   isActive
 }`) as unknown as TypedDocumentString<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
+export const GetLoginUserDetailsDocument = new TypedDocumentString(`
+    query GetLoginUserDetails {
+  me {
+    avatar {
+      url
+    }
+    email
+    id
+    firstName
+    lastName
+    isConfirmed
+    isActive
+  }
+}
+    `) as unknown as TypedDocumentString<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>;
 export const FeaturedCategoriesBySlugAndMetaDocument = new TypedDocumentString(`
     query FeaturedCategoriesBySlugAndMeta($first: Int!, $filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
   categories(first: 1, sortBy: $sortBy, filter: $filter) {

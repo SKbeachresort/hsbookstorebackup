@@ -25,6 +25,7 @@ import { useUserTokenCreateMutation } from "../../../gql/graphql";
 import { setCookie } from "cookies-next";
 import CustomButton from "@/app/elements/Button";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 interface AuthLoginUIProps {
   channel: string;
@@ -42,6 +43,7 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
 }) => {
 
   const router = useRouter();  
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [login, { loading, data, error }] = useUserTokenCreateMutation();
 
   const form = useForm<LoginFormInputs>({
@@ -70,18 +72,27 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
       } else {
         const token = response.data?.tokenCreate?.token;
         const userId = response.data?.tokenCreate?.user?.id;
-        // console.log("Token:", token);
         if (token) {
           setCookie("accessToken", token, { maxAge: 7 * 24 * 60 * 60 });
+          localStorage.setItem("accessToken", token);
         };
-        router.push(getRegionUrl(channel, locale, `/me/${userId}`));
-        toast.success("Login Successful");
+        
+        if(userId){
+          const profileUrl = getRegionUrl(channel, locale, `me/${userId}`);
+          router.replace(profileUrl);
+          toast.success("Login successful");
+          setIsAuthenticated(true);
+
+          window.location.reload();
+        }else{
+          toast.error("An error occurred. Please try again.");
+        };
         reset();
       };
     } catch (error) {
       toast.error("An error occurred. Please try again.");
       console.log("Error:", error);
-    }
+    };
   };
 
   return (

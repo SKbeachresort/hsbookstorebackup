@@ -23,7 +23,7 @@ export const saleorAuthClient = createSaleorAuthClient({
       return localStorage?.removeItem("access_token")
     },
   },
-})
+});
 
 const httpLink = createUploadLink({
   uri: saleorApiUrl,
@@ -31,7 +31,8 @@ const httpLink = createUploadLink({
     saleorAuthClient.fetchWithAuth(input, init, {
       allowPassingTokenToThirdPartyDomains: true,
     }),
-})
+});
+
 
 const apolloClient = new ApolloClient({
   link: httpLink,

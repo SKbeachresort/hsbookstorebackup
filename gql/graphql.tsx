@@ -33449,11 +33449,6 @@ export type SendConfirmationEmailMutationVariables = Exact<{
 
 export type SendConfirmationEmailMutation = { __typename?: 'Mutation', sendConfirmationEmail?: { __typename?: 'SendConfirmationEmail', errors: Array<{ __typename?: 'SendConfirmationEmailError', code: SendConfirmationEmailErrorCode, field?: string | null, message?: string | null }> } | null };
 
-export type GetLoginUserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetLoginUserDetailsQuery = { __typename?: 'Query', me?: { __typename?: 'User', email: string, id: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null };
-
 export type UserTokenCreateMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -33461,6 +33456,11 @@ export type UserTokenCreateMutationVariables = Exact<{
 
 
 export type UserTokenCreateMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+
+export type GetLoginUserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetLoginUserDetailsQuery = { __typename?: 'Query', me?: { __typename?: 'User', email: string, id: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null };
 
 export type FeaturedCategoriesBySlugAndMetaQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -33920,6 +33920,48 @@ export function useSendConfirmationEmailMutation(baseOptions?: Apollo.MutationHo
 export type SendConfirmationEmailMutationHookResult = ReturnType<typeof useSendConfirmationEmailMutation>;
 export type SendConfirmationEmailMutationResult = Apollo.MutationResult<SendConfirmationEmailMutation>;
 export type SendConfirmationEmailMutationOptions = Apollo.BaseMutationOptions<SendConfirmationEmailMutation, SendConfirmationEmailMutationVariables>;
+export const UserTokenCreateDocument = gql`
+    mutation UserTokenCreate($email: String!, $password: String!) {
+  tokenCreate(email: $email, password: $password) {
+    errors {
+      code
+      field
+      message
+    }
+    token
+    user {
+      ...BasicUserDetails
+    }
+  }
+}
+    ${BasicUserDetailsFragmentDoc}`;
+export type UserTokenCreateMutationFn = Apollo.MutationFunction<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
+
+/**
+ * __useUserTokenCreateMutation__
+ *
+ * To run a mutation, you first call `useUserTokenCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUserTokenCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [userTokenCreateMutation, { data, loading, error }] = useUserTokenCreateMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useUserTokenCreateMutation(baseOptions?: Apollo.MutationHookOptions<UserTokenCreateMutation, UserTokenCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UserTokenCreateMutation, UserTokenCreateMutationVariables>(UserTokenCreateDocument, options);
+      }
+export type UserTokenCreateMutationHookResult = ReturnType<typeof useUserTokenCreateMutation>;
+export type UserTokenCreateMutationResult = Apollo.MutationResult<UserTokenCreateMutation>;
+export type UserTokenCreateMutationOptions = Apollo.BaseMutationOptions<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
 export const GetLoginUserDetailsDocument = gql`
     query GetLoginUserDetails {
   me {
@@ -33967,48 +34009,6 @@ export type GetLoginUserDetailsQueryHookResult = ReturnType<typeof useGetLoginUs
 export type GetLoginUserDetailsLazyQueryHookResult = ReturnType<typeof useGetLoginUserDetailsLazyQuery>;
 export type GetLoginUserDetailsSuspenseQueryHookResult = ReturnType<typeof useGetLoginUserDetailsSuspenseQuery>;
 export type GetLoginUserDetailsQueryResult = Apollo.QueryResult<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>;
-export const UserTokenCreateDocument = gql`
-    mutation UserTokenCreate($email: String!, $password: String!) {
-  tokenCreate(email: $email, password: $password) {
-    errors {
-      code
-      field
-      message
-    }
-    token
-    user {
-      ...BasicUserDetails
-    }
-  }
-}
-    ${BasicUserDetailsFragmentDoc}`;
-export type UserTokenCreateMutationFn = Apollo.MutationFunction<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
-
-/**
- * __useUserTokenCreateMutation__
- *
- * To run a mutation, you first call `useUserTokenCreateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUserTokenCreateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [userTokenCreateMutation, { data, loading, error }] = useUserTokenCreateMutation({
- *   variables: {
- *      email: // value for 'email'
- *      password: // value for 'password'
- *   },
- * });
- */
-export function useUserTokenCreateMutation(baseOptions?: Apollo.MutationHookOptions<UserTokenCreateMutation, UserTokenCreateMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UserTokenCreateMutation, UserTokenCreateMutationVariables>(UserTokenCreateDocument, options);
-      }
-export type UserTokenCreateMutationHookResult = ReturnType<typeof useUserTokenCreateMutation>;
-export type UserTokenCreateMutationResult = Apollo.MutationResult<UserTokenCreateMutation>;
-export type UserTokenCreateMutationOptions = Apollo.BaseMutationOptions<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
 export const FeaturedCategoriesBySlugAndMetaDocument = gql`
     query FeaturedCategoriesBySlugAndMeta($first: Int!, $filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
   categories(first: 1, sortBy: $sortBy, filter: $filter) {
