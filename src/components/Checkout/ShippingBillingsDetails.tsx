@@ -33,6 +33,7 @@ interface ShippingFormInputs {
   firstName: string;
   lastName: string;
   phone: string;
+  companyName: string;
   streetAddress1: string;
   streetAddress2: string;
   postalCode: string;
@@ -53,6 +54,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
       firstName: "",
       lastName: "",
       phone: "",
+      companyName: "",
       streetAddress1: "",
       streetAddress2: "",
       postalCode: "",
@@ -195,13 +197,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                 <FormItem>
                   <FormLabel>*Company Name</FormLabel>
                   <FormControl>
-                    <PhoneInput
-                      {...field}
-                      country={form.watch("country")?.value?.toLowerCase() || "kw"}
-                      onChange={(value) => field.onChange(value)}
-                      placeholder="Enter Company Name"
-                      inputClass="w-full"         
-                    />
+                    <Input placeholder="Enter Company Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
