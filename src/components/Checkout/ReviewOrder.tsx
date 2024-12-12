@@ -1,11 +1,13 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { CheckOutWidget } from "@/components/Cart/CheckOutWidget";
 import DeliveryAddressCard from "@/components/Cart/DeliveryAddressCard";
 import CartItemUI from "@/components/Cart/CartItemUI";
+import RadioButton from "@/app/elements/RadioButton";
 
 export const ReviewOrder = () => {
+  
   const { cartItems, incrementQuantity, decrementQuantity, removeFromCart } =
     useCart();
 
@@ -13,6 +15,18 @@ export const ReviewOrder = () => {
     (total, item) => total + (item.price ?? 0) * item.quantity,
     0
   );
+
+  const shippingMethods = JSON.parse(localStorage.getItem("shippingMethodId") || "[]");
+  const shippingAddress = localStorage.getItem("shippingAddress");
+  const parsedShippingAddress = shippingAddress
+    ? JSON.parse(shippingAddress)
+    : null;
+
+  const [selectedShippingMethod, setSelectedShippingMethod] = useState<string | null>(null);
+
+  const handleRadioChange = (value: string) => {
+    setSelectedShippingMethod(value);
+  };
 
   return (
     <div>
@@ -24,25 +38,58 @@ export const ReviewOrder = () => {
       <div className="my-2 border-[1px] border-disableGray p-5 rounded-md">
         <div className="mb-4">
           <h1 className="mb-3 text-lg font-semibold">Shipping Address</h1>
-          <div className="text-textgray mb-2">
-            <p className="text-sm">Kuwait, Kuwait City, Faiha</p>
-            <p className="text-sm">Mohhammad Al Adwani</p>
-            <p className="text-sm">
-              Street Address Details, Block, Avenue, Street, Floor Apartment
-            </p>
-          </div>
-          <p className="underline text-secondary text-sm">change address</p>
+          {parsedShippingAddress ? (
+            <div className="text-textgray mb-2">
+              <p className="text-sm">
+                {parsedShippingAddress.firstName}{" "}
+                {parsedShippingAddress.lastName}
+              </p>
+              <p className="text-sm">
+                {parsedShippingAddress.country.country},{" "}
+              </p>
+              <p className="text-sm">
+                {parsedShippingAddress.streetAddress1}
+                {parsedShippingAddress.streetAddress2 && (
+                  <span>, {parsedShippingAddress.streetAddress2}</span>
+                )}
+              </p>
+              <span>{parsedShippingAddress.city}</span>
+              <p className="text-sm">{parsedShippingAddress.postalCode}</p>
+
+              <p className="text-sm">{parsedShippingAddress.phone}</p>
+            </div>
+          ) : (
+            <p className="text-sm text-red-500">No shipping address found.</p>
+          )}
+          {/* <p className="underline text-secondary text-sm">change address</p> */}
         </div>
         <div>
           <h1 className="mb-3 text-lg font-semibold">Billing Address</h1>
-          <div className="text-textgray mb-2">
-            <p className="text-sm">Kuwait, Kuwait City, Faiha</p>
-            <p className="text-sm">Mohhammad Al Adwani</p>
-            <p className="text-sm">
-              Street Address Details, Block, Avenue, Street, Floor Apartment
-            </p>
-          </div>
-          <p className="underline text-secondary text-sm">change address</p>
+          {/* Reuse shipping address if billing address is the same */}
+          {parsedShippingAddress ? (
+            <div className="text-textgray mb-2">
+              <p className="text-sm">
+                {parsedShippingAddress.firstName}{" "}
+                {parsedShippingAddress.lastName}
+              </p>
+              <p className="text-sm">
+                {parsedShippingAddress.country.country},{" "}
+              </p>
+              <p className="text-sm">
+                {parsedShippingAddress.streetAddress1}
+                {parsedShippingAddress.streetAddress2 && (
+                  <span>, {parsedShippingAddress.streetAddress2}</span>
+                )}
+              </p>
+              <span>{parsedShippingAddress.city}</span>
+              <p className="text-sm">{parsedShippingAddress.postalCode}</p>
+
+              <p className="text-sm">{parsedShippingAddress.phone}</p>
+            </div>
+          ) : (
+            <p className="text-sm text-red-500">No shipping address found.</p>
+          )}
+          {/* <p className="underline text-secondary text-sm">change address</p> */}
         </div>
       </div>
 
@@ -56,6 +103,32 @@ export const ReviewOrder = () => {
             removeFromCart={removeFromCart}
           />
         ))}
+      </div>
+
+      <div className="my-3">
+        <h1 className="text-lg font-semibold mb-2">Shipping Methods</h1>
+        {shippingMethods.length > 0 ? (
+          <div className="flex flex-wrap gap-4">
+            {shippingMethods.map((method: any) => (
+              <div
+                key={method.id}
+                className={`border-2 w-full ${
+                  selectedShippingMethod === method.id ? "border-secondary" : "border-disableGray"
+                } rounded-lg p-4`}
+              >
+                <RadioButton
+                  label={`${method.name} (${method.price.amount} ${method.price.currency})`}
+                  name="shippingMethod"
+                  value={method.id}
+                  checked={selectedShippingMethod === method.id}
+                  onChange={() => handleRadioChange(method.id)}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-textgray text-sm">No shipping methods available.</p>
+        )}
       </div>
     </div>
   );
