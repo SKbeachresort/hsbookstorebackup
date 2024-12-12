@@ -24,8 +24,9 @@ export const ReviewOrder = () => {
 
   const [selectedShippingMethod, setSelectedShippingMethod] = useState<string | null>(null);
 
-  const handleRadioChange = (value: string) => {
-    setSelectedShippingMethod(value);
+  const handleRadioChange = (id: string) => {
+    setSelectedShippingMethod(id);
+    // localStorage.setItem("shippingMethodId", id); 
   };
 
   return (
@@ -61,11 +62,10 @@ export const ReviewOrder = () => {
           ) : (
             <p className="text-sm text-red-500">No shipping address found.</p>
           )}
-          {/* <p className="underline text-secondary text-sm">change address</p> */}
         </div>
+
         <div>
           <h1 className="mb-3 text-lg font-semibold">Billing Address</h1>
-          {/* Reuse shipping address if billing address is the same */}
           {parsedShippingAddress ? (
             <div className="text-textgray mb-2">
               <p className="text-sm">
@@ -89,7 +89,6 @@ export const ReviewOrder = () => {
           ) : (
             <p className="text-sm text-red-500">No shipping address found.</p>
           )}
-          {/* <p className="underline text-secondary text-sm">change address</p> */}
         </div>
       </div>
 
@@ -108,7 +107,7 @@ export const ReviewOrder = () => {
       <div className="my-3">
         <h1 className="text-lg font-semibold mb-2">Shipping Methods</h1>
         {shippingMethods.length > 0 ? (
-          <div className="flex flex-wrap gap-4">
+          <div className=" gap-4">
             {shippingMethods.map((method: any) => (
               <div
                 key={method.id}
@@ -121,7 +120,7 @@ export const ReviewOrder = () => {
                   name="shippingMethod"
                   value={method.id}
                   checked={selectedShippingMethod === method.id}
-                  onChange={() => handleRadioChange(method.id)}
+                  onChange={() => handleRadioChange(method.id)} // Pass the ID
                 />
               </div>
             ))}
