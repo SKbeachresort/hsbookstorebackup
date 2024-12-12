@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CheckOutStepper from "@/components/Checkout/CheckOutStepper";
 import ShippingBillingsDetails from "@/components/Checkout/ShippingBillingsDetails";
@@ -11,7 +11,6 @@ import { useCart } from "@/context/CartContext";
 import { useParams } from "next/navigation";
 
 const Checkout = () => {
-
   const { channel, locale } = useParams();
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -30,6 +29,12 @@ const Checkout = () => {
     }
   };
 
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
   const steps = [
     "Shipping & Billing Details",
     "Review Details",
@@ -39,13 +44,28 @@ const Checkout = () => {
 
   const stepContent = [
     <ShippingBillingsDetails onNext={handleNext} />,
-    <ReviewOrder />,
-    <SelectPaymentMethod />,
+    <ReviewOrder onBack={handleBack} />,
+    <SelectPaymentMethod onBack={handleBack}/>,
     <OrderPlacedStatus />,
   ];
 
   const isSecondLastStep = currentStep === stepContent.length - 2;
   const isFinalStep = currentStep === stepContent.length - 1;
+
+  useEffect(() => {
+    const customBackHandler = () => {
+      if (currentStep > 0) {
+        setCurrentStep((prev) => prev - 1);
+      } else {
+        window.history.back();
+      }
+    };
+    window.addEventListener("popstate", customBackHandler);
+
+    return () => {
+      window.removeEventListener("popstate", customBackHandler);
+    };
+  }, [currentStep]);
 
   return (
     <div className="w-[95%] xl:w-[85%] py-5 3xl:w-[75%] mx-auto sm:px-10 lg:px-12">
@@ -89,7 +109,6 @@ const Checkout = () => {
             )}
           </div>
         </div>
-
       </div>
     </div>
   );

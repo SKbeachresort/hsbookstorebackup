@@ -1,5 +1,5 @@
 mutation checkoutBillingAddressUpdate(
-  $checkoutId: String!
+  $checkoutId: ID!
   $billingAddress: AddressInput!
 ) {
   checkoutBillingAddressUpdate(

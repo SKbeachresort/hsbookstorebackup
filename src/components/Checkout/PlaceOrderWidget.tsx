@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Modal from "@/app/elements/Modal";
 import Loader from "@/app/elements/Loader";
@@ -7,6 +7,8 @@ import CreateAccount from "../Authentication/CreateAccount";
 import { useRegions } from "@/context/RegionProviders";
 import { getUserDetails } from "@/hooks/getUser";
 import { useIsAuthenticated } from "@/hooks/userIsAuthenticated";
+import { useCheckoutShippingMethodUpdateMutation } from "../../../gql/graphql";
+import { LanguageCodeEnum } from "../../../gql/graphql";
 
 interface PlaceOrderWidgetProps {
   channel: string;
@@ -27,25 +29,60 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   isSecondLastStep,
   onNext,
 }) => {
-
   const { currentChannel } = useRegions();
-  const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(false);
+  const checkoutID = localStorage.getItem("checkoutID");
+  const shippingMethodID = localStorage.getItem("shippingMethodSelectedId");
+  const [shippingFee, setShippingFee] = useState<number | null>(null);
+  const [shippingName, setShippingName] = useState<string | null>(null);
 
-  const isAuthenticated = useIsAuthenticated();
-  const { user } = getUserDetails();
+  const Locale = locale;
 
-  const openModal = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setIsLogin(true);
-    }, 2000);
-  };
+  const [checkoutShippingMethodUpdate] = useCheckoutShippingMethodUpdateMutation();
 
-  const closeModal = () => {
-    setIsLogin(false);
-  };
+  useEffect(() => {
+
+    console.log("Making API call with", { checkoutID, shippingMethodID });
+    if (checkoutID && shippingMethodID) {
+      setLoading(true);
+
+      checkoutShippingMethodUpdate({
+        variables: {
+          id: checkoutID,
+          deliveryMethodId: shippingMethodID,
+          locale: "EN_US" as LanguageCodeEnum,
+        },
+      })
+        .then((response) => {
+          console.log("Shipping Method Updated", response);
+          const TotalAmoutPayable =
+            response.data?.checkoutDeliveryMethodUpdate?.checkout?.totalPrice
+              ?.gross?.amount;
+
+          const ShippingMethod =
+            response.data?.checkoutDeliveryMethodUpdate?.checkout
+              ?.deliveryMethod;
+          if (ShippingMethod) {
+            setShippingFee(
+              ShippingMethod?.__typename === "ShippingMethod"
+                ? ShippingMethod?.price?.amount
+                : 0
+            );
+            setShippingName(
+              ShippingMethod?.__typename === "ShippingMethod"
+                ? ShippingMethod?.name
+                : "Free"
+            );
+          }
+        })
+        .catch((error) => {
+          console.log("Error updating shipping method", error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }, [locale, checkoutShippingMethodUpdate]);
 
   const handleNext = () => {
     setLoading(true);
@@ -56,6 +93,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   };
 
   const CurrencyCode = currentChannel?.currencyCode;
+  const TotatalPaybleAmount = totalAmount + (shippingFee ?? 0);
 
   return (
     <>
@@ -66,16 +104,21 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
           <div className="flex justify-between">
             <span className="text-sm">Subtotal ({cartItems.length} items)</span>
             <span>
-              {CurrencyCode} {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              {CurrencyCode}{" "}
+              {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </span>
           </div>
           <div className="flex justify-between my-1">
-            <span className="text-xs text-textgray">Shipping</span>
-            <span className="text-secondary text-xs">Free</span>
+            <span className="text-xs text-textgray">
+              Shipping ({shippingName})
+            </span>
+            <span className="text-secondary text-xs">
+              {CurrencyCode} {shippingFee?.toFixed(3)}
+            </span>
           </div>
           <div className="flex justify-between mb-2">
             <span className="text-xs">Taxes</span>
-            <span className="text-xs">Calculated at checkout</span>
+            <span className="text-xs">0</span>
           </div>
         </div>
 
@@ -84,7 +127,11 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
           <div className="flex justify-between font-bold text-md">
             <span>Total</span>
             <span>
-              {CurrencyCode} {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              {CurrencyCode}{" "}
+              {TotatalPaybleAmount.toFixed(3).replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ","
+              )}
             </span>
           </div>
         </div>
@@ -102,34 +149,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
         >
           {loading ? <Loader /> : isSecondLastStep ? "Place Order" : "Checkout"}
         </button>
-        {/* </Link> */}
-
-        {isAuthenticated && user ? (
-          <>
-            <div className="text-sm mt-2">
-              Current User Signed:{" "}
-              <span className="ml-2 font-semibold text-secondary">
-                {user?.firstName}{" "} {user?.lastName}
-              </span>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="text-sm mt-2 underline">
-              For the best experience{" "}
-              <a href="#" className="ml-2 font-semibold text-secondary">
-                Sign in
-              </a>
-            </div>
-          </>
-        )}
-
       </div>
-
-      {/* Modal */}
-      <Modal isOpen={isLogin} onClose={closeModal}>
-        <CreateAccount closeModal={closeModal} channel={channel} locale={locale}/>
-      </Modal>
     </>
   );
 };

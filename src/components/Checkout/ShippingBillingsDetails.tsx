@@ -48,7 +48,7 @@ interface ShippingFormInputs {
   city: string;
   token: string;
   agreeToTerms: boolean;
-};
+}
 
 const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
   onNext,
@@ -59,19 +59,28 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
   const [loading, setLoading] = useState(false);
   const token = getAccessToken();
 
+  const savedShippingAddress = localStorage.getItem("shippingAddress");
+  const initialShippingData = savedShippingAddress
+    ? JSON.parse(savedShippingAddress)
+    : null;
+
   const form = useForm<ShippingFormInputs>({
     defaultValues: {
-      country: null,
-      countryArea: "",
-      firstName: "",
-      lastName: "",
-      phone: "",
-      companyName: "",
-      streetAddress1: "",
-      streetAddress2: "",
-      postalCode: "",
-      city: "",
-      agreeToTerms: false,
+      country: initialShippingData
+        ? {
+            value: initialShippingData.country.code,
+            label: initialShippingData.country.country,
+          }
+        : null,
+      countryArea: initialShippingData?.countryArea || "",
+      firstName: initialShippingData?.firstName || "",
+      lastName: initialShippingData?.lastName || "",
+      phone: initialShippingData?.phone || "",
+      companyName: initialShippingData?.companyName || "",
+      streetAddress1: initialShippingData?.streetAddress1 || "",
+      streetAddress2: initialShippingData?.streetAddress2 || "",
+      postalCode: initialShippingData?.postalCode || "",
+      city: initialShippingData?.city || "",
     },
   });
 
@@ -99,7 +108,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
       toast.error("Please fill in all required fields!");
       setLoading(false);
       return;
-    }
+    };
 
     try {
       // Call Shipping API
@@ -119,6 +128,11 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
             companyName: data.companyName,
           },
         },
+        context: {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+        },
       });
 
       console.log("Shipping Response:", shippingResponse);
@@ -129,7 +143,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
         toast.error(`${errors[0].message}`);
       };
 
-      if(!data.agreeToTerms) {
+      if (!data.agreeToTerms) {
         toast.error("Please agree to the terms and conditions!");
         setLoading(false);
         return;
@@ -152,6 +166,11 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
               companyName: data.companyName,
             },
           },
+          context: {
+            headers: {
+              Authorization: token ? `Bearer ${token}` : "",
+            },
+          },
         });
 
         console.log("Billing Response:", billingResponse);
@@ -170,14 +189,14 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
           const shippingAdress =
             shippingResponse.data?.checkoutShippingAddressUpdate?.checkout
               ?.shippingAddress;
-          const JsonShippingAdress = JSON.stringify(shippingAdress);    
+          const JsonShippingAdress = JSON.stringify(shippingAdress);
           const JsonShippingMethodId = JSON.stringify(shippingMethodId);
           localStorage.setItem("shippingMethodId", JsonShippingMethodId);
           localStorage.setItem("shippingAddress", JsonShippingAdress);
           onNext();
           reset();
-        }
-      }
+        };
+      };
     } catch (error) {
       console.error(error);
       toast.error("An error occurred. Please try again.");

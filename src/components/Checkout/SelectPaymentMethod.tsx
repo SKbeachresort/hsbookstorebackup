@@ -9,79 +9,107 @@ import cod from "../../../public/cod.jpg";
 import { ViaCreditCard } from "./paymentmode/ViaCreditCard";
 import { ViaDebitCard } from "./paymentmode/ViaDebitCard";
 import { ViaCashOnDelivery } from "./paymentmode/ViaCashOnDelivery";
+import { IoArrowBackOutline } from "react-icons/io5";
 
-export const SelectPaymentMethod = () => {
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState("credit-card");
+interface SelectPaymentMethodProps {
+  onBack: () => void;
+};
+
+export const SelectPaymentMethod: React.FC<SelectPaymentMethodProps> = ({
+  onBack,
+}) => {
+
+  const shippingAddress = localStorage.getItem("shippingAddress");
+  
+  const parsedShippingAddress = shippingAddress ? JSON.parse(shippingAddress) : null;
+
+  const CurrentCountry = parsedShippingAddress?.country.country;
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
+    CurrentCountry === "Kuwait" ? "debit-card" : "credit-card"
+  );
 
   const handleRadioChange = (value: string) => {
     setSelectedPaymentMethod(value);
   };
 
+  const paymentOptions =
+    CurrentCountry === "Kuwait"
+      ? [
+          {
+            label: "Pay with Debit Card",
+            value: "debit-card",
+            icon: debitcard,
+          },
+          {
+            label: "Pay with Credit Card",
+            value: "credit-card",
+            icon: visa,
+            icon2: mastercard,
+          },
+          { label: "Cash on Delivery", value: "cash-on-delivery", icon: cod },
+        ]
+      : [
+          {
+            label: "Pay with Credit Card",
+            value: "credit-card",
+            icon: visa,
+            icon2: mastercard,
+          },
+          {
+            label: "Pay with Debit Card",
+            value: "debit-card",
+            icon: debitcard,
+          },
+          { label: "Cash on Delivery", value: "cash-on-delivery", icon: cod },
+        ];
+
   return (
-    <div className="">
+    <div>
+      <div className="top-10 z-20">
+        <button onClick={onBack}>
+          <IoArrowBackOutline className="text-secondary text-xl" />
+        </button>
+      </div>
+
       <h1 className="text-lg font-semibold mb-3">Select Payment Method</h1>
 
-      {/* Select Payment Option */}
+      {/* Render Payment Options */}
       <div className="flex flex-row justify-between">
-        <div
-          className={`w-[32%] border-2 ${
-            selectedPaymentMethod === "credit-card"
-              ? " border-secondary"
-              : "border-disableGray"
-          } rounded-lg p-2`}
-        >
-          <RadioButton
-            label="Pay with Credit Card   "
-            name="options"
-            value="credit-card"
-            checked={selectedPaymentMethod === "credit-card"}
-            onChange={handleRadioChange}
-          />
-
-          <div className="flex flex-row my-2 space-x-2 ml-8">
-            <Image src={visa} alt="visa" width={40} height={32} />
-            <Image src={mastercard} alt="mastercard" width={40} height={32} />
+        {paymentOptions.map((option) => (
+          <div
+            key={option.value}
+            className={`w-[32%] border-2 ${
+              selectedPaymentMethod === option.value
+                ? "border-secondary"
+                : "border-disableGray"
+            } rounded-lg p-2`}
+          >
+            <RadioButton
+              label={option.label}
+              name="options"
+              value={option.value}
+              checked={selectedPaymentMethod === option.value}
+              onChange={handleRadioChange}
+            />
+            <div className="flex flex-row my-2 space-x-2 ml-8">
+              <Image
+                src={option.icon}
+                alt={option.value}
+                width={40}
+                height={32}
+              />
+              {option.icon2 && (
+                <Image
+                  src={option.icon2}
+                  alt={`${option.value}-secondary`}
+                  width={40}
+                  height={32}
+                />
+              )}
+            </div>
           </div>
-        </div>
-
-        <div
-          className={`w-[32%] border-2 ${
-            selectedPaymentMethod === "debit-card"
-              ? " border-secondary"
-              : "border-disableGray"
-          } rounded-lg p-2`}
-        >
-          <RadioButton
-            label="Pay with Debit Card   "
-            name="options"
-            value="debit-card"
-            checked={selectedPaymentMethod === "debit-card"}
-            onChange={handleRadioChange}
-          />
-          <div className="flex flex-row my-2 space-x-2 ml-8">
-            <Image src={debitcard} alt="debitcard" width={40} height={32} />
-          </div>
-        </div>
-
-        <div
-          className={`w-[32%] border-2 ${
-            selectedPaymentMethod === "cash-on-delivery"
-              ? " border-secondary"
-              : "border-disableGray"
-          } rounded-lg p-2`}
-        >
-          <RadioButton
-            label="Cash on Delivery   "
-            name="options"
-            value="cash-on-delivery"
-            checked={selectedPaymentMethod === "cash-on-delivery"}
-            onChange={handleRadioChange}
-          />
-          <div className="flex flex-row my-2 space-x-2 ml-8">
-            <Image src={cod} alt="cod" width={80} height={32} />
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Payment Mode */}
