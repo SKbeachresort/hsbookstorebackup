@@ -13,7 +13,7 @@ const CheckOutStepper: React.FC<CheckOutStepperProps> = ({
   const isLastStep = currentStep === steps.length - 1;
 
   return (
-    <div className="flex justify-between items-center mx-auto my-6">
+    <div className="flex justify-between items-start md:items-center mx-auto my-6">
       
       {steps.map((step, index) => {
         const isCompleted = isLastStep ? true : index < currentStep;
@@ -43,7 +43,7 @@ const CheckOutStepper: React.FC<CheckOutStepperProps> = ({
 
             {/* Step Label */}
             <p
-              className={`mt-2 text-sm ${
+              className={`mt-2 text-xs text-wrap text-center md:text-sm ${
                 isActive
                   ? "font-bold text-secondary"
                   : isLastStep && index === steps.length - 1
