@@ -17,18 +17,26 @@ import Select from "react-select";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import CountryData from "@/data/CountryLabel.json";
+import { getAccessToken } from "@/utils/accessToken";
+import { Checkbox } from "../ui/checkbox";
+import { useCheckoutShippingAddressUpdateMutation } from "../../../gql/graphql";
+import { useCheckoutBillingAddressUpdateMutation } from "../../../gql/graphql";
 
-interface OptionType {
-  value: string;
+import { CountryCode } from "../../../gql/graphql";
+
+interface CountryOption {
+  value: CountryCode;
   label: string;
 };
+
+type CountryDataType = typeof CountryData;
 
 interface ShippingDetailsProps {
   onNext: () => void;
 };
 
 interface ShippingFormInputs {
-  country: OptionType | null;
+  country: CountryOption | null;
   countryArea: string;
   firstName: string;
   lastName: string;
@@ -38,14 +46,18 @@ interface ShippingFormInputs {
   streetAddress2: string;
   postalCode: string;
   city: string;
+  token: string;
+  agreeToTerms: boolean;
 };
 
 const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
   onNext,
 }) => {
   const { cartItems } = useCart();
-  const checkoutId = localStorage.getItem("checkoutId");
+  const checkoutId = localStorage.getItem("checkoutID") || "";
+  // console.log("Checkout ID:", checkoutId);
   const [loading, setLoading] = useState(false);
+  const token = getAccessToken();
 
   const form = useForm<ShippingFormInputs>({
     defaultValues: {
@@ -59,21 +71,119 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
       streetAddress2: "",
       postalCode: "",
       city: "",
+      agreeToTerms: false,
     },
   });
 
   const { handleSubmit, reset } = form;
 
-  const onSubmit: SubmitHandler<ShippingFormInputs> = (data) => {
-    setLoading(true);
-    console.log("Shipping Details:", data);
+  const [shipping, { loading: shippingLoading }] =
+    useCheckoutShippingAddressUpdateMutation();
 
-    setTimeout(() => {
-      toast.success("Shipping details saved successfully!");
+  const [billing, { loading: billingLoading }] =
+    useCheckoutBillingAddressUpdateMutation();
+
+  const onSubmit: SubmitHandler<ShippingFormInputs> = async (data) => {
+    setLoading(true);
+
+    if (
+      !data.agreeToTerms &&
+      (!data.country ||
+        !data.firstName ||
+        !data.lastName ||
+        !data.phone ||
+        !data.streetAddress1 ||
+        !data.city ||
+        !data.postalCode)
+    ) {
+      toast.error("Please fill in all required fields!");
       setLoading(false);
-      onNext();
-      reset();
-    }, 1000);
+      return;
+    }
+
+    try {
+      // Call Shipping API
+      const shippingResponse = await shipping({
+        variables: {
+          checkoutId: checkoutId,
+          shippingAddress: {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            streetAddress1: data.streetAddress1,
+            streetAddress2: data.streetAddress2,
+            city: data.city,
+            postalCode: data.postalCode,
+            countryArea: data.countryArea,
+            country: data.country?.value,
+            phone: data.phone,
+            companyName: data.companyName,
+          },
+        },
+      });
+
+      console.log("Shipping Response:", shippingResponse);
+      const errors =
+        shippingResponse.data?.checkoutShippingAddressUpdate?.errors;
+
+      if (errors && errors.length > 0) {
+        toast.error(`${errors[0].message}`);
+      };
+
+      if(!data.agreeToTerms) {
+        toast.error("Please agree to the terms and conditions!");
+        setLoading(false);
+        return;
+      };
+
+      if (data.agreeToTerms) {
+        const billingResponse = await billing({
+          variables: {
+            checkoutId: checkoutId,
+            billingAddress: {
+              firstName: data.firstName,
+              lastName: data.lastName,
+              streetAddress1: data.streetAddress1,
+              streetAddress2: data.streetAddress2,
+              city: data.city,
+              postalCode: data.postalCode,
+              countryArea: data.countryArea,
+              country: data.country?.value,
+              phone: data.phone,
+              companyName: data.companyName,
+            },
+          },
+        });
+
+        console.log("Billing Response:", billingResponse);
+        const errors =
+          billingResponse.data?.checkoutBillingAddressUpdate?.errors;
+
+        if (errors && errors.length > 0) {
+          toast.error(`${errors[0].message}`);
+        } else {
+          toast.success("Shipping details saved successfully!");
+
+          const shippingMethodId =
+            shippingResponse.data?.checkoutShippingAddressUpdate?.checkout
+              ?.shippingMethods;
+
+          const shippingAdress =
+            shippingResponse.data?.checkoutShippingAddressUpdate?.checkout
+              ?.shippingAddress;
+          const JsonShippingAdress = JSON.stringify(shippingAdress);    
+          const JsonShippingMethodId = JSON.stringify(shippingMethodId);
+          localStorage.setItem("shippingMethodId", JsonShippingMethodId);
+          localStorage.setItem("shippingAddress", JsonShippingAdress);
+          onNext();
+          reset();
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -87,7 +197,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-[90%] md:w-[70%] lg:w-[60%]"
         >
-          <h1 className="text-md font-semibold">1. Shieepping Address</h1>
+          <h1 className="text-md font-semibold">1. Shipping Address</h1>
 
           <div className="my-4">
             <FormField
@@ -97,8 +207,10 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                 <FormItem>
                   <FormLabel>*Country / Label</FormLabel>
                   <FormControl>
-                    <Select<OptionType>
-                      options={CountryData.data.countryOptions} 
+                    <Select<CountryOption>
+                      options={
+                        CountryData.data.countryOptions as CountryOption[]
+                      }
                       {...field}
                       onChange={(selectedOption) => {
                         field.onChange(selectedOption);
@@ -107,7 +219,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                           selectedOption?.value
                         );
                       }}
-                      getOptionLabel={(e) => e.label} 
+                      getOptionLabel={(e) => e.label}
                       getOptionValue={(e) => e.value}
                       placeholder="Select Country"
                     />
@@ -143,7 +255,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                   <FormItem>
                     <FormLabel>*First Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Floor" {...field} />
+                      <Input placeholder="Enter First Name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -158,7 +270,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                   <FormItem>
                     <FormLabel>*Last Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Apartment" {...field} />
+                      <Input placeholder="Enter Last Name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -177,10 +289,12 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                   <FormControl>
                     <PhoneInput
                       {...field}
-                      country={form.watch("country")?.value?.toLowerCase() || "kw"}
+                      country={
+                        form.watch("country")?.value?.toLowerCase() || "kw"
+                      }
                       onChange={(value) => field.onChange(value)}
                       placeholder="Enter Phone Number"
-                      inputClass="w-full"         
+                      inputClass="w-full"
                     />
                   </FormControl>
                   <FormMessage />
@@ -192,7 +306,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
           <div className="my-4 w-full">
             <FormField
               control={form.control}
-              name="phone"
+              name="companyName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>*Company Name</FormLabel>
@@ -214,7 +328,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                   <FormItem>
                     <FormLabel>*Flat No</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Block" {...field} />
+                      <Input placeholder="Enter Flat no." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -245,9 +359,9 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                 name="city"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>*Floor</FormLabel>
+                    <FormLabel>*City</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Floor" {...field} />
+                      <Input placeholder="Enter City" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -260,9 +374,9 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                 name="postalCode"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>*Apartment</FormLabel>
+                    <FormLabel>*Postal Code</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Apartment" {...field} />
+                      <Input placeholder="Enter Postal Code" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -270,6 +384,30 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
               />
             </div>
           </div>
+
+          {/* Checkbox */}
+          <FormField
+            control={form.control}
+            name="agreeToTerms"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex items-center space-x-2 my-3">
+                  <Checkbox
+                    id="terms"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                  <FormLabel
+                    className="font-normal text-xs text-textgray"
+                    htmlFor="terms"
+                  >
+                    Add Billing Address same as the Shipping Address
+                  </FormLabel>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Loading..." : "Save and Continue"}

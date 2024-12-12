@@ -1,4 +1,7 @@
-mutation checkout_address($checkoutId: ID!, $shippingAddress: AddressInput!) {
+mutation checkoutShippingAddressUpdate(
+  $checkoutId: String!
+  $shippingAddress: AddressInput!
+) {
   checkoutShippingAddressUpdate(
     shippingAddress: $shippingAddress
     checkoutId: $checkoutId

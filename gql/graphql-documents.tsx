@@ -33274,13 +33274,13 @@ export type UserTokenCreateMutationVariables = Exact<{
 
 export type UserTokenCreateMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
 
-export type Checkout_AddressMutationVariables = Exact<{
+export type CheckoutShippingAddressUpdateMutationVariables = Exact<{
   checkoutId: Scalars['ID']['input'];
   shippingAddress: AddressInput;
 }>;
 
 
-export type Checkout_AddressMutation = { __typename?: 'Mutation', checkoutShippingAddressUpdate?: { __typename?: 'CheckoutShippingAddressUpdate', errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null }>, checkout?: { __typename?: 'Checkout', id: string, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingMethods: Array<{ __typename?: 'ShippingMethod', id: string, name: string, active: boolean, price: { __typename?: 'Money', amount: number, currency: string } }> } | null } | null };
+export type CheckoutShippingAddressUpdateMutation = { __typename?: 'Mutation', checkoutShippingAddressUpdate?: { __typename?: 'CheckoutShippingAddressUpdate', errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null }>, checkout?: { __typename?: 'Checkout', id: string, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingMethods: Array<{ __typename?: 'ShippingMethod', id: string, name: string, active: boolean, price: { __typename?: 'Money', amount: number, currency: string } }> } | null } | null };
 
 export type CheckoutBillingAddressUpdateMutationVariables = Exact<{
   checkoutId: Scalars['ID']['input'];
@@ -44628,8 +44628,8 @@ export const UserTokenCreateDocument = new TypedDocumentString(`
   isConfirmed
   isActive
 }`) as unknown as TypedDocumentString<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
-export const Checkout_AddressDocument = new TypedDocumentString(`
-    mutation checkout_address($checkoutId: ID!, $shippingAddress: AddressInput!) {
+export const CheckoutShippingAddressUpdateDocument = new TypedDocumentString(`
+    mutation checkoutShippingAddressUpdate($checkoutId: ID!, $shippingAddress: AddressInput!) {
   checkoutShippingAddressUpdate(
     shippingAddress: $shippingAddress
     checkoutId: $checkoutId
@@ -44680,7 +44680,7 @@ export const Checkout_AddressDocument = new TypedDocumentString(`
     __typename
   }
   __typename
-}`) as unknown as TypedDocumentString<Checkout_AddressMutation, Checkout_AddressMutationVariables>;
+}`) as unknown as TypedDocumentString<CheckoutShippingAddressUpdateMutation, CheckoutShippingAddressUpdateMutationVariables>;
 export const CheckoutBillingAddressUpdateDocument = new TypedDocumentString(`
     mutation checkoutBillingAddressUpdate($checkoutId: ID!, $billingAddress: AddressInput!) {
   checkoutBillingAddressUpdate(

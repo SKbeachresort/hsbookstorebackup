@@ -2,7 +2,6 @@
 import React,{useEffect, useState} from "react";
 import { useGetLoginUserDetailsQuery } from "../../gql/graphql";
 import { getAccessToken } from "@/utils/accessToken";
-import { getServerAuthClient } from "@/lib/SaleorAuthServer";
 
 export const getUserDetails = () => {
 
@@ -25,7 +24,7 @@ export const getUserDetails = () => {
     fetchPolicy: "network-only",
   });
 
-  console.log("Data:", data);
+  // console.log("Data:", data);
 
   return {
     user: data?.me || null,

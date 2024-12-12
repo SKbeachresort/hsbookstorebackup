@@ -33467,13 +33467,13 @@ export type UserTokenCreateMutationVariables = Exact<{
 
 export type UserTokenCreateMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
 
-export type Checkout_AddressMutationVariables = Exact<{
+export type CheckoutShippingAddressUpdateMutationVariables = Exact<{
   checkoutId: Scalars['ID']['input'];
   shippingAddress: AddressInput;
 }>;
 
 
-export type Checkout_AddressMutation = { __typename?: 'Mutation', checkoutShippingAddressUpdate?: { __typename?: 'CheckoutShippingAddressUpdate', errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null }>, checkout?: { __typename?: 'Checkout', id: string, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingMethods: Array<{ __typename?: 'ShippingMethod', id: string, name: string, active: boolean, price: { __typename?: 'Money', amount: number, currency: string } }> } | null } | null };
+export type CheckoutShippingAddressUpdateMutation = { __typename?: 'Mutation', checkoutShippingAddressUpdate?: { __typename?: 'CheckoutShippingAddressUpdate', errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null }>, checkout?: { __typename?: 'Checkout', id: string, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingMethods: Array<{ __typename?: 'ShippingMethod', id: string, name: string, active: boolean, price: { __typename?: 'Money', amount: number, currency: string } }> } | null } | null };
 
 export type CheckoutBillingAddressUpdateMutationVariables = Exact<{
   checkoutId: Scalars['ID']['input'];
@@ -34220,8 +34220,8 @@ export function useUserTokenCreateMutation(baseOptions?: Apollo.MutationHookOpti
 export type UserTokenCreateMutationHookResult = ReturnType<typeof useUserTokenCreateMutation>;
 export type UserTokenCreateMutationResult = Apollo.MutationResult<UserTokenCreateMutation>;
 export type UserTokenCreateMutationOptions = Apollo.BaseMutationOptions<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
-export const Checkout_AddressDocument = gql`
-    mutation checkout_address($checkoutId: ID!, $shippingAddress: AddressInput!) {
+export const CheckoutShippingAddressUpdateDocument = gql`
+    mutation checkoutShippingAddressUpdate($checkoutId: ID!, $shippingAddress: AddressInput!) {
   checkoutShippingAddressUpdate(
     shippingAddress: $shippingAddress
     checkoutId: $checkoutId
@@ -34248,33 +34248,33 @@ export const Checkout_AddressDocument = gql`
   }
 }
     ${AddressDetailsFragmentFragmentDoc}`;
-export type Checkout_AddressMutationFn = Apollo.MutationFunction<Checkout_AddressMutation, Checkout_AddressMutationVariables>;
+export type CheckoutShippingAddressUpdateMutationFn = Apollo.MutationFunction<CheckoutShippingAddressUpdateMutation, CheckoutShippingAddressUpdateMutationVariables>;
 
 /**
- * __useCheckout_AddressMutation__
+ * __useCheckoutShippingAddressUpdateMutation__
  *
- * To run a mutation, you first call `useCheckout_AddressMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCheckout_AddressMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCheckoutShippingAddressUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCheckoutShippingAddressUpdateMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [checkoutAddressMutation, { data, loading, error }] = useCheckout_AddressMutation({
+ * const [checkoutShippingAddressUpdateMutation, { data, loading, error }] = useCheckoutShippingAddressUpdateMutation({
  *   variables: {
  *      checkoutId: // value for 'checkoutId'
  *      shippingAddress: // value for 'shippingAddress'
  *   },
  * });
  */
-export function useCheckout_AddressMutation(baseOptions?: Apollo.MutationHookOptions<Checkout_AddressMutation, Checkout_AddressMutationVariables>) {
+export function useCheckoutShippingAddressUpdateMutation(baseOptions?: Apollo.MutationHookOptions<CheckoutShippingAddressUpdateMutation, CheckoutShippingAddressUpdateMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<Checkout_AddressMutation, Checkout_AddressMutationVariables>(Checkout_AddressDocument, options);
+        return Apollo.useMutation<CheckoutShippingAddressUpdateMutation, CheckoutShippingAddressUpdateMutationVariables>(CheckoutShippingAddressUpdateDocument, options);
       }
-export type Checkout_AddressMutationHookResult = ReturnType<typeof useCheckout_AddressMutation>;
-export type Checkout_AddressMutationResult = Apollo.MutationResult<Checkout_AddressMutation>;
-export type Checkout_AddressMutationOptions = Apollo.BaseMutationOptions<Checkout_AddressMutation, Checkout_AddressMutationVariables>;
+export type CheckoutShippingAddressUpdateMutationHookResult = ReturnType<typeof useCheckoutShippingAddressUpdateMutation>;
+export type CheckoutShippingAddressUpdateMutationResult = Apollo.MutationResult<CheckoutShippingAddressUpdateMutation>;
+export type CheckoutShippingAddressUpdateMutationOptions = Apollo.BaseMutationOptions<CheckoutShippingAddressUpdateMutation, CheckoutShippingAddressUpdateMutationVariables>;
 export const CheckoutBillingAddressUpdateDocument = gql`
     mutation checkoutBillingAddressUpdate($checkoutId: ID!, $billingAddress: AddressInput!) {
   checkoutBillingAddressUpdate(

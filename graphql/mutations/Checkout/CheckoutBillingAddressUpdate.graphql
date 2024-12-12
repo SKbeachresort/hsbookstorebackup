@@ -1,4 +1,7 @@
-mutation checkoutBillingAddressUpdate($checkoutId: ID!, $billingAddress: AddressInput!) {
+mutation checkoutBillingAddressUpdate(
+  $checkoutId: String!
+  $billingAddress: AddressInput!
+) {
   checkoutBillingAddressUpdate(
     billingAddress: $billingAddress
     checkoutId: $checkoutId
