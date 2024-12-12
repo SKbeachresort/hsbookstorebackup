@@ -15,7 +15,7 @@ interface CheckOutWidgetProps {
   channel: string;
   totalAmount: number;
   cartItems: any[];
-}
+};
 
 export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   locale,
@@ -50,6 +50,11 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
 
   const handleProceedToCheckout = async () => {
 
+    if(!isAuthenticated){
+      openModal();
+      return;
+    };
+
     const checkoutLines = cartItems.map((items) => ({
       quantity: items.quantity,
       variantId: items.variantId,
@@ -67,14 +72,8 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
           channel: channel,
         },
       });
-
       console.log("Checkout Response: ", response);
-
-      if (isAuthenticated) {
-        router.replace(`/checkout`);
-      } else {
-        openModal();
-      }
+      router.replace(`/${channel}/${locale}/checkout`);
     } catch (error) {
       console.error("Checkout Error: ", error);
     }

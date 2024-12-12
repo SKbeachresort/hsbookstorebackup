@@ -26,6 +26,7 @@ import CustomButton from "@/app/elements/Button";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { IoArrowBackOutline } from "react-icons/io5";
+import { useCheckoutCreateMutation } from "../../../gql/graphql";
 
 interface AuthLoginUIProps {
   channel: string;
@@ -41,15 +42,29 @@ interface GuestFormInputs {
   email: string;
 };
 
+interface CartItem {
+  variantId: string;
+  quantity: number;
+};
+
 export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
   channel,
   locale,
 }) => {
-
+  
   const router = useRouter();
   const currentPath = usePathname();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [login, { loading, data, error }] = useUserTokenCreateMutation();
+  
+  const [
+    checkout,
+    { loading: checkoutLoading, data: checkoutData, error: checkoutError },
+  ] = useCheckoutCreateMutation();
+  
+  const cartItems: CartItem[] = JSON.parse(
+    localStorage.getItem("cartItems") || "[]"
+  );
 
   const [showGuestCheckout, setShowGuestCheckout] = useState(false);
 
@@ -68,12 +83,6 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
 
   const { reset } = form;
   const { reset: resetGuestForm } = guestForm;
-
-  const onSubmitGuestCheckout: SubmitHandler<GuestFormInputs> = (data) => {
-    localStorage.setItem("guestEmail", data.email);
-    console.log("Guest Email Entered:", data.email);
-    router.push(getRegionUrl(channel, locale, `checkout`));
-  };
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
@@ -95,7 +104,7 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
         if (token) {
           setCookie("accessToken", token, { maxAge: 7 * 24 * 60 * 60 });
           localStorage.setItem("accessToken", token);
-        }
+        };
 
         if (userId) {
           if (currentPath.includes("/cart")) {
@@ -117,6 +126,46 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
       toast.error("An error occurred. Please try again.");
       console.log("Error:", error);
     }
+  };
+
+  const onSubmitGuestCheckout: SubmitHandler<GuestFormInputs> = async (
+    data
+  ) => {
+    const checkoutLines = cartItems.map((items) => ({
+      quantity: items.quantity,
+      variantId: items.variantId,
+    }));
+
+    try {
+      const response = await checkout({
+        variables: {
+          lines: checkoutLines,
+          email: data.email,
+          channel: channel,
+        },
+      });
+
+      console.log("Guest Checkout response", response);
+      const errors = response.data?.checkoutCreate?.errors;
+
+      if (errors && errors.length > 0) {
+        toast.error(`${errors[0].message}`);
+        resetGuestForm();
+      } else {
+        const checkoutID = response.data?.checkoutCreate?.checkout?.id;
+        console.log("Success: Checkout ID", checkoutID);
+
+        if (checkoutID) {
+          localStorage.setItem("guestEmail", data.email);
+          localStorage.setItem("checkoutID", checkoutID);
+          setCookie("checkoutID", checkoutID, { maxAge: 7 * 24 * 60 * 60 });
+          toast.success("Checkout Initiated!");
+          router.push(getRegionUrl(channel, locale, `checkout`));
+        };
+      };
+    } catch (error) {
+      console.log("Error:", error);
+    };
   };
 
   return (
@@ -215,18 +264,14 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
       ) : (
         <>
           <div className="absolute top-10 z-20">
-            <button
-              onClick={() => setShowGuestCheckout(false)}
-            >
-              <IoArrowBackOutline className="text-secondary text-xl"/>
+            <button onClick={() => setShowGuestCheckout(false)}>
+              <IoArrowBackOutline className="text-secondary text-xl" />
             </button>
           </div>
 
           <div className="flex flex-col items-center mb-4">
             <Image src={HSlogo} alt="HS Logo" width={40} height={40} />
-            <h2 className="text-md font-semibold my-2">
-              Guest Checkout
-            </h2>
+            <h2 className="text-md font-semibold my-2">Guest Checkout</h2>
             <p className="text-[0.8rem] w-[80%] mx-auto text-center text-textgray">
               Enter your email to proceed as a guest.
             </p>
@@ -258,7 +303,7 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
               </div>
 
               <Button type="submit" className="w-full">
-                {loading ? <Loader /> : "Proceed"}
+                {checkoutLoading ? <Loader /> : "Proceed"}
               </Button>
             </form>
           </Form>
