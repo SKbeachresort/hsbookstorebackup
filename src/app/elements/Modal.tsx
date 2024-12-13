@@ -31,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({ children, isOpen, onClose }) => {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <div
-              className="bg-white rounded-lg p-6 w-full md:w-[55%] lg:w-[30%] shadow-lg"
+              className="bg-white rounded-lg p-6 w-[95%] md:w-[55%] lg:w-[30%] shadow-lg"
               onClick={(e) => e.stopPropagation()} 
             >
               {children}

@@ -11,5 +11,3 @@ mutation UserTokenCreate($email: String!, $password: String!) {
     }
   }
 }
-
-# input : { "email","password"} 

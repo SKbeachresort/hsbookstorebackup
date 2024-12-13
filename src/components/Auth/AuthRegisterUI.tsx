@@ -22,12 +22,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { useAccountRegisterMutation } from "../../../gql/graphql";
 import toast from "react-hot-toast";
-import { t } from "i18next";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 interface AuthRegisterUIProps {
   channel: string;
   locale: string;
-};
+}
 
 interface RegisterFormInputs {
   email: string;
@@ -41,6 +42,11 @@ interface RegisterFormInputs {
 
 const AuthRegisterUI: React.FC<AuthRegisterUIProps> = ({ channel, locale }) => {
   const [register, { loading, data, error }] = useAccountRegisterMutation();
+  const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
+  const [phone, setPhone] = useState<string>("");
+
+  const openModal = () => setIsOtpModalOpen(true);
+  const closeModal = () => setIsOtpModalOpen(false);
 
   const form = useForm<RegisterFormInputs>({
     defaultValues: {
@@ -54,13 +60,17 @@ const AuthRegisterUI: React.FC<AuthRegisterUIProps> = ({ channel, locale }) => {
     },
   });
 
-  const {reset} = form; 
+  const { reset } = form;
 
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
     if (data.password !== data.confirmPassword) {
       toast.error("Passwords do not match");
       return;
     };
+
+    console.log("Registering User:", data);
+
+    setPhone(data.phone);
 
     try {
       const response = await register({
@@ -70,8 +80,10 @@ const AuthRegisterUI: React.FC<AuthRegisterUIProps> = ({ channel, locale }) => {
             firstName: data.firstName,
             lastName: data.lastName,
             password: data.password,
+            phoneNumber: data.phone,
+            phoneNumberOptional: true,
             redirectUrl: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/${channel}/${locale}/auth/account-confirm`,
-            channel: channel, //change the channel to the correct channel
+            channel: channel,
           },
         },
       });
@@ -92,7 +104,8 @@ const AuthRegisterUI: React.FC<AuthRegisterUIProps> = ({ channel, locale }) => {
           "Email Confirmation Sent. Please verify your email to complete registration."
         );
         reset();
-      }
+        openModal();
+      };
     } catch (err) {
       console.error("Registration failed:", err);
     }
@@ -184,10 +197,12 @@ const AuthRegisterUI: React.FC<AuthRegisterUIProps> = ({ channel, locale }) => {
                       Phone Number
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Enter Phone Number"
+                      <PhoneInput
                         {...field}
+                        country={"kw"}
+                        onChange={(value) => field.onChange(`+${value}`)}
+                        placeholder="Enter Phone Number"
+                        inputClass="w-full"
                       />
                     </FormControl>
                     <FormMessage />
@@ -277,9 +292,14 @@ const AuthRegisterUI: React.FC<AuthRegisterUIProps> = ({ channel, locale }) => {
       </div>
 
       {/* OTP Modal */}
-      {/* <Modal isOpen={isOtpModalOpen} onClose={closeModal}>
-        <VerifyOTP closeModal={closeModal} channel={channel} locale={locale}/>
-      </Modal> */}
+      <Modal isOpen={isOtpModalOpen} onClose={closeModal}>
+        <VerifyOTP 
+          phone={phone} 
+          closeModal={closeModal} 
+          channel={channel} 
+          locale={locale}
+        />
+      </Modal>
     </div>
   );
 };

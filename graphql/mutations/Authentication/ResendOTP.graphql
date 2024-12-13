@@ -1,0 +1,6 @@
+mutation ResendOTP($phoneNumber: String!) {
+  resendOtp(phoneNumber: $phoneNumber) {
+    message
+    success
+  }
+}

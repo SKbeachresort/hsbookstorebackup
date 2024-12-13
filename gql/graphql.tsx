@@ -33494,6 +33494,13 @@ export type AccountRegisterMutationVariables = Exact<{
 
 export type AccountRegisterMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
 
+export type ResendOtpMutationVariables = Exact<{
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type ResendOtpMutation = { __typename?: 'Mutation', resendOtp?: { __typename?: 'ResendOtpMutation', message?: string | null, success?: boolean | null } | null };
+
 export type SendConfirmationEmailMutationVariables = Exact<{
   redirectUrl: Scalars['String']['input'];
   channel: Scalars['String']['input'];
@@ -33509,6 +33516,14 @@ export type UserTokenCreateMutationVariables = Exact<{
 
 
 export type UserTokenCreateMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+
+export type VerifyOtpMutationVariables = Exact<{
+  otp: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type VerifyOtpMutation = { __typename?: 'Mutation', verifyOtp?: { __typename?: 'VerifyOtpMutation', message?: string | null, success?: boolean | null } | null };
 
 export type CheckoutShippingAddressUpdateMutationVariables = Exact<{
   checkoutId: Scalars['ID']['input'];
@@ -34211,6 +34226,40 @@ export function useAccountRegisterMutation(baseOptions?: Apollo.MutationHookOpti
 export type AccountRegisterMutationHookResult = ReturnType<typeof useAccountRegisterMutation>;
 export type AccountRegisterMutationResult = Apollo.MutationResult<AccountRegisterMutation>;
 export type AccountRegisterMutationOptions = Apollo.BaseMutationOptions<AccountRegisterMutation, AccountRegisterMutationVariables>;
+export const ResendOtpDocument = gql`
+    mutation ResendOTP($phoneNumber: String!) {
+  resendOtp(phoneNumber: $phoneNumber) {
+    message
+    success
+  }
+}
+    `;
+export type ResendOtpMutationFn = Apollo.MutationFunction<ResendOtpMutation, ResendOtpMutationVariables>;
+
+/**
+ * __useResendOtpMutation__
+ *
+ * To run a mutation, you first call `useResendOtpMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResendOtpMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [resendOtpMutation, { data, loading, error }] = useResendOtpMutation({
+ *   variables: {
+ *      phoneNumber: // value for 'phoneNumber'
+ *   },
+ * });
+ */
+export function useResendOtpMutation(baseOptions?: Apollo.MutationHookOptions<ResendOtpMutation, ResendOtpMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ResendOtpMutation, ResendOtpMutationVariables>(ResendOtpDocument, options);
+      }
+export type ResendOtpMutationHookResult = ReturnType<typeof useResendOtpMutation>;
+export type ResendOtpMutationResult = Apollo.MutationResult<ResendOtpMutation>;
+export type ResendOtpMutationOptions = Apollo.BaseMutationOptions<ResendOtpMutation, ResendOtpMutationVariables>;
 export const SendConfirmationEmailDocument = gql`
     mutation SendConfirmationEmail($redirectUrl: String!, $channel: String!) {
   sendConfirmationEmail(redirectUrl: $redirectUrl, channel: $channel) {
@@ -34291,6 +34340,41 @@ export function useUserTokenCreateMutation(baseOptions?: Apollo.MutationHookOpti
 export type UserTokenCreateMutationHookResult = ReturnType<typeof useUserTokenCreateMutation>;
 export type UserTokenCreateMutationResult = Apollo.MutationResult<UserTokenCreateMutation>;
 export type UserTokenCreateMutationOptions = Apollo.BaseMutationOptions<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
+export const VerifyOtpDocument = gql`
+    mutation VerifyOtp($otp: String!, $phoneNumber: String!) {
+  verifyOtp(otp: $otp, phoneNumber: $phoneNumber) {
+    message
+    success
+  }
+}
+    `;
+export type VerifyOtpMutationFn = Apollo.MutationFunction<VerifyOtpMutation, VerifyOtpMutationVariables>;
+
+/**
+ * __useVerifyOtpMutation__
+ *
+ * To run a mutation, you first call `useVerifyOtpMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyOtpMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifyOtpMutation, { data, loading, error }] = useVerifyOtpMutation({
+ *   variables: {
+ *      otp: // value for 'otp'
+ *      phoneNumber: // value for 'phoneNumber'
+ *   },
+ * });
+ */
+export function useVerifyOtpMutation(baseOptions?: Apollo.MutationHookOptions<VerifyOtpMutation, VerifyOtpMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VerifyOtpMutation, VerifyOtpMutationVariables>(VerifyOtpDocument, options);
+      }
+export type VerifyOtpMutationHookResult = ReturnType<typeof useVerifyOtpMutation>;
+export type VerifyOtpMutationResult = Apollo.MutationResult<VerifyOtpMutation>;
+export type VerifyOtpMutationOptions = Apollo.BaseMutationOptions<VerifyOtpMutation, VerifyOtpMutationVariables>;
 export const CheckoutShippingAddressUpdateDocument = gql`
     mutation checkoutShippingAddressUpdate($checkoutId: ID!, $shippingAddress: AddressInput!) {
   checkoutShippingAddressUpdate(

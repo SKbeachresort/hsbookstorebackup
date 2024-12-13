@@ -33301,6 +33301,13 @@ export type AccountRegisterMutationVariables = Exact<{
 
 export type AccountRegisterMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
 
+export type ResendOtpMutationVariables = Exact<{
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type ResendOtpMutation = { __typename?: 'Mutation', resendOtp?: { __typename?: 'ResendOtpMutation', message?: string | null, success?: boolean | null } | null };
+
 export type SendConfirmationEmailMutationVariables = Exact<{
   redirectUrl: Scalars['String']['input'];
   channel: Scalars['String']['input'];
@@ -33316,6 +33323,14 @@ export type UserTokenCreateMutationVariables = Exact<{
 
 
 export type UserTokenCreateMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+
+export type VerifyOtpMutationVariables = Exact<{
+  otp: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type VerifyOtpMutation = { __typename?: 'Mutation', verifyOtp?: { __typename?: 'VerifyOtpMutation', message?: string | null, success?: boolean | null } | null };
 
 export type CheckoutShippingAddressUpdateMutationVariables = Exact<{
   checkoutId: Scalars['ID']['input'];
@@ -44695,6 +44710,14 @@ export const AccountRegisterDocument = new TypedDocumentString(`
   isConfirmed
   isActive
 }`) as unknown as TypedDocumentString<AccountRegisterMutation, AccountRegisterMutationVariables>;
+export const ResendOtpDocument = new TypedDocumentString(`
+    mutation ResendOTP($phoneNumber: String!) {
+  resendOtp(phoneNumber: $phoneNumber) {
+    message
+    success
+  }
+}
+    `) as unknown as TypedDocumentString<ResendOtpMutation, ResendOtpMutationVariables>;
 export const SendConfirmationEmailDocument = new TypedDocumentString(`
     mutation SendConfirmationEmail($redirectUrl: String!, $channel: String!) {
   sendConfirmationEmail(redirectUrl: $redirectUrl, channel: $channel) {
@@ -44731,6 +44754,14 @@ export const UserTokenCreateDocument = new TypedDocumentString(`
   isConfirmed
   isActive
 }`) as unknown as TypedDocumentString<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
+export const VerifyOtpDocument = new TypedDocumentString(`
+    mutation VerifyOtp($otp: String!, $phoneNumber: String!) {
+  verifyOtp(otp: $otp, phoneNumber: $phoneNumber) {
+    message
+    success
+  }
+}
+    `) as unknown as TypedDocumentString<VerifyOtpMutation, VerifyOtpMutationVariables>;
 export const CheckoutShippingAddressUpdateDocument = new TypedDocumentString(`
     mutation checkoutShippingAddressUpdate($checkoutId: ID!, $shippingAddress: AddressInput!) {
   checkoutShippingAddressUpdate(

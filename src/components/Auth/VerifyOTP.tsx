@@ -9,10 +9,13 @@ import { getRegionUrl } from "@/utils/regionUrl";
 import toast from "react-hot-toast";
 import { Checkbox } from "../ui/checkbox";
 import CustomButton from "@/app/elements/Button";
+import { useVerifyOtpMutation } from "../../../gql/graphql";
+import { useResendOtpMutation } from "../../../gql/graphql";
 
 interface VerifyOTPProps {
   channel: string;
   locale: string;
+  phone: string;
   closeModal: () => void;
 }
 
@@ -20,11 +23,16 @@ export const VerifyOTP: React.FC<VerifyOTPProps> = ({
   closeModal,
   channel,
   locale,
+  phone,
 }) => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const [resendTimer, setResendTimer] = useState(30);
   const [isResending, setIsResending] = useState(true);
   const [loading, setLoading] = useState(false);
+
+  const [verifyOtp] = useVerifyOtpMutation();
+  const [resendOtp] = useResendOtpMutation();
+
   const handleOtpChange = (newOtp: string[], index: number) => {
     setOtp(newOtp);
   };
@@ -47,9 +55,34 @@ export const VerifyOTP: React.FC<VerifyOTPProps> = ({
     };
   }, [isResending, resendTimer]);
 
-  const handleResend = () => {
+  const handleResend = async () => {
     setIsResending(true);
     setResendTimer(30);
+
+    try {
+      const response = await resendOtp({ variables: { phoneNumber: phone } });
+      console.log("Resend OTP Response:", response);
+    } catch (error) {
+      console.log("Resend OTP Error:", error);
+    }
+  };
+
+  const handleVerifyOTP = async () => {
+    const otpCode = otp.join("");
+
+    if (otpCode.length != 6) {
+      toast.error("Please enter 6 digit OTP code");
+      return;
+    }
+
+    try {
+      const response = await verifyOtp({
+        variables: { phoneNumber: phone, otp: otpCode },
+      });
+      console.log("Verify OTP Response:", response);
+    } catch (error) {
+      console.log("Verify OTP Error:", error);
+    }
   };
 
   return (
@@ -69,7 +102,7 @@ export const VerifyOTP: React.FC<VerifyOTPProps> = ({
         <h2 className="text-sm font-normal my-2">
           Please enter 6-digit code we sent to you phone number
         </h2>
-        <p className="text-md text-center font-semibold">+91 9689675896</p>
+        <p className="text-md text-center font-semibold">{phone}</p>
       </div>
 
       <Link href={getRegionUrl(channel, locale, `auth/forgot-password`)}>
@@ -114,7 +147,9 @@ export const VerifyOTP: React.FC<VerifyOTPProps> = ({
         </div>
 
         <div className="mt-6">
-          <CustomButton>Verify and Create Account</CustomButton>
+          <CustomButton onClick={handleVerifyOTP}>
+            Verify and Create Account
+          </CustomButton>
         </div>
       </div>
     </div>
