@@ -131,6 +131,12 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
   const onSubmitGuestCheckout: SubmitHandler<GuestFormInputs> = async (
     data
   ) => {
+
+    if(!data.email){
+      toast.error("Please enter your email address");
+      return;
+    };
+
     const checkoutLines = cartItems.map((items) => ({
       quantity: items.quantity,
       variantId: items.variantId,
@@ -145,7 +151,7 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
         },
       });
 
-      console.log("Guest Checkout response", response);
+      // console.log("Guest Checkout response", response);
       const errors = response.data?.checkoutCreate?.errors;
 
       if (errors && errors.length > 0) {

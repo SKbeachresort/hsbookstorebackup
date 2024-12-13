@@ -11,7 +11,6 @@ import { useCheckoutShippingMethodUpdateMutation } from "../../../gql/graphql";
 import { LanguageCodeEnum } from "../../../gql/graphql";
 import { useCheckoutPaymentCreateMutation } from "../../../gql/graphql";
 import { usePaymentInitializeMutation } from "../../../gql/graphql";
-import { set } from "react-hook-form";
 
 interface PlaceOrderWidgetProps {
   channel: string;
@@ -37,19 +36,33 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   const checkoutID = localStorage.getItem("checkoutID");
   const paymentMethod = localStorage.getItem("selectedPaymentMethod");
 
-  const shippingMethodID = localStorage.getItem("shippingMethodSelectedId");
+  const [shippingMethodID, setShippingMethodID] = useState<string | null>(
+    localStorage.getItem("shippingMethodSelectedId")
+  );
   const [shippingFee, setShippingFee] = useState<number | null>(null);
   const [shippingName, setShippingName] = useState<string | null>(null);
 
-  const [checkoutShippingMethodUpdate] = useCheckoutShippingMethodUpdateMutation();
+  const [checkoutShippingMethodUpdate, { loading: shippingLoading }] =
+    useCheckoutShippingMethodUpdateMutation();
+
   const [checkoutPaymentCreate] = useCheckoutPaymentCreateMutation();
   const [paymentInitialize] = usePaymentInitializeMutation();
 
   useEffect(() => {
-    console.log("Making API call with", { checkoutID, shippingMethodID });
-    if (checkoutID && shippingMethodID) {
-      setLoading(true);
+    const handleStorageChange = () => {
+      const updatedShippingMethodID = localStorage.getItem(
+        "shippingMethodSelectedId"
+      );
+      setShippingMethodID(updatedShippingMethodID);
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
+  useEffect(() => {
+    if (checkoutID && shippingMethodID) {
       checkoutShippingMethodUpdate({
         variables: {
           id: checkoutID,
@@ -58,7 +71,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
         },
       })
         .then((response) => {
-          console.log("Shipping Method Updated", response);
+          // console.log("Shipping Method Updated", response);
           const TotalAmoutPayable =
             response.data?.checkoutDeliveryMethodUpdate?.checkout?.totalPrice
               ?.gross?.amount;
@@ -81,9 +94,6 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
         })
         .catch((error) => {
           console.log("Error updating shipping method", error);
-        })
-        .finally(() => {
-          setLoading(false);
         });
     }
   }, [locale, checkoutShippingMethodUpdate]);
@@ -100,14 +110,14 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
         return;
       }, 2000);
       return;
-    };
+    }
 
     if (!checkoutID || !paymentMethod) {
       console.log("Checout Id in Select Payment Method", checkoutID);
       console.log("Payment Method in Select Payment Method", paymentMethod);
       console.log("Checkout ID or Payment Method not found");
       return;
-    };
+    }
 
     setLoading(true);
 
@@ -120,7 +130,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
       RedirectDomain: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/`,
     });
 
-    if(paymentMethod === "debit-card") {
+    if (paymentMethod === "debit-card") {
       try {
         const createPaymentResponse = await checkoutPaymentCreate({
           variables: {
@@ -129,7 +139,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
           },
         });
         console.log("Checkout ", createPaymentResponse);
-  
+
         const paymentInitializeResponse = await paymentInitialize({
           variables: {
             checkoutId: checkoutID,
@@ -144,25 +154,24 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
         const paymentURL = paymentInitializeResponse?.data?.paymentInitialize
           ?.initializedPayment?.data
           ? JSON.parse(
-              paymentInitializeResponse.data.paymentInitialize.initializedPayment
-                .data
+              paymentInitializeResponse.data.paymentInitialize
+                .initializedPayment.data
             ).PaymentURL
           : null;
-  
+
         if (paymentURL) {
           window.location.href = paymentURL;
         } else {
           console.error("Payment URL not found in the response");
-        };
+        }
       } catch (error) {
         console.log("Error creating payment", error);
-      };
+      }
 
       return;
-    };
+    }
 
-    if(paymentMethod === "credit-card") {
-      
+    if (paymentMethod === "credit-card") {
       try {
         const createPaymentResponse = await checkoutPaymentCreate({
           variables: {
@@ -171,7 +180,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
           },
         });
         console.log("Checkout ", createPaymentResponse);
-  
+
         const paymentInitializeResponse = await paymentInitialize({
           variables: {
             checkoutId: checkoutID,
@@ -186,18 +195,17 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
         const SessionId = paymentInitializeResponse?.data?.paymentInitialize
           ?.initializedPayment?.data
           ? JSON.parse(
-              paymentInitializeResponse.data.paymentInitialize.initializedPayment
-                .data
+              paymentInitializeResponse.data.paymentInitialize
+                .initializedPayment.data
             ).SessionId
           : null;
-  
+
         console.log("Session ID", SessionId);
       } catch (error) {
         console.log("Error creating payment", error);
-      };
+      }
       return;
-    };
-
+    }
   };
 
   return (
