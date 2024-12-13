@@ -33526,6 +33526,14 @@ export type CheckoutBillingAddressUpdateMutationVariables = Exact<{
 
 export type CheckoutBillingAddressUpdateMutation = { __typename?: 'Mutation', checkoutBillingAddressUpdate?: { __typename?: 'CheckoutBillingAddressUpdate', checkout?: { __typename?: 'Checkout', id: string, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null }> } | null };
 
+export type CompleteCheckoutMutationVariables = Exact<{
+  paymentData: Scalars['JSONString']['input'];
+  checkoutId: Scalars['ID']['input'];
+}>;
+
+
+export type CompleteCheckoutMutation = { __typename?: 'Mutation', checkoutComplete?: { __typename?: 'CheckoutComplete', confirmationData?: string | null, confirmationNeeded: boolean, errors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, message?: string | null, field?: string | null, lines?: Array<string> | null, variants?: Array<string> | null }>, order?: { __typename?: 'Order', actions: Array<OrderAction>, authorizeStatus: OrderAuthorizeStatusEnum, isPaid: boolean, paymentStatus: PaymentChargeStatusEnum, checkoutId?: string | null, created: string, userEmail?: string | null, totalCharged: { __typename?: 'Money', amount: number, currency: string }, totalCaptured: { __typename?: 'Money', amount: number, currency: string } } | null, checkoutErrors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, field?: string | null, lines?: Array<string> | null, message?: string | null, variants?: Array<string> | null }> } | null };
+
 export type CheckoutCreateMutationVariables = Exact<{
   lines: Array<CheckoutLineInput> | CheckoutLineInput;
   channel?: InputMaybe<Scalars['String']['input']>;
@@ -33534,6 +33542,26 @@ export type CheckoutCreateMutationVariables = Exact<{
 
 
 export type CheckoutCreateMutation = { __typename?: 'Mutation', checkoutCreate?: { __typename?: 'CheckoutCreate', checkout?: { __typename?: 'Checkout', id: string, lines: Array<{ __typename?: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } } }> } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null }> } | null };
+
+export type CheckoutPaymentCreateMutationVariables = Exact<{
+  checkoutId: Scalars['ID']['input'];
+  paymentInput: PaymentInput;
+}>;
+
+
+export type CheckoutPaymentCreateMutation = { __typename?: 'Mutation', checkoutPaymentCreate?: { __typename?: 'CheckoutPaymentCreate', checkout?: { __typename?: 'Checkout', availablePaymentGateways: Array<{ __typename?: 'PaymentGateway', name: string, id: string }> } | null, errors: Array<{ __typename?: 'PaymentError', field?: string | null, message?: string | null }>, payment?: { __typename?: 'Payment', id: string, gateway: string, paymentMethodType: string, pspReference?: string | null, chargeStatus: PaymentChargeStatusEnum } | null } | null };
+
+export type PaymentInitializeMutationVariables = Exact<{
+  checkoutId: Scalars['String']['input'];
+  gateway: Scalars['String']['input'];
+  channel: Scalars['String']['input'];
+  paymentData: Scalars['JSONString']['input'];
+  gatewayFlag: Scalars['Boolean']['input'];
+  embeddedFlag: Scalars['Boolean']['input'];
+}>;
+
+
+export type PaymentInitializeMutation = { __typename?: 'Mutation', paymentInitialize?: { __typename?: 'PaymentInitialize', initializedPayment?: { __typename?: 'PaymentInitialized', data?: string | null, gateway: string, name: string } | null, errors: Array<{ __typename?: 'PaymentError', field?: string | null, message?: string | null }> } | null };
 
 export type CheckoutShippingMethodUpdateMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -34364,6 +34392,74 @@ export function useCheckoutBillingAddressUpdateMutation(baseOptions?: Apollo.Mut
 export type CheckoutBillingAddressUpdateMutationHookResult = ReturnType<typeof useCheckoutBillingAddressUpdateMutation>;
 export type CheckoutBillingAddressUpdateMutationResult = Apollo.MutationResult<CheckoutBillingAddressUpdateMutation>;
 export type CheckoutBillingAddressUpdateMutationOptions = Apollo.BaseMutationOptions<CheckoutBillingAddressUpdateMutation, CheckoutBillingAddressUpdateMutationVariables>;
+export const CompleteCheckoutDocument = gql`
+    mutation completeCheckout($paymentData: JSONString!, $checkoutId: ID!) {
+  checkoutComplete(paymentData: $paymentData, checkoutId: $checkoutId) {
+    confirmationData
+    confirmationNeeded
+    errors {
+      addressType
+      code
+      message
+      field
+      lines
+      variants
+    }
+    order {
+      actions
+      authorizeStatus
+      isPaid
+      paymentStatus
+      checkoutId
+      created
+      userEmail
+      totalCharged {
+        amount
+        currency
+      }
+      totalCaptured {
+        amount
+        currency
+      }
+    }
+    checkoutErrors {
+      addressType
+      code
+      field
+      lines
+      message
+      variants
+    }
+  }
+}
+    `;
+export type CompleteCheckoutMutationFn = Apollo.MutationFunction<CompleteCheckoutMutation, CompleteCheckoutMutationVariables>;
+
+/**
+ * __useCompleteCheckoutMutation__
+ *
+ * To run a mutation, you first call `useCompleteCheckoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCompleteCheckoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [completeCheckoutMutation, { data, loading, error }] = useCompleteCheckoutMutation({
+ *   variables: {
+ *      paymentData: // value for 'paymentData'
+ *      checkoutId: // value for 'checkoutId'
+ *   },
+ * });
+ */
+export function useCompleteCheckoutMutation(baseOptions?: Apollo.MutationHookOptions<CompleteCheckoutMutation, CompleteCheckoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CompleteCheckoutMutation, CompleteCheckoutMutationVariables>(CompleteCheckoutDocument, options);
+      }
+export type CompleteCheckoutMutationHookResult = ReturnType<typeof useCompleteCheckoutMutation>;
+export type CompleteCheckoutMutationResult = Apollo.MutationResult<CompleteCheckoutMutation>;
+export type CompleteCheckoutMutationOptions = Apollo.BaseMutationOptions<CompleteCheckoutMutation, CompleteCheckoutMutationVariables>;
 export const CheckoutCreateDocument = gql`
     mutation checkoutCreate($lines: [CheckoutLineInput!]!, $channel: String, $email: String) {
   checkoutCreate(input: {lines: $lines, channel: $channel, email: $email}) {
@@ -34415,6 +34511,109 @@ export function useCheckoutCreateMutation(baseOptions?: Apollo.MutationHookOptio
 export type CheckoutCreateMutationHookResult = ReturnType<typeof useCheckoutCreateMutation>;
 export type CheckoutCreateMutationResult = Apollo.MutationResult<CheckoutCreateMutation>;
 export type CheckoutCreateMutationOptions = Apollo.BaseMutationOptions<CheckoutCreateMutation, CheckoutCreateMutationVariables>;
+export const CheckoutPaymentCreateDocument = gql`
+    mutation checkoutPaymentCreate($checkoutId: ID!, $paymentInput: PaymentInput!) {
+  checkoutPaymentCreate(id: $checkoutId, input: $paymentInput) {
+    checkout {
+      availablePaymentGateways {
+        name
+        id
+      }
+    }
+    errors {
+      field
+      message
+    }
+    payment {
+      id
+      gateway
+      paymentMethodType
+      pspReference
+      chargeStatus
+    }
+  }
+}
+    `;
+export type CheckoutPaymentCreateMutationFn = Apollo.MutationFunction<CheckoutPaymentCreateMutation, CheckoutPaymentCreateMutationVariables>;
+
+/**
+ * __useCheckoutPaymentCreateMutation__
+ *
+ * To run a mutation, you first call `useCheckoutPaymentCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCheckoutPaymentCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [checkoutPaymentCreateMutation, { data, loading, error }] = useCheckoutPaymentCreateMutation({
+ *   variables: {
+ *      checkoutId: // value for 'checkoutId'
+ *      paymentInput: // value for 'paymentInput'
+ *   },
+ * });
+ */
+export function useCheckoutPaymentCreateMutation(baseOptions?: Apollo.MutationHookOptions<CheckoutPaymentCreateMutation, CheckoutPaymentCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CheckoutPaymentCreateMutation, CheckoutPaymentCreateMutationVariables>(CheckoutPaymentCreateDocument, options);
+      }
+export type CheckoutPaymentCreateMutationHookResult = ReturnType<typeof useCheckoutPaymentCreateMutation>;
+export type CheckoutPaymentCreateMutationResult = Apollo.MutationResult<CheckoutPaymentCreateMutation>;
+export type CheckoutPaymentCreateMutationOptions = Apollo.BaseMutationOptions<CheckoutPaymentCreateMutation, CheckoutPaymentCreateMutationVariables>;
+export const PaymentInitializeDocument = gql`
+    mutation paymentInitialize($checkoutId: String!, $gateway: String!, $channel: String!, $paymentData: JSONString!, $gatewayFlag: Boolean!, $embeddedFlag: Boolean!) {
+  paymentInitialize(
+    gateway: $gateway
+    channel: $channel
+    paymentData: $paymentData
+    gatewayFlag: $gatewayFlag
+    embeddedFlag: $embeddedFlag
+    checkoutId: $checkoutId
+  ) {
+    initializedPayment {
+      data
+      gateway
+      name
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    `;
+export type PaymentInitializeMutationFn = Apollo.MutationFunction<PaymentInitializeMutation, PaymentInitializeMutationVariables>;
+
+/**
+ * __usePaymentInitializeMutation__
+ *
+ * To run a mutation, you first call `usePaymentInitializeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePaymentInitializeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [paymentInitializeMutation, { data, loading, error }] = usePaymentInitializeMutation({
+ *   variables: {
+ *      checkoutId: // value for 'checkoutId'
+ *      gateway: // value for 'gateway'
+ *      channel: // value for 'channel'
+ *      paymentData: // value for 'paymentData'
+ *      gatewayFlag: // value for 'gatewayFlag'
+ *      embeddedFlag: // value for 'embeddedFlag'
+ *   },
+ * });
+ */
+export function usePaymentInitializeMutation(baseOptions?: Apollo.MutationHookOptions<PaymentInitializeMutation, PaymentInitializeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PaymentInitializeMutation, PaymentInitializeMutationVariables>(PaymentInitializeDocument, options);
+      }
+export type PaymentInitializeMutationHookResult = ReturnType<typeof usePaymentInitializeMutation>;
+export type PaymentInitializeMutationResult = Apollo.MutationResult<PaymentInitializeMutation>;
+export type PaymentInitializeMutationOptions = Apollo.BaseMutationOptions<PaymentInitializeMutation, PaymentInitializeMutationVariables>;
 export const CheckoutShippingMethodUpdateDocument = gql`
     mutation CheckoutShippingMethodUpdate($id: ID!, $deliveryMethodId: ID!, $locale: LanguageCodeEnum!) {
   checkoutDeliveryMethodUpdate(deliveryMethodId: $deliveryMethodId, id: $id) {

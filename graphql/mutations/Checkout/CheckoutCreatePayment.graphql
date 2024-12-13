@@ -1,0 +1,24 @@
+mutation checkoutPaymentCreate(
+  $checkoutId: ID!
+  $paymentInput: PaymentInput!
+) {
+  checkoutPaymentCreate(id: $checkoutId, input: $paymentInput) {
+    checkout {
+      availablePaymentGateways {
+        name
+        id
+      }
+    }
+    errors {
+      field
+      message
+    }
+    payment {
+      id
+      gateway
+      paymentMethodType
+      pspReference
+      chargeStatus
+    }
+  }
+}

@@ -1,0 +1,27 @@
+mutation paymentInitialize(
+  $checkoutId: String!
+  $gateway: String!
+  $channel: String!
+  $paymentData: JSONString!
+  $gatewayFlag: Boolean!
+  $embeddedFlag: Boolean!
+) {
+  paymentInitialize(
+    gateway: $gateway
+    channel: $channel
+    paymentData: $paymentData
+    gatewayFlag: $gatewayFlag
+    embeddedFlag: $embeddedFlag
+    checkoutId: $checkoutId
+  ) {
+    initializedPayment {
+      data
+      gateway
+      name
+    }
+    errors {
+      field
+      message
+    }
+  }
+}

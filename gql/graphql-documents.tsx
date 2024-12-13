@@ -33333,6 +33333,14 @@ export type CheckoutBillingAddressUpdateMutationVariables = Exact<{
 
 export type CheckoutBillingAddressUpdateMutation = { __typename?: 'Mutation', checkoutBillingAddressUpdate?: { __typename?: 'CheckoutBillingAddressUpdate', checkout?: { __typename?: 'Checkout', id: string, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null }> } | null };
 
+export type CompleteCheckoutMutationVariables = Exact<{
+  paymentData: Scalars['JSONString']['input'];
+  checkoutId: Scalars['ID']['input'];
+}>;
+
+
+export type CompleteCheckoutMutation = { __typename?: 'Mutation', checkoutComplete?: { __typename?: 'CheckoutComplete', confirmationData?: string | null, confirmationNeeded: boolean, errors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, message?: string | null, field?: string | null, lines?: Array<string> | null, variants?: Array<string> | null }>, order?: { __typename?: 'Order', actions: Array<OrderAction>, authorizeStatus: OrderAuthorizeStatusEnum, isPaid: boolean, paymentStatus: PaymentChargeStatusEnum, checkoutId?: string | null, created: string, userEmail?: string | null, totalCharged: { __typename?: 'Money', amount: number, currency: string }, totalCaptured: { __typename?: 'Money', amount: number, currency: string } } | null, checkoutErrors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, field?: string | null, lines?: Array<string> | null, message?: string | null, variants?: Array<string> | null }> } | null };
+
 export type CheckoutCreateMutationVariables = Exact<{
   lines: Array<CheckoutLineInput> | CheckoutLineInput;
   channel?: InputMaybe<Scalars['String']['input']>;
@@ -33341,6 +33349,26 @@ export type CheckoutCreateMutationVariables = Exact<{
 
 
 export type CheckoutCreateMutation = { __typename?: 'Mutation', checkoutCreate?: { __typename?: 'CheckoutCreate', checkout?: { __typename?: 'Checkout', id: string, lines: Array<{ __typename?: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } } }> } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null }> } | null };
+
+export type CheckoutPaymentCreateMutationVariables = Exact<{
+  checkoutId: Scalars['ID']['input'];
+  paymentInput: PaymentInput;
+}>;
+
+
+export type CheckoutPaymentCreateMutation = { __typename?: 'Mutation', checkoutPaymentCreate?: { __typename?: 'CheckoutPaymentCreate', checkout?: { __typename?: 'Checkout', availablePaymentGateways: Array<{ __typename?: 'PaymentGateway', name: string, id: string }> } | null, errors: Array<{ __typename?: 'PaymentError', field?: string | null, message?: string | null }>, payment?: { __typename?: 'Payment', id: string, gateway: string, paymentMethodType: string, pspReference?: string | null, chargeStatus: PaymentChargeStatusEnum } | null } | null };
+
+export type PaymentInitializeMutationVariables = Exact<{
+  checkoutId: Scalars['String']['input'];
+  gateway: Scalars['String']['input'];
+  channel: Scalars['String']['input'];
+  paymentData: Scalars['JSONString']['input'];
+  gatewayFlag: Scalars['Boolean']['input'];
+  embeddedFlag: Scalars['Boolean']['input'];
+}>;
+
+
+export type PaymentInitializeMutation = { __typename?: 'Mutation', paymentInitialize?: { __typename?: 'PaymentInitialize', initializedPayment?: { __typename?: 'PaymentInitialized', data?: string | null, gateway: string, name: string } | null, errors: Array<{ __typename?: 'PaymentError', field?: string | null, message?: string | null }> } | null };
 
 export type CheckoutShippingMethodUpdateMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -44800,6 +44828,47 @@ export const CheckoutBillingAddressUpdateDocument = new TypedDocumentString(`
   }
   __typename
 }`) as unknown as TypedDocumentString<CheckoutBillingAddressUpdateMutation, CheckoutBillingAddressUpdateMutationVariables>;
+export const CompleteCheckoutDocument = new TypedDocumentString(`
+    mutation completeCheckout($paymentData: JSONString!, $checkoutId: ID!) {
+  checkoutComplete(paymentData: $paymentData, checkoutId: $checkoutId) {
+    confirmationData
+    confirmationNeeded
+    errors {
+      addressType
+      code
+      message
+      field
+      lines
+      variants
+    }
+    order {
+      actions
+      authorizeStatus
+      isPaid
+      paymentStatus
+      checkoutId
+      created
+      userEmail
+      totalCharged {
+        amount
+        currency
+      }
+      totalCaptured {
+        amount
+        currency
+      }
+    }
+    checkoutErrors {
+      addressType
+      code
+      field
+      lines
+      message
+      variants
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CompleteCheckoutMutation, CompleteCheckoutMutationVariables>;
 export const CheckoutCreateDocument = new TypedDocumentString(`
     mutation checkoutCreate($lines: [CheckoutLineInput!]!, $channel: String, $email: String) {
   checkoutCreate(input: {lines: $lines, channel: $channel, email: $email}) {
@@ -44823,6 +44892,51 @@ export const CheckoutCreateDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CheckoutCreateMutation, CheckoutCreateMutationVariables>;
+export const CheckoutPaymentCreateDocument = new TypedDocumentString(`
+    mutation checkoutPaymentCreate($checkoutId: ID!, $paymentInput: PaymentInput!) {
+  checkoutPaymentCreate(id: $checkoutId, input: $paymentInput) {
+    checkout {
+      availablePaymentGateways {
+        name
+        id
+      }
+    }
+    errors {
+      field
+      message
+    }
+    payment {
+      id
+      gateway
+      paymentMethodType
+      pspReference
+      chargeStatus
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CheckoutPaymentCreateMutation, CheckoutPaymentCreateMutationVariables>;
+export const PaymentInitializeDocument = new TypedDocumentString(`
+    mutation paymentInitialize($checkoutId: String!, $gateway: String!, $channel: String!, $paymentData: JSONString!, $gatewayFlag: Boolean!, $embeddedFlag: Boolean!) {
+  paymentInitialize(
+    gateway: $gateway
+    channel: $channel
+    paymentData: $paymentData
+    gatewayFlag: $gatewayFlag
+    embeddedFlag: $embeddedFlag
+    checkoutId: $checkoutId
+  ) {
+    initializedPayment {
+      data
+      gateway
+      name
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<PaymentInitializeMutation, PaymentInitializeMutationVariables>;
 export const CheckoutShippingMethodUpdateDocument = new TypedDocumentString(`
     mutation CheckoutShippingMethodUpdate($id: ID!, $deliveryMethodId: ID!, $locale: LanguageCodeEnum!) {
   checkoutDeliveryMethodUpdate(deliveryMethodId: $deliveryMethodId, id: $id) {

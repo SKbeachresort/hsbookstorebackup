@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RadioButton from "@/app/elements/RadioButton";
 import Image from "next/image";
 import visa from "../../../public/Visa.png";
@@ -13,21 +13,34 @@ import { IoArrowBackOutline } from "react-icons/io5";
 
 interface SelectPaymentMethodProps {
   onBack: () => void;
+  onNext: () => void;
 };
 
 export const SelectPaymentMethod: React.FC<SelectPaymentMethodProps> = ({
   onBack,
+  onNext,
 }) => {
-
   const shippingAddress = localStorage.getItem("shippingAddress");
-  
-  const parsedShippingAddress = shippingAddress ? JSON.parse(shippingAddress) : null;
 
+  const parsedShippingAddress = shippingAddress
+    ? JSON.parse(shippingAddress)
+    : null;
   const CurrentCountry = parsedShippingAddress?.country.country;
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState<string>("");
 
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
-    CurrentCountry === "Kuwait" ? "debit-card" : "credit-card"
-  );
+  useEffect(() => {
+    const savedPaymentMethod =
+      localStorage.getItem("selectedPaymentMethod") ||
+      (CurrentCountry === "Kuwait" ? "debit-card" : "credit-card");
+    setSelectedPaymentMethod(savedPaymentMethod);
+  }, [CurrentCountry]);
+
+  useEffect(() => {
+    if (selectedPaymentMethod) {
+      localStorage.setItem("selectedPaymentMethod", selectedPaymentMethod);
+    }
+  }, [selectedPaymentMethod]);
 
   const handleRadioChange = (value: string) => {
     setSelectedPaymentMethod(value);

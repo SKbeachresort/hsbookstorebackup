@@ -1,0 +1,42 @@
+mutation completeCheckout($paymentData: JSONString!, $checkoutId: ID!) {
+  checkoutComplete(
+    paymentData: $paymentData
+    checkoutId: $checkoutId
+  ) {
+    confirmationData
+    confirmationNeeded
+    errors {
+      addressType
+      code
+      message
+      field
+      lines
+      variants
+    }
+    order {
+      actions
+      authorizeStatus
+      isPaid
+      paymentStatus
+      checkoutId
+      created
+      userEmail
+      totalCharged {
+        amount
+        currency
+      }
+      totalCaptured {
+        amount
+        currency
+      }
+    }
+    checkoutErrors {
+      addressType
+      code
+      field
+      lines
+      message
+      variants
+    }
+  }
+}

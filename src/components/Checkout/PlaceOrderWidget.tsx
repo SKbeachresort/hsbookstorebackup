@@ -9,6 +9,9 @@ import { getUserDetails } from "@/hooks/getUser";
 import { useIsAuthenticated } from "@/hooks/userIsAuthenticated";
 import { useCheckoutShippingMethodUpdateMutation } from "../../../gql/graphql";
 import { LanguageCodeEnum } from "../../../gql/graphql";
+import { useCheckoutPaymentCreateMutation } from "../../../gql/graphql";
+import { usePaymentInitializeMutation } from "../../../gql/graphql";
+import { set } from "react-hook-form";
 
 interface PlaceOrderWidgetProps {
   channel: string;
@@ -18,7 +21,7 @@ interface PlaceOrderWidgetProps {
   currentStep: number;
   isSecondLastStep: boolean;
   onNext: () => void;
-};
+}
 
 export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   channel,
@@ -32,16 +35,18 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   const { currentChannel } = useRegions();
   const [loading, setLoading] = useState(false);
   const checkoutID = localStorage.getItem("checkoutID");
+  const paymentMethod = localStorage.getItem("selectedPaymentMethod");
+
   const shippingMethodID = localStorage.getItem("shippingMethodSelectedId");
   const [shippingFee, setShippingFee] = useState<number | null>(null);
   const [shippingName, setShippingName] = useState<string | null>(null);
 
-  const Locale = locale;
-
-  const [checkoutShippingMethodUpdate] = useCheckoutShippingMethodUpdateMutation();
+  const [checkoutShippingMethodUpdate] =
+    useCheckoutShippingMethodUpdateMutation();
+  const [checkoutPaymentCreate] = useCheckoutPaymentCreateMutation();
+  const [paymentInitialize] = usePaymentInitializeMutation();
 
   useEffect(() => {
-
     console.log("Making API call with", { checkoutID, shippingMethodID });
     if (checkoutID && shippingMethodID) {
       setLoading(true);
@@ -84,16 +89,73 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
     }
   }, [locale, checkoutShippingMethodUpdate]);
 
-  const handleNext = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      onNext();
-    }, 1500);
-  };
-
   const CurrencyCode = currentChannel?.currencyCode;
   const TotatalPaybleAmount = totalAmount + (shippingFee ?? 0);
+
+  const handlePlaceOrder = async () => {
+    if (!isSecondLastStep) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        onNext();
+        return;
+      }, 2000);
+      return;
+    };
+
+    if (!checkoutID || !paymentMethod) {
+      console.log("Checkout ID or Payment Method not found");
+      return;
+    };
+
+    setLoading(true);
+
+    const gatewayFlag = paymentMethod === "debit-card" ? true : false;
+    const embeddedFlag = paymentMethod === "credit-card" ? true : false;
+
+    const paymentData = JSON.stringify({
+      InvoiceAmount: TotatalPaybleAmount,
+      CurrencyIso: CurrencyCode,
+      RedirectDomain: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/`,
+    });
+
+    try {
+      const createPaymentResponse = await checkoutPaymentCreate({
+        variables: {
+          checkoutId: checkoutID,
+          paymentInput: { gateway: "myfatoorah" },
+        },
+      });
+      console.log("Checkout ", createPaymentResponse);
+
+      const paymentInitializeResponse = await paymentInitialize({
+        variables: {
+          checkoutId: checkoutID,
+          paymentData: paymentData,
+          gateway: "myfatoorah",
+          gatewayFlag: gatewayFlag,
+          embeddedFlag: embeddedFlag,
+          channel: channel,
+        },
+      });
+      console.log("Payment Initialize", paymentInitializeResponse);
+      const paymentURL = paymentInitializeResponse?.data?.paymentInitialize
+        ?.initializedPayment?.data
+        ? JSON.parse(
+            paymentInitializeResponse.data.paymentInitialize.initializedPayment
+              .data
+          ).PaymentURL
+        : null;
+
+      if (paymentURL) {
+        window.location.href = paymentURL;
+      } else {
+        console.error("Payment URL not found in the response");
+      };
+    } catch (error) {
+      console.log("Error creating payment", error);
+    }
+  };
 
   return (
     <>
@@ -139,7 +201,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
 
         {/* <Link href="/checkout"> */}
         <button
-          onClick={handleNext}
+          onClick={handlePlaceOrder}
           className={`w-full flex flex-col items-center justify-center mt-4 py-2 text-sm font-semibold rounded-full ${
             currentStep === 0
               ? "bg-white border-[1px] border-textgray text-textColor"

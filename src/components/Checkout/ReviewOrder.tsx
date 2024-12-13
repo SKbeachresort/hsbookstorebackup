@@ -8,9 +8,10 @@ import RadioButton from "@/app/elements/RadioButton";
 
 interface ReviewOrderProps {
   onBack: () => void;
+  onNext: () => void;
 };
 
-export const ReviewOrder: React.FC<ReviewOrderProps> = ({ onBack }) => {
+export const ReviewOrder: React.FC<ReviewOrderProps> = ({ onBack, onNext }) => {
 
   const { cartItems, incrementQuantity, decrementQuantity, removeFromCart } =
     useCart();
