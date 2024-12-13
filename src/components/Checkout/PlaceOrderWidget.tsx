@@ -1,14 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import Modal from "@/app/elements/Modal";
 import Loader from "@/app/elements/Loader";
-import CreateAccount from "../Authentication/CreateAccount";
 import { useRegions } from "@/context/RegionProviders";
-import { getUserDetails } from "@/hooks/getUser";
-import { useIsAuthenticated } from "@/hooks/userIsAuthenticated";
-import { useCheckoutShippingMethodUpdateMutation } from "../../../gql/graphql";
-import { LanguageCodeEnum } from "../../../gql/graphql";
 import { useCheckoutPaymentCreateMutation } from "../../../gql/graphql";
 import { usePaymentInitializeMutation } from "../../../gql/graphql";
 
@@ -35,71 +28,19 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   const [loading, setLoading] = useState(false);
   const checkoutID = localStorage.getItem("checkoutID");
   const paymentMethod = localStorage.getItem("selectedPaymentMethod");
-
-  const [shippingMethodID, setShippingMethodID] = useState<string | null>(
-    localStorage.getItem("shippingMethodSelectedId")
+  const shippingDetails = JSON.parse(
+    localStorage.getItem("shippingMethodId") || "{}"
   );
-  const [shippingFee, setShippingFee] = useState<number | null>(null);
-  const [shippingName, setShippingName] = useState<string | null>(null);
+  // console.log("Shipping Details", shippingDetails);
 
-  const [checkoutShippingMethodUpdate, { loading: shippingLoading }] =
-    useCheckoutShippingMethodUpdateMutation();
+  const shippingName = shippingDetails?.name || "";
+  const shippingFee = shippingDetails?.price?.amount || 0;
 
   const [checkoutPaymentCreate] = useCheckoutPaymentCreateMutation();
   const [paymentInitialize] = usePaymentInitializeMutation();
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const updatedShippingMethodID = localStorage.getItem(
-        "shippingMethodSelectedId"
-      );
-      setShippingMethodID(updatedShippingMethodID);
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (checkoutID && shippingMethodID) {
-      checkoutShippingMethodUpdate({
-        variables: {
-          id: checkoutID,
-          deliveryMethodId: shippingMethodID,
-          locale: "EN_US" as LanguageCodeEnum,
-        },
-      })
-        .then((response) => {
-          // console.log("Shipping Method Updated", response);
-          const TotalAmoutPayable =
-            response.data?.checkoutDeliveryMethodUpdate?.checkout?.totalPrice
-              ?.gross?.amount;
-
-          const ShippingMethod =
-            response.data?.checkoutDeliveryMethodUpdate?.checkout
-              ?.deliveryMethod;
-          if (ShippingMethod) {
-            setShippingFee(
-              ShippingMethod?.__typename === "ShippingMethod"
-                ? ShippingMethod?.price?.amount
-                : 0
-            );
-            setShippingName(
-              ShippingMethod?.__typename === "ShippingMethod"
-                ? ShippingMethod?.name
-                : "Free"
-            );
-          }
-        })
-        .catch((error) => {
-          console.log("Error updating shipping method", error);
-        });
-    }
-  }, [locale, checkoutShippingMethodUpdate]);
-
   const CurrencyCode = currentChannel?.currencyCode;
-  const TotatalPaybleAmount = totalAmount + (shippingFee ?? 0);
+  const TotatalPaybleAmount = totalAmount + shippingFee;
 
   const handlePlaceOrder = async () => {
     if (!isSecondLastStep) {
@@ -117,7 +58,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
       console.log("Payment Method in Select Payment Method", paymentMethod);
       console.log("Checkout ID or Payment Method not found");
       return;
-    }
+    };
 
     setLoading(true);
 
@@ -167,7 +108,6 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
       } catch (error) {
         console.log("Error creating payment", error);
       }
-
       return;
     }
 
@@ -223,10 +163,10 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
           </div>
           <div className="flex justify-between my-1">
             <span className="text-xs text-textgray">
-              Shipping ({shippingName})
+              Shipping  {shippingDetails ? `(${shippingName})` : ""} 
             </span>
             <span className="text-secondary text-xs">
-              {CurrencyCode} {shippingFee?.toFixed(3)}
+              {CurrencyCode} {shippingDetails ? `${shippingFee?.toFixed(3)}` : "0"}
             </span>
           </div>
           <div className="flex justify-between mb-2">

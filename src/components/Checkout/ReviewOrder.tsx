@@ -9,10 +9,9 @@ import RadioButton from "@/app/elements/RadioButton";
 interface ReviewOrderProps {
   onBack: () => void;
   onNext: () => void;
-};
+}
 
 export const ReviewOrder: React.FC<ReviewOrderProps> = ({ onBack, onNext }) => {
-
   const { cartItems, incrementQuantity, decrementQuantity, removeFromCart } =
     useCart();
 
@@ -21,9 +20,21 @@ export const ReviewOrder: React.FC<ReviewOrderProps> = ({ onBack, onNext }) => {
     0
   );
 
-  const shippingMethods = JSON.parse(
-    localStorage.getItem("shippingMethodId") || "[]"
-  );
+  const shippingMethodsRaw = localStorage.getItem("shippingMethodId");
+  let shippingMethods = [];
+
+  try {
+    const parsedData = JSON.parse(shippingMethodsRaw || "[]");
+    // Ensure parsedData is an array
+    shippingMethods = Array.isArray(parsedData) ? parsedData : [parsedData];
+  } catch (error) {
+    console.error("Error parsing shipping methods:", error);
+  }
+
+  console.log("shippingMethods", shippingMethods);
+
+  console.log("shippingMethods", shippingMethods);
+
   const shippingAddress = localStorage.getItem("shippingAddress");
   const parsedShippingAddress = shippingAddress
     ? JSON.parse(shippingAddress)
@@ -31,7 +42,7 @@ export const ReviewOrder: React.FC<ReviewOrderProps> = ({ onBack, onNext }) => {
 
   const [selectedShippingMethod, setSelectedShippingMethod] = useState<
     string | null
-  >(shippingMethods[0]?.id || null);
+  >(shippingMethods.length > 0 ? shippingMethods[0].id : null);
   console.log("selectedShippingMethod", selectedShippingMethod);
 
   useEffect(() => {
@@ -141,7 +152,7 @@ export const ReviewOrder: React.FC<ReviewOrderProps> = ({ onBack, onNext }) => {
                   name="shippingMethod"
                   value={method.id}
                   checked={selectedShippingMethod === method.id}
-                  onChange={() => handleRadioChange(method.id)} // Pass the ID
+                  onChange={() => handleRadioChange(method.id)}
                 />
               </div>
             ))}

@@ -52,6 +52,8 @@ interface ShippingFormInputs {
   country: CountryOption | null;
   countryArea: AreaOption | null;
   city: CityOption | null;
+  nonKuwaitCity: string;
+  nonKuwaitCountry: string;
   firstName: string;
   lastName: string;
   phone: string;
@@ -93,6 +95,8 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
       streetAddress2: initialShippingData?.streetAddress2 || "",
       postalCode: initialShippingData?.postalCode || "",
       city: initialShippingData?.city || null,
+      nonKuwaitCity: initialShippingData?.city || null,
+      nonKuwaitCountry: initialShippingData?.countryArea || null,
     },
   });
 
@@ -157,9 +161,9 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
             lastName: data.lastName,
             streetAddress1: data.streetAddress1,
             streetAddress2: data.streetAddress2,
-            city: data.city?.value,
+            city: data.city?.value || data.nonKuwaitCity,
             postalCode: data.postalCode,
-            countryArea: data.countryArea?.value,
+            countryArea: data.countryArea?.value || data.nonKuwaitCountry,
             country: data.country?.value,
             phone: data.phone,
             companyName: data.companyName,
@@ -198,9 +202,9 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
               lastName: data.lastName,
               streetAddress1: data.streetAddress1,
               streetAddress2: data.streetAddress2,
-              city: data.city?.value,
+              city: data.city?.value || data.nonKuwaitCity,
               postalCode: data.postalCode,
-              countryArea: data.countryArea?.value,
+              countryArea: data.countryArea?.value || data.nonKuwaitCountry,
               country: data.country?.value,
               phone: data.phone,
               companyName: data.companyName,
@@ -223,14 +227,13 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
           setLoading(false);
           return;
         } else {
-          toast.success("Shipping details saved successfully!");
 
           const shippingMethods =
             shippingResponse.data?.checkoutShippingAddressUpdate?.checkout
               ?.shippingMethods;
 
           if (Array.isArray(shippingMethods) && shippingMethods.length > 0) {
-            const selectedShippingMethod = shippingMethods[0]; // Replace with logic to select the desired method
+            const selectedShippingMethod = shippingMethods[0];
             localStorage.setItem(
               "shippingMethodId",
               JSON.stringify(selectedShippingMethod)
@@ -252,15 +255,17 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
               const addShippingMethod = await shippingMethodUpdate({
                 variables: {
                   id: checkoutId,
-                  deliveryMethodId: shippingMethodId, // Pass only the ID
+                  deliveryMethodId: shippingMethodId,
                   locale: "EN_US" as LanguageCodeEnum,
                 },
               });
 
+              toast.success("Shipping details saved successfully!");
               console.log(
                 "Shipping Method Updated in Shipping",
                 addShippingMethod
               );
+
               onNext();
               reset();
             }
@@ -387,19 +392,12 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
             <div className="my-4">
               <FormField
                 control={form.control}
-                name="countryArea"
+                name="nonKuwaitCountry"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>*Country Area</FormLabel>
+                    <FormLabel>*Counggtry Area</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter Country Area"
-                        value={field.value?.label || ""}
-                        onChange={field.onChange}
-                        onBlur={field.onBlur}
-                        name={field.name}
-                        ref={field.ref}
-                      />
+                      <Input placeholder="Enter Country Area" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -518,19 +516,12 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
               <div className="w-[48%]">
                 <FormField
                   control={form.control}
-                  name="city"
+                  name="nonKuwaitCity"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>*City</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Enter City"
-                          value={field.value?.label || ""}
-                          onChange={field.onChange}
-                          onBlur={field.onBlur}
-                          name={field.name}
-                          ref={field.ref}
-                        />
+                        <Input placeholder="Enter City" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -579,7 +570,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full">
             {loading ? "Loading..." : "Save and Continue"}
           </Button>
         </form>
