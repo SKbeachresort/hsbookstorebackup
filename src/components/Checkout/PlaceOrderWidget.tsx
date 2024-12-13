@@ -41,8 +41,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   const [shippingFee, setShippingFee] = useState<number | null>(null);
   const [shippingName, setShippingName] = useState<string | null>(null);
 
-  const [checkoutShippingMethodUpdate] =
-    useCheckoutShippingMethodUpdateMutation();
+  const [checkoutShippingMethodUpdate] = useCheckoutShippingMethodUpdateMutation();
   const [checkoutPaymentCreate] = useCheckoutPaymentCreateMutation();
   const [paymentInitialize] = usePaymentInitializeMutation();
 
@@ -104,6 +103,8 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
     };
 
     if (!checkoutID || !paymentMethod) {
+      console.log("Checout Id in Select Payment Method", checkoutID);
+      console.log("Payment Method in Select Payment Method", paymentMethod);
       console.log("Checkout ID or Payment Method not found");
       return;
     };
@@ -119,42 +120,84 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
       RedirectDomain: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/`,
     });
 
-    try {
-      const createPaymentResponse = await checkoutPaymentCreate({
-        variables: {
-          checkoutId: checkoutID,
-          paymentInput: { gateway: "myfatoorah" },
-        },
-      });
-      console.log("Checkout ", createPaymentResponse);
-
-      const paymentInitializeResponse = await paymentInitialize({
-        variables: {
-          checkoutId: checkoutID,
-          paymentData: paymentData,
-          gateway: "myfatoorah",
-          gatewayFlag: gatewayFlag,
-          embeddedFlag: embeddedFlag,
-          channel: channel,
-        },
-      });
-      console.log("Payment Initialize", paymentInitializeResponse);
-      const paymentURL = paymentInitializeResponse?.data?.paymentInitialize
-        ?.initializedPayment?.data
-        ? JSON.parse(
-            paymentInitializeResponse.data.paymentInitialize.initializedPayment
-              .data
-          ).PaymentURL
-        : null;
-
-      if (paymentURL) {
-        window.location.href = paymentURL;
-      } else {
-        console.error("Payment URL not found in the response");
+    if(paymentMethod === "debit-card") {
+      try {
+        const createPaymentResponse = await checkoutPaymentCreate({
+          variables: {
+            checkoutId: checkoutID,
+            paymentInput: { gateway: "myfatoorah" },
+          },
+        });
+        console.log("Checkout ", createPaymentResponse);
+  
+        const paymentInitializeResponse = await paymentInitialize({
+          variables: {
+            checkoutId: checkoutID,
+            paymentData: paymentData,
+            gateway: "myfatoorah",
+            gatewayFlag: gatewayFlag,
+            embeddedFlag: embeddedFlag,
+            channel: channel,
+          },
+        });
+        console.log("Payment Initialize", paymentInitializeResponse);
+        const paymentURL = paymentInitializeResponse?.data?.paymentInitialize
+          ?.initializedPayment?.data
+          ? JSON.parse(
+              paymentInitializeResponse.data.paymentInitialize.initializedPayment
+                .data
+            ).PaymentURL
+          : null;
+  
+        if (paymentURL) {
+          window.location.href = paymentURL;
+        } else {
+          console.error("Payment URL not found in the response");
+        };
+      } catch (error) {
+        console.log("Error creating payment", error);
       };
-    } catch (error) {
-      console.log("Error creating payment", error);
-    }
+
+      return;
+    };
+
+    if(paymentMethod === "credit-card") {
+      
+      try {
+        const createPaymentResponse = await checkoutPaymentCreate({
+          variables: {
+            checkoutId: checkoutID,
+            paymentInput: { gateway: "myfatoorah" },
+          },
+        });
+        console.log("Checkout ", createPaymentResponse);
+  
+        const paymentInitializeResponse = await paymentInitialize({
+          variables: {
+            checkoutId: checkoutID,
+            paymentData: paymentData,
+            gateway: "myfatoorah",
+            gatewayFlag: gatewayFlag,
+            embeddedFlag: embeddedFlag,
+            channel: channel,
+          },
+        });
+        console.log("Payment Initialize", paymentInitializeResponse);
+        const SessionId = paymentInitializeResponse?.data?.paymentInitialize
+          ?.initializedPayment?.data
+          ? JSON.parse(
+              paymentInitializeResponse.data.paymentInitialize.initializedPayment
+                .data
+            ).SessionId
+          : null;
+  
+        console.log("Session ID", SessionId);
+      } catch (error) {
+        console.log("Error creating payment", error);
+      };
+      return;
+    };
+
   };
 
   return (
