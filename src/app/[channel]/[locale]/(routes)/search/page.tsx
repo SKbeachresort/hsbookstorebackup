@@ -65,7 +65,7 @@ export default async function SearchPage({
     revalidate: 60,
   });
 
-  console.log("Search products", products);
+  // console.log("Search products", products);
 
   const query =
     searchValue && searchAuthor
@@ -94,6 +94,7 @@ export default async function SearchPage({
               cuttedPrice={node.pricing?.discount?.net?.amount}
               ratings={node.rating || 0}
               navigate={node.slug}
+              variantId={node.variants?.[0]?.id || ""}
             />
           );
         })}

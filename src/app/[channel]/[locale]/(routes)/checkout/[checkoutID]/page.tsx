@@ -10,10 +10,11 @@ import { PlaceOrderWidget } from "@/components/Checkout/PlaceOrderWidget";
 import { useCart } from "@/context/CartContext";
 import { useSearchParams, useParams } from "next/navigation";
 import { useCompleteCheckoutMutation } from "../../../../../../../gql/graphql";
+import ProcessingOrder from "@/components/Checkout/ProcessingOrder";
 
 const CheckoutStatus = () => {
   const { channel, locale, checkoutID } = useParams();
-  console.log("Checkout ID at CheckoutStatus", checkoutID);
+  // console.log("Checkout ID at CheckoutStatus", checkoutID);
   const searchParams = useSearchParams();
   const paymentStatus = searchParams.get("status");
   const paymentId = searchParams.get("paymentId");
@@ -22,6 +23,7 @@ const CheckoutStatus = () => {
   const [loading, setLoading] = useState(true);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [paymentStatusError, setPaymentStatusError] = useState(false);
+  const [orderId, setOrderId] = useState<string | null>(null);
   const { cartItems } = useCart();
 
   useEffect(() => {
@@ -48,6 +50,9 @@ const CheckoutStatus = () => {
           console.log("Complete Checkout", response);
           if (response.data?.checkoutComplete) {
             const order = response.data?.checkoutComplete.order;
+            if (order?.id) {
+              setOrderId(order.id);
+            }
             if (order?.paymentStatus === "FULLY_CHARGED") {
               setOrderSuccess(true);
             } else {
@@ -106,13 +111,12 @@ const CheckoutStatus = () => {
       <div className="flex flex-col justify-center items-center my-20">
         {loading ? (
           <div className="text-center mt-10">
-            <h2 className="text-xl font-semibold">Processing Order...</h2>
-            <p>Please wait while we process your order.</p>
+            <ProcessingOrder/>
           </div>
         ) : (
           <div className="text-center mt-10">
             {orderSuccess ? (
-              <OrderPlacedStatus />
+              <OrderPlacedStatus orderId={orderId}/>
             ) : paymentStatusError ? (
               <h2 className="text-xl font-semibold text-red-600">
                 Cannot proceed with your order. Payment not fully charged.

@@ -58,7 +58,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
       console.log("Payment Method in Select Payment Method", paymentMethod);
       console.log("Checkout ID or Payment Method not found");
       return;
-    };
+    }
 
     setLoading(true);
 
@@ -163,10 +163,11 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
           </div>
           <div className="flex justify-between my-1">
             <span className="text-xs text-textgray">
-              Shipping  {shippingDetails ? `(${shippingName})` : ""} 
+              Shipping {shippingDetails ? `(${shippingName})` : ""}
             </span>
             <span className="text-secondary text-xs">
-              {CurrencyCode} {shippingDetails ? `${shippingFee?.toFixed(3)}` : "0"}
+              {CurrencyCode}{" "}
+              {shippingDetails ? `${shippingFee?.toFixed(3)}` : "0"}
             </span>
           </div>
           <div className="flex justify-between mb-2">
@@ -200,7 +201,13 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
           }`}
           disabled={currentStep == 0}
         >
-          {loading ? <Loader /> : isSecondLastStep ? "Place Order" : "Checkout"}
+          {loading ? (
+            <Loader />
+          ) : isSecondLastStep ? (
+            `${paymentMethod !== "cash-on-delivery" ? "Continue to Payment" : "Place Order"}`
+          ) : (
+            "Checkout"
+          )}
         </button>
       </div>
     </>

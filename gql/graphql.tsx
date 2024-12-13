@@ -18,6 +18,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  CustomDate: { input: any; output: any; }
   Date: { input: string; output: string; }
   DateTime: { input: string; output: string; }
   Day: { input: number; output: number; }
@@ -2933,6 +2934,19 @@ export type AttributeWhereInput = {
   valueRequired?: InputMaybe<Scalars['Boolean']['input']>;
   visibleInStorefront?: InputMaybe<Scalars['Boolean']['input']>;
   withChoices?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type BestSellingProductResponseType = {
+  __typename?: 'BestSellingProductResponseType';
+  pagination?: Maybe<PaginationType>;
+  products?: Maybe<Array<Maybe<BestSellingProductType>>>;
+};
+
+export type BestSellingProductType = {
+  __typename?: 'BestSellingProductType';
+  productvariant?: Maybe<ProductVariant>;
+  quantityOrdered?: Maybe<Scalars['Int']['output']>;
+  sellingSequence?: Maybe<Scalars['Int']['output']>;
 };
 
 export type BulkAttributeValueInput = {
@@ -18915,6 +18929,16 @@ export type PageUpdated = Event & {
   version?: Maybe<Scalars['String']['output']>;
 };
 
+export type PaginationType = {
+  __typename?: 'PaginationType';
+  /** Whether there is a next page. */
+  hasNextPage?: Maybe<Scalars['Boolean']['output']>;
+  /** Whether there is a previous page. */
+  hasPreviousPage?: Maybe<Scalars['Boolean']['output']>;
+  /** Total number of items. */
+  totalItems?: Maybe<Scalars['Int']['output']>;
+};
+
 /**
  * Change the password of the logged in user.
  *
@@ -21095,6 +21119,8 @@ export type ProductFilterInput = {
   metadata?: InputMaybe<Array<MetadataFilter>>;
   /** Filter by the lowest variant price after discounts. */
   minimalPrice?: InputMaybe<PriceRangeInput>;
+  /** Filter products by their on sale status */
+  onSale?: InputMaybe<Scalars['Boolean']['input']>;
   price?: InputMaybe<PriceRangeInput>;
   productTypes?: InputMaybe<Array<Scalars['ID']['input']>>;
   /**
@@ -24526,6 +24552,8 @@ export type Query = {
   attribute?: Maybe<Attribute>;
   /** List of the shop's attributes. */
   attributes?: Maybe<AttributeCountableConnection>;
+  /** List of best-selling products. */
+  bestSellingProducts?: Maybe<Array<Maybe<BestSellingProductResponseType>>>;
   /** List of the shop's categories. */
   categories?: Maybe<CategoryCountableConnection>;
   /** Look up a category by ID or slug. */
@@ -24738,6 +24766,8 @@ export type Query = {
   productViews?: Maybe<Array<Maybe<ProductViewType>>>;
   /** List of the shop's products. Requires one of the following permissions to include the unpublished items: MANAGE_ORDERS, MANAGE_DISCOUNTS, MANAGE_PRODUCTS. */
   products?: Maybe<ProductCountableConnection>;
+  /** List of the shop's products. Requires one of the following permissions to include the unpublished items: MANAGE_ORDERS, MANAGE_DISCOUNTS, MANAGE_PRODUCTS. */
+  productsOnSale?: Maybe<ProductCountableConnection>;
   /**
    * Look up a promotion by ID.
    *
@@ -25004,6 +25034,18 @@ export type QueryAttributesArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<AttributeSortingInput>;
   where?: InputMaybe<AttributeWhereInput>;
+};
+
+
+export type QueryBestSellingProductsArgs = {
+  categoryId?: InputMaybe<Scalars['ID']['input']>;
+  channel: Scalars['String']['input'];
+  endDate?: InputMaybe<Scalars['CustomDate']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  productId?: InputMaybe<Scalars['ID']['input']>;
+  startDate?: InputMaybe<Scalars['CustomDate']['input']>;
+  timeframe: TimeFrame;
 };
 
 
@@ -25388,6 +25430,19 @@ export type QueryProductViewsArgs = {
 
 
 export type QueryProductsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  channel?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<ProductFilterInput>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  sortBy?: InputMaybe<ProductOrder>;
+  where?: InputMaybe<ProductWhereInput>;
+};
+
+
+export type QueryProductsOnSaleArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   channel?: InputMaybe<Scalars['String']['input']>;
@@ -29271,6 +29326,14 @@ export enum ThumbnailFormatEnum {
   Avif = 'AVIF',
   Original = 'ORIGINAL',
   Webp = 'WEBP'
+}
+
+export enum TimeFrame {
+  Custom = 'CUSTOM',
+  LastMonth = 'LAST_MONTH',
+  LastWeek = 'LAST_WEEK',
+  LastYear = 'LAST_YEAR',
+  Today = 'TODAY'
 }
 
 export type TimePeriod = {
@@ -33547,7 +33610,7 @@ export type CompleteCheckoutMutationVariables = Exact<{
 }>;
 
 
-export type CompleteCheckoutMutation = { __typename?: 'Mutation', checkoutComplete?: { __typename?: 'CheckoutComplete', confirmationData?: string | null, confirmationNeeded: boolean, errors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, message?: string | null, field?: string | null, lines?: Array<string> | null, variants?: Array<string> | null }>, order?: { __typename?: 'Order', actions: Array<OrderAction>, authorizeStatus: OrderAuthorizeStatusEnum, isPaid: boolean, paymentStatus: PaymentChargeStatusEnum, checkoutId?: string | null, created: string, userEmail?: string | null, totalCharged: { __typename?: 'Money', amount: number, currency: string }, totalCaptured: { __typename?: 'Money', amount: number, currency: string } } | null, checkoutErrors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, field?: string | null, lines?: Array<string> | null, message?: string | null, variants?: Array<string> | null }> } | null };
+export type CompleteCheckoutMutation = { __typename?: 'Mutation', checkoutComplete?: { __typename?: 'CheckoutComplete', confirmationData?: string | null, confirmationNeeded: boolean, errors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, message?: string | null, field?: string | null, lines?: Array<string> | null, variants?: Array<string> | null }>, order?: { __typename?: 'Order', id: string, actions: Array<OrderAction>, authorizeStatus: OrderAuthorizeStatusEnum, isPaid: boolean, paymentStatus: PaymentChargeStatusEnum, checkoutId?: string | null, created: string, userEmail?: string | null, totalCharged: { __typename?: 'Money', amount: number, currency: string }, totalCaptured: { __typename?: 'Money', amount: number, currency: string } } | null, checkoutErrors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, field?: string | null, lines?: Array<string> | null, message?: string | null, variants?: Array<string> | null }> } | null };
 
 export type CheckoutCreateMutationVariables = Exact<{
   lines: Array<CheckoutLineInput> | CheckoutLineInput;
@@ -34490,6 +34553,7 @@ export const CompleteCheckoutDocument = gql`
       variants
     }
     order {
+      id
       actions
       authorizeStatus
       isPaid
@@ -36382,6 +36446,17 @@ export type AttributeValueUpdatedFieldPolicy = {
 	issuingPrincipal?: FieldPolicy<any> | FieldReadFunction<any>,
 	recipient?: FieldPolicy<any> | FieldReadFunction<any>,
 	version?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type BestSellingProductResponseTypeKeySpecifier = ('pagination' | 'products' | BestSellingProductResponseTypeKeySpecifier)[];
+export type BestSellingProductResponseTypeFieldPolicy = {
+	pagination?: FieldPolicy<any> | FieldReadFunction<any>,
+	products?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type BestSellingProductTypeKeySpecifier = ('productvariant' | 'quantityOrdered' | 'sellingSequence' | BestSellingProductTypeKeySpecifier)[];
+export type BestSellingProductTypeFieldPolicy = {
+	productvariant?: FieldPolicy<any> | FieldReadFunction<any>,
+	quantityOrdered?: FieldPolicy<any> | FieldReadFunction<any>,
+	sellingSequence?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BulkProductErrorKeySpecifier = ('attributes' | 'channels' | 'code' | 'field' | 'index' | 'message' | 'values' | 'warehouses' | BulkProductErrorKeySpecifier)[];
 export type BulkProductErrorFieldPolicy = {
@@ -39404,6 +39479,12 @@ export type PageUpdatedFieldPolicy = {
 	recipient?: FieldPolicy<any> | FieldReadFunction<any>,
 	version?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type PaginationTypeKeySpecifier = ('hasNextPage' | 'hasPreviousPage' | 'totalItems' | PaginationTypeKeySpecifier)[];
+export type PaginationTypeFieldPolicy = {
+	hasNextPage?: FieldPolicy<any> | FieldReadFunction<any>,
+	hasPreviousPage?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalItems?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type PasswordChangeKeySpecifier = ('accountErrors' | 'errors' | 'user' | PasswordChangeKeySpecifier)[];
 export type PasswordChangeFieldPolicy = {
 	accountErrors?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -40779,7 +40860,7 @@ export type PromotionUpdatedEventFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	type?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('_entities' | '_service' | 'address' | 'addressValidationRules' | 'allBundles' | 'app' | 'appExtension' | 'appExtensions' | 'apps' | 'appsInstallations' | 'attribute' | 'attributes' | 'categories' | 'category' | 'channel' | 'channels' | 'checkout' | 'checkoutLines' | 'checkouts' | 'collection' | 'collections' | 'customers' | 'digitalContent' | 'digitalContents' | 'draftOrders' | 'exportFile' | 'exportFiles' | 'getProductReviews' | 'giftCard' | 'giftCardCurrencies' | 'giftCardSettings' | 'giftCardTags' | 'giftCards' | 'homepageEvents' | 'me' | 'menu' | 'menuItem' | 'menuItems' | 'menus' | 'mostSfledItems' | 'mostViewedItems' | 'mostWishlistedItems' | 'order' | 'orderByToken' | 'orderSettings' | 'orders' | 'ordersTotal' | 'page' | 'pageType' | 'pageTypes' | 'pages' | 'payment' | 'payments' | 'permissionGroup' | 'permissionGroups' | 'plugin' | 'plugins' | 'product' | 'productType' | 'productTypes' | 'productVariant' | 'productVariants' | 'productViews' | 'products' | 'promotion' | 'promotions' | 'recommendations' | 'reportProductSales' | 'sale' | 'sales' | 'sflView' | 'shippingZone' | 'shippingZones' | 'shop' | 'staffUsers' | 'stock' | 'stocks' | 'taxClass' | 'taxClasses' | 'taxConfiguration' | 'taxConfigurations' | 'taxCountryConfiguration' | 'taxCountryConfigurations' | 'taxTypes' | 'transaction' | 'translation' | 'translations' | 'user' | 'userProductHistory' | 'voucher' | 'vouchers' | 'warehouse' | 'warehouses' | 'webhook' | 'webhookEvents' | 'webhookSamplePayload' | 'wishlistView' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('_entities' | '_service' | 'address' | 'addressValidationRules' | 'allBundles' | 'app' | 'appExtension' | 'appExtensions' | 'apps' | 'appsInstallations' | 'attribute' | 'attributes' | 'bestSellingProducts' | 'categories' | 'category' | 'channel' | 'channels' | 'checkout' | 'checkoutLines' | 'checkouts' | 'collection' | 'collections' | 'customers' | 'digitalContent' | 'digitalContents' | 'draftOrders' | 'exportFile' | 'exportFiles' | 'getProductReviews' | 'giftCard' | 'giftCardCurrencies' | 'giftCardSettings' | 'giftCardTags' | 'giftCards' | 'homepageEvents' | 'me' | 'menu' | 'menuItem' | 'menuItems' | 'menus' | 'mostSfledItems' | 'mostViewedItems' | 'mostWishlistedItems' | 'order' | 'orderByToken' | 'orderSettings' | 'orders' | 'ordersTotal' | 'page' | 'pageType' | 'pageTypes' | 'pages' | 'payment' | 'payments' | 'permissionGroup' | 'permissionGroups' | 'plugin' | 'plugins' | 'product' | 'productType' | 'productTypes' | 'productVariant' | 'productVariants' | 'productViews' | 'products' | 'productsOnSale' | 'promotion' | 'promotions' | 'recommendations' | 'reportProductSales' | 'sale' | 'sales' | 'sflView' | 'shippingZone' | 'shippingZones' | 'shop' | 'staffUsers' | 'stock' | 'stocks' | 'taxClass' | 'taxClasses' | 'taxConfiguration' | 'taxConfigurations' | 'taxCountryConfiguration' | 'taxCountryConfigurations' | 'taxTypes' | 'transaction' | 'translation' | 'translations' | 'user' | 'userProductHistory' | 'voucher' | 'vouchers' | 'warehouse' | 'warehouses' | 'webhook' | 'webhookEvents' | 'webhookSamplePayload' | 'wishlistView' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	_entities?: FieldPolicy<any> | FieldReadFunction<any>,
 	_service?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -40793,6 +40874,7 @@ export type QueryFieldPolicy = {
 	appsInstallations?: FieldPolicy<any> | FieldReadFunction<any>,
 	attribute?: FieldPolicy<any> | FieldReadFunction<any>,
 	attributes?: FieldPolicy<any> | FieldReadFunction<any>,
+	bestSellingProducts?: FieldPolicy<any> | FieldReadFunction<any>,
 	categories?: FieldPolicy<any> | FieldReadFunction<any>,
 	category?: FieldPolicy<any> | FieldReadFunction<any>,
 	channel?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -40845,6 +40927,7 @@ export type QueryFieldPolicy = {
 	productVariants?: FieldPolicy<any> | FieldReadFunction<any>,
 	productViews?: FieldPolicy<any> | FieldReadFunction<any>,
 	products?: FieldPolicy<any> | FieldReadFunction<any>,
+	productsOnSale?: FieldPolicy<any> | FieldReadFunction<any>,
 	promotion?: FieldPolicy<any> | FieldReadFunction<any>,
 	promotions?: FieldPolicy<any> | FieldReadFunction<any>,
 	recommendations?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -43035,6 +43118,14 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | AttributeValueUpdatedKeySpecifier | (() => undefined | AttributeValueUpdatedKeySpecifier),
 		fields?: AttributeValueUpdatedFieldPolicy,
 	},
+	BestSellingProductResponseType?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | BestSellingProductResponseTypeKeySpecifier | (() => undefined | BestSellingProductResponseTypeKeySpecifier),
+		fields?: BestSellingProductResponseTypeFieldPolicy,
+	},
+	BestSellingProductType?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | BestSellingProductTypeKeySpecifier | (() => undefined | BestSellingProductTypeKeySpecifier),
+		fields?: BestSellingProductTypeFieldPolicy,
+	},
 	BulkProductError?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | BulkProductErrorKeySpecifier | (() => undefined | BulkProductErrorKeySpecifier),
 		fields?: BulkProductErrorFieldPolicy,
@@ -44402,6 +44493,10 @@ export type StrictTypedTypePolicies = {
 	PageUpdated?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | PageUpdatedKeySpecifier | (() => undefined | PageUpdatedKeySpecifier),
 		fields?: PageUpdatedFieldPolicy,
+	},
+	PaginationType?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | PaginationTypeKeySpecifier | (() => undefined | PaginationTypeKeySpecifier),
+		fields?: PaginationTypeFieldPolicy,
 	},
 	PasswordChange?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | PasswordChangeKeySpecifier | (() => undefined | PasswordChangeKeySpecifier),

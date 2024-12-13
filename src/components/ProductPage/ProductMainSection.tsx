@@ -42,7 +42,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     setIsZoomed(!isZoomed);
   };
 
-  console.log("Product Details", productsDetails.subImage);
+  // console.log("Product Details", productsDetails.subImage);
 
   return (
     <div className="">

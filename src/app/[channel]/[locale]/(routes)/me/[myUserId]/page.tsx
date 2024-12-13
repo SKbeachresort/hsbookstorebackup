@@ -6,7 +6,7 @@ import BackDropLoader from "@/app/elements/BackdropLoader";
 
 const MyProfilePage = () => {
   const { user, loading, error } = getUserDetails();
-  console.log("User:", user);
+  // console.log("User:", user);
 
   const { logout, isloading } = useLogout();
 
