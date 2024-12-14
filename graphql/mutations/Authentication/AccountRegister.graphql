@@ -4,6 +4,11 @@ mutation AccountRegister(
   accountRegister(
     input: $input
   ) {
+    accountErrors {
+      code
+      field
+      message
+    }
     errors {
       code
       field

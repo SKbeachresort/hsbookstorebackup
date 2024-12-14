@@ -81,27 +81,30 @@ const AuthRegisterUI: React.FC<AuthRegisterUIProps> = ({ channel, locale }) => {
             lastName: data.lastName,
             password: data.password,
             phoneNumber: data.phone,
-            phoneNumberOptional: true,
+            phoneNumberOptional: false,
             redirectUrl: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/${channel}/${locale}/auth/account-confirm`,
             channel: channel,
           },
         },
       });
 
-      if (response.data?.accountRegister?.errors.length) {
+      const errors = response.data?.accountRegister?.errors;
+      // toast.success("Testings")
+
+      if (errors && errors.length > 0) {
         // Handle errors
         console.error(
           "Registration Errors:",
-          response.data.accountRegister.errors
+          response.data?.accountRegister?.errors
         );
-        toast.error(`${response.data?.accountRegister?.errors[0].message}`);
+        toast.error(`${errors[0].message}`);
       } else {
         console.log(
           "User Registered Successfully:",
           response.data?.accountRegister?.user
         );
         toast.success(
-          "Email Confirmation Sent. Please verify your email to complete registration."
+          "OTP has been sent to your phone number. Please verify your account."
         );
         reset();
         openModal();

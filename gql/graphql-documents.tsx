@@ -349,8 +349,6 @@ export type AccountRegister = {
   /** @deprecated This field will be removed in Arabanah 4.0. Use `errors` field instead. */
   accountErrors: Array<AccountError>;
   errors: Array<AccountError>;
-  message?: Maybe<Scalars['String']['output']>;
-  otp?: Maybe<Scalars['String']['output']>;
   /** Informs whether users need to confirm their email address. */
   requiresConfirmation?: Maybe<Scalars['Boolean']['output']>;
   user?: Maybe<User>;
@@ -33361,7 +33359,7 @@ export type AccountRegisterMutationVariables = Exact<{
 }>;
 
 
-export type AccountRegisterMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+export type AccountRegisterMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, accountErrors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
 
 export type ResendOtpMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
@@ -33687,12 +33685,10 @@ export type AccountErrorFieldPolicy = {
 	field?: FieldPolicy<any> | FieldReadFunction<any>,
 	message?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AccountRegisterKeySpecifier = ('accountErrors' | 'errors' | 'message' | 'otp' | 'requiresConfirmation' | 'user' | AccountRegisterKeySpecifier)[];
+export type AccountRegisterKeySpecifier = ('accountErrors' | 'errors' | 'requiresConfirmation' | 'user' | AccountRegisterKeySpecifier)[];
 export type AccountRegisterFieldPolicy = {
 	accountErrors?: FieldPolicy<any> | FieldReadFunction<any>,
 	errors?: FieldPolicy<any> | FieldReadFunction<any>,
-	message?: FieldPolicy<any> | FieldReadFunction<any>,
-	otp?: FieldPolicy<any> | FieldReadFunction<any>,
 	requiresConfirmation?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -44781,6 +44777,11 @@ export const AccountConfirmDocument = new TypedDocumentString(`
 export const AccountRegisterDocument = new TypedDocumentString(`
     mutation AccountRegister($input: AccountRegisterInput!) {
   accountRegister(input: $input) {
+    accountErrors {
+      code
+      field
+      message
+    }
     errors {
       code
       field

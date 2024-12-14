@@ -11,6 +11,7 @@ import { Checkbox } from "../ui/checkbox";
 import CustomButton from "@/app/elements/Button";
 import { useVerifyOtpMutation } from "../../../gql/graphql";
 import { useResendOtpMutation } from "../../../gql/graphql";
+import { useRouter } from "next/navigation";
 
 interface VerifyOTPProps {
   channel: string;
@@ -29,8 +30,9 @@ export const VerifyOTP: React.FC<VerifyOTPProps> = ({
   const [resendTimer, setResendTimer] = useState(30);
   const [isResending, setIsResending] = useState(true);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const [verifyOtp] = useVerifyOtpMutation();
+  const [verifyOtp, { loading: verifyloading }] = useVerifyOtpMutation();
   const [resendOtp] = useResendOtpMutation();
 
   const handleOtpChange = (newOtp: string[], index: number) => {
@@ -60,8 +62,16 @@ export const VerifyOTP: React.FC<VerifyOTPProps> = ({
     setResendTimer(30);
 
     try {
-      const response = await resendOtp({ variables: { phoneNumber: phone } });
-      console.log("Resend OTP Response:", response);
+      const response = (await resendOtp({
+        variables: { phoneNumber: phone },
+      })) as { data: { resendOtp: { message: string; success: boolean } } };
+
+      // console.log("Resend OTP Response:", response);
+      if(response.data?.resendOtp?.success) {
+        toast.success(`${response.data?.resendOtp?.message}`);
+      }else{
+        toast.error(`${response.data?.resendOtp?.message}`);
+      };
     } catch (error) {
       console.log("Resend OTP Error:", error);
     }
@@ -74,14 +84,26 @@ export const VerifyOTP: React.FC<VerifyOTPProps> = ({
       toast.error("Please enter 6 digit OTP code");
       return;
     }
+    setLoading(true);
 
     try {
-      const response = await verifyOtp({
+      const response = (await verifyOtp({
         variables: { phoneNumber: phone, otp: otpCode },
-      });
-      console.log("Verify OTP Response:", response);
+      })) as { data: { verifyOtp: { message: string; success: boolean } } };
+      // console.log("Verify OTP Response:", response);
+
+      if (response.data?.verifyOtp?.success) {
+        toast.success(`${response.data?.verifyOtp?.message}`);
+        closeModal();
+        router.push(getRegionUrl(channel, locale, `auth/login`));
+        return;
+      } else {
+        toast.error(`${response.data?.verifyOtp?.message}`);
+      }
     } catch (error) {
       console.log("Verify OTP Error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -148,7 +170,7 @@ export const VerifyOTP: React.FC<VerifyOTPProps> = ({
 
         <div className="mt-6">
           <CustomButton onClick={handleVerifyOTP}>
-            Verify and Create Account
+            {verifyloading ? "Verifying..." : "Verify"}
           </CustomButton>
         </div>
       </div>
