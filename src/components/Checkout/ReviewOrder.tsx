@@ -148,7 +148,7 @@ export const ReviewOrder: React.FC<ReviewOrderProps> = ({ onBack, onNext }) => {
                 } rounded-lg p-4`}
               >
                 <RadioButton
-                  label={`${method.name} (${method.price.amount} ${method.price.currency})`}
+                  label={`${method.name} - ${method.price.amount} ${method.price.currency})`}
                   name="shippingMethod"
                   value={method.id}
                   checked={selectedShippingMethod === method.id}
