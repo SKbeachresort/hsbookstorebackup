@@ -16,6 +16,10 @@ export const useLogout = () => {
 
       setCookie('accessToken', '', { maxAge: -1 });
       localStorage.removeItem('accessToken');
+      sessionStorage.removeItem("userEmail");
+      sessionStorage.removeItem("userFirstName");
+      sessionStorage.removeItem("userLastName");
+      sessionStorage.removeItem("userId");
       setIsAuthenticated(false);
 
       await router.push('auth/login');

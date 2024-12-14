@@ -156,8 +156,8 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
   
       // Show success toast and navigate
       toast.success("Login Successful");
-      router.replace(targetUrl);
       window.location.reload();
+      router.replace(targetUrl);
     } catch (error) {
       console.error("Error during login:", error);
       toast.error("Something went wrong, please try again.");
