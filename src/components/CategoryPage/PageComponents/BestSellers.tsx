@@ -4,6 +4,7 @@ import { ProductCard } from "@/components/ProductCard/ProductCard";
 import Carousel from "@/app/elements/Carousel";
 import { FetchBestSellerProductsByCategoryDocument } from "../../../../gql/graphql-documents";
 import { executeGraphQL } from "@/lib/graphql";
+import Link from "next/link";
 
 interface BestSellersProps {
   channel: string;
@@ -36,9 +37,11 @@ export const  BestSellers: React.FC<BestSellersProps> = async({
       <div className="my-10 relative">
         <div className="flex flex-row justify-between items-center my-4">
           <h1 className="text-md md:text-lg font-semibold">Best Sellers</h1>
-          <p className="text-sm md:textmd font-semibold text-secondary underline">
-            See all
-          </p>
+          <Link href={`/products/${slug}`}>
+            <p className="text-sm md:textmd font-semibold text-secondary underline">
+              See all
+            </p>
+          </Link>
         </div>
 
         <div className="relative">

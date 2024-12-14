@@ -171,10 +171,10 @@ const ProductDetailPage = () => {
           {/* <SavingsPackage /> */}
 
           {/* People who bought this */}
-          <PeopleWhoBoughtThis channel={channel as string}/>
+          <PeopleWhoBoughtThis channel={channel as string} id={productsDetails.id}/>
 
           {/* Recommended */}
-          <Recommended channel={channel as string}/>
+          <Recommended channel={channel as string} id={productsDetails.id}/>
 
           {/* Customer Reviews & Ratings */}
           {/* <CustomerReviewsRatings /> */}
@@ -202,7 +202,7 @@ const ProductDetailPage = () => {
         <BestSellers channel={channel as string}/>
 
         {/* Recently Viewed */}
-        <RecentlyViewed channel={channel as string}/>
+        {/* <RecentlyViewed channel={channel as string}/> */}
 
         {/* More Items to Explore */}
         <MoreItemsToExplore channel={channel as string}/>

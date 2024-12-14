@@ -33521,10 +33521,19 @@ export type FetchProductListPaginatedBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
+  field?: InputMaybe<ProductOrderField>;
 }>;
 
 
 export type FetchProductListPaginatedBySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+
+export type ProductRecommendationsQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type ProductRecommendationsQuery = { __typename?: 'Query', recommendations?: Array<{ __typename?: 'ProductWithViewCountType', viewCount?: number | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null } | null> | null };
 
 export type SearchProductsQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -45894,13 +45903,14 @@ fragment SelectedAttributeDetailsFragment on SelectedAttribute {
   }
 }`) as unknown as TypedDocumentString<ProductBySlugQuery, ProductBySlugQueryVariables>;
 export const FetchProductListPaginatedBySlugDocument = new TypedDocumentString(`
-    query fetchProductListPaginatedBySlug($first: Int, $last: Int, $channel: String!, $slug: String!, $before: String, $after: String) {
+    query fetchProductListPaginatedBySlug($first: Int, $last: Int, $channel: String!, $slug: String!, $before: String, $after: String, $field: ProductOrderField) {
   category(slug: $slug) {
     ...CategoryDetails
     products(
       first: $first
       last: $last
       channel: $channel
+      sortBy: {field: $field, direction: ASC}
       before: $before
       after: $after
     ) {
@@ -45967,6 +45977,58 @@ fragment ProductCardDetails on Product {
     name
   }
 }`) as unknown as TypedDocumentString<FetchProductListPaginatedBySlugQuery, FetchProductListPaginatedBySlugQueryVariables>;
+export const ProductRecommendationsDocument = new TypedDocumentString(`
+    query ProductRecommendations($channel: String!, $productId: ID!) {
+  recommendations(
+    channel: $channel
+    productId: $productId
+    includeOrderData: true
+    includeSessionData: true
+  ) {
+    viewCount
+    product {
+      ...ProductCardDetails
+    }
+  }
+}
+    fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  thumbnail {
+    url
+    alt
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+  variants {
+    id
+    name
+  }
+}`) as unknown as TypedDocumentString<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>;
 export const SearchProductsDocument = new TypedDocumentString(`
     query SearchProducts($channel: String!, $first: Int, $last: Int, $after: String, $before: String, $sortBy: ProductOrder, $filter: ProductFilterInput, $where: ProductWhereInput, $search: String) {
   products(
@@ -46203,7 +46265,12 @@ export const FetchBestSellerProductsByCategoryDocument = new TypedDocumentString
     query fetchBestSellerProductsByCategory($slug: String!, $channel: String!, $after: String!) {
   category(slug: $slug) {
     ...CategoryDetails
-    products(channel: $channel, first: 20, after: $after) {
+    products(
+      channel: $channel
+      sortBy: {direction: ASC, field: COLLECTION}
+      first: 20
+      after: $after
+    ) {
       totalCount
       edges {
         node {

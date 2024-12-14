@@ -144,8 +144,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
         !data.lastName ||
         !data.phone ||
         !data.streetAddress1 ||
-        !data.city ||
-        !data.postalCode)
+        !data.city )
     ) {
       toast.error("Please fill in all required fields!");
       setLoading(false);
@@ -274,10 +273,12 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
       }
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred. Please try again.");
+      if (error instanceof Error) {
+        toast.error(`${error.message}`);
+      } 
     } finally {
       setLoading(false);
-    }
+    };
   };
 
   return (

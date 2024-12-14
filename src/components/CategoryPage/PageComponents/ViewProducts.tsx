@@ -49,17 +49,17 @@ export const ViewProducts: React.FC<ViewProductsProps> = async ({
           </span>
         </h1>
 
-        {/* <Link
+        <Link
           href={getRegionUrl(
             channel,
             locale,
-            `collections/${slug}`
+            `products/${slug}`
           )}
-        > */}
+        >
           <p className="text-sm md:textmd font-semibold text-secondary underline">
             See all
           </p>
-        {/* </Link> */}
+        </Link>
       </div>
 
       <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-5">

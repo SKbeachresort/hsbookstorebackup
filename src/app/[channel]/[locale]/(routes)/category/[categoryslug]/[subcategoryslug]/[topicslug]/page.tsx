@@ -125,6 +125,8 @@ export default async function NestedSubCategory({
             path={path}
             safeEndCursor={safeEndCursor}
             safeStartCursor={safeStartCursor}
+            // loading={loading}
+            categoryslug={topicslug}
           />
         </div>
       )}

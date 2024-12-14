@@ -7,6 +7,7 @@ query fetchBestSellerProductsByCategory(
     ...CategoryDetails
     products(
       channel: $channel, 
+      sortBy: {direction: ASC, field: COLLECTION}
       first: 20, 
       after: $after
     ) {

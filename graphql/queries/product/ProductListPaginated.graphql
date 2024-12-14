@@ -5,6 +5,7 @@ query fetchProductListPaginatedBySlug(
   $slug: String!
   $before: String
   $after: String
+  $field: ProductOrderField
 ) {
   category(slug: $slug) {
     ...CategoryDetails
@@ -12,6 +13,7 @@ query fetchProductListPaginatedBySlug(
       first: $first
       last: $last
       channel: $channel
+      sortBy: { field: $field, direction: ASC }
       before: $before
       after: $after
     ) {

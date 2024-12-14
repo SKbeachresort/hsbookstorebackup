@@ -1,0 +1,13 @@
+query ProductRecommendations($channel: String!, $productId: ID!) {
+  recommendations(
+    channel: $channel
+    productId: $productId
+    includeOrderData: true
+    includeSessionData: true
+  ) {
+    viewCount
+    product {
+      ...ProductCardDetails
+    }
+  }
+}

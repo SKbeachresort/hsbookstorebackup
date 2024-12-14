@@ -1,5 +1,5 @@
 query HomeRecentlyAdded(
-    $channel: String!
+  $channel: String!
 ) {
   products(
     first: 20

@@ -100,13 +100,11 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setIsLoading(true);
     try {
-      // Call userLogin API
       const res = await userLogin({
         email: data.email,
         password: data.password,
       });
   
-      // Check for errors in tokenCreate response
       if (res.data.tokenCreate?.errors?.length > 0) {
         res.data.tokenCreate.errors.forEach((err) => {
           toast.error(`Error: ${err.message}`);
@@ -114,7 +112,6 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
         throw new Error("Login failed, please try again.");
       }
   
-      // Call signIn
       const signInResult = await signIn(
         {
           email: data.email,
@@ -123,7 +120,6 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
         { redirect: "manual" }
       );
   
-      // Check for errors in signIn response
       if (signInResult.data.tokenCreate?.errors?.length > 0) {
         signInResult.data.tokenCreate.errors.forEach((err) => {
           toast.error(`Error: ${err.message}`);
@@ -131,7 +127,6 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
         throw new Error("Sign-in failed, please try again.");
       }
   
-      // Call userTokenCreate API to fetch user details
       const userTokenRes = await userTokenCreate({
         variables: {
           email: data.email,
@@ -145,7 +140,6 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
         throw new Error("Failed to fetch user details.");
       };
   
-      // Save user details in localStorage
       const user = tokenCreateData.user;
       if (user) {
         sessionStorage.setItem("userEmail", user.email);
@@ -154,7 +148,6 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
         sessionStorage.setItem("userId", user.id);
       };
   
-      // Show success toast and navigate
       toast.success("Login Successful");
       window.location.reload();
       router.replace(targetUrl);

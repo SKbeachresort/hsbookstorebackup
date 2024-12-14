@@ -4,6 +4,7 @@ import { ProductCard } from "@/components/ProductCard/ProductCard";
 import { FetchRecentlyAddedProductsByCategorySlugDocument } from "../../../../gql/graphql-documents";
 import { executeGraphQL } from "@/lib/graphql";
 import Carousel from "@/app/elements/Carousel";
+import Link from "next/link";
 
 interface RecentlyAddedProps {
   channel: string;
@@ -16,8 +17,9 @@ export const RecentlyAdded: React.FC<RecentlyAddedProps> = async ({
   slug,
   after,
 }) => {
-
-  const data = await executeGraphQL(FetchRecentlyAddedProductsByCategorySlugDocument,{
+  const data = await executeGraphQL(
+    FetchRecentlyAddedProductsByCategorySlugDocument,
+    {
       variables: {
         channel,
         slug,
@@ -28,18 +30,21 @@ export const RecentlyAdded: React.FC<RecentlyAddedProps> = async ({
 
   const products = data?.category?.products?.edges || [];
 
-  if(products.length === 0) {
+  if (products.length === 0) {
     return null;
-  };
+  }
 
   return (
     <div className="">
       <div className="my-10 relative">
         <div className="flex flex-row justify-between items-center my-4">
           <h1 className="text-md md:text-lg font-semibold">Recently Added</h1>
-          <p className="text-sm md:textmd font-semibold text-secondary underline">
-            See all
-          </p>
+
+          <Link href={`/products/${slug}`}>
+            <p className="text-sm md:textmd font-semibold text-secondary underline">
+              See all
+            </p>
+          </Link>
         </div>
 
         <div className="relative">

@@ -33715,10 +33715,19 @@ export type FetchProductListPaginatedBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
+  field?: InputMaybe<ProductOrderField>;
 }>;
 
 
 export type FetchProductListPaginatedBySlugQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, name: string, slug: string, level: number, products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null } | null };
+
+export type ProductRecommendationsQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type ProductRecommendationsQuery = { __typename?: 'Query', recommendations?: Array<{ __typename?: 'ProductWithViewCountType', viewCount?: number | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null } | null> | null };
 
 export type SearchProductsQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -35251,13 +35260,14 @@ export type ProductBySlugLazyQueryHookResult = ReturnType<typeof useProductBySlu
 export type ProductBySlugSuspenseQueryHookResult = ReturnType<typeof useProductBySlugSuspenseQuery>;
 export type ProductBySlugQueryResult = Apollo.QueryResult<ProductBySlugQuery, ProductBySlugQueryVariables>;
 export const FetchProductListPaginatedBySlugDocument = gql`
-    query fetchProductListPaginatedBySlug($first: Int, $last: Int, $channel: String!, $slug: String!, $before: String, $after: String) {
+    query fetchProductListPaginatedBySlug($first: Int, $last: Int, $channel: String!, $slug: String!, $before: String, $after: String, $field: ProductOrderField) {
   category(slug: $slug) {
     ...CategoryDetails
     products(
       first: $first
       last: $last
       channel: $channel
+      sortBy: {field: $field, direction: ASC}
       before: $before
       after: $after
     ) {
@@ -35296,6 +35306,7 @@ ${PageInfoDetailsFragmentDoc}`;
  *      slug: // value for 'slug'
  *      before: // value for 'before'
  *      after: // value for 'after'
+ *      field: // value for 'field'
  *   },
  * });
  */
@@ -35315,6 +35326,55 @@ export type FetchProductListPaginatedBySlugQueryHookResult = ReturnType<typeof u
 export type FetchProductListPaginatedBySlugLazyQueryHookResult = ReturnType<typeof useFetchProductListPaginatedBySlugLazyQuery>;
 export type FetchProductListPaginatedBySlugSuspenseQueryHookResult = ReturnType<typeof useFetchProductListPaginatedBySlugSuspenseQuery>;
 export type FetchProductListPaginatedBySlugQueryResult = Apollo.QueryResult<FetchProductListPaginatedBySlugQuery, FetchProductListPaginatedBySlugQueryVariables>;
+export const ProductRecommendationsDocument = gql`
+    query ProductRecommendations($channel: String!, $productId: ID!) {
+  recommendations(
+    channel: $channel
+    productId: $productId
+    includeOrderData: true
+    includeSessionData: true
+  ) {
+    viewCount
+    product {
+      ...ProductCardDetails
+    }
+  }
+}
+    ${ProductCardDetailsFragmentDoc}`;
+
+/**
+ * __useProductRecommendationsQuery__
+ *
+ * To run a query within a React component, call `useProductRecommendationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductRecommendationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductRecommendationsQuery({
+ *   variables: {
+ *      channel: // value for 'channel'
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useProductRecommendationsQuery(baseOptions: Apollo.QueryHookOptions<ProductRecommendationsQuery, ProductRecommendationsQueryVariables> & ({ variables: ProductRecommendationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>(ProductRecommendationsDocument, options);
+      }
+export function useProductRecommendationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>(ProductRecommendationsDocument, options);
+        }
+export function useProductRecommendationsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>(ProductRecommendationsDocument, options);
+        }
+export type ProductRecommendationsQueryHookResult = ReturnType<typeof useProductRecommendationsQuery>;
+export type ProductRecommendationsLazyQueryHookResult = ReturnType<typeof useProductRecommendationsLazyQuery>;
+export type ProductRecommendationsSuspenseQueryHookResult = ReturnType<typeof useProductRecommendationsSuspenseQuery>;
+export type ProductRecommendationsQueryResult = Apollo.QueryResult<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>;
 export const SearchProductsDocument = gql`
     query SearchProducts($channel: String!, $first: Int, $last: Int, $after: String, $before: String, $sortBy: ProductOrder, $filter: ProductFilterInput, $where: ProductWhereInput, $search: String) {
   products(
@@ -35443,7 +35503,12 @@ export const FetchBestSellerProductsByCategoryDocument = gql`
     query fetchBestSellerProductsByCategory($slug: String!, $channel: String!, $after: String!) {
   category(slug: $slug) {
     ...CategoryDetails
-    products(channel: $channel, first: 20, after: $after) {
+    products(
+      channel: $channel
+      sortBy: {direction: ASC, field: COLLECTION}
+      first: 20
+      after: $after
+    ) {
       totalCount
       edges {
         node {
