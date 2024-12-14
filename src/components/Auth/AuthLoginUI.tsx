@@ -73,6 +73,8 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
     { loading: checkoutLoading, data: checkoutData, error: checkoutError },
   ] = useCheckoutCreateMutation();
 
+  const [userTokenCreate, { data, error }] = useUserTokenCreateMutation();
+
   const cartItems: CartItem[] = JSON.parse(
     localStorage.getItem("cartItems") || "[]"
   );
@@ -97,55 +99,73 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setIsLoading(true);
-    const tokenDetails = await userLogin({
-      email: data.email,
-      password: data.password,
-    })
-      .then(async (res) => {
-        if (res.data.tokenCreate?.errors?.length > 0) {
-          setIsLoading(false);
-          res.data.tokenCreate.errors.map((err) => {
-            toast.error(`Error: ${err.message}`);
-          });
-          throw new Error("Error happened, please try again");
-        };
-
-        signIn(
-          {
-            email: data.email,
-            password: data.password,
-          },
-          {
-            redirect: "manual",
-          }
-        )
-          .then((result) => {
-            console.log("Sign In Result", result);
-            if (result.data.tokenCreate?.errors?.length > 0) {
-              // handle errors
-              setIsLoading(false);
-              result.data.tokenCreate.errors.map((err) => {
-                toast.error(`Error: ${err.message}`);
-              });
-              throw new Error("Error happened, please try again");
-            }
-            setIsLoading(false);
-            toast.success("Login Successful");
-            router.replace(targetUrl);
-            return;
-          })
-          .catch((err) => {
-            toast.error("Something went wrong, please try again.");
-          });
-      })
-      .catch((err) => {
-        toast.error("Something went wrong, please try again.");
-      })
-      .finally(() => {
-        setIsLoading(false);
+    try {
+      // Call userLogin API
+      const res = await userLogin({
+        email: data.email,
+        password: data.password,
       });
+  
+      // Check for errors in tokenCreate response
+      if (res.data.tokenCreate?.errors?.length > 0) {
+        res.data.tokenCreate.errors.forEach((err) => {
+          toast.error(`Error: ${err.message}`);
+        });
+        throw new Error("Login failed, please try again.");
+      }
+  
+      // Call signIn
+      const signInResult = await signIn(
+        {
+          email: data.email,
+          password: data.password,
+        },
+        { redirect: "manual" }
+      );
+  
+      // Check for errors in signIn response
+      if (signInResult.data.tokenCreate?.errors?.length > 0) {
+        signInResult.data.tokenCreate.errors.forEach((err) => {
+          toast.error(`Error: ${err.message}`);
+        });
+        throw new Error("Sign-in failed, please try again.");
+      }
+  
+      // Call userTokenCreate API to fetch user details
+      const userTokenRes = await userTokenCreate({
+        variables: {
+          email: data.email,
+          password: data.password,
+        },
+      });
+  
+      const tokenCreateData = userTokenRes?.data?.tokenCreate;
+      if (!tokenCreateData || tokenCreateData.errors?.length > 0) {
+        toast.error(`${tokenCreateData?.errors?.[0]?.message}`);
+        throw new Error("Failed to fetch user details.");
+      };
+  
+      // Save user details in localStorage
+      const user = tokenCreateData.user;
+      if (user) {
+        sessionStorage.setItem("userEmail", user.email);
+        sessionStorage.setItem("userFirstName", user.firstName);
+        sessionStorage.setItem("userLastName", user.lastName);
+        sessionStorage.setItem("userId", user.id);
+      };
+  
+      // Show success toast and navigate
+      toast.success("Login Successful");
+      router.replace(targetUrl);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error during login:", error);
+      toast.error("Something went wrong, please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
-
+  
   const onSubmitGuestCheckout: SubmitHandler<GuestFormInputs> = async (
     data
   ) => {

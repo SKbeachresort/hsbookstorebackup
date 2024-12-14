@@ -33576,7 +33576,7 @@ export type UserTokenCreateMutationVariables = Exact<{
 }>;
 
 
-export type UserTokenCreateMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+export type UserTokenCreateMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null } | null };
 
 export type VerifyOtpMutationVariables = Exact<{
   otp: Scalars['String']['input'];
@@ -34377,11 +34377,11 @@ export const UserTokenCreateDocument = gql`
     }
     token
     user {
-      ...BasicUserDetails
+      ...UserFragment
     }
   }
 }
-    ${BasicUserDetailsFragmentDoc}`;
+    ${UserFragmentFragmentDoc}`;
 export type UserTokenCreateMutationFn = Apollo.MutationFunction<UserTokenCreateMutation, UserTokenCreateMutationVariables>;
 
 /**

@@ -49,16 +49,41 @@ export const Navbar = () => {
 
   const router = useRouter();
 
-  const { isAuthenticated } = useAuth();
+  // const { isAuthenticated } = useAuth();
 
-  const { user, loading: loadingUser, authenticated } = useUser();
-  console.log("User in Navbar", user);
+  // const { user, loading: loadingUser, authenticated } = useUser();
+  // console.log("User in Navbar", user);
 
+  // useEffect(() => {
+  //   if (isAuthenticated && user) {
+  //     router.push(getRegionUrl(`me/${user?.id}`));
+  //   }
+  // }, [isAuthenticated, user, router]);
+  const [user, setUser] = useState<{
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  } | null>(null);
+
+  // Fetch user details from sessionStorage on component mount
   useEffect(() => {
-    if (isAuthenticated && user) {
-      router.push(getRegionUrl(`me/${user?.id}`));
+    const userEmail = sessionStorage.getItem("userEmail");
+    const userFirstName = sessionStorage.getItem("userFirstName");
+    const userLastName = sessionStorage.getItem("userLastName");
+    const userId = sessionStorage.getItem("userId");
+
+    if (userEmail && userFirstName && userLastName && userId) {
+      setUser({
+        id: userId,
+        email: userEmail,
+        firstName: userFirstName,
+        lastName: userLastName,
+      });
     }
-  }, [isAuthenticated, user, router]);
+  }, []);
+
+  const isAuthenticated = () => !!user?.id;
 
   const { totalItems } = useCart();
   const { getRegionUrl } = useRegionUrl();
@@ -100,13 +125,13 @@ export const Navbar = () => {
     }
   };
 
-  const handleAuthRedirect = () => {
-    if (isAuthenticated) {
-      router.push(getRegionUrl(`me/${user?.id}`));
-    } else {
-      router.push(getRegionUrl(`auth/login`));
-    }
-  };
+  // const handleAuthRedirect = () => {
+  //   if (isAuthenticated) {
+  //     router.push(getRegionUrl(`me/${user?.id}`));
+  //   } else {
+  //     router.push(getRegionUrl(`auth/login`));
+  //   }
+  // };
 
   return (
     <>
@@ -205,7 +230,7 @@ export const Navbar = () => {
             </PopOverDropDown>
 
             {/* Auth Login */}
-            {isAuthenticated && user ? (
+            {isAuthenticated() ? (
               <Link href={getRegionUrl(`me/${user?.id}`)} passHref>
                 <div className="flex flex-row justify-center items-center gap-x-[1vh]">
                   <FaRegUser className="hidden md:block text-textgray text-2xl" />

@@ -7,7 +7,7 @@ mutation UserTokenCreate($email: String!, $password: String!) {
     }
     token
     user {
-      ...BasicUserDetails
+      ...UserFragment
     }
   }
 }
