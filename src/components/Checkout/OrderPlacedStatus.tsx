@@ -22,7 +22,8 @@ const OrderPlacedStatus: React.FC<OrderPlacedStatusProps> = ({ orderId }) => {
         Thank you for shopping with us!
       </h1>
       <p className="text-sm">
-        Order Number #{orderId} has been placed successfully
+        Order Number <span className="font-semibold">#{orderId}</span> has been
+        placed successfully
       </p>
       <p>We will short send you an email confirmation shortly.</p>
     </div>

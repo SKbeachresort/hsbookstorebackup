@@ -139,8 +139,11 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
                 .initializedPayment.data
             ).SessionId
           : null;
-
         console.log("Session ID", SessionId);
+        const redirectURL = `${process.env.NEXT_PUBLIC_REDIRECT_URL}/checkout/${checkoutID}/execute-payment/${SessionId}`;
+        if (SessionId) {
+          window.location.href = redirectURL;
+        }
       } catch (error) {
         console.log("Error creating payment", error);
       }
@@ -204,7 +207,11 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
           {loading ? (
             <Loader />
           ) : isSecondLastStep ? (
-            `${paymentMethod !== "cash-on-delivery" ? "Continue to Payment" : "Place Order"}`
+            `${
+              paymentMethod !== "cash-on-delivery"
+                ? "Continue to Payment"
+                : "Place Order"
+            }`
           ) : (
             "Checkout"
           )}

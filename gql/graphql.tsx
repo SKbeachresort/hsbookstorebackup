@@ -33610,7 +33610,7 @@ export type CompleteCheckoutMutationVariables = Exact<{
 }>;
 
 
-export type CompleteCheckoutMutation = { __typename?: 'Mutation', checkoutComplete?: { __typename?: 'CheckoutComplete', confirmationData?: string | null, confirmationNeeded: boolean, errors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, message?: string | null, field?: string | null, lines?: Array<string> | null, variants?: Array<string> | null }>, order?: { __typename?: 'Order', id: string, actions: Array<OrderAction>, authorizeStatus: OrderAuthorizeStatusEnum, isPaid: boolean, paymentStatus: PaymentChargeStatusEnum, checkoutId?: string | null, created: string, userEmail?: string | null, totalCharged: { __typename?: 'Money', amount: number, currency: string }, totalCaptured: { __typename?: 'Money', amount: number, currency: string } } | null, checkoutErrors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, field?: string | null, lines?: Array<string> | null, message?: string | null, variants?: Array<string> | null }> } | null };
+export type CompleteCheckoutMutation = { __typename?: 'Mutation', checkoutComplete?: { __typename?: 'CheckoutComplete', confirmationData?: string | null, confirmationNeeded: boolean, errors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, message?: string | null, field?: string | null, lines?: Array<string> | null, variants?: Array<string> | null }>, order?: { __typename?: 'Order', id: string, number: string, actions: Array<OrderAction>, authorizeStatus: OrderAuthorizeStatusEnum, isPaid: boolean, paymentStatus: PaymentChargeStatusEnum, checkoutId?: string | null, created: string, userEmail?: string | null, totalCharged: { __typename?: 'Money', amount: number, currency: string }, totalCaptured: { __typename?: 'Money', amount: number, currency: string } } | null, checkoutErrors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, field?: string | null, lines?: Array<string> | null, message?: string | null, variants?: Array<string> | null }> } | null };
 
 export type CheckoutCreateMutationVariables = Exact<{
   lines: Array<CheckoutLineInput> | CheckoutLineInput;
@@ -34554,6 +34554,7 @@ export const CompleteCheckoutDocument = gql`
     }
     order {
       id
+      number
       actions
       authorizeStatus
       isPaid

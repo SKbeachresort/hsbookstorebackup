@@ -50,8 +50,8 @@ const CheckoutStatus = () => {
           console.log("Complete Checkout", response);
           if (response.data?.checkoutComplete) {
             const order = response.data?.checkoutComplete.order;
-            if (order?.id) {
-              setOrderId(order.id);
+            if (order?.number) {
+              setOrderId(order.number);
             }
             if (order?.paymentStatus === "FULLY_CHARGED") {
               setOrderSuccess(true);

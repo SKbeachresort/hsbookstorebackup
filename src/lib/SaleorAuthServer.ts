@@ -12,4 +12,4 @@ export const getServerAuthClient = () => {
     refreshTokenStorage: nextServerCookiesStorage,
     accessTokenStorage: nextServerCookiesStorage,
   })
-}
+};

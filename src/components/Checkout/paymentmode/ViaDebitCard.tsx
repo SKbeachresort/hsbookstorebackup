@@ -6,7 +6,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 export const ViaDebitCard = () => {
   return (
     <div className="md:w-[50%]">
-      <h1>Please Place Order and make a payment for Sucessfull Order</h1>
+      <div className="bg-disableGray p-4 my-3">
+        <span className="font-semibold">
+          You will be redirected to the KNET payment gateway to finish gateway
+        </span>
+      </div>
     </div>
   );
 };

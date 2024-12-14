@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card View Payment</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      width: 100vw;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: clamp(250px, 400px, 620px);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-inline: auto;
+      padding: 0.5rem;
+    }
+
+    .logo-wrapper {
+      width: 100%;
+      padding-block: 0.5rem;
+      background-color: #000;
+      display: grid;
+      place-items: center;
+    }
+
+    .container .logo-wrapper img {
+      margin-inline: auto;
+      width: 150px;
+    }
+
+    .card-container {
+      width: 100%;
+      min-height: 250px;
+    }
+
+    .payment-btn {
+      height: 40px;
+      padding-inline: 0.5rem;
+      border: 1px solid lightseagreen;
+      background-color: rgba(135, 206, 250, 0.2);
+      color: black;
+      border-radius: 8px;
+      outline-color: transparent;
+      cursor: pointer;
+    }
+
+    .payment-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    #loading {
+      display: none;
+    }
+
+    #card-element:empty #loading {
+      display: block;
+    }
+
+    #card-element:empty .payment-btn {
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    h1 {
+      font-weight: 700;
+      text-align: center;
+      text-transform: capitalize;
+    }
+
+    .success {
+      color: rgba(0, 170, 0, 0.7);
+      font-weight: 600;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    .error {
+      color: rgba(170, 0, 0, 0.7);
+      font-weight: 600;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    .hide {
+      visibility: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="https://demo.myfatoorah.com/cardview/v2/session.js"></script>
+  <div class="container">
+    <div class="logo-wrapper">
+      <img src="logo.png" alt="logo">
+    </div>
+    <h1>Card View Payment</h1>
+
+    <div class="card-container">
+      <div id="loading">
+        <p style="color: cornflowerblue;font-weight: 700;font-size: 1.5rem;">Loading...</p>
+      </div>
+      <div id="card-element"></div>
+    </div>
+    <button class="payment-btn" onclick="submit()">Pay Now</button>
+  </div>
+
+
+  <script>
+    // getting the search params from the url
+    const search = window.location.search
+    const searchParams = new URLSearchParams(search)
+    const paymentSession = searchParams.get("paymentId")
+    const checkoutId = searchParams.get("checkoutId")
+    console.log("session: ", paymentSession, checkoutId)
+
+    const cardFormContainer = document.getElementById("card-element")
+    const payButton = document.querySelector(".payment-btn")
+
+    var config = {
+      countryCode: "KWT", // Here, add your Country Code.
+      sessionId: paymentSession, // Here you add the "SessionId" you receive from InitiateSession Endpoint.
+      cardViewId: "card-element",
+      onCardBinChanged: handleBinChanges,
+      // The following style is optional.
+      style: {
+        hideCardIcons: false,
+        direction: "ltr",
+        cardHeight: 250,
+        tokenHeight: 230,
+        input: {
+          color: "black",
+          fontSize: "13px",
+          fontFamily: "sans-serif",
+          inputHeight: "32px",
+          inputMargin: "10px",
+          borderColor: "c7c7c7",
+          borderWidth: "1px",
+          borderRadius: "8px",
+          boxShadow: "",
+          placeHolder: {
+            holderName: "Name On Card",
+            cardNumber: "Number",
+            expiryDate: "MM / YY",
+            securityCode: "CVV",
+          }
+        },
+        text: {
+          saveCard: "Save card info for future payment.",
+          addCard: "Use another Card!",
+          deleteAlert: {
+            title: "Delete",
+            message: "Test",
+            confirm: "yes",
+            cancel: "no"
+          }
+        },
+        label: {
+          display: true,
+          color: "rgba(0,0,0,0.5)",
+          fontSize: "13px",
+          fontWeight: "normal",
+          fontFamily: "sans-serif",
+          text: {
+            holderName: "Card Holder Name",
+            cardNumber: "Card Number",
+            expiryDate: "Expiry Date",
+            securityCode: "Security Code",
+          },
+        },
+        error: {
+          borderColor: "rgba(255,0,0,0.6)",
+          borderRadius: "8px",
+          boxShadow: "0px",
+        },
+      },
+    };
+    myFatoorah.init(config);
+
+    function submit() {
+      payButton.setAttribute("disabled", "disabled")
+      myFatoorah.submit()
+        // On success
+        .then(function (response) {
+          // Here you need to pass session id to you backend here
+          var sessionId = response.sessionId;
+          var cardBrand = response.cardBrand;
+          // Shown a success message to the user
+          const paymentSuccess = document.createElement("p")
+          paymentSuccess.classList.add("success")
+          paymentSuccess.innerText = "Your payment initiated successfully!"
+          payButton.after(paymentSuccess)
+          // payButton.style.display = "none"
+          payButton.classList.add("hide")
+          console.log("Response: ", response)
+          window.location.replace(`/checkout/${checkoutId}/execute-payment/${sessionId}`)
+        })
+        // In case of errors
+        .catch(function (error) {
+          console.log(error);
+          // Shown a Error message to the user
+          const paymentSuccess = document.createElement("p")
+          paymentSuccess.classList.add("error")
+          paymentSuccess.innerText = `Something went wrong, please try again later! ${error.message ? error.message : ""}`
+          payButton.after(paymentSuccess)
+        }).finally(function () {
+          payButton.removeAttribute("disabled")
+        });
+    }
+    function handleBinChanges(bin) {
+      console.log(bin);
+    }
+  </script>
+
+</body>
+
+</html>

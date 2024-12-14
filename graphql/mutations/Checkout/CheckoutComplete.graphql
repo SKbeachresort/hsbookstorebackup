@@ -15,6 +15,7 @@ mutation completeCheckout($paymentData: JSONString!, $checkoutId: ID!) {
     }
     order {
       id
+      number
       actions
       authorizeStatus
       isPaid
