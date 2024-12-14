@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Modal from "@/app/elements/Modal";
 import Loader from "@/app/elements/Loader";
@@ -27,13 +27,39 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isloading, setIsLoading] = useState(false);
 
+  const [user, setUser] = useState<{
+      id: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+    } | null>(null);
+  
+    // Fetch user details from sessionStorage on component mount
+    useEffect(() => {
+      const userEmail = sessionStorage.getItem("userEmail");
+      const userFirstName = sessionStorage.getItem("userFirstName");
+      const userLastName = sessionStorage.getItem("userLastName");
+      const userId = sessionStorage.getItem("userId");
+  
+      if (userEmail && userFirstName && userLastName && userId) {
+        setUser({
+          id: userId,
+          email: userEmail,
+          firstName: userFirstName,
+          lastName: userLastName,
+        });
+      }
+    }, []);
+  
+    const isAuthenticated = () => !!user?.id;
+
   // console.log("Cart Items: ", cartItems);
 
   const [checkout, { loading: checkoutLoading, data, error }] =
     useCheckoutCreateMutation();
 
-  const isAuthenticated = useIsAuthenticated();
-  const { user } = getUserDetails();
+  // const isAuthenticated = useIsAuthenticated();
+  // const { user } = getUserDetails();
   const router = useRouter();
 
   const openModal = () => {
@@ -62,7 +88,7 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
     
     const guestEmail = localStorage.getItem("guestEmail");
 
-    const email = isAuthenticated ? user?.email : guestEmail;
+    const email = isAuthenticated() ? user?.email : guestEmail;
 
     try {
       const response = await checkout({
@@ -125,7 +151,7 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
         </button>
         {/* </Link> */}
 
-        {isAuthenticated && user ? (
+        {isAuthenticated() && user ? (
           <>
             <div className="text-sm mt-2">
               Current User Signed:{" "}
