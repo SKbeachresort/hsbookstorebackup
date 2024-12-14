@@ -1,13 +1,31 @@
-query GetLoginUserDetails {
-  me {
-    avatar {
-      url
-    }
-    email
+query User($channel: String, $locale: LanguageCodeEnum!) {
+  user: me {
     id
+    email
     firstName
     lastName
-    isConfirmed
+    avatar {
+      url
+      alt
+    }
     isActive
+    isConfirmed
+    addresses {
+      ...AddressDetailsFragment
+    }
+    defaultBillingAddress {
+      ...AddressDetailsFragment
+    }
+    defaultShippingAddress {
+      ...AddressDetailsFragment
+    }
+    checkoutIds(channel: $channel)
+    checkouts(channel: $channel, first: 50) {
+      edges {
+        node {
+          ...CheckoutDetailsFragment
+        }
+      }
+    }
   }
 }

@@ -27,6 +27,9 @@ import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { useCheckoutCreateMutation } from "../../../gql/graphql";
+import { userLogin } from "@/server/userLogin";
+import { useSaleorAuthContext } from "@saleor/auth-sdk/react";
+import { getCookie } from "cookies-next";
 
 interface AuthLoginUIProps {
   channel: string;
@@ -51,17 +54,25 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
   channel,
   locale,
 }) => {
-  
   const router = useRouter();
   const currentPath = usePathname();
+
   const { isAuthenticated, setIsAuthenticated } = useAuth();
-  const [login, { loading, data, error }] = useUserTokenCreateMutation();
-  
+  const { signIn } = useSaleorAuthContext();
+  const callbackUrl = getCookie("redirectTo") as string | undefined;
+  const [loading, setIsLoading] = useState(false);
+
+  const targetUrl =
+    callbackUrl &&
+    (!callbackUrl.includes("login") || !callbackUrl.includes("register"))
+      ? callbackUrl
+      : "/";
+
   const [
     checkout,
     { loading: checkoutLoading, data: checkoutData, error: checkoutError },
   ] = useCheckoutCreateMutation();
-  
+
   const cartItems: CartItem[] = JSON.parse(
     localStorage.getItem("cartItems") || "[]"
   );
@@ -85,57 +96,63 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
   const { reset: resetGuestForm } = guestForm;
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
-    try {
-      const response = await login({
-        variables: {
-          email: data.email,
-          password: data.password,
-        },
-      });
-
-      const errors = response.data?.tokenCreate?.errors;
-
-      if (errors && errors.length > 0) {
-        toast.error(`${errors[0].message}`);
-        reset();
-      } else {
-        const token = response.data?.tokenCreate?.token;
-        const userId = response.data?.tokenCreate?.user?.id;
-        if (token) {
-          setCookie("accessToken", token, { maxAge: 7 * 24 * 60 * 60 });
-          localStorage.setItem("accessToken", token);
+    setIsLoading(true);
+    const tokenDetails = await userLogin({
+      email: data.email,
+      password: data.password,
+    })
+      .then(async (res) => {
+        if (res.data.tokenCreate?.errors?.length > 0) {
+          setIsLoading(false);
+          res.data.tokenCreate.errors.map((err) => {
+            toast.error(`Error: ${err.message}`);
+          });
+          throw new Error("Error happened, please try again");
         };
 
-        if (userId) {
-          if (currentPath.includes("/cart")) {
-            toast.success("Login successful");
-            setIsAuthenticated(true);
-            window.location.reload();
-          } else {
-            const profileUrl = getRegionUrl(channel, locale, `me/${userId}`);
-            router.replace(profileUrl);
-            toast.success("Login successful");
-            setIsAuthenticated(true);
+        signIn(
+          {
+            email: data.email,
+            password: data.password,
+          },
+          {
+            redirect: "manual",
           }
-        } else {
-          toast.error("An error occurred. Please try again.");
-        }
-        reset();
-      }
-    } catch (error) {
-      toast.error("An error occurred. Please try again.");
-      console.log("Error:", error);
-    }
+        )
+          .then((result) => {
+            console.log("Sign In Result", result);
+            if (result.data.tokenCreate?.errors?.length > 0) {
+              // handle errors
+              setIsLoading(false);
+              result.data.tokenCreate.errors.map((err) => {
+                toast.error(`Error: ${err.message}`);
+              });
+              throw new Error("Error happened, please try again");
+            }
+            setIsLoading(false);
+            toast.success("Login Successful");
+            router.replace(targetUrl);
+            return;
+          })
+          .catch((err) => {
+            toast.error("Something went wrong, please try again.");
+          });
+      })
+      .catch((err) => {
+        toast.error("Something went wrong, please try again.");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const onSubmitGuestCheckout: SubmitHandler<GuestFormInputs> = async (
     data
   ) => {
-
-    if(!data.email){
+    if (!data.email) {
       toast.error("Please enter your email address");
       return;
-    };
+    }
 
     const checkoutLines = cartItems.map((items) => ({
       quantity: items.quantity,
@@ -167,11 +184,11 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
           setCookie("checkoutID", checkoutID, { maxAge: 7 * 24 * 60 * 60 });
           toast.success("Checkout Initiated!");
           router.push(getRegionUrl(channel, locale, `checkout`));
-        };
-      };
+        }
+      }
     } catch (error) {
       console.log("Error:", error);
-    };
+    }
   };
 
   return (

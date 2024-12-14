@@ -14,6 +14,7 @@ import { useRegionUrl } from "@/hooks/useRegionUrl";
 import { useHomeFeaturedCategoryQuery } from "../../../gql/graphql";
 
 export const HomeCategory = () => {
+  
   const { getRegionUrl } = useRegionUrl();
 
   const { data } = useHomeFeaturedCategoryQuery({
@@ -30,18 +31,17 @@ export const HomeCategory = () => {
       <div className="">
         <div className="flex flex-row flex-wrap gap-2 md:gap-0 justify-center md:justify-between">
           {categories.map(({ node }) => {
-
-            const categoryUrl = 
+            const categoryUrl =
               node.level === 1 && node.parent
-               ? `category/${node.parent.slug}/${node.slug}`
-               : `category/${node.slug}`;
+                ? `category/${node.parent.slug}/${node.slug}`
+                : `category/${node.slug}`;
 
             return (
               <div
                 key={node.id}
-                className="bg-white md:w-[18%] rounded-md overflow-hidden flex flex-col items-start"
+                className="md:w-[18%] rounded-md overflow-hidden flex flex-col items-start"
               >
-                <div className="">
+                <div className="w-full h-full">
                   <Link href={getRegionUrl(categoryUrl)}>
                     <div className="">
                       <Image

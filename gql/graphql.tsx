@@ -33648,10 +33648,13 @@ export type CheckoutShippingMethodUpdateMutationVariables = Exact<{
 
 export type CheckoutShippingMethodUpdateMutation = { __typename?: 'Mutation', checkoutDeliveryMethodUpdate?: { __typename: 'CheckoutDeliveryMethodUpdate', checkout?: { __typename: 'Checkout', id: string, token: string, email?: string | null, isShippingRequired: boolean, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, deliveryMethod?: { __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } } | { __typename: 'Warehouse' } | null, shippingMethods: Array<{ __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } }>, availablePaymentGateways: Array<{ __typename: 'PaymentGateway', id: string, name: string, config: Array<{ __typename: 'GatewayConfigLine', field: string, value?: string | null }> }>, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, translation?: { __typename: 'ProductTranslation', id: string, name?: string | null } | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null, translation?: { __typename: 'ProductVariantTranslation', id: string, name: string } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, subtotalPrice: { __typename: 'TaxedMoney', net: { __typename: 'Money', currency: string, amount: number }, tax: { __typename: 'Money', currency: string, amount: number } }, shippingPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null } | null, errors: Array<{ __typename: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
 
-export type GetLoginUserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
+export type UserQueryVariables = Exact<{
+  channel?: InputMaybe<Scalars['String']['input']>;
+  locale: LanguageCodeEnum;
+}>;
 
 
-export type GetLoginUserDetailsQuery = { __typename?: 'Query', me?: { __typename?: 'User', email: string, id: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, checkoutIds?: Array<string> | null, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, checkouts?: { __typename?: 'CheckoutCountableConnection', edges: Array<{ __typename?: 'CheckoutCountableEdge', node: { __typename: 'Checkout', id: string, token: string, email?: string | null, isShippingRequired: boolean, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, deliveryMethod?: { __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } } | { __typename: 'Warehouse' } | null, shippingMethods: Array<{ __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } }>, availablePaymentGateways: Array<{ __typename: 'PaymentGateway', id: string, name: string, config: Array<{ __typename: 'GatewayConfigLine', field: string, value?: string | null }> }>, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, translation?: { __typename: 'ProductTranslation', id: string, name?: string | null } | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null, translation?: { __typename: 'ProductVariantTranslation', id: string, name: string } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, subtotalPrice: { __typename: 'TaxedMoney', net: { __typename: 'Money', currency: string, amount: number }, tax: { __typename: 'Money', currency: string, amount: number } }, shippingPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null } }> } | null } | null };
 
 export type FeaturedCategoriesBySlugAndMetaQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -34811,53 +34814,74 @@ export function useCheckoutShippingMethodUpdateMutation(baseOptions?: Apollo.Mut
 export type CheckoutShippingMethodUpdateMutationHookResult = ReturnType<typeof useCheckoutShippingMethodUpdateMutation>;
 export type CheckoutShippingMethodUpdateMutationResult = Apollo.MutationResult<CheckoutShippingMethodUpdateMutation>;
 export type CheckoutShippingMethodUpdateMutationOptions = Apollo.BaseMutationOptions<CheckoutShippingMethodUpdateMutation, CheckoutShippingMethodUpdateMutationVariables>;
-export const GetLoginUserDetailsDocument = gql`
-    query GetLoginUserDetails {
-  me {
-    avatar {
-      url
-    }
-    email
+export const UserDocument = gql`
+    query User($channel: String, $locale: LanguageCodeEnum!) {
+  user: me {
     id
+    email
     firstName
     lastName
-    isConfirmed
+    avatar {
+      url
+      alt
+    }
     isActive
+    isConfirmed
+    addresses {
+      ...AddressDetailsFragment
+    }
+    defaultBillingAddress {
+      ...AddressDetailsFragment
+    }
+    defaultShippingAddress {
+      ...AddressDetailsFragment
+    }
+    checkoutIds(channel: $channel)
+    checkouts(channel: $channel, first: 50) {
+      edges {
+        node {
+          ...CheckoutDetailsFragment
+        }
+      }
+    }
   }
 }
-    `;
+    ${AddressDetailsFragmentFragmentDoc}
+${CheckoutDetailsFragmentFragmentDoc}`;
 
 /**
- * __useGetLoginUserDetailsQuery__
+ * __useUserQuery__
  *
- * To run a query within a React component, call `useGetLoginUserDetailsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetLoginUserDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetLoginUserDetailsQuery({
+ * const { data, loading, error } = useUserQuery({
  *   variables: {
+ *      channel: // value for 'channel'
+ *      locale: // value for 'locale'
  *   },
  * });
  */
-export function useGetLoginUserDetailsQuery(baseOptions?: Apollo.QueryHookOptions<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>) {
+export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables> & ({ variables: UserQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>(GetLoginUserDetailsDocument, options);
+        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
       }
-export function useGetLoginUserDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>) {
+export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>(GetLoginUserDetailsDocument, options);
+          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
         }
-export function useGetLoginUserDetailsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>) {
+export function useUserSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UserQuery, UserQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>(GetLoginUserDetailsDocument, options);
+          return Apollo.useSuspenseQuery<UserQuery, UserQueryVariables>(UserDocument, options);
         }
-export type GetLoginUserDetailsQueryHookResult = ReturnType<typeof useGetLoginUserDetailsQuery>;
-export type GetLoginUserDetailsLazyQueryHookResult = ReturnType<typeof useGetLoginUserDetailsLazyQuery>;
-export type GetLoginUserDetailsSuspenseQueryHookResult = ReturnType<typeof useGetLoginUserDetailsSuspenseQuery>;
-export type GetLoginUserDetailsQueryResult = Apollo.QueryResult<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>;
+export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
+export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserSuspenseQueryHookResult = ReturnType<typeof useUserSuspenseQuery>;
+export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
 export const FeaturedCategoriesBySlugAndMetaDocument = gql`
     query FeaturedCategoriesBySlugAndMeta($first: Int!, $filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
   categories(first: 1, sortBy: $sortBy, filter: $filter) {

@@ -51,14 +51,14 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
         return;
       }, 2000);
       return;
-    }
+    };
 
     if (!checkoutID || !paymentMethod) {
       console.log("Checout Id in Select Payment Method", checkoutID);
       console.log("Payment Method in Select Payment Method", paymentMethod);
       console.log("Checkout ID or Payment Method not found");
       return;
-    }
+    };
 
     setLoading(true);
 

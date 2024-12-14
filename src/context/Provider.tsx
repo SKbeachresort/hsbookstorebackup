@@ -7,14 +7,15 @@ import apolloClient, {
   saleorApiUrl,
   saleorAuthClient,
 } from "@/lib/apolloClient";
+import { UserDocument } from "../../gql/graphql";
 import { deleteCookie } from "cookies-next";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { CartProvider } from "./CartContext";
 import { localeToEnum } from "@/lib/regions";
 import RegionsProvider from "./RegionProviders";
 import { Sheet } from "@/components/ui/sheet";
 import { AuthProvider } from "./AuthContext";
+import { useRouter } from "next/navigation";
 
 interface ProviderProps {
   children: React.ReactNode;
@@ -22,11 +23,14 @@ interface ProviderProps {
   channel: string;
 };
 
-const Provider: React.FC<ProviderProps> = ({ children }) => {
-  
+const Provider: React.FC<ProviderProps> = ({ children, locale, channel }) => {
+  const router = useRouter();
   useAuthChange({
-    saleorApiUrl,
-    onSignedOut: () => apolloClient.resetStore(),
+    saleorApiUrl: saleorApiUrl,
+    onSignedOut: async()=>{
+      router.push("/");
+      await apolloClient.resetStore();
+    },
     onSignedIn: () => {
       apolloClient.refetchQueries({ include: "all" });
     },

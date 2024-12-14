@@ -1,11 +1,14 @@
 "use client"; 
 import React,{useEffect, useState} from "react";
-import { useGetLoginUserDetailsQuery } from "../../gql/graphql";
+import { useUserQuery } from "../../gql/graphql";
 import { getAccessToken } from "@/utils/accessToken";
+import { useRegions } from "@/context/RegionProviders";
+import { localeToEnum } from "@/lib/regions";
 
 export const getUserDetails = () => {
 
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const { currentChannel, currentLocale } = useRegions();
 
   useEffect(() => {
     const token = getAccessToken();
@@ -14,7 +17,11 @@ export const getUserDetails = () => {
     }
   }, []);
   
-  const { data, loading, error } = useGetLoginUserDetailsQuery({
+  const { data, loading, error } = useUserQuery({
+    variables:{
+      locale: localeToEnum(currentLocale),
+      channel: currentChannel.slug,
+    },
     context: {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -24,10 +31,10 @@ export const getUserDetails = () => {
     fetchPolicy: "network-only",
   });
 
-  // console.log("Data:", data);
+  console.log("Data:", data);
 
   return {
-    user: data?.me || null,
+    user: data?.user || null,
     loading,
     error,
   };

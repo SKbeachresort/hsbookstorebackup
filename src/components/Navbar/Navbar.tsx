@@ -19,6 +19,7 @@ import { useRegions } from "@/context/RegionProviders";
 import { setCookie } from "cookies-next";
 import SearchProduct from "./SearchProduct";
 import { useIsAuthenticated } from "@/hooks/userIsAuthenticated";
+import { useUser } from "@/hooks/useUser";
 
 import HSlogo from "../../../public/HSlogo.png";
 import logo from "../../../public/logo.png";
@@ -39,22 +40,25 @@ import { useRegionUrl } from "@/hooks/useRegionUrl";
 import { getUserDetails } from "@/hooks/getUser";
 import { getAccessToken } from "@/utils/accessToken";
 import { useAuth } from "@/context/AuthContext";
-
+import { User } from "../../../gql/graphql";
+import PopoverComp from "../ui/shared/PopoverComp";
+import UserAuthPopover from "./UserAuthPopOver";
 
 export const Navbar = () => {
   const { channel, locale } = useParams();
 
   const router = useRouter();
 
-  const {isAuthenticated} = useAuth();
+  const { isAuthenticated } = useAuth();
 
-  const { user, loading, error } = getUserDetails();
+  const { user, loading: loadingUser, authenticated } = useUser();
+  console.log("User in Navbar", user);
 
   useEffect(() => {
-    if(isAuthenticated && user){
+    if (isAuthenticated && user) {
       router.push(getRegionUrl(`me/${user?.id}`));
     }
-  },[isAuthenticated, user, router]);
+  }, [isAuthenticated, user, router]);
 
   const { totalItems } = useCart();
   const { getRegionUrl } = useRegionUrl();
@@ -207,11 +211,10 @@ export const Navbar = () => {
                   <FaRegUser className="hidden md:block text-textgray text-2xl" />
                   <div className="hidden lg:block">
                     <p className="text-sm font-medium text-textgray">
-                      {loading ? `loading` : `${user?.firstName}`}{" "}
-                      {loading ? `loading` : `${user?.lastName}`}
+                      {user?.firstName} {user?.lastName}
                     </p>
                     <p className="text-xs font-semibold text-textgray">
-                      {loading ? `loading` : `${user?.email}`}
+                      {user?.email}
                     </p>
                   </div>
                 </div>

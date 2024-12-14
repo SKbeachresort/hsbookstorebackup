@@ -28,7 +28,7 @@ import "react-phone-input-2/lib/style.css";
 interface AuthRegisterUIProps {
   channel: string;
   locale: string;
-}
+};
 
 interface RegisterFormInputs {
   email: string;

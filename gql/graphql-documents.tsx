@@ -33454,10 +33454,13 @@ export type CheckoutShippingMethodUpdateMutationVariables = Exact<{
 
 export type CheckoutShippingMethodUpdateMutation = { __typename?: 'Mutation', checkoutDeliveryMethodUpdate?: { __typename: 'CheckoutDeliveryMethodUpdate', checkout?: { __typename: 'Checkout', id: string, token: string, email?: string | null, isShippingRequired: boolean, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, deliveryMethod?: { __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } } | { __typename: 'Warehouse' } | null, shippingMethods: Array<{ __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } }>, availablePaymentGateways: Array<{ __typename: 'PaymentGateway', id: string, name: string, config: Array<{ __typename: 'GatewayConfigLine', field: string, value?: string | null }> }>, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, translation?: { __typename: 'ProductTranslation', id: string, name?: string | null } | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null, translation?: { __typename: 'ProductVariantTranslation', id: string, name: string } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, subtotalPrice: { __typename: 'TaxedMoney', net: { __typename: 'Money', currency: string, amount: number }, tax: { __typename: 'Money', currency: string, amount: number } }, shippingPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null } | null, errors: Array<{ __typename: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
 
-export type GetLoginUserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
+export type UserQueryVariables = Exact<{
+  channel?: InputMaybe<Scalars['String']['input']>;
+  locale: LanguageCodeEnum;
+}>;
 
 
-export type GetLoginUserDetailsQuery = { __typename?: 'Query', me?: { __typename?: 'User', email: string, id: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, checkoutIds?: Array<string> | null, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, checkouts?: { __typename?: 'CheckoutCountableConnection', edges: Array<{ __typename?: 'CheckoutCountableEdge', node: { __typename: 'Checkout', id: string, token: string, email?: string | null, isShippingRequired: boolean, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, deliveryMethod?: { __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } } | { __typename: 'Warehouse' } | null, shippingMethods: Array<{ __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } }>, availablePaymentGateways: Array<{ __typename: 'PaymentGateway', id: string, name: string, config: Array<{ __typename: 'GatewayConfigLine', field: string, value?: string | null }> }>, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, translation?: { __typename: 'ProductTranslation', id: string, name?: string | null } | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null, translation?: { __typename: 'ProductVariantTranslation', id: string, name: string } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, subtotalPrice: { __typename: 'TaxedMoney', net: { __typename: 'Money', currency: string, amount: number }, tax: { __typename: 'Money', currency: string, amount: number } }, shippingPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null } }> } | null } | null };
 
 export type FeaturedCategoriesBySlugAndMetaQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -45283,21 +45286,241 @@ fragment UserFragment on User {
   }
   __typename
 }`) as unknown as TypedDocumentString<CheckoutShippingMethodUpdateMutation, CheckoutShippingMethodUpdateMutationVariables>;
-export const GetLoginUserDetailsDocument = new TypedDocumentString(`
-    query GetLoginUserDetails {
-  me {
-    avatar {
-      url
-    }
-    email
+export const UserDocument = new TypedDocumentString(`
+    query User($channel: String, $locale: LanguageCodeEnum!) {
+  user: me {
     id
+    email
     firstName
     lastName
-    isConfirmed
+    avatar {
+      url
+      alt
+    }
     isActive
+    isConfirmed
+    addresses {
+      ...AddressDetailsFragment
+    }
+    defaultBillingAddress {
+      ...AddressDetailsFragment
+    }
+    defaultShippingAddress {
+      ...AddressDetailsFragment
+    }
+    checkoutIds(channel: $channel)
+    checkouts(channel: $channel, first: 50) {
+      edges {
+        node {
+          ...CheckoutDetailsFragment
+        }
+      }
+    }
   }
 }
-    `) as unknown as TypedDocumentString<GetLoginUserDetailsQuery, GetLoginUserDetailsQueryVariables>;
+    fragment AddressDetailsFragment on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}
+fragment CheckoutDetailsFragment on Checkout {
+  id
+  token
+  email
+  channel {
+    id
+    slug
+    __typename
+  }
+  billingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  shippingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  deliveryMethod {
+    ...DeliveryMethodFragment
+    __typename
+  }
+  isShippingRequired
+  shippingMethods {
+    ...DeliveryMethodFragment
+    __typename
+  }
+  availablePaymentGateways {
+    id
+    name
+    config {
+      field
+      value
+      __typename
+    }
+    __typename
+  }
+  lines {
+    ...CheckoutLineDetailsFragment
+    __typename
+  }
+  discount {
+    ...PriceFragment
+    __typename
+  }
+  discountName
+  subtotalPrice {
+    net {
+      ...PriceFragment
+      __typename
+    }
+    tax {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  shippingPrice {
+    gross {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  totalPrice {
+    gross {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  user {
+    ...UserFragment
+    __typename
+  }
+  __typename
+}
+fragment CheckoutLineDetailsFragment on CheckoutLine {
+  id
+  totalPrice {
+    gross {
+      ...PriceFragment
+      __typename
+    }
+    __typename
+  }
+  variant {
+    id
+    product {
+      id
+      name
+      translation(languageCode: $locale) {
+        id
+        name
+        __typename
+      }
+      slug
+      thumbnail {
+        ...ImageFragment
+        __typename
+      }
+      __typename
+    }
+    pricing {
+      price {
+        gross {
+          ...PriceFragment
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    name
+    translation(languageCode: $locale) {
+      id
+      name
+      __typename
+    }
+    __typename
+  }
+  quantity
+  __typename
+}
+fragment DeliveryMethodFragment on ShippingMethod {
+  id
+  name
+  active
+  description
+  translation(languageCode: $locale) {
+    id
+    name
+    __typename
+  }
+  price {
+    ...PriceFragment
+    __typename
+  }
+  minimumDeliveryDays
+  maximumDeliveryDays
+  __typename
+}
+fragment ImageFragment on Image {
+  url
+  alt
+  __typename
+}
+fragment PriceFragment on Money {
+  currency
+  amount
+  __typename
+}
+fragment UserFragment on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+    alt
+    __typename
+  }
+  isActive
+  isConfirmed
+  addresses {
+    ...AddressDetailsFragment
+    __typename
+  }
+  defaultBillingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  defaultShippingAddress {
+    ...AddressDetailsFragment
+    __typename
+  }
+  __typename
+}`) as unknown as TypedDocumentString<UserQuery, UserQueryVariables>;
 export const FeaturedCategoriesBySlugAndMetaDocument = new TypedDocumentString(`
     query FeaturedCategoriesBySlugAndMeta($first: Int!, $filter: CategoryFilterInput!, $sortBy: CategorySortingInput) {
   categories(first: 1, sortBy: $sortBy, filter: $filter) {

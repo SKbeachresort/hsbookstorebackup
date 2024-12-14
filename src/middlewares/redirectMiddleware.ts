@@ -16,15 +16,15 @@ export const withRedirectMiddleware = (middleware: CustomMiddleware) => {
     const response = NextResponse.next()
     const { pathname } = req.nextUrl
 
-    if (pathname.includes("signin") || pathname.includes("signup")) {
+    if (pathname.includes("login") || pathname.includes("register")) {
       const referrer = req.headers.get("referer")
       if (!referrer) return middleware(req, event, response)
 
       const referrerUrl = new URL(referrer)
       const referrerPathname = referrerUrl.pathname
       if (
-        referrerPathname.includes("signup") ||
-        referrerPathname.includes("signin")
+        referrerPathname.includes("register") ||
+        referrerPathname.includes("login")
       )
         return middleware(req, event, response)
       response.cookies.set("redirectTo", referrerPathname)
