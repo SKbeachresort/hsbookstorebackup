@@ -157,7 +157,9 @@ const Secure3Dcode = ({
 
   return (
     <div className="my-8 flex min-h-[calc(100dvh-133px)] w-full flex-col items-center justify-center gap-6">
-      
+
+      <CheckOutStepper steps={steps} currentStep={currentStep} />
+
       {loading && (
         <div className="flex flex-col items-center justify-center">
           <ProcessingOrder />

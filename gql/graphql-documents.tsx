@@ -33470,6 +33470,11 @@ export type CheckoutShippingMethodUpdateMutationVariables = Exact<{
 
 export type CheckoutShippingMethodUpdateMutation = { __typename?: 'Mutation', checkoutDeliveryMethodUpdate?: { __typename: 'CheckoutDeliveryMethodUpdate', checkout?: { __typename: 'Checkout', id: string, token: string, email?: string | null, isShippingRequired: boolean, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, deliveryMethod?: { __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } } | { __typename: 'Warehouse' } | null, shippingMethods: Array<{ __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } }>, availablePaymentGateways: Array<{ __typename: 'PaymentGateway', id: string, name: string, config: Array<{ __typename: 'GatewayConfigLine', field: string, value?: string | null }> }>, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, translation?: { __typename: 'ProductTranslation', id: string, name?: string | null } | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null, translation?: { __typename: 'ProductVariantTranslation', id: string, name: string } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, subtotalPrice: { __typename: 'TaxedMoney', net: { __typename: 'Money', currency: string, amount: number }, tax: { __typename: 'Money', currency: string, amount: number } }, shippingPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null } | null, errors: Array<{ __typename: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
 
+export type BasicUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BasicUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null } | null };
+
 export type UserQueryVariables = Exact<{
   channel?: InputMaybe<Scalars['String']['input']>;
   locale: LanguageCodeEnum;
@@ -45876,6 +45881,22 @@ fragment UserFragment on User {
   }
   __typename
 }`) as unknown as TypedDocumentString<CheckoutShippingMethodUpdateMutation, CheckoutShippingMethodUpdateMutationVariables>;
+export const BasicUserDocument = new TypedDocumentString(`
+    query BasicUser {
+  user: me {
+    id
+    email
+    firstName
+    lastName
+    avatar {
+      url
+      alt
+    }
+    isActive
+    isConfirmed
+  }
+}
+    `) as unknown as TypedDocumentString<BasicUserQuery, BasicUserQueryVariables>;
 export const UserDocument = new TypedDocumentString(`
     query User($channel: String, $locale: LanguageCodeEnum!) {
   user: me {
