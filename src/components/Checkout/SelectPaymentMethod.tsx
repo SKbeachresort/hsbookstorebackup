@@ -12,11 +12,15 @@ import { ViaCashOnDelivery } from "./paymentmode/ViaCashOnDelivery";
 import { IoArrowBackOutline } from "react-icons/io5";
 
 interface SelectPaymentMethodProps {
+  locale: string;
+  channel: string;
   onBack: () => void;
   onNext: () => void;
 };
 
 export const SelectPaymentMethod: React.FC<SelectPaymentMethodProps> = ({
+  locale,
+  channel,
   onBack,
   onNext,
 }) => {
@@ -127,7 +131,7 @@ export const SelectPaymentMethod: React.FC<SelectPaymentMethodProps> = ({
 
       {/* Payment Mode */}
       <div className="mt-5">
-        {selectedPaymentMethod === "credit-card" && <ViaCreditCard />}
+        {selectedPaymentMethod === "credit-card" && <ViaCreditCard channel={channel} locale={locale}/>}
         {selectedPaymentMethod === "debit-card" && <ViaDebitCard />}
         {selectedPaymentMethod === "cash-on-delivery" && <ViaCashOnDelivery />}
       </div>

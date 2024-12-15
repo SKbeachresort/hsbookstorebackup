@@ -4,6 +4,7 @@ import Loader from "@/app/elements/Loader";
 import { useRegions } from "@/context/RegionProviders";
 import { useCheckoutPaymentCreateMutation } from "../../../gql/graphql";
 import { usePaymentInitializeMutation } from "../../../gql/graphql";
+import toast from "react-hot-toast";
 
 interface PlaceOrderWidgetProps {
   channel: string;
@@ -13,7 +14,7 @@ interface PlaceOrderWidgetProps {
   currentStep: number;
   isSecondLastStep: boolean;
   onNext: () => void;
-}
+};
 
 export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   channel,
@@ -41,6 +42,8 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
 
   const CurrencyCode = currentChannel?.currencyCode;
   const TotatalPaybleAmount = totalAmount + shippingFee;
+
+  const disabled = currentStep == 0 || ( currentStep == 2 && paymentMethod === "credit-card");
 
   const handlePlaceOrder = async () => {
     if (!isSecondLastStep) {
@@ -109,44 +112,46 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
         console.log("Error creating payment", error);
       }
       return;
-    }
+    };
 
     if (paymentMethod === "credit-card") {
-      try {
-        const createPaymentResponse = await checkoutPaymentCreate({
-          variables: {
-            checkoutId: checkoutID,
-            paymentInput: { gateway: "myfatoorah" },
-          },
-        });
-        console.log("Checkout ", createPaymentResponse);
+      // try {
+      //   const createPaymentResponse = await checkoutPaymentCreate({
+      //     variables: {
+      //       checkoutId: checkoutID,
+      //       paymentInput: { gateway: "myfatoorah" },
+      //     },
+      //   });
+      //   console.log("Checkout ", createPaymentResponse);
 
-        const paymentInitializeResponse = await paymentInitialize({
-          variables: {
-            checkoutId: checkoutID,
-            paymentData: paymentData,
-            gateway: "myfatoorah",
-            gatewayFlag: gatewayFlag,
-            embeddedFlag: embeddedFlag,
-            channel: channel,
-          },
-        });
-        console.log("Payment Initialize", paymentInitializeResponse);
-        const SessionId = paymentInitializeResponse?.data?.paymentInitialize
-          ?.initializedPayment?.data
-          ? JSON.parse(
-              paymentInitializeResponse.data.paymentInitialize
-                .initializedPayment.data
-            ).SessionId
-          : null;
-        console.log("Session ID", SessionId);
-        const redirectURL = `${process.env.NEXT_PUBLIC_REDIRECT_URL}/checkout/${checkoutID}/execute-payment/${SessionId}`;
-        if (SessionId) {
-          window.location.href = redirectURL;
-        }
-      } catch (error) {
-        console.log("Error creating payment", error);
-      }
+      //   const paymentInitializeResponse = await paymentInitialize({
+      //     variables: {
+      //       checkoutId: checkoutID,
+      //       paymentData: paymentData,
+      //       gateway: "myfatoorah",
+      //       gatewayFlag: gatewayFlag,
+      //       embeddedFlag: embeddedFlag,
+      //       channel: channel,
+      //     },
+      //   });
+      //   console.log("Payment Initialize", paymentInitializeResponse);
+      //   const SessionId = paymentInitializeResponse?.data?.paymentInitialize
+      //     ?.initializedPayment?.data
+      //     ? JSON.parse(
+      //         paymentInitializeResponse.data.paymentInitialize
+      //           .initializedPayment.data
+      //       ).SessionId
+      //     : null;
+      //   console.log("Session ID", SessionId);
+      //   const redirectURL = `${process.env.NEXT_PUBLIC_REDIRECT_URL}/checkout/${checkoutID}/execute-payment/${SessionId}`;
+      //   if (SessionId) {
+      //     window.location.href = redirectURL;
+      //   }
+      // } catch (error) {
+      //   console.log("Error creating payment", error);
+      // }
+      toast.error("Enter Credentials");
+      setLoading(false);
       return;
     }
   };
@@ -201,8 +206,8 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
             currentStep === 0
               ? "bg-white border-[1px] border-textgray text-textColor"
               : "bg-secondary text-white"
-          }`}
-          disabled={currentStep == 0}
+          } ${disabled ? "cursor-not-allowed bg-opacity-60" : ""}`}
+          disabled={disabled}
         >
           {loading ? (
             <Loader />

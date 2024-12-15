@@ -11,6 +11,7 @@ import { useCart } from "@/context/CartContext";
 import { useSearchParams, useParams } from "next/navigation";
 import { useCompleteCheckoutMutation } from "../../../../../../../gql/graphql";
 import ProcessingOrder from "@/components/Checkout/ProcessingOrder";
+import { setCookie } from "cookies-next";
 
 const CheckoutStatus = () => {
   const { channel, locale, checkoutID } = useParams();
@@ -54,6 +55,7 @@ const CheckoutStatus = () => {
               setOrderId(order.number);
             }
             if (order?.paymentStatus === "FULLY_CHARGED") {
+              setCookie('cartItems', '', { maxAge: -1 });
               setOrderSuccess(true);
             } else {
               setPaymentStatusError(true);
@@ -97,7 +99,12 @@ const CheckoutStatus = () => {
   const stepContent = [
     <ShippingBillingsDetails onNext={handleNext} />,
     <ReviewOrder onBack={handleBack} onNext={handleNext} />,
-    <SelectPaymentMethod onBack={handleBack} onNext={handleNext} />,
+    <SelectPaymentMethod
+      onBack={handleBack}
+      onNext={handleNext}
+      locale={locale as string}
+      channel={channel as string}
+    />,
     <OrderPlacedStatus />,
   ];
 
@@ -111,12 +118,12 @@ const CheckoutStatus = () => {
       <div className="flex flex-col justify-center items-center my-20">
         {loading ? (
           <div className="text-center mt-10">
-            <ProcessingOrder/>
+            <ProcessingOrder />
           </div>
         ) : (
           <div className="text-center mt-10">
             {orderSuccess ? (
-              <OrderPlacedStatus orderId={orderId}/>
+              <OrderPlacedStatus orderId={orderId} />
             ) : paymentStatusError ? (
               <h2 className="text-xl font-semibold text-red-600">
                 Cannot proceed with your order. Payment not fully charged.

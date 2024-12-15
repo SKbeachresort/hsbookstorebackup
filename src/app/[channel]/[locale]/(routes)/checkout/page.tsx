@@ -44,8 +44,13 @@ const Checkout = () => {
 
   const stepContent = [
     <ShippingBillingsDetails onNext={handleNext} />,
-    <ReviewOrder onBack={handleBack} onNext={handleNext}/>,
-    <SelectPaymentMethod onBack={handleBack} onNext={handleNext}/>,
+    <ReviewOrder onBack={handleBack} onNext={handleNext} />,
+    <SelectPaymentMethod
+      channel={channel as string}
+      locale={locale as string}
+      onBack={handleBack}
+      onNext={handleNext}
+    />,
     <OrderPlacedStatus />,
   ];
 
@@ -109,7 +114,6 @@ const Checkout = () => {
             )}
           </div>
         </div>
-        
       </div>
     </div>
   );

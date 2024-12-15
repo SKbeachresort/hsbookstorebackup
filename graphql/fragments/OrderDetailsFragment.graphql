@@ -1,0 +1,105 @@
+fragment Money on Money {
+  currency
+  amount
+}
+
+fragment OrderLineFragment on OrderLine {
+  id
+  quantity
+  variant {
+    ...ProductVariantDetailsFragment
+  }
+  totalPrice {
+    gross {
+      ...Money
+    }
+  }
+  undiscountedUnitPrice {
+    gross {
+      ...Money
+    }
+  }
+  unitPrice {
+    gross {
+      ...Money
+    }
+  }
+  productName
+  variantName
+  thumbnail(size: 128, format: WEBP) {
+    alt
+    url
+  }
+}
+
+fragment ShippingFragment on ShippingMethod {
+  name
+  minimumDeliveryDays
+  maximumDeliveryDays
+}
+
+fragment OrderDetailsFragment on Order {
+  id
+  number
+  userEmail
+  isPaid
+  created
+  paymentStatus
+  status
+  discounts {
+    type
+    name
+    amount {
+      ...Money
+    }
+  }
+  chargeStatus
+  authorizeStatus
+  shippingAddress {
+    ...AddressDetailsFragment
+  }
+  billingAddress {
+    ...AddressDetailsFragment
+  }
+  deliveryMethod {
+    ...ShippingFragment
+  }
+  total {
+    gross {
+      ...Money
+    }
+    tax {
+      ...Money
+    }
+  }
+  voucher {
+    code
+  }
+  shippingPrice {
+    gross {
+      ...Money
+    }
+  }
+  subtotal {
+    gross {
+      ...Money
+    }
+  }
+  lines {
+    ...OrderLineFragment
+  }
+  totalBalance {
+    ...Money
+  }
+  totalCharged {
+    ...Money
+  }
+  user {
+    ...UserFragment
+  }
+  errors {
+    field
+    code
+    message
+  }
+}

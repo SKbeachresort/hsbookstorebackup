@@ -6,7 +6,8 @@ import { useTranslation } from "@/app/i18n/client"
 import { localeToEnum } from "@/lib/regions"
 import { setCookie } from "cookies-next"
 import { LucideLoader } from "lucide-react"
-import toast from "react-hot-toast"
+import toast from "react-hot-toast";
+import ProcessingPayment from "./ProcessingPayment"
 
 interface FatoorahResponse {
   sessionId: string
@@ -18,15 +19,15 @@ export type CheckoutProps = {
   countryCode: string
   checkoutId: string
   locale: string
-}
+};
 
 declare global {
   interface Window {
     myFatoorah: any;
   }
-}
+};
 
-function Checkout({
+function CheckoutForm({
   initialSession,
   countryCode,
   checkoutId,
@@ -149,6 +150,10 @@ function Checkout({
           borderWidth: "1px",
           borderRadius: "8px",
           boxShadow: "",
+          focus:{
+            borderColor: "#2C9CDB",
+            borderWidth: "2px",
+          },
           placeHolder: {
             holderName: "Name On Card",
             cardNumber: "Number",
@@ -198,50 +203,21 @@ function Checkout({
 
     const cardWrapper = document.getElementById("card-wrapper")
     const submitButton = document.createElement("button")
-    submitButton.textContent = "Pay"
-    submitButton.className = "pay-btn"
-    submitButton.addEventListener("click", submitPayment)
+    submitButton.textContent = "Pay Now"
+    submitButton.className = "w-full px-4 text-white py-2 bg-primary text-white font-semibold rounded-lg"
+    submitButton.addEventListener("click", () => {
+      if (!LoadingPayment) {
+        submitPayment(); 
+      }
+    });
     cardWrapper?.appendChild(submitButton)
 
     return () => {
-      submitButton?.removeEventListener("click", submitPayment)
+      submitButton?.removeEventListener("click", () => {
+        submitPayment();
+      });
     }
-  }, [isLoaded, initialSession, submitPayment])
-
-  // // ? second step after success
-  // if (data?.checkoutComplete?.confirmationData) {
-  // const iframeSrc = JSON.parse(data.checkoutComplete.confirmationData)[
-  //   "iframe"
-  // ] as string
-
-  //   if (!iframeSrc) {
-  //     toast.error("No iframe returned!")
-  //     return null
-  //   }
-
-  //   return (
-  //     <Secure3DCode
-  //       initialSession={initialSession}
-  //       countryCode={countryCode}
-  //       checkoutId={checkoutId}
-  //       iframeSrc={iframeSrc}
-  //     />
-  //   )
-  // }
-
-  // useEffect(() => {
-  //   if (data?.checkoutComplete?.confirmationData) {
-  //     router.push(
-  //       `/checkout/${checkoutId}/execute-payment/${initialSession}?iframeSrc=${data.checkoutComplete.confirmationData}`
-  //     )
-  //   }
-  //   return () => {}
-  // }, [
-  //   checkoutId,
-  //   data?.checkoutComplete?.confirmationData,
-  //   initialSession,
-  //   router,
-  // ])
+  }, [isLoaded, initialSession, submitPayment]);
 
   return (
     <>
@@ -257,17 +233,15 @@ function Checkout({
 
       <section className="relative grid w-full place-items-center">
         {data && data.checkoutComplete && !data.checkoutComplete.errors ? (
-          <div className="mx-auto grid max-w-2xl place-items-center rounded-md bg-card p-4">
-            <p className="text-center text-secondary-foreground/80">
-              we are processing your payment
-            </p>
+          <div className="mx-auto grid max-w-2xl place-items-center rounded-md p-4">
+            <ProcessingPayment/>
           </div>
         ) : (
           <div
             id="card-wrapper"
-            className="mx-auto grid w-full place-items-center gap-4 rounded-md bg-card p-4"
+            className="mx-auto grid w-full place-items-center gap-4 rounded-md p-4"
           >
-            <h2 className="text-center text-2xl font-semibold text-secondary-foreground">
+            <h2 className="text-xl font-semibold text-secondary-foreground">
               Payment Card View
             </h2>
             <div id="card-element" className="w-full"></div>
@@ -275,21 +249,8 @@ function Checkout({
         )}
         
       </section>
-      {/* {data?.checkoutComplete?.confirmationData ? (
-        <Secure3DCodeDialog
-          open={open}
-          setOpen={setOpen}
-          iframeSrc={
-            JSON.parse(data.checkoutComplete.confirmationData)[
-              "iframe"
-            ] as string
-          }
-          initialSession={initialSession}
-          checkoutId={checkoutId}
-        />
-      ) : null} */}
     </>
   )
 }
 
-export default Checkout
+export default CheckoutForm;
