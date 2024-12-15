@@ -3,7 +3,6 @@ import { useUserQuery } from "../../gql/graphql";
 import { useRegions } from "@/context/RegionProviders";
 import { localeToEnum } from "@/lib/regions";
 
-
 export const useUser = () => {
   const { currentChannel, currentLocale } = useRegions();
 
@@ -16,7 +15,6 @@ export const useUser = () => {
   });
 
   const user = data?.user;
-  // console.log("User Hook", data);
 
   const authenticated = !!user?.id;
 

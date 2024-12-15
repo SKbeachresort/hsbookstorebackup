@@ -14,7 +14,23 @@ mutation completeCheckout($paymentData: JSONString!, $checkoutId: ID!) {
       variants
     }
     order {
-      ...OrderDetailsFragment
+      id
+      number
+      actions
+      authorizeStatus
+      isPaid
+      paymentStatus
+      checkoutId
+      created
+      userEmail
+      totalCharged {
+        amount
+        currency
+      }
+      totalCaptured {
+        amount
+        currency
+      }
     }
     checkoutErrors {
       addressType

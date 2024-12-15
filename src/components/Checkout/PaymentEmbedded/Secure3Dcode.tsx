@@ -15,9 +15,14 @@ import { IoBagCheck } from "react-icons/io5";
 import { useLocalStorage } from "react-use";
 import toast from "react-hot-toast";
 import ProcessingOrder from "../ProcessingOrder";
+import { LanguageCodeEnum } from "../../../../gql/graphql";
 
 import { CheckoutProps } from "./CreditCardCheckout";
-import OrderPlacedStatus from "../OrderPlacedStatus";
+import CheckOutStepper from "@/components/Checkout/CheckOutStepper";
+import ShippingBillingsDetails from "@/components/Checkout/ShippingBillingsDetails";
+import { ReviewOrder } from "@/components/Checkout/ReviewOrder";
+import { SelectPaymentMethod } from "@/components/Checkout/SelectPaymentMethod";
+import OrderPlacedStatus from "@/components/Checkout/OrderPlacedStatus";
 
 const Secure3Dcode = ({
   initialSession,
@@ -30,12 +35,16 @@ const Secure3Dcode = ({
   iframeSrc: string;
   channel: string;
 }) => {
-  
-    const [billIframe, setBillIframe] = useState<string | undefined>(undefined);
+
+  const [billIframe, setBillIframe] = useState<string | undefined>(undefined);
   const { user } = useUser();
   const [_checkoutId, setCheckoutId] = useLocalStorage<string>(
     `checkoutId-${channel}`
   );
+
+  const [currentStep, setCurrentStep] = useState(2);
+
+  console.log("Checkout Id", checkoutId);
 
   const [checkoutComplete, { loading, data, error }] =
     useCompleteCheckoutMutation({
@@ -46,6 +55,7 @@ const Secure3Dcode = ({
           data.checkoutComplete.errors &&
           data.checkoutComplete.errors.length > 0
         ) {
+          console.log("Error", data.checkoutComplete.errors);
           toast.error(
             "Something went wrong with the payment provider, please contact with us"
           );
@@ -59,13 +69,15 @@ const Secure3Dcode = ({
       refetchQueries: () => [
         {
           query: UserDocument,
-          variables: {},
+          variables: {
+            locale: "EN_US" as LanguageCodeEnum,
+          },
         },
         {
           query: CheckoutFindDocument,
           variables: {
             id: checkoutId,
-            locale: localeToEnum(locale),
+            locale: "EN_US" as LanguageCodeEnum,
           },
         },
       ],
@@ -91,6 +103,8 @@ const Secure3Dcode = ({
                 }),
               },
             });
+            setCurrentStep(3);
+            console.log("Checkout Complete", data);
           }
         } catch (error) {
           console.log(error);
@@ -105,11 +119,54 @@ const Secure3Dcode = ({
     };
   }, []);
 
+  const handleNext = () => {
+    if (!isFinalStep) {
+      setCurrentStep((prev) => prev + 1);
+    } else if (currentStep === stepContent.length - 2) {
+      setCurrentStep((prev) => prev + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
+  const steps = [
+    "Shipping & Billing Details",
+    "Review Details",
+    "Payment Details",
+    "Order Placed",
+  ];
+
+  const stepContent = [
+    <ShippingBillingsDetails onNext={handleNext} />,
+    <ReviewOrder onBack={handleBack} onNext={handleNext} />,
+    <SelectPaymentMethod
+      onBack={handleBack}
+      onNext={handleNext}
+      locale={locale as string}
+      channel={channel as string}
+    />,
+    <OrderPlacedStatus />,
+  ];
+
+  const isSecondLastStep = currentStep === stepContent.length - 2;
+  const isFinalStep = currentStep === stepContent.length - 1;
+
   return (
     <div className="my-8 flex min-h-[calc(100dvh-133px)] w-full flex-col items-center justify-center gap-6">
-      {billIframe && billIframe !== "" ? (
-        <div className="flex flex-col items-center justify-center my-10">
+      
+      {loading && (
+        <div className="flex flex-col items-center justify-center">
           <ProcessingOrder />
+        </div>
+      )}
+      
+      {billIframe && billIframe !== "" ? (
+        <div className="flex flex-col items-center justify-center">
+          {/* <ProcessingOrder /> */}
         </div>
       ) : (
         <div id="otp-iframe" className="mx-4 w-full">
@@ -117,9 +174,15 @@ const Secure3Dcode = ({
         </div>
       )}
 
+      {data?.checkoutComplete?.errors  &&  data?.checkoutComplete?.errors?.length > 0 && (
+        <div className="text-red-500 text-center">
+          <p>{data?.checkoutComplete?.errors[0]?.message}</p>
+        </div>
+      )}
+
       {data && data.checkoutComplete && data.checkoutComplete.order && user ? (
-        <div className="flex flex-col justify-center items-center my-10">
-          <OrderPlacedStatus orderId={data.checkoutComplete.order.id} />
+        <div className="flex flex-col justify-center items-center">
+          <OrderPlacedStatus orderId={data.checkoutComplete.order.number} />
         </div>
       ) : null}
     </div>

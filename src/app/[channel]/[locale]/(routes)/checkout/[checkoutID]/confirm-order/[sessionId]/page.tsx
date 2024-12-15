@@ -6,8 +6,12 @@ import { CompleteCheckoutDocument } from "../../../../../../../../../gql/graphql
 import { useCompleteCheckoutMutation } from "../../../../../../../../../gql/graphql";
 import { useParams } from "next/navigation";
 import ProcessingOrder from "@/components/Checkout/ProcessingOrder";
+import CheckOutStepper from "@/components/Checkout/CheckOutStepper";
+import ShippingBillingsDetails from "@/components/Checkout/ShippingBillingsDetails";
+import { ReviewOrder } from "@/components/Checkout/ReviewOrder";
+import { SelectPaymentMethod } from "@/components/Checkout/SelectPaymentMethod";
 import OrderPlacedStatus from "@/components/Checkout/OrderPlacedStatus";
-import { setCookie } from 'cookies-next';
+import { setCookie } from "cookies-next";
 
 type CheckoutProps = {
   params: {
@@ -19,19 +23,19 @@ type CheckoutProps = {
 };
 
 const ConfirmOrderPage = () => {
-
   const { checkoutID, sessionId, locale, channel } = useParams();
   const [loading, setLoading] = useState(true);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [paymentStatusError, setPaymentStatusError] = useState(false);
   const [orderId, setOrderId] = useState<string | null>(null);
 
+  const [currentStep, setCurrentStep] = useState(2);
+
   if (!sessionId) {
     <>
       <div className="h-72 flex flex-col justify-center items-center">
         <p className="text-lg text-red-500 my-10">Checkout Session Not Found</p>
       </div>
-      ;
     </>;
     return;
   }
@@ -58,8 +62,9 @@ const ConfirmOrderPage = () => {
             }
             if (order?.paymentStatus === "FULLY_CHARGED") {
               setOrderSuccess(true);
+              setCurrentStep(3);
               localStorage.removeItem("cartItems");
-              setCookie('cartItems', '', { maxAge: -1 });
+              setCookie("cartItems", "", { maxAge: -1 });
             } else {
               setPaymentStatusError(true);
             }
@@ -78,9 +83,46 @@ const ConfirmOrderPage = () => {
     }
   }, [sessionId, checkoutID, completeCheckout]);
 
+  const handleNext = () => {
+    if (!isFinalStep) {
+      setCurrentStep((prev) => prev + 1);
+    } else if (currentStep === stepContent.length - 2) {
+      setCurrentStep((prev) => prev + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
+  const steps = [
+    "Shipping & Billing Details",
+    "Review Details",
+    "Payment Details",
+    "Order Placed",
+  ];
+
+  const stepContent = [
+    <ShippingBillingsDetails onNext={handleNext} />,
+    <ReviewOrder onBack={handleBack} onNext={handleNext} />,
+    <SelectPaymentMethod
+      onBack={handleBack}
+      onNext={handleNext}
+      locale={locale as string}
+      channel={channel as string}
+    />,
+    <OrderPlacedStatus />,
+  ];
+
+  const isSecondLastStep = currentStep === stepContent.length - 2;
+  const isFinalStep = currentStep === stepContent.length - 1;
+
   return (
     <div>
-      <div className="flex flex-col justify-center items-center my-20">
+      <div className="w-[95%] xl:w-[85%] py-5 3xl:w-[75%] mx-auto sm:px-10 lg:px-12">
+      <CheckOutStepper steps={steps} currentStep={currentStep} />
         {loading ? (
           <div className="text-center mt-10">
             <ProcessingOrder />

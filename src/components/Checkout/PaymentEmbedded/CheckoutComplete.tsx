@@ -18,7 +18,8 @@ const CheckoutComplete: React.FC<CheckoutCompleteProps> = ({
   locale,
   channel,
 }) => {
-  const [otpURL, setOtpURL] = React.useState<string | null>(null);
+
+  const otpURL = getCookie("otpUrl")
 
   if (!otpURL) {
     return (
@@ -28,7 +29,7 @@ const CheckoutComplete: React.FC<CheckoutCompleteProps> = ({
         </p>
       </div>
     );
-  }
+  };
 
   return (
     <div className="my-6 flex flex-col place-items-center">
@@ -36,7 +37,7 @@ const CheckoutComplete: React.FC<CheckoutCompleteProps> = ({
         initialSession={initialSession}
         countryCode={countryCode}
         checkoutId={checkoutId}
-        iframeSrc={otpURL}
+        iframeSrc={otpURL as string}
         locale={locale}
         channel={channel}
       />

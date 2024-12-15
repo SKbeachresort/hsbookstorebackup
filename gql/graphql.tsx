@@ -33616,7 +33616,7 @@ export type CompleteCheckoutMutationVariables = Exact<{
 }>;
 
 
-export type CompleteCheckoutMutation = { __typename?: 'Mutation', checkoutComplete?: { __typename?: 'CheckoutComplete', confirmationData?: string | null, confirmationNeeded: boolean, errors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, message?: string | null, field?: string | null, lines?: Array<string> | null, variants?: Array<string> | null }>, order?: { __typename?: 'Order', id: string, number: string, userEmail?: string | null, isPaid: boolean, created: string, paymentStatus: PaymentChargeStatusEnum, status: OrderStatus, chargeStatus: OrderChargeStatusEnum, authorizeStatus: OrderAuthorizeStatusEnum, discounts: Array<{ __typename?: 'OrderDiscount', type: OrderDiscountType, name?: string | null, amount: { __typename?: 'Money', currency: string, amount: number } }>, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, deliveryMethod?: { __typename?: 'ShippingMethod', name: string, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null } | { __typename?: 'Warehouse' } | null, total: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number }, tax: { __typename?: 'Money', currency: string, amount: number } }, voucher?: { __typename?: 'Voucher', code?: string | null } | null, shippingPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } }, subtotal: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } }, lines: Array<{ __typename?: 'OrderLine', id: string, quantity: number, productName: string, variantName: string, variant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null } | null, totalPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } }, undiscountedUnitPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } }, unitPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } }, thumbnail?: { __typename?: 'Image', alt?: string | null, url: string } | null }>, totalBalance: { __typename?: 'Money', currency: string, amount: number }, totalCharged: { __typename?: 'Money', currency: string, amount: number }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null, errors: Array<{ __typename?: 'OrderError', field?: string | null, code: OrderErrorCode, message?: string | null }> } | null, checkoutErrors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, field?: string | null, lines?: Array<string> | null, message?: string | null, variants?: Array<string> | null }> } | null };
+export type CompleteCheckoutMutation = { __typename?: 'Mutation', checkoutComplete?: { __typename?: 'CheckoutComplete', confirmationData?: string | null, confirmationNeeded: boolean, errors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, message?: string | null, field?: string | null, lines?: Array<string> | null, variants?: Array<string> | null }>, order?: { __typename?: 'Order', id: string, number: string, actions: Array<OrderAction>, authorizeStatus: OrderAuthorizeStatusEnum, isPaid: boolean, paymentStatus: PaymentChargeStatusEnum, checkoutId?: string | null, created: string, userEmail?: string | null, totalCharged: { __typename?: 'Money', amount: number, currency: string }, totalCaptured: { __typename?: 'Money', amount: number, currency: string } } | null, checkoutErrors: Array<{ __typename?: 'CheckoutError', addressType?: AddressTypeEnum | null, code: CheckoutErrorCode, field?: string | null, lines?: Array<string> | null, message?: string | null, variants?: Array<string> | null }> } | null };
 
 export type CheckoutCreateMutationVariables = Exact<{
   lines: Array<CheckoutLineInput> | CheckoutLineInput;
@@ -34699,7 +34699,23 @@ export const CompleteCheckoutDocument = gql`
       variants
     }
     order {
-      ...OrderDetailsFragment
+      id
+      number
+      actions
+      authorizeStatus
+      isPaid
+      paymentStatus
+      checkoutId
+      created
+      userEmail
+      totalCharged {
+        amount
+        currency
+      }
+      totalCaptured {
+        amount
+        currency
+      }
     }
     checkoutErrors {
       addressType
@@ -34711,7 +34727,7 @@ export const CompleteCheckoutDocument = gql`
     }
   }
 }
-    ${OrderDetailsFragmentFragmentDoc}`;
+    `;
 export type CompleteCheckoutMutationFn = Apollo.MutationFunction<CompleteCheckoutMutation, CompleteCheckoutMutationVariables>;
 
 /**
