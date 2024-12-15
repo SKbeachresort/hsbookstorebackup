@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { AuthLoginUI } from "../Auth/AuthLoginUI";
+import { CartLoginUI } from "../Auth/CartLoginUI";
 
 interface CreateAccountProps {
   channel: string;
@@ -21,7 +21,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
       >
         ✕
       </button>
-      <AuthLoginUI channel={channel} locale={locale} />
+      <CartLoginUI channel={channel} locale={locale} closeModal={closeModal}/>
     </div>
   );
 };

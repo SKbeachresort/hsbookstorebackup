@@ -3,8 +3,8 @@ import { useCart } from "@/context/CartContext";
 import { CheckOutWidget } from "@/components/Cart/CheckOutWidget";
 import DeliveryAddressCard from "@/components/Cart/DeliveryAddressCard";
 import CartItemUI from "@/components/Cart/CartItemUI";
-import { PeopleWhoBoughtThis } from "@/components/ProductPage/PeopleWhoBoughtThis";
-import { Recommended } from "@/components/ProductPage/Recommended";
+// import { PeopleWhoBoughtThis } from "@/components/ProductPage/PeopleWhoBoughtThis";
+// import { Recommended } from "@/components/ProductPage/Recommended";
 import { useParams } from "next/navigation";
 
 const CartPage = () => {
@@ -48,10 +48,10 @@ const CartPage = () => {
               </div>
 
               {/* People who bought */}
-              <PeopleWhoBoughtThis channel={channel as string}/>
+              {/* <PeopleWhoBoughtThis channel={channel as string}/> */}
 
               {/* Recommended */}
-              <Recommended channel={channel as string}/>
+              {/* <Recommended channel={channel as string}/> */}
 
             </div>
             <div className="md:w-[40%] lg:w-[30%] h-auto">

@@ -31,9 +31,10 @@ import { userLogin } from "@/server/userLogin";
 import { useSaleorAuthContext } from "@saleor/auth-sdk/react";
 import { getCookie } from "cookies-next";
 
-interface AuthLoginUIProps {
+interface CartLoginUIProps {
   channel: string;
   locale: string;
+  closeModal: () => void;
 };
 
 interface LoginFormInputs {
@@ -50,7 +51,8 @@ interface CartItem {
   quantity: number;
 };
 
-export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
+export const CartLoginUI: React.FC<CartLoginUIProps> = ({
+  closeModal,
   channel,
   locale,
 }) => {
@@ -128,7 +130,8 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
       };
   
       toast.success("Login Successful");
-      router.replace(targetUrl);
+      closeModal();
+      reset();
     } catch (error) {
       console.error("Error during login:", error);
       toast.error("Something went wrong, please try again.");
@@ -143,7 +146,7 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
     if (!data.email) {
       toast.error("Please enter your email address");
       return;
-    }
+    };
 
     const checkoutLines = cartItems.map((items) => ({
       quantity: items.quantity,
@@ -174,8 +177,8 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
           setCookie("checkoutID", checkoutID, { maxAge: 7 * 24 * 60 * 60 });
           toast.success("Checkout Initiated!");
           router.push(getRegionUrl(channel, locale, `checkout`));
-        }
-      }
+        };
+      };
     } catch (error) {
       console.log("Error:", error);
     };

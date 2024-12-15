@@ -149,7 +149,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
       toast.error("Please fill in all required fields!");
       setLoading(false);
       return;
-    }
+    };
 
     try {
       const shippingResponse = await shipping({
@@ -396,7 +396,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                 name="nonKuwaitCountry"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>*Counggtry Area</FormLabel>
+                    <FormLabel>*Country Area</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter Country Area" {...field} />
                     </FormControl>

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { setCookie } from 'cookies-next';
 import { useAuth } from '@/context/AuthContext'; 
 import BackDropLoader from '@/app/elements/BackdropLoader';
+import { getServerAuthClient } from "@/lib/SaleorAuthServer"
 
 export const useLogout = () => {
   const router = useRouter();
@@ -21,7 +22,7 @@ export const useLogout = () => {
       sessionStorage.removeItem("userLastName");
       sessionStorage.removeItem("userId");
       setIsAuthenticated(false);
-
+      getServerAuthClient().signOut();
       await router.push('auth/login');
     } catch (error) {
       console.error("Logout Error: ", error);

@@ -18,8 +18,6 @@ import PopOverDropDown from "@/app/elements/PopOverDropDown";
 import { useRegions } from "@/context/RegionProviders";
 import { setCookie } from "cookies-next";
 import SearchProduct from "./SearchProduct";
-import { useIsAuthenticated } from "@/hooks/userIsAuthenticated";
-import { useUser } from "@/hooks/useUser";
 
 import HSlogo from "../../../public/HSlogo.png";
 import logo from "../../../public/logo.png";
@@ -37,53 +35,14 @@ import { Button } from "../ui/button";
 import { CategorySheet } from "./CategorySheet";
 import { CategoryNavbar } from "./CategoryNavbar";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
-import { getUserDetails } from "@/hooks/getUser";
-import { getAccessToken } from "@/utils/accessToken";
-import { useAuth } from "@/context/AuthContext";
-import { User } from "../../../gql/graphql";
-import PopoverComp from "../ui/shared/PopoverComp";
-import UserAuthPopover from "./UserAuthPopOver";
+import { useUser } from "@/hooks/useUser";
+
 
 export const Navbar = () => {
   const { channel, locale } = useParams();
+  const { user, loading, authenticated } = useUser();
 
   const router = useRouter();
-
-  // const { isAuthenticated } = useAuth();
-
-  // const { user, loading: loadingUser, authenticated } = useUser();
-  // console.log("User in Navbar", user);
-
-  // useEffect(() => {
-  //   if (isAuthenticated && user) {
-  //     router.push(getRegionUrl(`me/${user?.id}`));
-  //   }
-  // }, [isAuthenticated, user, router]);
-  const [user, setUser] = useState<{
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-  } | null>(null);
-
-  // Fetch user details from sessionStorage on component mount
-  useEffect(() => {
-    const userEmail = sessionStorage.getItem("userEmail");
-    const userFirstName = sessionStorage.getItem("userFirstName");
-    const userLastName = sessionStorage.getItem("userLastName");
-    const userId = sessionStorage.getItem("userId");
-
-    if (userEmail && userFirstName && userLastName && userId) {
-      setUser({
-        id: userId,
-        email: userEmail,
-        firstName: userFirstName,
-        lastName: userLastName,
-      });
-    }
-  }, []);
-
-  const isAuthenticated = () => !!user?.id;
 
   const { totalItems } = useCart();
   const { getRegionUrl } = useRegionUrl();
@@ -124,14 +83,6 @@ export const Navbar = () => {
       router.push(pathname.replace(currentChannel.slug, newchannel));
     }
   };
-
-  // const handleAuthRedirect = () => {
-  //   if (isAuthenticated) {
-  //     router.push(getRegionUrl(`me/${user?.id}`));
-  //   } else {
-  //     router.push(getRegionUrl(`auth/login`));
-  //   }
-  // };
 
   return (
     <>
@@ -230,16 +181,17 @@ export const Navbar = () => {
             </PopOverDropDown>
 
             {/* Auth Login */}
-            {isAuthenticated() ? (
+            {authenticated && user ? (
               <Link href={getRegionUrl(`me/${user?.id}`)} passHref>
                 <div className="flex flex-row justify-center items-center gap-x-[1vh]">
                   <FaRegUser className="hidden md:block text-textgray text-2xl" />
                   <div className="hidden lg:block">
                     <p className="text-sm font-medium text-textgray">
-                      {user?.firstName} {user?.lastName}
+                      {loading ? `loading` : `${user?.firstName}`}{" "}
+                      {loading ? `loading` : `${user?.lastName}`}
                     </p>
                     <p className="text-xs font-semibold text-textgray">
-                      {user?.email}
+                      {loading ? `loading` : `${user?.email}`}
                     </p>
                   </div>
                 </div>

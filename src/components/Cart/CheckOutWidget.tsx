@@ -1,14 +1,16 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Modal from "@/app/elements/Modal";
 import Loader from "@/app/elements/Loader";
 import CreateAccount from "../Authentication/CreateAccount";
 import { useRegions } from "@/context/RegionProviders";
-import { getUserDetails } from "@/hooks/getUser";
-import { useIsAuthenticated } from "@/hooks/userIsAuthenticated";
+import { useUser } from "@/hooks/useUser";
 import { useCheckoutCreateMutation } from "../../../gql/graphql";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { getRegionUrl } from "@/utils/regionUrl";
+import { setCookie } from "cookies-next";
 
 interface CheckOutWidgetProps {
   locale: string;
@@ -27,39 +29,9 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isloading, setIsLoading] = useState(false);
 
-  const [user, setUser] = useState<{
-      id: string;
-      email: string;
-      firstName: string;
-      lastName: string;
-    } | null>(null);
-  
-    // Fetch user details from sessionStorage on component mount
-    useEffect(() => {
-      const userEmail = sessionStorage.getItem("userEmail");
-      const userFirstName = sessionStorage.getItem("userFirstName");
-      const userLastName = sessionStorage.getItem("userLastName");
-      const userId = sessionStorage.getItem("userId");
-  
-      if (userEmail && userFirstName && userLastName && userId) {
-        setUser({
-          id: userId,
-          email: userEmail,
-          firstName: userFirstName,
-          lastName: userLastName,
-        });
-      }
-    }, []);
-  
-    const isAuthenticated = () => !!user?.id;
+  const [checkout, { loading: checkoutLoading, data, error }] = useCheckoutCreateMutation();
 
-  // console.log("Cart Items: ", cartItems);
-
-  const [checkout, { loading: checkoutLoading, data, error }] =
-    useCheckoutCreateMutation();
-
-  // const isAuthenticated = useIsAuthenticated();
-  // const { user } = getUserDetails();
+  const { user, authenticated } = useUser();
   const router = useRouter();
 
   const openModal = () => {
@@ -75,20 +47,21 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   };
 
   const handleProceedToCheckout = async () => {
-
-    if(!isAuthenticated){
+    if (!authenticated) {
       openModal();
       return;
     };
+
+    setIsLoading(true);
 
     const checkoutLines = cartItems.map((items) => ({
       quantity: items.quantity,
       variantId: items.variantId,
     }));
-    
+
     const guestEmail = localStorage.getItem("guestEmail");
 
-    const email = isAuthenticated() ? user?.email : guestEmail;
+    const email = authenticated ? user?.email : guestEmail;
 
     try {
       const response = await checkout({
@@ -98,11 +71,27 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
           channel: channel,
         },
       });
-      console.log("Checkout Response: ", response);
-      router.replace(`/${channel}/${locale}/checkout`);
+
+      const errors = response.data?.checkoutCreate?.errors;
+
+      if (errors && errors.length > 0) {
+        toast.error(`${errors[0].message}`);
+      } else {
+        const checkoutID = response.data?.checkoutCreate?.checkout?.id;
+        console.log("Success: Checkout ID", checkoutID);
+
+        if (checkoutID) {
+          localStorage.setItem("checkoutID", checkoutID);
+          setCookie("checkoutID", checkoutID, { maxAge: 7 * 24 * 60 * 60 });
+          toast.success("Checkout Initiated!");
+          router.push(getRegionUrl(channel, locale, `checkout`));
+        };
+      }
     } catch (error) {
       console.error("Checkout Error: ", error);
-    }
+    }finally{
+      setIsLoading(false);
+    };
   };
 
   const CurrencyCode = currentChannel?.currencyCode;
@@ -151,7 +140,7 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
         </button>
         {/* </Link> */}
 
-        {isAuthenticated() && user ? (
+        {authenticated && user ? (
           <>
             <div className="text-sm mt-2">
               Current User Signed:{" "}
@@ -164,16 +153,19 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
           <>
             <div className="text-sm mt-2 underline">
               For the best experience{" "}
-              <a href="#" className="ml-2 font-semibold text-secondary">
+              <span
+                onClick={openModal}
+                className="ml-2 font-semibold text-secondary"
+              >
                 Sign in
-              </a>
+              </span>
             </div>
           </>
         )}
       </div>
 
       {/* Modal */}
-      {!isAuthenticated && isModalOpen && (
+      {!authenticated && isModalOpen && (
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <CreateAccount
             closeModal={closeModal}
