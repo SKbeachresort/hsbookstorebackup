@@ -63,7 +63,14 @@ const ConfirmOrderPage = () => {
             if (order?.paymentStatus === "FULLY_CHARGED") {
               setOrderSuccess(true);
               setCurrentStep(3);
+              localStorage.removeItem("checkoutID");
               localStorage.removeItem("cartItems");
+              localStorage.removeItem("shippingAddress");
+              localStorage.removeItem("shippingMethodId");
+              localStorage.removeItem("guestEmail");
+              localStorage.removeItem("promoCodeDiscount");
+              localStorage.removeItem("selectedPaymentMethod");
+              localStorage.removeItem("shippingMethodSelectedId");
               setCookie("cartItems", "", { maxAge: -1 });
             } else {
               setPaymentStatusError(true);
@@ -122,7 +129,7 @@ const ConfirmOrderPage = () => {
   return (
     <div>
       <div className="w-[95%] xl:w-[85%] py-5 3xl:w-[75%] mx-auto sm:px-10 lg:px-12">
-      <CheckOutStepper steps={steps} currentStep={currentStep} />
+        <CheckOutStepper steps={steps} currentStep={currentStep} />
         {loading ? (
           <div className="text-center mt-10">
             <ProcessingOrder />

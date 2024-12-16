@@ -62,6 +62,15 @@ const Secure3Dcode = ({
         }
         deleteCookie("otpUrl");
         setCheckoutId("");
+        localStorage.removeItem("checkoutID");
+        localStorage.removeItem("cartItems");
+        localStorage.removeItem("shippingAddress");
+        localStorage.removeItem("shippingMethodId");
+        localStorage.removeItem("guestEmail");
+        localStorage.removeItem("promoCodeDiscount");
+        localStorage.removeItem("selectedPaymentMethod");
+        localStorage.removeItem("shippingMethodSelectedId");
+        setCookie("cartItems", "", { maxAge: -1 });
         setCookie(`checkoutId-${channel}`, "");
       },
 
@@ -103,6 +112,15 @@ const Secure3Dcode = ({
               },
             });
             setCurrentStep(3);
+            localStorage.removeItem("checkoutID");
+            localStorage.removeItem("cartItems");
+            localStorage.removeItem("shippingAddress");
+            localStorage.removeItem("shippingMethodId");
+            localStorage.removeItem("guestEmail");
+            localStorage.removeItem("promoCodeDiscount");
+            localStorage.removeItem("selectedPaymentMethod");
+            localStorage.removeItem("shippingMethodSelectedId");
+            setCookie("cartItems", "", { maxAge: -1 });
             console.log("Checkout Complete", data);
           }
         } catch (error) {
@@ -165,9 +183,7 @@ const Secure3Dcode = ({
       )}
 
       {billIframe && billIframe !== "" ? (
-        <div className="">
-          {/* <ProcessingOrder /> */}
-        </div>
+        <div className="">{/* <ProcessingOrder /> */}</div>
       ) : (
         <div id="otp-iframe" className="mx-4 w-full h-full">
           <iframe src={iframeSrc} width="100%" height="100vh"></iframe>

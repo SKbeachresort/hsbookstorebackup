@@ -33594,6 +33594,14 @@ export type VerifyOtpMutationVariables = Exact<{
 
 export type VerifyOtpMutation = { __typename?: 'Mutation', verifyOtp?: { __typename?: 'VerifyOtpMutation', message?: string | null, success?: boolean | null } | null };
 
+export type AddPromoCodeMutationVariables = Exact<{
+  promoCode: Scalars['String']['input'];
+  checkoutId: Scalars['ID']['input'];
+}>;
+
+
+export type AddPromoCodeMutation = { __typename?: 'Mutation', checkoutAddPromoCode?: { __typename?: 'CheckoutAddPromoCode', checkout?: { __typename?: 'Checkout', authorizeStatus: CheckoutAuthorizeStatusEnum, voucherCode?: string | null, discount?: { __typename: 'Money', currency: string, amount: number } | null, subtotalPrice: { __typename?: 'TaxedMoney', currency: string, gross: { __typename: 'Money', currency: string, amount: number } }, totalPrice: { __typename?: 'TaxedMoney', currency: string, net: { __typename: 'Money', currency: string, amount: number } } } | null, errors: Array<{ __typename?: 'CheckoutError', variants?: Array<string> | null, message?: string | null, lines?: Array<string> | null, field?: string | null, code: CheckoutErrorCode, addressType?: AddressTypeEnum | null }> } | null };
+
 export type CheckoutShippingAddressUpdateMutationVariables = Exact<{
   checkoutId: Scalars['ID']['input'];
   shippingAddress: AddressInput;
@@ -33663,6 +33671,11 @@ export type CheckoutShippingMethodUpdateMutationVariables = Exact<{
 
 
 export type CheckoutShippingMethodUpdateMutation = { __typename?: 'Mutation', checkoutDeliveryMethodUpdate?: { __typename: 'CheckoutDeliveryMethodUpdate', checkout?: { __typename: 'Checkout', id: string, token: string, email?: string | null, isShippingRequired: boolean, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, deliveryMethod?: { __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } } | { __typename: 'Warehouse' } | null, shippingMethods: Array<{ __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } }>, availablePaymentGateways: Array<{ __typename: 'PaymentGateway', id: string, name: string, config: Array<{ __typename: 'GatewayConfigLine', field: string, value?: string | null }> }>, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, translation?: { __typename: 'ProductTranslation', id: string, name?: string | null } | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null, translation?: { __typename: 'ProductVariantTranslation', id: string, name: string } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, subtotalPrice: { __typename: 'TaxedMoney', net: { __typename: 'Money', currency: string, amount: number }, tax: { __typename: 'Money', currency: string, amount: number } }, shippingPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null } | null, errors: Array<{ __typename: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
+
+export type AddressUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AddressUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null };
 
 export type BasicUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -34589,6 +34602,66 @@ export function useVerifyOtpMutation(baseOptions?: Apollo.MutationHookOptions<Ve
 export type VerifyOtpMutationHookResult = ReturnType<typeof useVerifyOtpMutation>;
 export type VerifyOtpMutationResult = Apollo.MutationResult<VerifyOtpMutation>;
 export type VerifyOtpMutationOptions = Apollo.BaseMutationOptions<VerifyOtpMutation, VerifyOtpMutationVariables>;
+export const AddPromoCodeDocument = gql`
+    mutation AddPromoCode($promoCode: String!, $checkoutId: ID!) {
+  checkoutAddPromoCode(promoCode: $promoCode, checkoutId: $checkoutId) {
+    checkout {
+      authorizeStatus
+      discount {
+        ...PriceFragment
+      }
+      subtotalPrice {
+        currency
+        gross {
+          ...PriceFragment
+        }
+      }
+      voucherCode
+      totalPrice {
+        currency
+        net {
+          ...PriceFragment
+        }
+      }
+    }
+    errors {
+      variants
+      message
+      lines
+      field
+      code
+      addressType
+    }
+  }
+}
+    ${PriceFragmentFragmentDoc}`;
+export type AddPromoCodeMutationFn = Apollo.MutationFunction<AddPromoCodeMutation, AddPromoCodeMutationVariables>;
+
+/**
+ * __useAddPromoCodeMutation__
+ *
+ * To run a mutation, you first call `useAddPromoCodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddPromoCodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addPromoCodeMutation, { data, loading, error }] = useAddPromoCodeMutation({
+ *   variables: {
+ *      promoCode: // value for 'promoCode'
+ *      checkoutId: // value for 'checkoutId'
+ *   },
+ * });
+ */
+export function useAddPromoCodeMutation(baseOptions?: Apollo.MutationHookOptions<AddPromoCodeMutation, AddPromoCodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddPromoCodeMutation, AddPromoCodeMutationVariables>(AddPromoCodeDocument, options);
+      }
+export type AddPromoCodeMutationHookResult = ReturnType<typeof useAddPromoCodeMutation>;
+export type AddPromoCodeMutationResult = Apollo.MutationResult<AddPromoCodeMutation>;
+export type AddPromoCodeMutationOptions = Apollo.BaseMutationOptions<AddPromoCodeMutation, AddPromoCodeMutationVariables>;
 export const CheckoutShippingAddressUpdateDocument = gql`
     mutation checkoutShippingAddressUpdate($checkoutId: ID!, $shippingAddress: AddressInput!) {
   checkoutShippingAddressUpdate(
@@ -35000,6 +35073,60 @@ export function useCheckoutShippingMethodUpdateMutation(baseOptions?: Apollo.Mut
 export type CheckoutShippingMethodUpdateMutationHookResult = ReturnType<typeof useCheckoutShippingMethodUpdateMutation>;
 export type CheckoutShippingMethodUpdateMutationResult = Apollo.MutationResult<CheckoutShippingMethodUpdateMutation>;
 export type CheckoutShippingMethodUpdateMutationOptions = Apollo.BaseMutationOptions<CheckoutShippingMethodUpdateMutation, CheckoutShippingMethodUpdateMutationVariables>;
+export const AddressUserDocument = gql`
+    query AddressUser {
+  user: me {
+    id
+    email
+    firstName
+    lastName
+    avatar {
+      url
+      alt
+    }
+    isActive
+    isConfirmed
+    defaultBillingAddress {
+      ...AddressDetailsFragment
+    }
+    defaultShippingAddress {
+      ...AddressDetailsFragment
+    }
+  }
+}
+    ${AddressDetailsFragmentFragmentDoc}`;
+
+/**
+ * __useAddressUserQuery__
+ *
+ * To run a query within a React component, call `useAddressUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAddressUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAddressUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAddressUserQuery(baseOptions?: Apollo.QueryHookOptions<AddressUserQuery, AddressUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AddressUserQuery, AddressUserQueryVariables>(AddressUserDocument, options);
+      }
+export function useAddressUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AddressUserQuery, AddressUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AddressUserQuery, AddressUserQueryVariables>(AddressUserDocument, options);
+        }
+export function useAddressUserSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AddressUserQuery, AddressUserQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AddressUserQuery, AddressUserQueryVariables>(AddressUserDocument, options);
+        }
+export type AddressUserQueryHookResult = ReturnType<typeof useAddressUserQuery>;
+export type AddressUserLazyQueryHookResult = ReturnType<typeof useAddressUserLazyQuery>;
+export type AddressUserSuspenseQueryHookResult = ReturnType<typeof useAddressUserSuspenseQuery>;
+export type AddressUserQueryResult = Apollo.QueryResult<AddressUserQuery, AddressUserQueryVariables>;
 export const BasicUserDocument = gql`
     query BasicUser {
   user: me {

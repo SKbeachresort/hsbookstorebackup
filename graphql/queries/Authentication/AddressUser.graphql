@@ -1,0 +1,20 @@
+query AddressUser {
+  user: me {
+    id
+    email
+    firstName
+    lastName
+    avatar {
+      url
+      alt
+    }
+    isActive
+    isConfirmed
+    defaultBillingAddress {
+      ...AddressDetailsFragment
+    }
+    defaultShippingAddress {
+      ...AddressDetailsFragment
+    }
+  }
+}

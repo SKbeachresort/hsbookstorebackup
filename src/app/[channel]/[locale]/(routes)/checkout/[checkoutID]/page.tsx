@@ -55,6 +55,14 @@ const CheckoutStatus = () => {
               setOrderId(order.number);
             }
             if (order?.paymentStatus === "FULLY_CHARGED") {
+              localStorage.removeItem("checkoutID");
+              localStorage.removeItem("cartItems");
+              localStorage.removeItem("shippingAddress");
+              localStorage.removeItem("shippingMethodId");
+              localStorage.removeItem("guestEmail");
+              localStorage.removeItem("promoCodeDiscount");
+              localStorage.removeItem("selectedPaymentMethod");
+              localStorage.removeItem("shippingMethodSelectedId");
               setCookie('cartItems', '', { maxAge: -1 });
               setOrderSuccess(true);
             } else {

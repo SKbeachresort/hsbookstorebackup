@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useCart } from "@/context/CartContext";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
@@ -24,29 +24,30 @@ import { useCheckoutBillingAddressUpdateMutation } from "../../../gql/graphql";
 import { useCheckoutShippingMethodUpdateMutation } from "../../../gql/graphql";
 import { KuwaitAddressEN } from "@/data/KuwaitAddress";
 import { LanguageCodeEnum } from "../../../gql/graphql";
+import { useAddressUser } from "@/hooks/getUserAddress";
 
 import { CountryCode } from "../../../gql/graphql";
 
 interface CountryOption {
   value: CountryCode;
   label: string;
-}
+};
 
 interface AreaOption {
   value: string;
   label: string;
-}
+};
 
 interface CityOption {
   value: string;
   label: string;
-}
+};
 
 type CountryDataType = typeof CountryData;
 
 interface ShippingDetailsProps {
   onNext: () => void;
-}
+};
 
 interface ShippingFormInputs {
   country: CountryOption | null;
@@ -63,53 +64,75 @@ interface ShippingFormInputs {
   postalCode: string;
   token: string;
   agreeToTerms: boolean;
-}
+};
 
 const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
   onNext,
 }) => {
+  const { userAddress } = useAddressUser();
+  // console.log("User Address", userAddress);
+
   const { cartItems } = useCart();
   const checkoutId = localStorage.getItem("checkoutID") || "";
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const token = getAccessToken();
 
-  const savedShippingAddress = localStorage.getItem("shippingAddress");
-  const initialShippingData = savedShippingAddress
-    ? JSON.parse(savedShippingAddress)
-    : null;
+  // const savedShippingAddress = localStorage.getItem("shippingAddress");
+  // const initialShippingData = savedShippingAddress
+  //   ? JSON.parse(savedShippingAddress)
+  //   : null;
 
   const form = useForm<ShippingFormInputs>({
     defaultValues: {
-      country: initialShippingData
-        ? {
-            value: initialShippingData.country.code,
-            label: initialShippingData.country.country,
-          }
-        : null,
-      countryArea: initialShippingData?.countryArea || null,
-      firstName: initialShippingData?.firstName || "",
-      lastName: initialShippingData?.lastName || "",
-      phone: initialShippingData?.phone || "",
-      companyName: initialShippingData?.companyName || "",
-      streetAddress1: initialShippingData?.streetAddress1 || "",
-      streetAddress2: initialShippingData?.streetAddress2 || "",
-      postalCode: initialShippingData?.postalCode || "",
-      city: initialShippingData?.city || null,
-      nonKuwaitCity: initialShippingData?.city || null,
-      nonKuwaitCountry: initialShippingData?.countryArea || null,
+      country: null,
+      countryArea: null,
+      firstName: "",
+      lastName: "",
+      phone: "",
+      companyName: "",
+      streetAddress1: "",
+      streetAddress2: "",
+      postalCode: "",
+      city: null,
+      nonKuwaitCity: "",
+      nonKuwaitCountry: "",
     },
   });
 
+  // Use useEffect to update form values when userAddress is loaded
+  useEffect(() => {
+    if (userAddress) {
+      form.reset({
+        country: {
+          value: userAddress.country.code as CountryCode,
+          label: userAddress.country.country,
+        },
+        countryArea: userAddress?.countryArea
+          ? { value: userAddress.countryArea, label: userAddress.countryArea }
+          : null,
+        firstName: userAddress.firstName,
+        lastName: userAddress.lastName,
+        phone: userAddress?.phone ?? undefined,
+        companyName: userAddress.companyName,
+        streetAddress1: userAddress.streetAddress1,
+        streetAddress2: userAddress.streetAddress2,
+        postalCode: userAddress.postalCode,
+        city: userAddress.city
+          ? { value: userAddress.city, label: userAddress.city }
+          : null,
+        nonKuwaitCity: userAddress.city,
+        nonKuwaitCountry: userAddress.countryArea,
+      });
+    }
+  }, [userAddress, form.reset]);
+
   const { handleSubmit, reset } = form;
 
-  const [shipping, { loading: shippingLoading }] =
-    useCheckoutShippingAddressUpdateMutation();
+  const [shipping] = useCheckoutShippingAddressUpdateMutation();
 
-  const [billing, { loading: billingLoading }] =
-    useCheckoutBillingAddressUpdateMutation();
+  const [billing] = useCheckoutBillingAddressUpdateMutation();
 
-  const [shippingMethodUpdate, { loading: shippingMethodLoading }] =
-    useCheckoutShippingMethodUpdateMutation();
+  const [shippingMethodUpdate] = useCheckoutShippingMethodUpdateMutation();
 
   const kuwaitAreas = useMemo(() => {
     return KuwaitAddressEN.items.map((area) => ({
@@ -135,7 +158,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
   const selectedArea = form.watch("countryArea");
 
   const onSubmit: SubmitHandler<ShippingFormInputs> = async (data) => {
-    setLoading(true);
+    setIsLoading(true);
 
     if (
       !data.agreeToTerms &&
@@ -144,12 +167,12 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
         !data.lastName ||
         !data.phone ||
         !data.streetAddress1 ||
-        !data.city )
+        !data.city)
     ) {
       toast.error("Please fill in all required fields!");
-      setLoading(false);
+      setIsLoading(false);
       return;
-    };
+    }
 
     try {
       const shippingResponse = await shipping({
@@ -175,20 +198,20 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
         },
       });
 
-      console.log("Shipping Response", shippingResponse);
+      // console.log("Shipping Response", shippingResponse);
 
       const errors =
         shippingResponse.data?.checkoutShippingAddressUpdate?.errors;
 
       if (errors && errors.length > 0) {
         toast.error(`${errors[0].message}`);
-        setLoading(false);
+        setIsLoading(false);
         return;
       }
 
       if (!data.agreeToTerms) {
         toast.error("Please agree to the terms and conditions!");
-        setLoading(false);
+        setIsLoading(false);
         return;
       }
 
@@ -216,17 +239,16 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
           },
         });
 
-        console.log("Billing Response", billingResponse);
+        // console.log("Billing Response", billingResponse);
 
         const billingErrors =
           billingResponse.data?.checkoutBillingAddressUpdate?.errors;
 
         if (billingErrors && billingErrors.length > 0) {
           toast.error(`${billingErrors[0].message}`);
-          setLoading(false);
+          setIsLoading(false);
           return;
         } else {
-
           const shippingMethods =
             shippingResponse.data?.checkoutShippingAddressUpdate?.checkout
               ?.shippingMethods;
@@ -260,10 +282,10 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
               });
 
               toast.success("Shipping details saved successfully!");
-              console.log(
-                "Shipping Method Updated in Shipping",
-                addShippingMethod
-              );
+              // console.log(
+              //   "Shipping Method Updated in Shipping",
+              //   addShippingMethod
+              // );
 
               onNext();
               reset();
@@ -275,10 +297,10 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
       console.error(error);
       if (error instanceof Error) {
         toast.error(`${error.message}`);
-      } 
+      }
     } finally {
-      setLoading(false);
-    };
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -572,7 +594,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
             )}
           />
           <Button type="submit" className="w-full">
-            {loading ? "Loading..." : "Save and Continue"}
+            {isLoading ? "Loading..." : "Save and Continue"}
           </Button>
         </form>
       </Form>

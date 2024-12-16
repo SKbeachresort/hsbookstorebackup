@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import dynamic from "next/dynamic";
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
@@ -21,15 +21,21 @@ const OrderPlacedStatus: React.FC<OrderPlacedStatusProps> = ({ orderId }) => {
 
   const email = user?.email || guest_email;
 
-  let countdown = 10;
-  const interval = setInterval(() => {
-    countdown -= 1;
-    setTimer(countdown);
-    if (countdown <= 0) {
-      clearInterval(interval);
-      router.push(`/`);
-    }
-  }, 1000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          router.push(`/`);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [router]);
+
 
   return (
     <div className="p-2 flex flex-col justify-center items-center">

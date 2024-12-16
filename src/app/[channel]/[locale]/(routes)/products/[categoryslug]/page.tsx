@@ -39,7 +39,7 @@ interface CollectionPageProps {
     before?: string;
     sortby?: string;
   };
-}
+};
 
 export default function CollectionsPage({
 }: CollectionPageProps) {

@@ -4,7 +4,9 @@ import Loader from "@/app/elements/Loader";
 import { useRegions } from "@/context/RegionProviders";
 import { useCheckoutPaymentCreateMutation } from "../../../gql/graphql";
 import { usePaymentInitializeMutation } from "../../../gql/graphql";
+import { useAddPromoCodeMutation } from "../../../gql/graphql";
 import toast from "react-hot-toast";
+import { set } from "react-hook-form";
 
 interface PlaceOrderWidgetProps {
   channel: string;
@@ -14,7 +16,7 @@ interface PlaceOrderWidgetProps {
   currentStep: number;
   isSecondLastStep: boolean;
   onNext: () => void;
-};
+}
 
 export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   channel,
@@ -32,18 +34,56 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   const shippingDetails = JSON.parse(
     localStorage.getItem("shippingMethodId") || "{}"
   );
-  // console.log("Shipping Details", shippingDetails);
+
+  const [isPromoCode, setIsPromoCode] = useState(false);
+
+  const handlePromoCode = () => {
+    setIsPromoCode((prev) => !prev);
+  };
 
   const shippingName = shippingDetails?.name || "";
   const shippingFee = shippingDetails?.price?.amount || 0;
+  const [promoCodeDiscount, setPromoCodeDiscount] = useState<number>(0);
 
   const [checkoutPaymentCreate] = useCheckoutPaymentCreateMutation();
   const [paymentInitialize] = usePaymentInitializeMutation();
 
   const CurrencyCode = currentChannel?.currencyCode;
-  const TotatalPaybleAmount = totalAmount + shippingFee;
 
-  const disabled = currentStep == 0 || ( currentStep == 2 && paymentMethod === "credit-card");
+  const disabled =
+    currentStep == 0 || (currentStep == 2 && paymentMethod === "credit-card");
+
+  const [promocode, setPromocode] = useState("");
+  const [addPromoCode, { loading: promoloading }] = useAddPromoCodeMutation();
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleApplyPromoCode = async () => {
+    try {
+      const result = await addPromoCode({
+        variables: {
+          checkoutId: checkoutID as string,
+          promoCode: promocode,
+        },
+      });
+      const errors = result?.data?.checkoutAddPromoCode?.errors;
+      if (errors && errors.length > 0) {
+        setError(`${errors[0].message}`);
+        setSuccess("");
+      } else {
+        const discount =
+          result?.data?.checkoutAddPromoCode?.checkout?.discount?.amount || 0;
+        setPromoCodeDiscount(discount);
+        localStorage.setItem("discountApplied", discount.toString());
+        setSuccess("Promo code applied successfully");
+        setError("");
+      }
+    } catch (error) {
+      console.log("Error in applying promo code", error);
+    }
+  };
+
+  const TotatalPaybleAmount = totalAmount + shippingFee - promoCodeDiscount;
 
   const handlePlaceOrder = async () => {
     if (!isSecondLastStep) {
@@ -54,14 +94,14 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
         return;
       }, 2000);
       return;
-    };
+    }
 
     if (!checkoutID || !paymentMethod) {
       console.log("Checout Id in Select Payment Method", checkoutID);
       console.log("Payment Method in Select Payment Method", paymentMethod);
       console.log("Checkout ID or Payment Method not found");
       return;
-    };
+    }
 
     setLoading(true);
 
@@ -74,86 +114,43 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
       RedirectDomain: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/`,
     });
 
-    if (paymentMethod === "debit-card") {
-      try {
-        const createPaymentResponse = await checkoutPaymentCreate({
-          variables: {
-            checkoutId: checkoutID,
-            paymentInput: { gateway: "myfatoorah" },
-          },
-        });
-        console.log("Checkout ", createPaymentResponse);
+    try {
+      const createPaymentResponse = await checkoutPaymentCreate({
+        variables: {
+          checkoutId: checkoutID,
+          paymentInput: { gateway: "myfatoorah" },
+        },
+      });
+      console.log("Checkout ", createPaymentResponse);
 
-        const paymentInitializeResponse = await paymentInitialize({
-          variables: {
-            checkoutId: checkoutID,
-            paymentData: paymentData,
-            gateway: "myfatoorah",
-            gatewayFlag: gatewayFlag,
-            embeddedFlag: embeddedFlag,
-            channel: channel,
-          },
-        });
-        console.log("Payment Initialize", paymentInitializeResponse);
-        const paymentURL = paymentInitializeResponse?.data?.paymentInitialize
-          ?.initializedPayment?.data
-          ? JSON.parse(
-              paymentInitializeResponse.data.paymentInitialize
-                .initializedPayment.data
-            ).PaymentURL
-          : null;
+      const paymentInitializeResponse = await paymentInitialize({
+        variables: {
+          checkoutId: checkoutID,
+          paymentData: paymentData,
+          gateway: "myfatoorah",
+          gatewayFlag: gatewayFlag,
+          embeddedFlag: embeddedFlag,
+          channel: channel,
+        },
+      });
+      console.log("Payment Initialize", paymentInitializeResponse);
+      const paymentURL = paymentInitializeResponse?.data?.paymentInitialize
+        ?.initializedPayment?.data
+        ? JSON.parse(
+            paymentInitializeResponse.data.paymentInitialize.initializedPayment
+              .data
+          ).PaymentURL
+        : null;
 
-        if (paymentURL) {
-          window.location.href = paymentURL;
-        } else {
-          console.error("Payment URL not found in the response");
-        }
-      } catch (error) {
-        console.log("Error creating payment", error);
+      if (paymentURL) {
+        window.location.href = paymentURL;
+      } else {
+        console.error("Payment URL not found in the response");
       }
-      return;
-    };
-
-    if (paymentMethod === "credit-card") {
-      // try {
-      //   const createPaymentResponse = await checkoutPaymentCreate({
-      //     variables: {
-      //       checkoutId: checkoutID,
-      //       paymentInput: { gateway: "myfatoorah" },
-      //     },
-      //   });
-      //   console.log("Checkout ", createPaymentResponse);
-
-      //   const paymentInitializeResponse = await paymentInitialize({
-      //     variables: {
-      //       checkoutId: checkoutID,
-      //       paymentData: paymentData,
-      //       gateway: "myfatoorah",
-      //       gatewayFlag: gatewayFlag,
-      //       embeddedFlag: embeddedFlag,
-      //       channel: channel,
-      //     },
-      //   });
-      //   console.log("Payment Initialize", paymentInitializeResponse);
-      //   const SessionId = paymentInitializeResponse?.data?.paymentInitialize
-      //     ?.initializedPayment?.data
-      //     ? JSON.parse(
-      //         paymentInitializeResponse.data.paymentInitialize
-      //           .initializedPayment.data
-      //       ).SessionId
-      //     : null;
-      //   console.log("Session ID", SessionId);
-      //   const redirectURL = `${process.env.NEXT_PUBLIC_REDIRECT_URL}/checkout/${checkoutID}/execute-payment/${SessionId}`;
-      //   if (SessionId) {
-      //     window.location.href = redirectURL;
-      //   }
-      // } catch (error) {
-      //   console.log("Error creating payment", error);
-      // }
-      toast.error("Enter Credentials");
-      setLoading(false);
-      return;
+    } catch (error) {
+      console.log("Error creating payment", error);
     }
+    return;
   };
 
   return (
@@ -179,10 +176,57 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
             </span>
           </div>
           <div className="flex justify-between mb-2">
+            <span className="text-xs">Discount</span>
+            <span className="text-xs">-{promoCodeDiscount}</span>
+          </div>
+          <div className="flex justify-between mb-2">
             <span className="text-xs">Taxes</span>
             <span className="text-xs">0</span>
           </div>
         </div>
+        <hr />
+
+        {currentStep !== 0 && (
+          <>
+            {isPromoCode ? (
+              <div className="my-3 ">
+                <div className="py-2 px-4 border-[1px] border-disableGray flex justify-between items-center">
+                  <input
+                    className="w-full text-sm focus:outline-none"
+                    placeholder="Enter promo code"
+                    type="text"
+                    value={promocode}
+                    name="promocode"
+                    onChange={(e) => setPromocode(e.target.value)}
+                  />
+                  <button
+                    onClick={handleApplyPromoCode}
+                    className="text-secondary text-sm font-semibold"
+                  >
+                    {promoloading ? "Applying" : "Apply"}
+                  </button>
+                </div>
+
+                {error && (
+                  <p className="text-xs text-red-500 text-center">{error}</p>
+                )}
+
+                {success && (
+                  <p className="text-xs text-green-500 text-center">
+                    {success}
+                  </p>
+                )}
+              </div>
+            ) : (
+              <p
+                onClick={handlePromoCode}
+                className="text-xs cursor-pointer text-success text-center underline font-bold my-2"
+              >
+                Apply Promo Code
+              </p>
+            )}
+          </>
+        )}
 
         <hr />
         <div className="my-2">
