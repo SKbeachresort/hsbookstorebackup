@@ -27,7 +27,7 @@ const OrderPlacedStatus: React.FC<OrderPlacedStatusProps> = ({ orderId }) => {
     setTimer(countdown);
     if (countdown <= 0) {
       clearInterval(interval);
-      router.push(`/auth/login`);
+      router.push(`/`);
     }
   }, 1000);
 
