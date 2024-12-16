@@ -27,6 +27,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   isSecondLastStep,
   onNext,
 }) => {
+  
   const { currentChannel } = useRegions();
   const [loading, setLoading] = useState(false);
   const checkoutID = localStorage.getItem("checkoutID");
@@ -94,14 +95,14 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
         return;
       }, 2000);
       return;
-    }
+    };
 
     if (!checkoutID || !paymentMethod) {
       console.log("Checout Id in Select Payment Method", checkoutID);
       console.log("Payment Method in Select Payment Method", paymentMethod);
       console.log("Checkout ID or Payment Method not found");
       return;
-    }
+    };
 
     setLoading(true);
 
@@ -186,7 +187,7 @@ export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
         </div>
         <hr />
 
-        {currentStep !== 0 && (
+        {currentStep === 1 && (
           <>
             {isPromoCode ? (
               <div className="my-3 ">

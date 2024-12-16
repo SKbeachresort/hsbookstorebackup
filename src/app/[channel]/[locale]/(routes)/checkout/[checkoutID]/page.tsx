@@ -53,8 +53,8 @@ const CheckoutStatus = () => {
             const order = response.data?.checkoutComplete.order;
             if (order?.number) {
               setOrderId(order.number);
-            }
-            if (order?.paymentStatus === "FULLY_CHARGED") {
+            };
+            if (order?.isPaid) {
               localStorage.removeItem("checkoutID");
               localStorage.removeItem("cartItems");
               localStorage.removeItem("shippingAddress");
@@ -63,15 +63,15 @@ const CheckoutStatus = () => {
               localStorage.removeItem("promoCodeDiscount");
               localStorage.removeItem("selectedPaymentMethod");
               localStorage.removeItem("shippingMethodSelectedId");
-              setCookie('cartItems', '', { maxAge: -1 });
+              setCookie("cartItems", "", { maxAge: -1 });
               setOrderSuccess(true);
               clearCart();
             } else {
               setPaymentStatusError(true);
-            };
+            }
           } else {
             setOrderSuccess(false);
-          };
+          }
         })
         .catch((err) => {
           console.error("Error completing checkout:", err);

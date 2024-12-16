@@ -2,6 +2,7 @@
 "use client";
 import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { FaTrashAlt } from "react-icons/fa";
 import Image from "next/image";
 
 interface CartItemProps {
@@ -17,7 +18,7 @@ interface CartItemProps {
   incrementQuantity: (id: string) => void;
   decrementQuantity: (id: string) => void;
   removeFromCart: (id: string) => void;
-};
+}
 
 const CartItemUI: React.FC<CartItemProps> = ({
   item,
@@ -25,6 +26,15 @@ const CartItemUI: React.FC<CartItemProps> = ({
   decrementQuantity,
   removeFromCart,
 }) => {
+  
+  const handleDecrement = () => {
+    if (item.quantity === 1) {
+      removeFromCart(item.id);
+    } else {
+      decrementQuantity(item.id);
+    }
+  };
+
   return (
     <div className="flex items-start md:items-center rounded-2xl justify-between my-10">
       <div className="">
@@ -33,7 +43,7 @@ const CartItemUI: React.FC<CartItemProps> = ({
           alt={item.name}
           width={80}
           height={80}
-          className="w-[80%] md:w-full"
+          className="w-20 h-28 lg:w-28 lg:h-36"
         />
       </div>
 
@@ -53,19 +63,28 @@ const CartItemUI: React.FC<CartItemProps> = ({
 
         <div className="lg:w-[20%]">
           <p className="text-lg font-semibold my-2">
-            {item.currency} {(item.price ?? 0) .toFixed(3)}
+            {item.currency} {(item.price ?? 0).toFixed(3)}
           </p>
           <div className="flex px-2 gap-x-4 py-1 items-center border-[1px] border-borderColor rounded-full justify-between ">
-            <button
-              onClick={() => decrementQuantity(item.id)}
-              className="rounded"
-            >
-              <AiOutlineMinus className="text-sm" />
-            </button>
+            {item.quantity === 1 ? (
+              <button
+                onClick={() => handleDecrement()}
+                className="rounded flex items-center"
+              >
+                <FaTrashAlt className="text-sm text-red-500" />
+              </button>
+            ) : (
+              <button
+                onClick={() => handleDecrement()}
+                className="rounded flex items-center"
+              >
+                <AiOutlineMinus className="text-sm" />
+              </button>
+            )}
             <span className="text-sm font-semibold">{item.quantity}</span>
             <button
               onClick={() => incrementQuantity(item.id)}
-              className=" rounded"
+              className="rounded flex items-center"
             >
               <AiOutlinePlus className="text-sm" />
             </button>

@@ -1,11 +1,17 @@
 "use client";
 import React, { useState } from "react";
 import StarRatings from "react-star-ratings";
-import { FaHeart, FaRegHeart, FaCircle, FaSearchPlus } from "react-icons/fa";
+import {
+  FaHeart,
+  FaRegHeart,
+  FaCircle,
+  FaSearchPlus,
+  FaPlus,
+  FaTrashAlt,
+  FaMinus,
+} from "react-icons/fa";
 import Image from "next/image";
 import { Product, BookFormat } from "@/types/product/product-types";
-import { FaPlus, FaTrashAlt } from "react-icons/fa";
-
 
 interface ProductDetailsProps {
   productsDetails: Product;
@@ -17,7 +23,7 @@ interface ProductDetailsProps {
   incrementQuantity: (id: string) => void;
   removeFromCart?: (id: string) => void;
   bookFormats: BookFormat[];
-};
+}
 
 const ProductMainSection: React.FC<ProductDetailsProps> = ({
   productsDetails,
@@ -30,8 +36,6 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   removeFromCart,
   bookFormats,
 }) => {
-
-
   const [selectedFormat, setSelectedFormat] = useState<string>(
     bookFormats[0]?.label
   );
@@ -42,14 +46,20 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     setIsZoomed(!isZoomed);
   };
 
-  // console.log("Product Details", productsDetails.subImage);
+  const handleDecrementLogic = () => {
+    if (cartItem?.quantity === 1 && removeFromCart) {
+      removeFromCart(productsDetails.id); // Remove item if quantity is 1
+    } else {
+      handleDecrement();
+    }
+  };
 
   return (
     <div className="">
       <div className="flex flex-col md:flex-row gap-4 justify-start md:justify-between items-start">
         <div className="flex p-2 flex-col-reverse md:flex-row justify-between md:w-[60%] 3xl:w-[75%] gap-2">
           {/* Sub Images */}
-          
+
           <div className="flex flex-row my-3 md:my-0 md:flex-col gap-4 w-[20%]">
             {productsDetails.subImage.map((image, index) => (
               <Image
@@ -133,8 +143,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
                 {productsDetails.currency} {productsDetails.price}
               </p>
               <p className="line-through text-textgray text-sm font-medium">
-                {productsDetails.currencySymbol}{" "}
-                {productsDetails.cuttedPrice}
+                {productsDetails.currencySymbol} {productsDetails.cuttedPrice}
               </p>
             </div>
           </div>
@@ -151,24 +160,26 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
           {cartItem ? (
             <div className="flex bg-secondary w-fit px-4 py-2 rounded-full items-center gap-4 my-3">
               <button
-                onClick={() => incrementQuantity(productsDetails.id)}
-                className="text-white text-sm font-medium "
+                onClick={handleDecrementLogic}
+                className="text-white text-sm font-medium flex items-center gap-1"
               >
-                <FaPlus />
+                {cartItem.quantity === 1 ? (
+                  <FaTrashAlt className="text-red-500" />
+                ) : (
+                  <FaMinus />
+                )}
               </button>
 
               <span className="text-sm text-white font-medium">
                 {cartItem.quantity} Added
               </span>
 
-              {removeFromCart ? (
-                <button
-                  onClick={() => removeFromCart!(productsDetails.id)}
-                  className="text-white text-sm font-medium flex items-center gap-1"
-                >
-                  <FaTrashAlt />
-                </button>
-              ) : null}
+              <button
+                onClick={() => incrementQuantity(productsDetails.id)}
+                className="text-white text-sm font-medium"
+              >
+                <FaPlus />
+              </button>
             </div>
           ) : (
             <button

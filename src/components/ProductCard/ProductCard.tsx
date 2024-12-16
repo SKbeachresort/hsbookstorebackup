@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image, { StaticImageData } from "next/image";
 import AnimateOnScroll from "../Animated/AnimateOnScroll";
 import { useCart } from "@/context/CartContext";
-import { FaPlus, FaTrashAlt } from "react-icons/fa";
+import { FaPlus, FaTrashAlt, FaMinus } from "react-icons/fa";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
 
 interface ProductCardProps {
@@ -19,7 +19,7 @@ interface ProductCardProps {
   ratings?: number;
   navigate?: string;
   variantId: string;
-};
+}
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   id,
@@ -72,6 +72,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     incrementQuantity(id);
   };
 
+  const handleDecrement = () => {
+    if (quantity === 1) {
+      handleRemoveFromCart();
+    } else {
+      decrementQuantity(id);
+    }
+  };
+
   return (
     <div className="relative w-32 md:w-28 lg:w-[6.5rem] xl:w-32 mx-4">
       <AnimateOnScroll animationType="fade-up">
@@ -107,14 +115,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {isInCart ? (
           <div className="absolute top-[48%] xl:top-[53%] -left-[2%] xl:-left-[10%] z-40 bg-secondary rounded-full text-xs xl:text-sm font-semibold text-white py-1 px-3 xl:px-4 xl:py-2">
             <div className="flex items-center justify-center space-x-2">
+              {quantity === 1 ? (
+                <FaTrashAlt
+                  className="cursor-pointer text-xs"
+                  onClick={handleRemoveFromCart}
+                />
+              ) : (
+                <FaMinus
+                  className="cursor-pointer text-xs"
+                  onClick={handleDecrement}
+                />
+              )}
+              <span className="text-xs">{quantity}</span>
               <FaPlus
                 className="cursor-pointer text-xs"
                 onClick={handleIncrement}
-              />
-              <span className="text-xs">{quantity}</span>
-              <FaTrashAlt
-                className="cursor-pointer text-xs"
-                onClick={handleRemoveFromCart}
               />
             </div>
           </div>

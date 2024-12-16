@@ -33488,6 +33488,25 @@ export type BasicUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type BasicUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null } | null };
 
+export type MyProfileDetailsQueryVariables = Exact<{
+  channel?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type MyProfileDetailsQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, checkouts?: { __typename?: 'CheckoutCountableConnection', edges: Array<{ __typename?: 'CheckoutCountableEdge', node: { __typename: 'Checkout', id: string, token: string, email?: string | null, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null } }> } | null } | null };
+
+export type AddressDetailsFragmentUpdatedFragment = { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> };
+
+export type CheckoutDetailsFragmentUpdatedFragment = { __typename: 'Checkout', id: string, token: string, email?: string | null, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null };
+
+export type PriceFragmentUpdatedFragment = { __typename: 'Money', currency: string, amount: number };
+
+export type UserFragmentUpdatedFragment = { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null };
+
+export type CheckoutLineDetailsFragmentUpdatedFragment = { __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null } };
+
+export type ImageFragmentUpdatedFragment = { __typename: 'Image', url: string, alt?: string | null };
+
 export type UserQueryVariables = Exact<{
   channel?: InputMaybe<Scalars['String']['input']>;
   locale: LanguageCodeEnum;
@@ -45111,6 +45130,264 @@ fragment SelectedAttributeDetailsFragment on SelectedAttribute {
     value
   }
 }`, {"fragmentName":"ProductDetailsFragment"}) as unknown as TypedDocumentString<ProductDetailsFragment, unknown>;
+export const PriceFragmentUpdatedFragmentDoc = new TypedDocumentString(`
+    fragment PriceFragmentUpdated on Money {
+  currency
+  amount
+  __typename
+}
+    `, {"fragmentName":"PriceFragmentUpdated"}) as unknown as TypedDocumentString<PriceFragmentUpdatedFragment, unknown>;
+export const ImageFragmentUpdatedFragmentDoc = new TypedDocumentString(`
+    fragment ImageFragmentUpdated on Image {
+  url
+  alt
+  __typename
+}
+    `, {"fragmentName":"ImageFragmentUpdated"}) as unknown as TypedDocumentString<ImageFragmentUpdatedFragment, unknown>;
+export const CheckoutLineDetailsFragmentUpdatedFragmentDoc = new TypedDocumentString(`
+    fragment CheckoutLineDetailsFragmentUpdated on CheckoutLine {
+  id
+  totalPrice {
+    gross {
+      ...PriceFragmentUpdated
+      __typename
+    }
+    __typename
+  }
+  variant {
+    id
+    product {
+      id
+      name
+      slug
+      thumbnail {
+        ...ImageFragmentUpdated
+        __typename
+      }
+      __typename
+    }
+    pricing {
+      price {
+        gross {
+          ...PriceFragmentUpdated
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    name
+    __typename
+  }
+  quantity
+  __typename
+}
+    fragment PriceFragmentUpdated on Money {
+  currency
+  amount
+  __typename
+}
+fragment ImageFragmentUpdated on Image {
+  url
+  alt
+  __typename
+}`, {"fragmentName":"CheckoutLineDetailsFragmentUpdated"}) as unknown as TypedDocumentString<CheckoutLineDetailsFragmentUpdatedFragment, unknown>;
+export const AddressDetailsFragmentUpdatedFragmentDoc = new TypedDocumentString(`
+    fragment AddressDetailsFragmentUpdated on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}
+    `, {"fragmentName":"AddressDetailsFragmentUpdated"}) as unknown as TypedDocumentString<AddressDetailsFragmentUpdatedFragment, unknown>;
+export const UserFragmentUpdatedFragmentDoc = new TypedDocumentString(`
+    fragment UserFragmentUpdated on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+    alt
+    __typename
+  }
+  isActive
+  isConfirmed
+  defaultShippingAddress {
+    ...AddressDetailsFragmentUpdated
+    __typename
+  }
+  __typename
+}
+    fragment AddressDetailsFragmentUpdated on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}`, {"fragmentName":"UserFragmentUpdated"}) as unknown as TypedDocumentString<UserFragmentUpdatedFragment, unknown>;
+export const CheckoutDetailsFragmentUpdatedFragmentDoc = new TypedDocumentString(`
+    fragment CheckoutDetailsFragmentUpdated on Checkout {
+  id
+  token
+  email
+  channel {
+    id
+    slug
+    __typename
+  }
+  lines {
+    ...CheckoutLineDetailsFragmentUpdated
+    __typename
+  }
+  discount {
+    ...PriceFragmentUpdated
+    __typename
+  }
+  discountName
+  totalPrice {
+    gross {
+      ...PriceFragmentUpdated
+      __typename
+    }
+    __typename
+  }
+  user {
+    ...UserFragmentUpdated
+    __typename
+  }
+  __typename
+}
+    fragment AddressDetailsFragmentUpdated on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}
+fragment PriceFragmentUpdated on Money {
+  currency
+  amount
+  __typename
+}
+fragment UserFragmentUpdated on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+    alt
+    __typename
+  }
+  isActive
+  isConfirmed
+  defaultShippingAddress {
+    ...AddressDetailsFragmentUpdated
+    __typename
+  }
+  __typename
+}
+fragment CheckoutLineDetailsFragmentUpdated on CheckoutLine {
+  id
+  totalPrice {
+    gross {
+      ...PriceFragmentUpdated
+      __typename
+    }
+    __typename
+  }
+  variant {
+    id
+    product {
+      id
+      name
+      slug
+      thumbnail {
+        ...ImageFragmentUpdated
+        __typename
+      }
+      __typename
+    }
+    pricing {
+      price {
+        gross {
+          ...PriceFragmentUpdated
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    name
+    __typename
+  }
+  quantity
+  __typename
+}
+fragment ImageFragmentUpdated on Image {
+  url
+  alt
+  __typename
+}`, {"fragmentName":"CheckoutDetailsFragmentUpdated"}) as unknown as TypedDocumentString<CheckoutDetailsFragmentUpdatedFragment, unknown>;
 export const AccountConfirmDocument = new TypedDocumentString(`
     mutation AccountConfirm($email: String!, $token: String!) {
   confirmAccount(email: $email, token: $token) {
@@ -45994,6 +46271,153 @@ export const BasicUserDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<BasicUserQuery, BasicUserQueryVariables>;
+export const MyProfileDetailsDocument = new TypedDocumentString(`
+    query MyProfileDetails($channel: String) {
+  user: me {
+    id
+    email
+    firstName
+    lastName
+    avatar {
+      url
+      alt
+    }
+    isActive
+    isConfirmed
+    defaultBillingAddress {
+      ...AddressDetailsFragmentUpdated
+    }
+    checkouts(channel: $channel, first: 10) {
+      edges {
+        node {
+          ...CheckoutDetailsFragmentUpdated
+        }
+      }
+    }
+  }
+}
+    fragment AddressDetailsFragmentUpdated on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}
+fragment CheckoutDetailsFragmentUpdated on Checkout {
+  id
+  token
+  email
+  channel {
+    id
+    slug
+    __typename
+  }
+  lines {
+    ...CheckoutLineDetailsFragmentUpdated
+    __typename
+  }
+  discount {
+    ...PriceFragmentUpdated
+    __typename
+  }
+  discountName
+  totalPrice {
+    gross {
+      ...PriceFragmentUpdated
+      __typename
+    }
+    __typename
+  }
+  user {
+    ...UserFragmentUpdated
+    __typename
+  }
+  __typename
+}
+fragment PriceFragmentUpdated on Money {
+  currency
+  amount
+  __typename
+}
+fragment UserFragmentUpdated on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+    alt
+    __typename
+  }
+  isActive
+  isConfirmed
+  defaultShippingAddress {
+    ...AddressDetailsFragmentUpdated
+    __typename
+  }
+  __typename
+}
+fragment CheckoutLineDetailsFragmentUpdated on CheckoutLine {
+  id
+  totalPrice {
+    gross {
+      ...PriceFragmentUpdated
+      __typename
+    }
+    __typename
+  }
+  variant {
+    id
+    product {
+      id
+      name
+      slug
+      thumbnail {
+        ...ImageFragmentUpdated
+        __typename
+      }
+      __typename
+    }
+    pricing {
+      price {
+        gross {
+          ...PriceFragmentUpdated
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    name
+    __typename
+  }
+  quantity
+  __typename
+}
+fragment ImageFragmentUpdated on Image {
+  url
+  alt
+  __typename
+}`) as unknown as TypedDocumentString<MyProfileDetailsQuery, MyProfileDetailsQueryVariables>;
 export const UserDocument = new TypedDocumentString(`
     query User($channel: String, $locale: LanguageCodeEnum!) {
   user: me {

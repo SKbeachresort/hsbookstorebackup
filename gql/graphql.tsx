@@ -33682,6 +33682,25 @@ export type BasicUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type BasicUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null } | null };
 
+export type MyProfileDetailsQueryVariables = Exact<{
+  channel?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type MyProfileDetailsQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, checkouts?: { __typename?: 'CheckoutCountableConnection', edges: Array<{ __typename?: 'CheckoutCountableEdge', node: { __typename: 'Checkout', id: string, token: string, email?: string | null, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null } }> } | null } | null };
+
+export type AddressDetailsFragmentUpdatedFragment = { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> };
+
+export type CheckoutDetailsFragmentUpdatedFragment = { __typename: 'Checkout', id: string, token: string, email?: string | null, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null };
+
+export type PriceFragmentUpdatedFragment = { __typename: 'Money', currency: string, amount: number };
+
+export type UserFragmentUpdatedFragment = { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null };
+
+export type CheckoutLineDetailsFragmentUpdatedFragment = { __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null } };
+
+export type ImageFragmentUpdatedFragment = { __typename: 'Image', url: string, alt?: string | null };
+
 export type UserQueryVariables = Exact<{
   channel?: InputMaybe<Scalars['String']['input']>;
   locale: LanguageCodeEnum;
@@ -34366,6 +34385,143 @@ ${PriceFragmentFragmentDoc}
 ${ProductMediaFragmentFragmentDoc}
 ${ImageFragmentFragmentDoc}
 ${ProductTypeFragmentFragmentDoc}`;
+export const PriceFragmentUpdatedFragmentDoc = gql`
+    fragment PriceFragmentUpdated on Money {
+  currency
+  amount
+  __typename
+}
+    `;
+export const ImageFragmentUpdatedFragmentDoc = gql`
+    fragment ImageFragmentUpdated on Image {
+  url
+  alt
+  __typename
+}
+    `;
+export const CheckoutLineDetailsFragmentUpdatedFragmentDoc = gql`
+    fragment CheckoutLineDetailsFragmentUpdated on CheckoutLine {
+  id
+  totalPrice {
+    gross {
+      ...PriceFragmentUpdated
+      __typename
+    }
+    __typename
+  }
+  variant {
+    id
+    product {
+      id
+      name
+      slug
+      thumbnail {
+        ...ImageFragmentUpdated
+        __typename
+      }
+      __typename
+    }
+    pricing {
+      price {
+        gross {
+          ...PriceFragmentUpdated
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    name
+    __typename
+  }
+  quantity
+  __typename
+}
+    ${PriceFragmentUpdatedFragmentDoc}
+${ImageFragmentUpdatedFragmentDoc}`;
+export const AddressDetailsFragmentUpdatedFragmentDoc = gql`
+    fragment AddressDetailsFragmentUpdated on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}
+    `;
+export const UserFragmentUpdatedFragmentDoc = gql`
+    fragment UserFragmentUpdated on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+    alt
+    __typename
+  }
+  isActive
+  isConfirmed
+  defaultShippingAddress {
+    ...AddressDetailsFragmentUpdated
+    __typename
+  }
+  __typename
+}
+    ${AddressDetailsFragmentUpdatedFragmentDoc}`;
+export const CheckoutDetailsFragmentUpdatedFragmentDoc = gql`
+    fragment CheckoutDetailsFragmentUpdated on Checkout {
+  id
+  token
+  email
+  channel {
+    id
+    slug
+    __typename
+  }
+  lines {
+    ...CheckoutLineDetailsFragmentUpdated
+    __typename
+  }
+  discount {
+    ...PriceFragmentUpdated
+    __typename
+  }
+  discountName
+  totalPrice {
+    gross {
+      ...PriceFragmentUpdated
+      __typename
+    }
+    __typename
+  }
+  user {
+    ...UserFragmentUpdated
+    __typename
+  }
+  __typename
+}
+    ${CheckoutLineDetailsFragmentUpdatedFragmentDoc}
+${PriceFragmentUpdatedFragmentDoc}
+${UserFragmentUpdatedFragmentDoc}`;
 export const AccountConfirmDocument = gql`
     mutation AccountConfirm($email: String!, $token: String!) {
   confirmAccount(email: $email, token: $token) {
@@ -35175,6 +35331,66 @@ export type BasicUserQueryHookResult = ReturnType<typeof useBasicUserQuery>;
 export type BasicUserLazyQueryHookResult = ReturnType<typeof useBasicUserLazyQuery>;
 export type BasicUserSuspenseQueryHookResult = ReturnType<typeof useBasicUserSuspenseQuery>;
 export type BasicUserQueryResult = Apollo.QueryResult<BasicUserQuery, BasicUserQueryVariables>;
+export const MyProfileDetailsDocument = gql`
+    query MyProfileDetails($channel: String) {
+  user: me {
+    id
+    email
+    firstName
+    lastName
+    avatar {
+      url
+      alt
+    }
+    isActive
+    isConfirmed
+    defaultBillingAddress {
+      ...AddressDetailsFragmentUpdated
+    }
+    checkouts(channel: $channel, first: 10) {
+      edges {
+        node {
+          ...CheckoutDetailsFragmentUpdated
+        }
+      }
+    }
+  }
+}
+    ${AddressDetailsFragmentUpdatedFragmentDoc}
+${CheckoutDetailsFragmentUpdatedFragmentDoc}`;
+
+/**
+ * __useMyProfileDetailsQuery__
+ *
+ * To run a query within a React component, call `useMyProfileDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyProfileDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyProfileDetailsQuery({
+ *   variables: {
+ *      channel: // value for 'channel'
+ *   },
+ * });
+ */
+export function useMyProfileDetailsQuery(baseOptions?: Apollo.QueryHookOptions<MyProfileDetailsQuery, MyProfileDetailsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MyProfileDetailsQuery, MyProfileDetailsQueryVariables>(MyProfileDetailsDocument, options);
+      }
+export function useMyProfileDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyProfileDetailsQuery, MyProfileDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MyProfileDetailsQuery, MyProfileDetailsQueryVariables>(MyProfileDetailsDocument, options);
+        }
+export function useMyProfileDetailsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MyProfileDetailsQuery, MyProfileDetailsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<MyProfileDetailsQuery, MyProfileDetailsQueryVariables>(MyProfileDetailsDocument, options);
+        }
+export type MyProfileDetailsQueryHookResult = ReturnType<typeof useMyProfileDetailsQuery>;
+export type MyProfileDetailsLazyQueryHookResult = ReturnType<typeof useMyProfileDetailsLazyQuery>;
+export type MyProfileDetailsSuspenseQueryHookResult = ReturnType<typeof useMyProfileDetailsSuspenseQuery>;
+export type MyProfileDetailsQueryResult = Apollo.QueryResult<MyProfileDetailsQuery, MyProfileDetailsQueryVariables>;
 export const UserDocument = gql`
     query User($channel: String, $locale: LanguageCodeEnum!) {
   user: me {

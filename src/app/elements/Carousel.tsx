@@ -55,7 +55,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
       {/* Previous Button */}
       <div
         className={`absolute top-[34%] translate-y-1/2 z-30 -left-[2%] custom-prev bg-white border-2 border-textgray shadow-xl rounded-full p-4 ${
-          isAtStart ? "opacity-0" : "opacity-100 cursor-pointer"
+          isAtStart ? "hidden" : "opacity-100 cursor-pointer"
         }`}
         onClick={() => swiperRef.current?.slidePrev()}
       >
@@ -65,7 +65,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
       {/* Next Button */}
       <div
         className={`absolute top-[34%] translate-y-1/2 z-30 right-0 custom-next bg-white border-2 border-textgray shadow-lg rounded-full p-4 ${
-          isAtEnd ? "opacity-0" : "opacity-100 cursor-pointer"
+          isAtEnd ? "hidden" : "opacity-100 cursor-pointer"
         }`}
         onClick={() => swiperRef.current?.slideNext()}
       >

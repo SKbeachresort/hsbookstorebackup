@@ -1,7 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import { Product, BookFormat } from "@/types/product/product-types";
-import { FaCircle } from "react-icons/fa";
+import {
+  FaHeart,
+  FaRegHeart,
+  FaCircle,
+  FaSearchPlus,
+  FaPlus,
+  FaTrashAlt,
+  FaMinus,
+} from "react-icons/fa";
 
 interface AddToCartWidjetProps {
   productsDetails: Product;
@@ -20,9 +28,12 @@ const AddToCartWidjet: React.FC<AddToCartWidjetProps> = ({
   bookFormats,
   cartItem,
 }) => {
+
+
   const [selectedFormat, setSelectedFormat] = useState<string>(
     bookFormats[0]?.label || ""
   );
+
   return (
       <div className="border-[1px] border-disableGray p-4 rounded-xl">
         <p className="text-sm md:text-md my-1 text-textgray">

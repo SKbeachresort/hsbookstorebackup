@@ -9,7 +9,7 @@ import { Swiper as SwiperClass } from "swiper/types";
 
 interface MiniCarouselProps {
   slides: React.ReactNode[];
-}
+};
 
 const MiniCarousel: React.FC<MiniCarouselProps> = ({ slides }) => {
   const swiperRef = useRef<SwiperClass | null>(null);
@@ -30,7 +30,8 @@ const MiniCarousel: React.FC<MiniCarouselProps> = ({ slides }) => {
     // Calculate progress based on the visible slides
     const currentSlideIndex = swiper.realIndex + 1;
     const visibleSlides = Math.min(slidesPerView, totalSlides);
-    const progress = (currentSlideIndex / (totalSlides - visibleSlides + 1)) * 100;
+    const progress =
+      (currentSlideIndex / (totalSlides - visibleSlides + 1)) * 100;
 
     setProgress(progress);
     setIsAtStart(isBeginning);
@@ -40,7 +41,7 @@ const MiniCarousel: React.FC<MiniCarouselProps> = ({ slides }) => {
   useEffect(() => {
     if (swiperRef.current) {
       updateProgress(swiperRef.current);
-    };
+    }
   }, [slides]);
 
   const handleSlideChange = (swiper: SwiperClass) => {
@@ -52,7 +53,7 @@ const MiniCarousel: React.FC<MiniCarouselProps> = ({ slides }) => {
       {/* Previous Button */}
       <div
         className={`absolute top-[34%] z-30 -left-[2%] custom-prev bg-white border-2 border-textgray shadow-xl rounded-full p-4 ${
-          isAtStart ? "opacity-0" : "opacity-100 cursor-pointer"
+          isAtStart ? "hidden" : "opacity-100 cursor-pointer"
         }`}
         onClick={() => swiperRef.current?.slidePrev()}
       >
@@ -62,7 +63,7 @@ const MiniCarousel: React.FC<MiniCarouselProps> = ({ slides }) => {
       {/* Next Button */}
       <div
         className={`absolute top-[34%] z-30 right-0 custom-next bg-white border-2 border-textgray shadow-lg rounded-full p-4 ${
-          isAtEnd ? "opacity-0" : "opacity-100 cursor-pointer"
+          isAtEnd ? "hidden" : "opacity-100 cursor-pointer"
         }`}
         onClick={() => swiperRef.current?.slideNext()}
       >

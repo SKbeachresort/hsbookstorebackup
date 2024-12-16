@@ -176,7 +176,7 @@ const Secure3Dcode = ({
   const isFinalStep = currentStep === stepContent.length - 1;
 
   return (
-    <div className="my-2 h-full">
+    <div className="my-2 h-screen">
       <CheckOutStepper steps={steps} currentStep={currentStep} />
 
       {loading && (
@@ -189,7 +189,12 @@ const Secure3Dcode = ({
         <div className="">{/* <ProcessingOrder /> */}</div>
       ) : (
         <div id="otp-iframe" className="mx-4 w-full h-full">
-          <iframe src={iframeSrc} width="100%" height="100vh"></iframe>
+          <iframe
+            src={iframeSrc}
+            width="100%"
+            height="100%"
+            className="w-full h-full"
+          ></iframe>
         </div>
       )}
 

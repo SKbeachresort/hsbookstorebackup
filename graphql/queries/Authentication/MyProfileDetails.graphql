@@ -1,0 +1,153 @@
+query MyProfileDetails($channel: String) {
+  user: me {
+    id
+    email
+    firstName
+    lastName
+    avatar {
+      url
+      alt
+    }
+    isActive
+    isConfirmed
+    defaultBillingAddress {
+      ...AddressDetailsFragmentUpdated
+    }
+    checkouts(channel: $channel, first: 10) {
+      edges {
+        node {
+          ...CheckoutDetailsFragmentUpdated
+        }
+      }
+    }
+  }
+}
+
+fragment AddressDetailsFragmentUpdated on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}
+
+fragment CheckoutDetailsFragmentUpdated on Checkout {
+  id
+  token
+  email
+  channel {
+    id
+    slug
+    __typename
+  }
+  lines {
+    ...CheckoutLineDetailsFragmentUpdated
+    __typename
+  }
+  discount {
+    ...PriceFragmentUpdated
+    __typename
+  }
+  discountName
+  totalPrice {
+    gross {
+      ...PriceFragmentUpdated
+      __typename
+    }
+    __typename
+  }
+  user {
+    ...UserFragmentUpdated
+    __typename
+  }
+  __typename
+}
+
+fragment PriceFragmentUpdated on Money {
+  currency
+  amount
+  __typename
+}
+
+fragment UserFragmentUpdated on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+    alt
+    __typename
+  }
+  isActive
+  isConfirmed
+  defaultShippingAddress {
+    ...AddressDetailsFragmentUpdated
+    __typename
+  }
+  __typename
+}
+
+
+fragment CheckoutLineDetailsFragmentUpdated on CheckoutLine {
+  id
+  totalPrice {
+    gross {
+      ...PriceFragmentUpdated
+      __typename
+    }
+    __typename
+  }
+  variant {
+    id
+    product {
+      id
+      name
+      slug
+      thumbnail {
+        ...ImageFragmentUpdated
+        __typename
+      }
+      __typename
+    }
+    pricing {
+      price {
+        gross {
+          ...PriceFragmentUpdated
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    name
+    __typename
+  }
+  quantity
+  __typename
+}
+
+fragment ImageFragmentUpdated on Image {
+  url
+  alt
+  __typename
+}
