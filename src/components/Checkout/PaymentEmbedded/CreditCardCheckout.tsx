@@ -207,10 +207,11 @@ function CheckoutForm({
     submitButton.className = "w-full px-4 text-white py-2 bg-primary text-white font-semibold rounded-lg"
     submitButton.addEventListener("click", () => {
       if (!LoadingPayment) {
+        
         submitPayment(); 
       }
     });
-    cardWrapper?.appendChild(submitButton)
+    cardWrapper?.appendChild(submitButton);
 
     return () => {
       submitButton?.removeEventListener("click", () => {

@@ -32,7 +32,7 @@ const CheckoutComplete: React.FC<CheckoutCompleteProps> = ({
   };
 
   return (
-    <div className="my-6 flex flex-col place-items-center">
+    <div className="h-full">
       <Secure3Dcode
         initialSession={initialSession}
         countryCode={countryCode}

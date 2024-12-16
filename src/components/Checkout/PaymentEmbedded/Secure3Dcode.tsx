@@ -35,7 +35,6 @@ const Secure3Dcode = ({
   iframeSrc: string;
   channel: string;
 }) => {
-
   const [billIframe, setBillIframe] = useState<string | undefined>(undefined);
   const { user } = useUser();
   const [_checkoutId, setCheckoutId] = useLocalStorage<string>(
@@ -156,8 +155,7 @@ const Secure3Dcode = ({
   const isFinalStep = currentStep === stepContent.length - 1;
 
   return (
-    <div className="my-8 flex min-h-[calc(100dvh-133px)] w-full flex-col items-center justify-center gap-6">
-
+    <div className="my-2 h-full">
       <CheckOutStepper steps={steps} currentStep={currentStep} />
 
       {loading && (
@@ -165,22 +163,23 @@ const Secure3Dcode = ({
           <ProcessingOrder />
         </div>
       )}
-      
+
       {billIframe && billIframe !== "" ? (
-        <div className="flex flex-col items-center justify-center">
+        <div className="">
           {/* <ProcessingOrder /> */}
         </div>
       ) : (
-        <div id="otp-iframe" className="mx-4 w-full">
+        <div id="otp-iframe" className="mx-4 w-full h-full">
           <iframe src={iframeSrc} width="100%" height="100vh"></iframe>
         </div>
       )}
 
-      {data?.checkoutComplete?.errors  &&  data?.checkoutComplete?.errors?.length > 0 && (
-        <div className="text-red-500 text-center">
-          <p>{data?.checkoutComplete?.errors[0]?.message}</p>
-        </div>
-      )}
+      {data?.checkoutComplete?.errors &&
+        data?.checkoutComplete?.errors?.length > 0 && (
+          <div className="text-red-500 text-center">
+            <p>{data?.checkoutComplete?.errors[0]?.message}</p>
+          </div>
+        )}
 
       {data && data.checkoutComplete && data.checkoutComplete.order && user ? (
         <div className="flex flex-col justify-center items-center">
