@@ -20,8 +20,9 @@ interface CategoryPageProps {
     page?: string;
     after?: string;
     before?: string;
+    sortby?: string;
   };
-}
+};
 
 export default async function NestedSubCategory({
   params: { categoryslug, subcategoryslug, topicslug, channel, locale },
@@ -30,6 +31,7 @@ export default async function NestedSubCategory({
   const page = searchParams.page ?? "1";
   const after = searchParams.after ?? "";
   const before = searchParams.before ?? "";
+  const sortByName = "NAME";
 
   const path = `/category/${categoryslug}/${subcategoryslug}/${topicslug}`;
 
@@ -45,6 +47,7 @@ export default async function NestedSubCategory({
   const variables: any = {
     channel,
     slug: topicslug,
+    field: sortByName
   };
 
   if (before) {
@@ -55,7 +58,7 @@ export default async function NestedSubCategory({
     if (after) {
       variables.after = after;
     }
-  }
+  };
 
   const data = await executeGraphQL(FetchProductListPaginatedBySlugDocument, {
     variables,
@@ -77,7 +80,7 @@ export default async function NestedSubCategory({
         <h1 className="text-md text-center">No Products Found</h1>
       </div>
     );
-  }
+  };
 
   return (
     <div className="w-[100%] py-2 px-5 h-full">

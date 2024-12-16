@@ -24,8 +24,9 @@ interface CategoryPageProps {
     page?: string;
     after?: string;
     before?: string;
+    sortby?: string;
   };
-}
+};
 
 export default async function SubCategoryProducts({
   params: { categoryslug, subcategoryslug, channel, locale },
@@ -34,6 +35,7 @@ export default async function SubCategoryProducts({
   const page = searchParams.page ?? "1";
   const after = searchParams.after ?? "";
   const before = searchParams.before ?? "";
+  const sortByName = "NAME";
 
   const path = `/category/${categoryslug}/${subcategoryslug}`;
 
@@ -50,6 +52,7 @@ export default async function SubCategoryProducts({
   const variables: any = {
     channel,
     slug: subcategoryslug,
+    field: sortByName
   };
 
   if (before) {

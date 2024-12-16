@@ -10,7 +10,7 @@ import { useUser } from "@/hooks/useUser";
 
 interface OrderPlacedStatusProps {
   orderId?: string | null;
-}
+};
 
 const OrderPlacedStatus: React.FC<OrderPlacedStatusProps> = ({ orderId }) => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const OrderPlacedStatus: React.FC<OrderPlacedStatusProps> = ({ orderId }) => {
 
   const email = user?.email || guest_email;
 
-  let countdown = 5;
+  let countdown = 10;
   const interval = setInterval(() => {
     countdown -= 1;
     setTimer(countdown);
