@@ -25,7 +25,7 @@ const CheckoutStatus = () => {
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [paymentStatusError, setPaymentStatusError] = useState(false);
   const [orderId, setOrderId] = useState<string | null>(null);
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart();
 
   useEffect(() => {
     if (paymentStatus === "success") {
@@ -65,12 +65,13 @@ const CheckoutStatus = () => {
               localStorage.removeItem("shippingMethodSelectedId");
               setCookie('cartItems', '', { maxAge: -1 });
               setOrderSuccess(true);
+              clearCart();
             } else {
               setPaymentStatusError(true);
-            }
+            };
           } else {
             setOrderSuccess(false);
-          }
+          };
         })
         .catch((err) => {
           console.error("Error completing checkout:", err);

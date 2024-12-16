@@ -16,7 +16,7 @@ interface PlaceOrderWidgetProps {
   currentStep: number;
   isSecondLastStep: boolean;
   onNext: () => void;
-}
+};
 
 export const PlaceOrderWidget: React.FC<PlaceOrderWidgetProps> = ({
   channel,

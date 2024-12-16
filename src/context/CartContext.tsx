@@ -26,6 +26,7 @@ interface CartContextType {
   removeFromCart: (productid: string) => void;
   incrementQuantity: (productid: string) => void;
   decrementQuantity: (productid: string) => void;
+  clearCart: () => void;
   totalItems: number;
 };
 
@@ -124,6 +125,18 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     0
   );
 
+  const clearCart = () => {
+    setCartItems([]); 
+    setCookie("cartItems", "[]", { 
+      path: "/",
+      maxAge: 0,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+    localStorage.removeItem("cartItems"); 
+    toast.success("Cart cleared successfully!");
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -133,6 +146,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         incrementQuantity,
         decrementQuantity,
         totalItems,
+        clearCart,
       }}
     >
       {children}

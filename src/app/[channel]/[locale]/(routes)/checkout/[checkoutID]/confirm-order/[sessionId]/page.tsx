@@ -12,6 +12,7 @@ import { ReviewOrder } from "@/components/Checkout/ReviewOrder";
 import { SelectPaymentMethod } from "@/components/Checkout/SelectPaymentMethod";
 import OrderPlacedStatus from "@/components/Checkout/OrderPlacedStatus";
 import { setCookie } from "cookies-next";
+import { useCart } from "@/context/CartContext";
 
 type CheckoutProps = {
   params: {
@@ -28,6 +29,8 @@ const ConfirmOrderPage = () => {
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [paymentStatusError, setPaymentStatusError] = useState(false);
   const [orderId, setOrderId] = useState<string | null>(null);
+
+  const {clearCart} = useCart();
 
   const [currentStep, setCurrentStep] = useState(2);
 
@@ -72,6 +75,7 @@ const ConfirmOrderPage = () => {
               localStorage.removeItem("selectedPaymentMethod");
               localStorage.removeItem("shippingMethodSelectedId");
               setCookie("cartItems", "", { maxAge: -1 });
+              clearCart();
             } else {
               setPaymentStatusError(true);
             }

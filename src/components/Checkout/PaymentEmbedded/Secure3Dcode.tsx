@@ -23,6 +23,7 @@ import ShippingBillingsDetails from "@/components/Checkout/ShippingBillingsDetai
 import { ReviewOrder } from "@/components/Checkout/ReviewOrder";
 import { SelectPaymentMethod } from "@/components/Checkout/SelectPaymentMethod";
 import OrderPlacedStatus from "@/components/Checkout/OrderPlacedStatus";
+import { useCart } from "@/context/CartContext";
 
 const Secure3Dcode = ({
   initialSession,
@@ -42,6 +43,7 @@ const Secure3Dcode = ({
   );
 
   const [currentStep, setCurrentStep] = useState(2);
+  const { clearCart } = useCart();
 
   console.log("Checkout Id", checkoutId);
 
@@ -72,6 +74,7 @@ const Secure3Dcode = ({
         localStorage.removeItem("shippingMethodSelectedId");
         setCookie("cartItems", "", { maxAge: -1 });
         setCookie(`checkoutId-${channel}`, "");
+        clearCart();
       },
 
       refetchQueries: () => [
