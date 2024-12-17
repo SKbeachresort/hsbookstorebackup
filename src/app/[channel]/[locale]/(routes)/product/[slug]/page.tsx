@@ -152,8 +152,7 @@ const ProductDetailPage = () => {
       {/* Main Section  */}
       <ProductMainSection
         productsDetails={productsDetails}
-        isFav={isFav}
-        toggleFav={toggleFav}
+        channel={channel as string}
         cartItem={cartItem}
         handleAddToCart={handleAddToCart}
         handleDecrement={handleDecrement}

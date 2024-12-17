@@ -21,6 +21,7 @@ export interface Product {
   Weight: string;
   variantObj: Variant[];
   variantType: string;
+  variantId: string;
 }
 
 export interface VariantFormat {

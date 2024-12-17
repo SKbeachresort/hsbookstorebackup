@@ -14,29 +14,26 @@ import Image from "next/image";
 import { Product, VariantFormat } from "@/types/product/product-types";
 import { ProductBySlugDocument } from "../../../gql/graphql-documents";
 import ColorCircle from "./CustomColors";
+import { useCart } from "@/context/CartContext";
+import toast from "react-hot-toast";
+import { useAddProductToWishlistMutation } from "../../../gql/graphql";
+import { useUser } from "@/hooks/useUser";
 
 const COLOR_MAP: { [key: string]: string } = {
-  // Tube colors
   Black: "#000000",
   Burgundy: "#800020",
   Raspberry: "#E30B5D",
 
-  // Chestpiece colors
-  // Smoke: "#708090",
   Champagne: "#F7E7CE",
   Rainbow:
     "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)",
 
-  // Stem colors
-  // Black: "#000000",
   Smoke: "#708090",
-  // Champagne: "#F7E7CE",
 };
 
 interface ProductDetailsProps {
   productsDetails: Product;
-  isFav: boolean;
-  toggleFav: () => void;
+  channel: string;
   cartItem?: { quantity: number };
   handleAddToCart: () => void;
   handleDecrement: () => void;
@@ -47,8 +44,7 @@ interface ProductDetailsProps {
 
 const ProductMainSection: React.FC<ProductDetailsProps> = ({
   productsDetails,
-  isFav,
-  toggleFav,
+  channel,
   cartItem,
   handleAddToCart,
   handleDecrement,
@@ -56,11 +52,9 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   removeFromCart,
   VariantDefault,
 }) => {
-  // State for selected variant
   const [selectedVariant, setSelectedVariant] = useState<Product | null>(null);
   const variants = productsDetails.variantObj;
 
-  // State for selected image
   const [selectImage, setSelectImage] = useState<string>(
     productsDetails.mainImage
   );
@@ -69,14 +63,6 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
 
   const handleMagnifyClick = () => {
     setIsZoomed(!isZoomed);
-  };
-
-  const handleDecrementLogic = () => {
-    if (cartItem?.quantity === 1 && removeFromCart) {
-      removeFromCart(productsDetails.id);
-    } else {
-      handleDecrement();
-    }
   };
 
   const [selectedAttributes, setSelectedAttributes] = useState<{
@@ -91,7 +77,6 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     if (variants && variants.length > 0) {
       const attributes: { [key: string]: Set<string> } = {};
 
-      // Extract unique attributes
       variants.forEach((variant) => {
         variant.attributes.forEach((attr: any) => {
           const attrName = attr.attribute.name;
@@ -99,7 +84,6 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
             attributes[attrName] = new Set();
           }
 
-          // Add values, but only if they exist
           attr.values.forEach((value: any) => {
             if (value.name) {
               attributes[attrName].add(value.name);
@@ -108,7 +92,6 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
         });
       });
 
-      // Convert Sets to arrays
       const processedAttributes: { [key: string]: string[] } = {};
       Object.keys(attributes).forEach((key) => {
         processedAttributes[key] = Array.from(attributes[key]);
@@ -118,7 +101,6 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     }
   }, [variants]);
 
-  // Handle attribute selection
   const handleAttributeSelection = (attributeName: string, value: string) => {
     const newSelectedAttributes = {
       ...selectedAttributes,
@@ -126,17 +108,14 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     };
     setSelectedAttributes(newSelectedAttributes);
 
-    // Find variant that matches all selected attributes
     const matchedVariant = findMatchingVariant(newSelectedAttributes);
     if (matchedVariant) {
       handleVariantSelection(matchedVariant);
     }
   };
 
-  // Find matching variant based on selected attributes
   const findMatchingVariant = (selectedAttrs: { [key: string]: string }) => {
     return variants.find((variant) => {
-      // Check if all selected attributes match
       return Object.entries(selectedAttrs).every(([attrName, attrValue]) => {
         return variant.attributes.some(
           (attr: any) =>
@@ -147,11 +126,11 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     });
   };
 
-  // Variant selection logic
   const handleVariantSelection = (variant: any) => {
     const updatedVariant = {
       ...productsDetails,
       id: variant.id,
+      variantId: variant.id,
       mainImage: variant.media?.[0]?.url || productsDetails.mainImage,
       subImage:
         variant.media &&
@@ -171,24 +150,65 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     setSelectImage(updatedVariant.mainImage);
   };
 
-  // Initial variant selection
   useEffect(() => {
     if (variants && variants.length > 0) {
-      // Select first variant initially
       handleVariantSelection(variants[0]);
     }
   }, [variants]);
 
   const hasMultipleVariants = productsDetails.variantObj.length > 1;
   console.log("Variant Object", productsDetails.variantObj);
-  // console.log("Variant Namae", productsDetails.variantType);
+
+  const handleDecrementLogic = () => {
+    if (cartItem?.quantity === 1 && removeFromCart) {
+      removeFromCart(productsDetails.id);
+    } else {
+      handleDecrement();
+    }
+  };
+
+  // Wishlist Logic
+  const { user } = useUser();
+  const [isFav, setIsFav] = useState<boolean>(false);
+  const userId = user?.id;
+
+  const [addProductToWishlist] = useAddProductToWishlistMutation();
+
+  const toggleFav = async () => {
+
+    if(!userId) {
+      toast.error("Please login to add product to wishlist");
+      return;
+    };
+
+    try {
+      const action = isFav ? "delete" : "add";
+      const response = await addProductToWishlist({
+        variables: {
+          productId: productsDetails.id,
+          userId: userId as string,
+          action,
+        },
+      });
+      if (response?.data?.wishlistAdd?.success) {
+        setIsFav(!isFav);
+        if (action === "add") {
+          toast.success("Product added to wishlist!");
+        } else if (action === "delete") {
+          toast.success("Product removed from wishlist!");
+        }
+      } else {
+        toast.error(`${response?.data?.wishlistAdd?.message}`);
+      }
+    } catch (error) {
+      console.log("Error in adding product to wishlist", error);
+    }
+  };
 
   return (
     <div className="">
       <div className="flex flex-col md:flex-row gap-4 justify-start md:justify-between items-start">
-        {/* Product Images */}
         <div className="flex p-2 flex-col-reverse md:flex-row justify-between md:w-[60%] gap-2">
-          {/* Sub Images */}
           <div className="flex flex-row my-3 p-2 md:my-0 md:flex-col gap-4 w-[20%]">
             {selectedVariant?.subImage &&
             selectedVariant?.subImage.length > 0 ? (
@@ -219,15 +239,15 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
               className={`w-full md:w-[80%] ${isZoomed ? "scale-150" : ""}`}
             />
             {/* Heart Icon */}
-            <div className="absolute z-40 top-0 -right-4">
+            <div className="absolute z-40 top-0 bg-white rounded-full p-2 shadow-lg -right-4">
               {isFav ? (
                 <FaHeart
-                  className="cursor-pointer text-secondary text-xl"
+                  className="cursor-pointer text-secondary text-2xl"
                   onClick={toggleFav}
                 />
               ) : (
                 <FaRegHeart
-                  className="cursor-pointer text-secondary text-xl"
+                  className="cursor-pointer text-secondary text-2xl"
                   onClick={toggleFav}
                 />
               )}
@@ -344,34 +364,34 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
 
           {/* Variant Selection for Sthethoscopes */}
           {productsDetails?.variantType === "Stethoscopes" && (
-          <div className="mt-2">
-            <p>Selected Variant: {selectedVariant?.name}</p>
-            {Object.entries(availableAttributes).map(
-              ([attributeName, values]) => (
-                <div key={attributeName} className="my-2">
-                  <p className="text-sm font-medium mb-2">{attributeName}:</p>
-                  <div className="flex flex-wrap gap-1 items-center">
-                    {values.map((value) => {
-                      const color = COLOR_MAP[value] || "#808080";
+            <div className="mt-2">
+              <p>Selected Variant: {selectedVariant?.name}</p>
+              {Object.entries(availableAttributes).map(
+                ([attributeName, values]) => (
+                  <div key={attributeName} className="my-2">
+                    <p className="text-sm font-medium mb-2">{attributeName}:</p>
+                    <div className="flex flex-wrap gap-1 items-center">
+                      {values.map((value) => {
+                        const color = COLOR_MAP[value] || "#808080";
 
-                      return (
-                        <ColorCircle
-                          key={value}
-                          color={color}
-                          isSelected={
-                            selectedAttributes[attributeName] === value
-                          }
-                          onClick={() =>
-                            handleAttributeSelection(attributeName, value)
-                          }
-                        />
-                      );
-                    })}
+                        return (
+                          <ColorCircle
+                            key={value}
+                            color={color}
+                            isSelected={
+                              selectedAttributes[attributeName] === value
+                            }
+                            onClick={() =>
+                              handleAttributeSelection(attributeName, value)
+                            }
+                          />
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              )
-            )}
-          </div>
+                )
+              )}
+            </div>
           )}
 
           {/* Quantity Selection */}

@@ -33672,6 +33672,24 @@ export type CheckoutShippingMethodUpdateMutationVariables = Exact<{
 
 export type CheckoutShippingMethodUpdateMutation = { __typename?: 'Mutation', checkoutDeliveryMethodUpdate?: { __typename: 'CheckoutDeliveryMethodUpdate', checkout?: { __typename: 'Checkout', id: string, token: string, email?: string | null, isShippingRequired: boolean, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, deliveryMethod?: { __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } } | { __typename: 'Warehouse' } | null, shippingMethods: Array<{ __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } }>, availablePaymentGateways: Array<{ __typename: 'PaymentGateway', id: string, name: string, config: Array<{ __typename: 'GatewayConfigLine', field: string, value?: string | null }> }>, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, translation?: { __typename: 'ProductTranslation', id: string, name?: string | null } | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null, translation?: { __typename: 'ProductVariantTranslation', id: string, name: string } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, subtotalPrice: { __typename: 'TaxedMoney', net: { __typename: 'Money', currency: string, amount: number }, tax: { __typename: 'Money', currency: string, amount: number } }, shippingPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null } | null, errors: Array<{ __typename: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
 
+export type AddProductSaveForLaterMutationVariables = Exact<{
+  action: Scalars['String']['input'];
+  productId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+}>;
+
+
+export type AddProductSaveForLaterMutation = { __typename?: 'Mutation', sflAdd?: { __typename?: 'AddToSFL', success?: boolean | null, message?: string | null } | null };
+
+export type AddProductToWishlistMutationVariables = Exact<{
+  productId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+  action: Scalars['String']['input'];
+}>;
+
+
+export type AddProductToWishlistMutation = { __typename?: 'Mutation', wishlistAdd?: { __typename?: 'AddToWishlist', success?: boolean | null, message?: string | null } | null };
+
 export type AddressUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -33806,6 +33824,22 @@ export type SearchProductsQueryVariables = Exact<{
 
 
 export type SearchProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+
+export type ViewSaveLaterProductsQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  userId: Scalars['ID']['input'];
+}>;
+
+
+export type ViewSaveLaterProductsQuery = { __typename?: 'Query', sflView?: Array<{ __typename?: 'SFLWithCategoryType', product?: { __typename?: 'Product', id: string, name: string, slug: string, media?: Array<{ __typename?: 'ProductMedia', url: string }> | null } | null } | null> | null };
+
+export type WishlistViewQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  userId: Scalars['ID']['input'];
+}>;
+
+
+export type WishlistViewQuery = { __typename?: 'Query', wishlistView?: Array<{ __typename?: 'WishlistItemWithCategoryType', id?: string | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null } | null> | null };
 
 export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -35239,6 +35273,78 @@ export function useCheckoutShippingMethodUpdateMutation(baseOptions?: Apollo.Mut
 export type CheckoutShippingMethodUpdateMutationHookResult = ReturnType<typeof useCheckoutShippingMethodUpdateMutation>;
 export type CheckoutShippingMethodUpdateMutationResult = Apollo.MutationResult<CheckoutShippingMethodUpdateMutation>;
 export type CheckoutShippingMethodUpdateMutationOptions = Apollo.BaseMutationOptions<CheckoutShippingMethodUpdateMutation, CheckoutShippingMethodUpdateMutationVariables>;
+export const AddProductSaveForLaterDocument = gql`
+    mutation AddProductSaveForLater($action: String!, $productId: ID!, $userId: ID!) {
+  sflAdd(action: $action, productId: $productId, userId: $userId) {
+    success
+    message
+  }
+}
+    `;
+export type AddProductSaveForLaterMutationFn = Apollo.MutationFunction<AddProductSaveForLaterMutation, AddProductSaveForLaterMutationVariables>;
+
+/**
+ * __useAddProductSaveForLaterMutation__
+ *
+ * To run a mutation, you first call `useAddProductSaveForLaterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddProductSaveForLaterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addProductSaveForLaterMutation, { data, loading, error }] = useAddProductSaveForLaterMutation({
+ *   variables: {
+ *      action: // value for 'action'
+ *      productId: // value for 'productId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useAddProductSaveForLaterMutation(baseOptions?: Apollo.MutationHookOptions<AddProductSaveForLaterMutation, AddProductSaveForLaterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddProductSaveForLaterMutation, AddProductSaveForLaterMutationVariables>(AddProductSaveForLaterDocument, options);
+      }
+export type AddProductSaveForLaterMutationHookResult = ReturnType<typeof useAddProductSaveForLaterMutation>;
+export type AddProductSaveForLaterMutationResult = Apollo.MutationResult<AddProductSaveForLaterMutation>;
+export type AddProductSaveForLaterMutationOptions = Apollo.BaseMutationOptions<AddProductSaveForLaterMutation, AddProductSaveForLaterMutationVariables>;
+export const AddProductToWishlistDocument = gql`
+    mutation AddProductToWishlist($productId: ID!, $userId: ID!, $action: String!) {
+  wishlistAdd(productId: $productId, userId: $userId, action: $action) {
+    success
+    message
+  }
+}
+    `;
+export type AddProductToWishlistMutationFn = Apollo.MutationFunction<AddProductToWishlistMutation, AddProductToWishlistMutationVariables>;
+
+/**
+ * __useAddProductToWishlistMutation__
+ *
+ * To run a mutation, you first call `useAddProductToWishlistMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddProductToWishlistMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addProductToWishlistMutation, { data, loading, error }] = useAddProductToWishlistMutation({
+ *   variables: {
+ *      productId: // value for 'productId'
+ *      userId: // value for 'userId'
+ *      action: // value for 'action'
+ *   },
+ * });
+ */
+export function useAddProductToWishlistMutation(baseOptions?: Apollo.MutationHookOptions<AddProductToWishlistMutation, AddProductToWishlistMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddProductToWishlistMutation, AddProductToWishlistMutationVariables>(AddProductToWishlistDocument, options);
+      }
+export type AddProductToWishlistMutationHookResult = ReturnType<typeof useAddProductToWishlistMutation>;
+export type AddProductToWishlistMutationResult = Apollo.MutationResult<AddProductToWishlistMutation>;
+export type AddProductToWishlistMutationOptions = Apollo.BaseMutationOptions<AddProductToWishlistMutation, AddProductToWishlistMutationVariables>;
 export const AddressUserDocument = gql`
     query AddressUser {
   user: me {
@@ -36072,6 +36178,98 @@ export type SearchProductsQueryHookResult = ReturnType<typeof useSearchProductsQ
 export type SearchProductsLazyQueryHookResult = ReturnType<typeof useSearchProductsLazyQuery>;
 export type SearchProductsSuspenseQueryHookResult = ReturnType<typeof useSearchProductsSuspenseQuery>;
 export type SearchProductsQueryResult = Apollo.QueryResult<SearchProductsQuery, SearchProductsQueryVariables>;
+export const ViewSaveLaterProductsDocument = gql`
+    query ViewSaveLaterProducts($channel: String!, $userId: ID!) {
+  sflView(channel: $channel, userId: $userId) {
+    product {
+      id
+      name
+      media {
+        url
+      }
+      slug
+    }
+  }
+}
+    `;
+
+/**
+ * __useViewSaveLaterProductsQuery__
+ *
+ * To run a query within a React component, call `useViewSaveLaterProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useViewSaveLaterProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useViewSaveLaterProductsQuery({
+ *   variables: {
+ *      channel: // value for 'channel'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useViewSaveLaterProductsQuery(baseOptions: Apollo.QueryHookOptions<ViewSaveLaterProductsQuery, ViewSaveLaterProductsQueryVariables> & ({ variables: ViewSaveLaterProductsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ViewSaveLaterProductsQuery, ViewSaveLaterProductsQueryVariables>(ViewSaveLaterProductsDocument, options);
+      }
+export function useViewSaveLaterProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ViewSaveLaterProductsQuery, ViewSaveLaterProductsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ViewSaveLaterProductsQuery, ViewSaveLaterProductsQueryVariables>(ViewSaveLaterProductsDocument, options);
+        }
+export function useViewSaveLaterProductsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ViewSaveLaterProductsQuery, ViewSaveLaterProductsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ViewSaveLaterProductsQuery, ViewSaveLaterProductsQueryVariables>(ViewSaveLaterProductsDocument, options);
+        }
+export type ViewSaveLaterProductsQueryHookResult = ReturnType<typeof useViewSaveLaterProductsQuery>;
+export type ViewSaveLaterProductsLazyQueryHookResult = ReturnType<typeof useViewSaveLaterProductsLazyQuery>;
+export type ViewSaveLaterProductsSuspenseQueryHookResult = ReturnType<typeof useViewSaveLaterProductsSuspenseQuery>;
+export type ViewSaveLaterProductsQueryResult = Apollo.QueryResult<ViewSaveLaterProductsQuery, ViewSaveLaterProductsQueryVariables>;
+export const WishlistViewDocument = gql`
+    query WishlistView($channel: String!, $userId: ID!) {
+  wishlistView(channel: $channel, userId: $userId) {
+    id
+    product {
+      ...ProductCardDetails
+    }
+  }
+}
+    ${ProductCardDetailsFragmentDoc}`;
+
+/**
+ * __useWishlistViewQuery__
+ *
+ * To run a query within a React component, call `useWishlistViewQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWishlistViewQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWishlistViewQuery({
+ *   variables: {
+ *      channel: // value for 'channel'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useWishlistViewQuery(baseOptions: Apollo.QueryHookOptions<WishlistViewQuery, WishlistViewQueryVariables> & ({ variables: WishlistViewQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WishlistViewQuery, WishlistViewQueryVariables>(WishlistViewDocument, options);
+      }
+export function useWishlistViewLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WishlistViewQuery, WishlistViewQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WishlistViewQuery, WishlistViewQueryVariables>(WishlistViewDocument, options);
+        }
+export function useWishlistViewSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<WishlistViewQuery, WishlistViewQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<WishlistViewQuery, WishlistViewQueryVariables>(WishlistViewDocument, options);
+        }
+export type WishlistViewQueryHookResult = ReturnType<typeof useWishlistViewQuery>;
+export type WishlistViewLazyQueryHookResult = ReturnType<typeof useWishlistViewLazyQuery>;
+export type WishlistViewSuspenseQueryHookResult = ReturnType<typeof useWishlistViewSuspenseQuery>;
+export type WishlistViewQueryResult = Apollo.QueryResult<WishlistViewQuery, WishlistViewQueryVariables>;
 export const FetchAllProductsByCategorySlugDocument = gql`
     query fetchAllProductsByCategorySlug($channel: String!, $slug: String!, $after: String!) {
   category(slug: $slug) {

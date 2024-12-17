@@ -1,0 +1,8 @@
+query WishlistView($channel: String!, $userId: ID!) {
+  wishlistView(channel: $channel, userId: $userId) {
+    id
+    product {
+      ...ProductCardDetails
+    }
+  }
+}

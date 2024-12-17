@@ -1,0 +1,10 @@
+mutation AddProductSaveForLater($action: String!, $productId: ID!, $userId: ID!) {
+  sflAdd(
+    action: $action
+    productId: $productId
+    userId: $userId
+  ) {
+    success
+    message
+  }
+}

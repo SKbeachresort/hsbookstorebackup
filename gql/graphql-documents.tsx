@@ -33478,6 +33478,24 @@ export type CheckoutShippingMethodUpdateMutationVariables = Exact<{
 
 export type CheckoutShippingMethodUpdateMutation = { __typename?: 'Mutation', checkoutDeliveryMethodUpdate?: { __typename: 'CheckoutDeliveryMethodUpdate', checkout?: { __typename: 'Checkout', id: string, token: string, email?: string | null, isShippingRequired: boolean, discountName?: string | null, channel: { __typename: 'Channel', id: string, slug: string }, billingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, shippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, deliveryMethod?: { __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } } | { __typename: 'Warehouse' } | null, shippingMethods: Array<{ __typename: 'ShippingMethod', id: string, name: string, active: boolean, description?: string | null, minimumDeliveryDays?: number | null, maximumDeliveryDays?: number | null, translation?: { __typename: 'ShippingMethodTranslation', id: string, name: string } | null, price: { __typename: 'Money', currency: string, amount: number } }>, availablePaymentGateways: Array<{ __typename: 'PaymentGateway', id: string, name: string, config: Array<{ __typename: 'GatewayConfigLine', field: string, value?: string | null }> }>, lines: Array<{ __typename: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, variant: { __typename: 'ProductVariant', id: string, name: string, product: { __typename: 'Product', id: string, name: string, slug: string, translation?: { __typename: 'ProductTranslation', id: string, name?: string | null } | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null }, pricing?: { __typename: 'VariantPricingInfo', price?: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null, translation?: { __typename: 'ProductVariantTranslation', id: string, name: string } | null } }>, discount?: { __typename: 'Money', currency: string, amount: number } | null, subtotalPrice: { __typename: 'TaxedMoney', net: { __typename: 'Money', currency: string, amount: number }, tax: { __typename: 'Money', currency: string, amount: number } }, shippingPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, totalPrice: { __typename: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } }, user?: { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null } | null, errors: Array<{ __typename: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
 
+export type AddProductSaveForLaterMutationVariables = Exact<{
+  action: Scalars['String']['input'];
+  productId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+}>;
+
+
+export type AddProductSaveForLaterMutation = { __typename?: 'Mutation', sflAdd?: { __typename?: 'AddToSFL', success?: boolean | null, message?: string | null } | null };
+
+export type AddProductToWishlistMutationVariables = Exact<{
+  productId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+  action: Scalars['String']['input'];
+}>;
+
+
+export type AddProductToWishlistMutation = { __typename?: 'Mutation', wishlistAdd?: { __typename?: 'AddToWishlist', success?: boolean | null, message?: string | null } | null };
+
 export type AddressUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -33612,6 +33630,22 @@ export type SearchProductsQueryVariables = Exact<{
 
 
 export type SearchProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', cursor: string, node: { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, rating?: number | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null }> | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename: 'Money', currency: string, amount: number } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename: 'Money', currency: string, amount: number } } | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename: 'Image', url: string, alt?: string | null } | null, productType: { __typename?: 'ProductType', kind: ProductTypeKindEnum, slug: string, name: string, id: string, isDigital: boolean, isShippingRequired: boolean, hasVariants: boolean }, weight?: { __typename?: 'Weight', unit: WeightUnitsEnum, value: number } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+
+export type ViewSaveLaterProductsQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  userId: Scalars['ID']['input'];
+}>;
+
+
+export type ViewSaveLaterProductsQuery = { __typename?: 'Query', sflView?: Array<{ __typename?: 'SFLWithCategoryType', product?: { __typename?: 'Product', id: string, name: string, slug: string, media?: Array<{ __typename?: 'ProductMedia', url: string }> | null } | null } | null> | null };
+
+export type WishlistViewQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  userId: Scalars['ID']['input'];
+}>;
+
+
+export type WishlistViewQuery = { __typename?: 'Query', wishlistView?: Array<{ __typename?: 'WishlistItemWithCategoryType', id?: string | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null } | null> | null };
 
 export type FetchAllProductsByCategorySlugQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -46218,6 +46252,22 @@ fragment UserFragment on User {
   }
   __typename
 }`) as unknown as TypedDocumentString<CheckoutShippingMethodUpdateMutation, CheckoutShippingMethodUpdateMutationVariables>;
+export const AddProductSaveForLaterDocument = new TypedDocumentString(`
+    mutation AddProductSaveForLater($action: String!, $productId: ID!, $userId: ID!) {
+  sflAdd(action: $action, productId: $productId, userId: $userId) {
+    success
+    message
+  }
+}
+    `) as unknown as TypedDocumentString<AddProductSaveForLaterMutation, AddProductSaveForLaterMutationVariables>;
+export const AddProductToWishlistDocument = new TypedDocumentString(`
+    mutation AddProductToWishlist($productId: ID!, $userId: ID!, $action: String!) {
+  wishlistAdd(productId: $productId, userId: $userId, action: $action) {
+    success
+    message
+  }
+}
+    `) as unknown as TypedDocumentString<AddProductToWishlistMutation, AddProductToWishlistMutationVariables>;
 export const AddressUserDocument = new TypedDocumentString(`
     query AddressUser {
   user: me {
@@ -47337,6 +47387,67 @@ fragment SelectedAttributeDetailsFragment on SelectedAttribute {
     value
   }
 }`) as unknown as TypedDocumentString<SearchProductsQuery, SearchProductsQueryVariables>;
+export const ViewSaveLaterProductsDocument = new TypedDocumentString(`
+    query ViewSaveLaterProducts($channel: String!, $userId: ID!) {
+  sflView(channel: $channel, userId: $userId) {
+    product {
+      id
+      name
+      media {
+        url
+      }
+      slug
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ViewSaveLaterProductsQuery, ViewSaveLaterProductsQueryVariables>;
+export const WishlistViewDocument = new TypedDocumentString(`
+    query WishlistView($channel: String!, $userId: ID!) {
+  wishlistView(channel: $channel, userId: $userId) {
+    id
+    product {
+      ...ProductCardDetails
+    }
+  }
+}
+    fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  thumbnail {
+    url
+    alt
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+  variants {
+    id
+    name
+  }
+}`) as unknown as TypedDocumentString<WishlistViewQuery, WishlistViewQueryVariables>;
 export const FetchAllProductsByCategorySlugDocument = new TypedDocumentString(`
     query fetchAllProductsByCategorySlug($channel: String!, $slug: String!, $after: String!) {
   category(slug: $slug) {

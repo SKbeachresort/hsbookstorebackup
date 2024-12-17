@@ -1,0 +1,10 @@
+mutation AddProductToWishlist($productId: ID!, $userId: ID!, $action: String!) {
+  wishlistAdd(
+    productId: $productId
+    userId: $userId
+    action: $action
+  ) {
+    success
+    message
+  }
+}
