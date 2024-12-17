@@ -44,10 +44,10 @@ const NavigationMenu = () => {
 
           <div className="hidden md:block">
             <div className="flex flex-row gap-x-6 items-center">
-              <Link href={`/`}>
+              <Link href={getRegionUrl(`/me/${user?.id}/orders`)}>
                 <p className="text-md font-medium">My Orders</p>
               </Link>
-              <Link href={`/`}>
+              <Link href={getRegionUrl(`/me/${user?.id}/wishlist`)}>
                 <p className="text-md font-medium">My Wishlist</p>
               </Link>
             </div>
