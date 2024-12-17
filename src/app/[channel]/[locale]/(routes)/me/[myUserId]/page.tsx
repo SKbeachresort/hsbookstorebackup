@@ -1,5 +1,5 @@
 "use client";
-import React,{ useTransition, useState } from "react";
+import React, { useTransition, useState } from "react";
 import { useUser } from "@/hooks/useUser";
 import { userLogout } from "@/server/userLogout";
 import BackDropLoader from "@/app/elements/BackdropLoader";
@@ -23,19 +23,15 @@ const MyProfilePage = () => {
         })
         .catch(() => {
           setIsLoading(false);
-          toast.error("we could not log you out, Please try again later.")
-        })
-    })
+          toast.error("we could not log you out, Please try again later.");
+        });
+    });
     return;
   };
-  
+
   return (
-    <div>
-      <div>
-        <div>
-          <p className="">Welcome {user?.firstName}{" "}{user?.lastName}</p>
-        </div>
-      </div>
+    <div className="w-[95%] xl:w-[75%] 3xl:w-full mx-auto sm:px-10 lg:px-12">
+      <p className="my-3 text-lg">This is My Profile Dashboard</p>
     </div>
   );
 };

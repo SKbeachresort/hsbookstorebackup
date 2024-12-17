@@ -13,6 +13,7 @@ interface ProductsRecommendationsProps {
 export const ProductsRecommendations: React.FC<
   ProductsRecommendationsProps
 > = ({ channel }) => {
+  
   const { data, loading, error } = useFetchProductsRecommendationQuery({
     variables: {
       channel,

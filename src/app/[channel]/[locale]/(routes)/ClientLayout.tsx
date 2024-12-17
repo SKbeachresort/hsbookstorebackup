@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import "aos/dist/aos.css";
 import AOS from "aos";
 import { Sheet } from "@/components/ui/sheet";
+import NavigationMenu from "@/components/MyProfile/NavigationMenu";
 
 export default function ClientLayout({
   children,
@@ -15,12 +16,13 @@ export default function ClientLayout({
 }) {
   const [isClient, setIsClient] = useState(false);
   const [isCategory, setIsCategory] = useState(false);
-
+  const [isProfile, setIsProfile] = useState(false);
   const currentPath = usePathname();
 
   useEffect(() => {
     setIsClient(true);
     setIsCategory(currentPath.includes("/category"));
+    setIsProfile(currentPath.includes("/me"));
     AOS.init({
       duration: 1000,
       once: false,
@@ -41,7 +43,12 @@ export default function ClientLayout({
       <>
         <div className="flex flex-row overflow-hidden">
           {isCategory && <SubCategorySidebar />}
-          <div className={`${isCategory ? "w-full md:w-[80%] mx-auto":"w-full"}`}>{children}</div>
+          <div
+            className={`${isCategory ? "w-full md:w-[80%] mx-auto" : "w-full"}`}
+          >
+            {isProfile && <NavigationMenu />}
+            <div>{children}</div>
+          </div>
           <Toaster
             position="top-center"
             reverseOrder={false}
