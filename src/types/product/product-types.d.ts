@@ -19,9 +19,11 @@ export interface Product {
   Cover: string;
   Pages: number;
   Weight: string;
+  variantObj: Variant[];
+  variantType: string;
 }
 
-export interface BookFormat {
+export interface VariantFormat {
   label: string;
   price: number;
   currency: string;

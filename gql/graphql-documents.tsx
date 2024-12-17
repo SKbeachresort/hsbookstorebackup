@@ -33552,6 +33552,16 @@ export type FetchFeaturedCategoriesQueryVariables = Exact<{
 
 export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, backgroundImage?: { __typename: 'Image', url: string, alt?: string | null } | null, parent?: { __typename?: 'Category', id: string, name: string, slug: string, level: number } | null } }> } | null };
 
+export type HomeProductsRecommendationsQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  includeOrderData: Scalars['Boolean']['input'];
+  productId: Scalars['ID']['input'];
+  includeSessionData: Scalars['Boolean']['input'];
+}>;
+
+
+export type HomeProductsRecommendationsQuery = { __typename?: 'Query', recommendations?: Array<{ __typename?: 'ProductWithViewCountType', viewCount?: number | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null } | null> | null };
+
 export type HomeRecentlyAddedQueryVariables = Exact<{
   channel: Scalars['String']['input'];
 }>;
@@ -46793,6 +46803,58 @@ fragment ImageFragment on Image {
   alt
   __typename
 }`) as unknown as TypedDocumentString<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>;
+export const HomeProductsRecommendationsDocument = new TypedDocumentString(`
+    query HomeProductsRecommendations($channel: String!, $includeOrderData: Boolean!, $productId: ID!, $includeSessionData: Boolean!) {
+  recommendations(
+    channel: $channel
+    includeOrderData: $includeOrderData
+    productId: $productId
+    includeSessionData: $includeSessionData
+  ) {
+    viewCount
+    product {
+      ...ProductCardDetails
+    }
+  }
+}
+    fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  thumbnail {
+    url
+    alt
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+  variants {
+    id
+    name
+  }
+}`) as unknown as TypedDocumentString<HomeProductsRecommendationsQuery, HomeProductsRecommendationsQueryVariables>;
 export const HomeRecentlyAddedDocument = new TypedDocumentString(`
     query HomeRecentlyAdded($channel: String!) {
   products(

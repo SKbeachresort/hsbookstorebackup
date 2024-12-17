@@ -33746,6 +33746,16 @@ export type FetchFeaturedCategoriesQueryVariables = Exact<{
 
 export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, backgroundImage?: { __typename: 'Image', url: string, alt?: string | null } | null, parent?: { __typename?: 'Category', id: string, name: string, slug: string, level: number } | null } }> } | null };
 
+export type HomeProductsRecommendationsQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  includeOrderData: Scalars['Boolean']['input'];
+  productId: Scalars['ID']['input'];
+  includeSessionData: Scalars['Boolean']['input'];
+}>;
+
+
+export type HomeProductsRecommendationsQuery = { __typename?: 'Query', recommendations?: Array<{ __typename?: 'ProductWithViewCountType', viewCount?: number | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null } | null> | null };
+
 export type HomeRecentlyAddedQueryVariables = Exact<{
   channel: Scalars['String']['input'];
 }>;
@@ -35738,6 +35748,57 @@ export type FetchFeaturedCategoriesQueryHookResult = ReturnType<typeof useFetchF
 export type FetchFeaturedCategoriesLazyQueryHookResult = ReturnType<typeof useFetchFeaturedCategoriesLazyQuery>;
 export type FetchFeaturedCategoriesSuspenseQueryHookResult = ReturnType<typeof useFetchFeaturedCategoriesSuspenseQuery>;
 export type FetchFeaturedCategoriesQueryResult = Apollo.QueryResult<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>;
+export const HomeProductsRecommendationsDocument = gql`
+    query HomeProductsRecommendations($channel: String!, $includeOrderData: Boolean!, $productId: ID!, $includeSessionData: Boolean!) {
+  recommendations(
+    channel: $channel
+    includeOrderData: $includeOrderData
+    productId: $productId
+    includeSessionData: $includeSessionData
+  ) {
+    viewCount
+    product {
+      ...ProductCardDetails
+    }
+  }
+}
+    ${ProductCardDetailsFragmentDoc}`;
+
+/**
+ * __useHomeProductsRecommendationsQuery__
+ *
+ * To run a query within a React component, call `useHomeProductsRecommendationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeProductsRecommendationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomeProductsRecommendationsQuery({
+ *   variables: {
+ *      channel: // value for 'channel'
+ *      includeOrderData: // value for 'includeOrderData'
+ *      productId: // value for 'productId'
+ *      includeSessionData: // value for 'includeSessionData'
+ *   },
+ * });
+ */
+export function useHomeProductsRecommendationsQuery(baseOptions: Apollo.QueryHookOptions<HomeProductsRecommendationsQuery, HomeProductsRecommendationsQueryVariables> & ({ variables: HomeProductsRecommendationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeProductsRecommendationsQuery, HomeProductsRecommendationsQueryVariables>(HomeProductsRecommendationsDocument, options);
+      }
+export function useHomeProductsRecommendationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeProductsRecommendationsQuery, HomeProductsRecommendationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeProductsRecommendationsQuery, HomeProductsRecommendationsQueryVariables>(HomeProductsRecommendationsDocument, options);
+        }
+export function useHomeProductsRecommendationsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<HomeProductsRecommendationsQuery, HomeProductsRecommendationsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<HomeProductsRecommendationsQuery, HomeProductsRecommendationsQueryVariables>(HomeProductsRecommendationsDocument, options);
+        }
+export type HomeProductsRecommendationsQueryHookResult = ReturnType<typeof useHomeProductsRecommendationsQuery>;
+export type HomeProductsRecommendationsLazyQueryHookResult = ReturnType<typeof useHomeProductsRecommendationsLazyQuery>;
+export type HomeProductsRecommendationsSuspenseQueryHookResult = ReturnType<typeof useHomeProductsRecommendationsSuspenseQuery>;
+export type HomeProductsRecommendationsQueryResult = Apollo.QueryResult<HomeProductsRecommendationsQuery, HomeProductsRecommendationsQueryVariables>;
 export const HomeRecentlyAddedDocument = gql`
     query HomeRecentlyAdded($channel: String!) {
   products(

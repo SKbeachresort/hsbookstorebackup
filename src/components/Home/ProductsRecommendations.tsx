@@ -2,27 +2,31 @@
 import React from "react";
 import { ProductCard } from "../ProductCard/ProductCard";
 import Carousel from "@/app/elements/Carousel";
-import { useFetchProductsRecommendationQuery } from "../../../gql/graphql";
+import { useHomeProductsRecommendationsQuery } from "../../../gql/graphql";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
 import Link from "next/link";
 
 interface ProductsRecommendationsProps {
   channel: string;
-};
+}
 
 export const ProductsRecommendations: React.FC<
   ProductsRecommendationsProps
 > = ({ channel }) => {
   
-  const { data, loading, error } = useFetchProductsRecommendationQuery({
+  const { data, loading, error } = useHomeProductsRecommendationsQuery({
     variables: {
-      channel,
+      channel: channel,
+      includeOrderData: true,
+      includeSessionData: true,
+      productId: "UHJvZHVjdDoyMDQyOA==",
     },
   });
 
-  const products = data?.products?.edges || [];
+  const products = data?.recommendations || [];
 
-  const {getRegionUrl} = useRegionUrl();
+  const { getRegionUrl } = useRegionUrl();
+
   return (
     <div className="my-8 relative">
       {products.length > 0 && (
@@ -40,26 +44,29 @@ export const ProductsRecommendations: React.FC<
 
           <div className="relative">
             <Carousel
-              slides={products.map(({ node }, index) => {
-                // const slug = node.name.replace(/\s+/g, "-").toLowerCase();
-                const productImage = node.media?.[0]?.url || "/placeholder.png";
+              slides={products.map((recommendations, index) => {
+                const product = recommendations?.product;
+                const productImage =
+                  product?.media?.[0]?.url || "/placeholder.png";
+
                 return (
                   <ProductCard
-                    id={node.id}
+                    id={product?.id || ""}
                     key={index}
-                    name={node.name}
+                    name={product?.name || ""}
                     image={productImage}
                     currency={
-                      node.pricing?.priceRangeUndiscounted?.start?.currency
+                      product?.pricing?.priceRangeUndiscounted?.start?.currency
                     }
                     currencySymbol="$"
                     price={
-                      node.pricing?.priceRangeUndiscounted?.start?.net?.amount
+                      product?.pricing?.priceRangeUndiscounted?.start?.net
+                        ?.amount
                     }
-                    cuttedPrice={node.pricing?.discount?.net?.amount}
-                    ratings={node.rating || 0}
-                    navigate={node.slug}
-                    variantId={node.variants?.[0]?.id || ""}
+                    cuttedPrice={product?.pricing?.discount?.net?.amount}
+                    ratings={product?.rating || 0}
+                    navigate={product?.slug}
+                    variantId={product?.variants?.[0]?.id || ""}
                   />
                 );
               })}

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Product, BookFormat } from "@/types/product/product-types";
+import { Product, VariantFormat } from "@/types/product/product-types";
 import {
   FaHeart,
   FaRegHeart,
@@ -17,7 +17,7 @@ interface AddToCartWidjetProps {
   handleAddToCart: () => void;
   handleDecrement: () => void;
   incrementQuantity: (id: string) => void;
-  bookFormats: BookFormat[];
+  VariantDefault: VariantFormat[];
 }
 
 const AddToCartWidjet: React.FC<AddToCartWidjetProps> = ({
@@ -25,13 +25,12 @@ const AddToCartWidjet: React.FC<AddToCartWidjetProps> = ({
   handleAddToCart,
   handleDecrement,
   incrementQuantity,
-  bookFormats,
+  VariantDefault,
   cartItem,
 }) => {
 
-
   const [selectedFormat, setSelectedFormat] = useState<string>(
-    bookFormats[0]?.label || ""
+    VariantDefault[0]?.label || ""
   );
 
   return (

@@ -40,15 +40,19 @@ const ProductDetailPage = () => {
       slug: slug as string,
     },
   });
-  console.log("Fetched Data", data);
+  // console.log("Fetched Data", data);
 
   const productsDetails = {
-    id: data?.product?.id || "1",
-    name: data?.product?.name || "Unknown Product",
-    mainImage: data?.product?.media?.[0]?.url || "/placeholder-image.png",
-    subImage: data?.product?.media?.map((media) => media.url) || [
+    id: data?.product?.id || data?.product?.variants?.[0]?.id || "",
+    name: data?.product?.name || data?.product?.variants?.[0]?.name || "N/A",
+    mainImage:
+      data?.product?.media?.[0]?.url ||
+      data?.product?.variants?.[0]?.media?.[0]?.url ||
       "/placeholder-image.png",
-    ],
+    subImage:
+      data?.product?.media?.map((media) => media.url) ||
+      data?.product?.variants?.[0]?.media?.map((media) => media.url) ||
+      [],
     Author:
       data?.product?.attributes.find(
         (attr) => attr.attribute.name === "Authors"
@@ -84,10 +88,13 @@ const ProductDetailPage = () => {
     Weight: `${data?.product?.weight?.value || 0} ${
       data?.product?.weight?.unit || ""
     }`.trim(),
+    VariantType: data?.product?.productType?.name || "N/A",
     variantId: data?.product?.variants?.[0]?.id || "",
+    variantObj: data?.product?.variants || [],
+    variantType: data?.product?.productType?.name || "N/A",
   };
 
-  const bookFormats = [
+  const VariantDefault = [
     {
       label:
         data?.product?.variants?.[0]?.attributes.find(
@@ -152,7 +159,7 @@ const ProductDetailPage = () => {
         handleDecrement={handleDecrement}
         incrementQuantity={incrementQuantity}
         removeFromCart={removeFromCart}
-        bookFormats={bookFormats}
+        VariantDefault={VariantDefault}
       />
 
       {/* Sub Section */}
@@ -171,10 +178,13 @@ const ProductDetailPage = () => {
           {/* <SavingsPackage /> */}
 
           {/* People who bought this */}
-          <PeopleWhoBoughtThis channel={channel as string} id={productsDetails.id}/>
+          <PeopleWhoBoughtThis
+            channel={channel as string}
+            id={productsDetails.id}
+          />
 
           {/* Recommended */}
-          <Recommended channel={channel as string} id={productsDetails.id}/>
+          <Recommended channel={channel as string} id={productsDetails.id} />
 
           {/* Customer Reviews & Ratings */}
           {/* <CustomerReviewsRatings /> */}
@@ -190,7 +200,7 @@ const ProductDetailPage = () => {
                 handleAddToCart={handleAddToCart}
                 handleDecrement={handleDecrement}
                 incrementQuantity={incrementQuantity}
-                bookFormats={bookFormats}
+                VariantDefault={VariantDefault}
               />
             </AnimateOnScroll>
           </div>
@@ -199,13 +209,13 @@ const ProductDetailPage = () => {
 
       <div>
         {/* Best Sellers */}
-        <BestSellers channel={channel as string}/>
+        <BestSellers channel={channel as string} />
 
         {/* Recently Viewed */}
         {/* <RecentlyViewed channel={channel as string}/> */}
 
         {/* More Items to Explore */}
-        <MoreItemsToExplore channel={channel as string}/>
+        <MoreItemsToExplore channel={channel as string} />
       </div>
     </div>
   );

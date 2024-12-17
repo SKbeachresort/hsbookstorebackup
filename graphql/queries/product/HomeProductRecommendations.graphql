@@ -1,0 +1,18 @@
+query HomeProductsRecommendations(
+  $channel: String!
+  $includeOrderData: Boolean!
+  $productId: ID!
+  $includeSessionData: Boolean!
+) {
+  recommendations(
+    channel: $channel
+    includeOrderData: $includeOrderData
+    productId: $productId
+    includeSessionData: $includeSessionData
+  ) {
+    viewCount
+    product {
+      ...ProductCardDetails
+    }
+  }
+}
