@@ -5,6 +5,7 @@ import { userLogout } from "@/server/userLogout";
 import BackDropLoader from "@/app/elements/BackdropLoader";
 import { useSaleorAuthContext } from "@saleor/auth-sdk/react";
 import toast from "react-hot-toast";
+import { AccountInfoSection } from "@/components/MyProfile/AccountInfoSection";
 
 const MyProfilePage = () => {
   const { user, loading } = useUser();
@@ -31,7 +32,7 @@ const MyProfilePage = () => {
 
   return (
     <div className="w-[95%] xl:w-[75%] 3xl:w-full mx-auto sm:px-10 lg:px-12">
-      <p className="my-3 text-lg">This is My Profile Dashboard</p>
+      <AccountInfoSection />
     </div>
   );
 };

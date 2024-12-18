@@ -8,7 +8,7 @@ import Link from "next/link";
 
 interface ProductsRecommendationsProps {
   channel: string;
-}
+};
 
 export const ProductsRecommendations: React.FC<
   ProductsRecommendationsProps

@@ -36,13 +36,14 @@ export default function ClientLayout({
 
   if (!isClient) {
     return null;
-  }
+  };
 
   return (
     <main className="mx-auto min-h-[calc(100dvh-133px)] max-w-[1920px]">
       <>
         <div className="flex flex-row overflow-hidden">
           {isCategory && <SubCategorySidebar />}
+          
           <div
             className={`${isCategory ? "w-full md:w-[80%] mx-auto" : "w-full"}`}
           >

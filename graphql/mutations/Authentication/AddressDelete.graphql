@@ -1,0 +1,14 @@
+mutation AddressDelete($id: ID!) {
+  accountAddressDelete(id: $id) {
+    user {
+      addresses {
+        ...AddressDetailsFragment
+      }
+    }
+    errors {
+      code
+      field
+      message
+    }
+  }
+}

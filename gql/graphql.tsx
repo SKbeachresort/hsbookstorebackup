@@ -33563,6 +33563,37 @@ export type AccountRegisterMutationVariables = Exact<{
 
 export type AccountRegisterMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, accountErrors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
 
+export type AddressCreateMutationVariables = Exact<{
+  input: AddressInput;
+  type?: InputMaybe<AddressTypeEnum>;
+}>;
+
+
+export type AddressCreateMutation = { __typename?: 'Mutation', accountAddressCreate?: { __typename?: 'AccountAddressCreate', errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }> } | null } | null };
+
+export type AddressDeleteMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type AddressDeleteMutation = { __typename?: 'Mutation', accountAddressDelete?: { __typename?: 'AccountAddressDelete', user?: { __typename?: 'User', addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }> } | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }> } | null };
+
+export type AddressSetDefaultMutationVariables = Exact<{
+  addressID: Scalars['ID']['input'];
+  addressType: AddressTypeEnum;
+}>;
+
+
+export type AddressSetDefaultMutation = { __typename?: 'Mutation', accountSetDefaultAddress?: { __typename?: 'AccountSetDefaultAddress', errors: Array<{ __typename?: 'AccountError', field?: string | null, message?: string | null, code: AccountErrorCode }>, user?: { __typename?: 'User', addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }> } | null } | null };
+
+export type AddressUpdateMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  input: AddressInput;
+}>;
+
+
+export type AddressUpdateMutation = { __typename?: 'Mutation', accountAddressUpdate?: { __typename?: 'AccountAddressUpdate', errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }> } | null } | null };
+
 export type ResendOtpMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
 }>;
@@ -33701,7 +33732,7 @@ export type NewReleaseQuery = { __typename?: 'Query', productVariant?: { __typen
 export type AddressUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AddressUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null };
+export type AddressUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null };
 
 export type BasicUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -34661,6 +34692,177 @@ export function useAccountRegisterMutation(baseOptions?: Apollo.MutationHookOpti
 export type AccountRegisterMutationHookResult = ReturnType<typeof useAccountRegisterMutation>;
 export type AccountRegisterMutationResult = Apollo.MutationResult<AccountRegisterMutation>;
 export type AccountRegisterMutationOptions = Apollo.BaseMutationOptions<AccountRegisterMutation, AccountRegisterMutationVariables>;
+export const AddressCreateDocument = gql`
+    mutation AddressCreate($input: AddressInput!, $type: AddressTypeEnum) {
+  accountAddressCreate(input: $input, type: $type) {
+    errors {
+      code
+      field
+      message
+    }
+    user {
+      addresses {
+        ...AddressDetailsFragment
+      }
+    }
+  }
+}
+    ${AddressDetailsFragmentFragmentDoc}`;
+export type AddressCreateMutationFn = Apollo.MutationFunction<AddressCreateMutation, AddressCreateMutationVariables>;
+
+/**
+ * __useAddressCreateMutation__
+ *
+ * To run a mutation, you first call `useAddressCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddressCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addressCreateMutation, { data, loading, error }] = useAddressCreateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useAddressCreateMutation(baseOptions?: Apollo.MutationHookOptions<AddressCreateMutation, AddressCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddressCreateMutation, AddressCreateMutationVariables>(AddressCreateDocument, options);
+      }
+export type AddressCreateMutationHookResult = ReturnType<typeof useAddressCreateMutation>;
+export type AddressCreateMutationResult = Apollo.MutationResult<AddressCreateMutation>;
+export type AddressCreateMutationOptions = Apollo.BaseMutationOptions<AddressCreateMutation, AddressCreateMutationVariables>;
+export const AddressDeleteDocument = gql`
+    mutation AddressDelete($id: ID!) {
+  accountAddressDelete(id: $id) {
+    user {
+      addresses {
+        ...AddressDetailsFragment
+      }
+    }
+    errors {
+      code
+      field
+      message
+    }
+  }
+}
+    ${AddressDetailsFragmentFragmentDoc}`;
+export type AddressDeleteMutationFn = Apollo.MutationFunction<AddressDeleteMutation, AddressDeleteMutationVariables>;
+
+/**
+ * __useAddressDeleteMutation__
+ *
+ * To run a mutation, you first call `useAddressDeleteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddressDeleteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addressDeleteMutation, { data, loading, error }] = useAddressDeleteMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useAddressDeleteMutation(baseOptions?: Apollo.MutationHookOptions<AddressDeleteMutation, AddressDeleteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddressDeleteMutation, AddressDeleteMutationVariables>(AddressDeleteDocument, options);
+      }
+export type AddressDeleteMutationHookResult = ReturnType<typeof useAddressDeleteMutation>;
+export type AddressDeleteMutationResult = Apollo.MutationResult<AddressDeleteMutation>;
+export type AddressDeleteMutationOptions = Apollo.BaseMutationOptions<AddressDeleteMutation, AddressDeleteMutationVariables>;
+export const AddressSetDefaultDocument = gql`
+    mutation AddressSetDefault($addressID: ID!, $addressType: AddressTypeEnum!) {
+  accountSetDefaultAddress(id: $addressID, type: $addressType) {
+    errors {
+      field
+      message
+      code
+    }
+    user {
+      addresses {
+        ...AddressDetailsFragment
+      }
+    }
+  }
+}
+    ${AddressDetailsFragmentFragmentDoc}`;
+export type AddressSetDefaultMutationFn = Apollo.MutationFunction<AddressSetDefaultMutation, AddressSetDefaultMutationVariables>;
+
+/**
+ * __useAddressSetDefaultMutation__
+ *
+ * To run a mutation, you first call `useAddressSetDefaultMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddressSetDefaultMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addressSetDefaultMutation, { data, loading, error }] = useAddressSetDefaultMutation({
+ *   variables: {
+ *      addressID: // value for 'addressID'
+ *      addressType: // value for 'addressType'
+ *   },
+ * });
+ */
+export function useAddressSetDefaultMutation(baseOptions?: Apollo.MutationHookOptions<AddressSetDefaultMutation, AddressSetDefaultMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddressSetDefaultMutation, AddressSetDefaultMutationVariables>(AddressSetDefaultDocument, options);
+      }
+export type AddressSetDefaultMutationHookResult = ReturnType<typeof useAddressSetDefaultMutation>;
+export type AddressSetDefaultMutationResult = Apollo.MutationResult<AddressSetDefaultMutation>;
+export type AddressSetDefaultMutationOptions = Apollo.BaseMutationOptions<AddressSetDefaultMutation, AddressSetDefaultMutationVariables>;
+export const AddressUpdateDocument = gql`
+    mutation AddressUpdate($id: ID!, $input: AddressInput!) {
+  accountAddressUpdate(id: $id, input: $input) {
+    errors {
+      code
+      field
+      message
+    }
+    user {
+      addresses {
+        ...AddressDetailsFragment
+      }
+    }
+  }
+}
+    ${AddressDetailsFragmentFragmentDoc}`;
+export type AddressUpdateMutationFn = Apollo.MutationFunction<AddressUpdateMutation, AddressUpdateMutationVariables>;
+
+/**
+ * __useAddressUpdateMutation__
+ *
+ * To run a mutation, you first call `useAddressUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddressUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addressUpdateMutation, { data, loading, error }] = useAddressUpdateMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddressUpdateMutation(baseOptions?: Apollo.MutationHookOptions<AddressUpdateMutation, AddressUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddressUpdateMutation, AddressUpdateMutationVariables>(AddressUpdateDocument, options);
+      }
+export type AddressUpdateMutationHookResult = ReturnType<typeof useAddressUpdateMutation>;
+export type AddressUpdateMutationResult = Apollo.MutationResult<AddressUpdateMutation>;
+export type AddressUpdateMutationOptions = Apollo.BaseMutationOptions<AddressUpdateMutation, AddressUpdateMutationVariables>;
 export const ResendOtpDocument = gql`
     mutation ResendOTP($phoneNumber: String!) {
   resendOtp(phoneNumber: $phoneNumber) {
@@ -35410,6 +35612,9 @@ export const AddressUserDocument = gql`
     }
     isActive
     isConfirmed
+    addresses {
+      ...AddressDetailsFragment
+    }
     defaultBillingAddress {
       ...AddressDetailsFragment
     }

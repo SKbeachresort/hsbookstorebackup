@@ -33369,6 +33369,37 @@ export type AccountRegisterMutationVariables = Exact<{
 
 export type AccountRegisterMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, accountErrors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
 
+export type AddressCreateMutationVariables = Exact<{
+  input: AddressInput;
+  type?: InputMaybe<AddressTypeEnum>;
+}>;
+
+
+export type AddressCreateMutation = { __typename?: 'Mutation', accountAddressCreate?: { __typename?: 'AccountAddressCreate', errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }> } | null } | null };
+
+export type AddressDeleteMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type AddressDeleteMutation = { __typename?: 'Mutation', accountAddressDelete?: { __typename?: 'AccountAddressDelete', user?: { __typename?: 'User', addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }> } | null, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }> } | null };
+
+export type AddressSetDefaultMutationVariables = Exact<{
+  addressID: Scalars['ID']['input'];
+  addressType: AddressTypeEnum;
+}>;
+
+
+export type AddressSetDefaultMutation = { __typename?: 'Mutation', accountSetDefaultAddress?: { __typename?: 'AccountSetDefaultAddress', errors: Array<{ __typename?: 'AccountError', field?: string | null, message?: string | null, code: AccountErrorCode }>, user?: { __typename?: 'User', addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }> } | null } | null };
+
+export type AddressUpdateMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  input: AddressInput;
+}>;
+
+
+export type AddressUpdateMutation = { __typename?: 'Mutation', accountAddressUpdate?: { __typename?: 'AccountAddressUpdate', errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }> } | null } | null };
+
 export type ResendOtpMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
 }>;
@@ -33507,7 +33538,7 @@ export type NewReleaseQuery = { __typename?: 'Query', productVariant?: { __typen
 export type AddressUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AddressUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null };
+export type AddressUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null } | null };
 
 export type BasicUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -45494,6 +45525,170 @@ export const AccountRegisterDocument = new TypedDocumentString(`
   isConfirmed
   isActive
 }`) as unknown as TypedDocumentString<AccountRegisterMutation, AccountRegisterMutationVariables>;
+export const AddressCreateDocument = new TypedDocumentString(`
+    mutation AddressCreate($input: AddressInput!, $type: AddressTypeEnum) {
+  accountAddressCreate(input: $input, type: $type) {
+    errors {
+      code
+      field
+      message
+    }
+    user {
+      addresses {
+        ...AddressDetailsFragment
+      }
+    }
+  }
+}
+    fragment AddressDetailsFragment on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}`) as unknown as TypedDocumentString<AddressCreateMutation, AddressCreateMutationVariables>;
+export const AddressDeleteDocument = new TypedDocumentString(`
+    mutation AddressDelete($id: ID!) {
+  accountAddressDelete(id: $id) {
+    user {
+      addresses {
+        ...AddressDetailsFragment
+      }
+    }
+    errors {
+      code
+      field
+      message
+    }
+  }
+}
+    fragment AddressDetailsFragment on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}`) as unknown as TypedDocumentString<AddressDeleteMutation, AddressDeleteMutationVariables>;
+export const AddressSetDefaultDocument = new TypedDocumentString(`
+    mutation AddressSetDefault($addressID: ID!, $addressType: AddressTypeEnum!) {
+  accountSetDefaultAddress(id: $addressID, type: $addressType) {
+    errors {
+      field
+      message
+      code
+    }
+    user {
+      addresses {
+        ...AddressDetailsFragment
+      }
+    }
+  }
+}
+    fragment AddressDetailsFragment on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}`) as unknown as TypedDocumentString<AddressSetDefaultMutation, AddressSetDefaultMutationVariables>;
+export const AddressUpdateDocument = new TypedDocumentString(`
+    mutation AddressUpdate($id: ID!, $input: AddressInput!) {
+  accountAddressUpdate(id: $id, input: $input) {
+    errors {
+      code
+      field
+      message
+    }
+    user {
+      addresses {
+        ...AddressDetailsFragment
+      }
+    }
+  }
+}
+    fragment AddressDetailsFragment on Address {
+  city
+  cityArea
+  companyName
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  firstName
+  id
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  lastName
+  phone
+  postalCode
+  streetAddress1
+  streetAddress2
+  metadata {
+    key
+    value
+    __typename
+  }
+  __typename
+}`) as unknown as TypedDocumentString<AddressUpdateMutation, AddressUpdateMutationVariables>;
 export const ResendOtpDocument = new TypedDocumentString(`
     mutation ResendOTP($phoneNumber: String!) {
   resendOtp(phoneNumber: $phoneNumber) {
@@ -46336,6 +46531,9 @@ export const AddressUserDocument = new TypedDocumentString(`
     }
     isActive
     isConfirmed
+    addresses {
+      ...AddressDetailsFragment
+    }
     defaultBillingAddress {
       ...AddressDetailsFragment
     }

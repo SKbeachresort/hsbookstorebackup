@@ -10,6 +10,9 @@ query AddressUser {
     }
     isActive
     isConfirmed
+    addresses {
+      ...AddressDetailsFragment
+    }
     defaultBillingAddress {
       ...AddressDetailsFragment
     }
