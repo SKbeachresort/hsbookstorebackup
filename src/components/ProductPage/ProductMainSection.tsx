@@ -154,6 +154,9 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
 
   console.log("Selected Variant", selectedVariant);
 
+  console.log("Selected Image", selectedVariant?.mainImage);
+  console.log("Selected SubImage", selectedVariant?.subImage);
+
   useEffect(() => {
     if (variants && variants.length > 0) {
       handleVariantSelection(variants[0]);
