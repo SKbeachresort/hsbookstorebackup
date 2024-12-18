@@ -33690,6 +33690,14 @@ export type AddProductToWishlistMutationVariables = Exact<{
 
 export type AddProductToWishlistMutation = { __typename?: 'Mutation', wishlistAdd?: { __typename?: 'AddToWishlist', success?: boolean | null, message?: string | null } | null };
 
+export type NewReleaseQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  sku: Scalars['String']['input'];
+}>;
+
+
+export type NewReleaseQuery = { __typename?: 'Query', productVariant?: { __typename?: 'ProductVariant', id: string, product: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } } | null };
+
 export type AddressUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -35345,6 +35353,50 @@ export function useAddProductToWishlistMutation(baseOptions?: Apollo.MutationHoo
 export type AddProductToWishlistMutationHookResult = ReturnType<typeof useAddProductToWishlistMutation>;
 export type AddProductToWishlistMutationResult = Apollo.MutationResult<AddProductToWishlistMutation>;
 export type AddProductToWishlistMutationOptions = Apollo.BaseMutationOptions<AddProductToWishlistMutation, AddProductToWishlistMutationVariables>;
+export const NewReleaseDocument = gql`
+    query newRelease($channel: String!, $sku: String!) {
+  productVariant(channel: $channel, sku: $sku) {
+    id
+    product {
+      ...ProductCardDetails
+    }
+  }
+}
+    ${ProductCardDetailsFragmentDoc}`;
+
+/**
+ * __useNewReleaseQuery__
+ *
+ * To run a query within a React component, call `useNewReleaseQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNewReleaseQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNewReleaseQuery({
+ *   variables: {
+ *      channel: // value for 'channel'
+ *      sku: // value for 'sku'
+ *   },
+ * });
+ */
+export function useNewReleaseQuery(baseOptions: Apollo.QueryHookOptions<NewReleaseQuery, NewReleaseQueryVariables> & ({ variables: NewReleaseQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NewReleaseQuery, NewReleaseQueryVariables>(NewReleaseDocument, options);
+      }
+export function useNewReleaseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NewReleaseQuery, NewReleaseQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NewReleaseQuery, NewReleaseQueryVariables>(NewReleaseDocument, options);
+        }
+export function useNewReleaseSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<NewReleaseQuery, NewReleaseQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<NewReleaseQuery, NewReleaseQueryVariables>(NewReleaseDocument, options);
+        }
+export type NewReleaseQueryHookResult = ReturnType<typeof useNewReleaseQuery>;
+export type NewReleaseLazyQueryHookResult = ReturnType<typeof useNewReleaseLazyQuery>;
+export type NewReleaseSuspenseQueryHookResult = ReturnType<typeof useNewReleaseSuspenseQuery>;
+export type NewReleaseQueryResult = Apollo.QueryResult<NewReleaseQuery, NewReleaseQueryVariables>;
 export const AddressUserDocument = gql`
     query AddressUser {
   user: me {

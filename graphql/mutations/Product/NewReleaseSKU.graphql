@@ -1,0 +1,8 @@
+query newRelease($channel: String!, $sku: String!){
+    productVariant(channel: $channel, sku: $sku){
+        id
+        product{
+            ...ProductCardDetails
+        }
+    }
+}

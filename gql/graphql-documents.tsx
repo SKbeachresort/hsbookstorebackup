@@ -33496,6 +33496,14 @@ export type AddProductToWishlistMutationVariables = Exact<{
 
 export type AddProductToWishlistMutation = { __typename?: 'Mutation', wishlistAdd?: { __typename?: 'AddToWishlist', success?: boolean | null, message?: string | null } | null };
 
+export type NewReleaseQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  sku: Scalars['String']['input'];
+}>;
+
+
+export type NewReleaseQuery = { __typename?: 'Query', productVariant?: { __typename?: 'ProductVariant', id: string, product: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } } | null };
+
 export type AddressUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -46268,6 +46276,53 @@ export const AddProductToWishlistDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AddProductToWishlistMutation, AddProductToWishlistMutationVariables>;
+export const NewReleaseDocument = new TypedDocumentString(`
+    query newRelease($channel: String!, $sku: String!) {
+  productVariant(channel: $channel, sku: $sku) {
+    id
+    product {
+      ...ProductCardDetails
+    }
+  }
+}
+    fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  thumbnail {
+    url
+    alt
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+  variants {
+    id
+    name
+  }
+}`) as unknown as TypedDocumentString<NewReleaseQuery, NewReleaseQueryVariables>;
 export const AddressUserDocument = new TypedDocumentString(`
     query AddressUser {
   user: me {

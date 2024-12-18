@@ -93,6 +93,7 @@ const ProductDetailPage = () => {
     variantId: data?.product?.variants?.[0]?.id || "",
     variantObj: data?.product?.variants || [],
     variantType: data?.product?.productType?.name || "N/A",
+    newReleaseSKU: data?.product?.attributes.find((attr) => attr.attribute.slug === "new-release-sku")?.values[0]?.name || "N/A",
   };
 
   const VariantDefault = [
@@ -169,7 +170,7 @@ const ProductDetailPage = () => {
       >
         <div className="md:w-[63%] ">
           {/* New Release Section */}
-          <NewReleaseSection productsDetails={productsDetails} />
+          <NewReleaseSection productsDetails={productsDetails} channel={channel as string}/>
 
           {/* Product Details */}
           <AdditionalContents productsDetails={productsDetails} />

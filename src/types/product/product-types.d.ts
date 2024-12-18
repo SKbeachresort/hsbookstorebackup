@@ -22,6 +22,7 @@ export interface Product {
   variantObj: Variant[];
   variantType: string;
   variantId: string;
+  newReleaseSKU: string;
 }
 
 export interface VariantFormat {

@@ -40,7 +40,7 @@ interface ProductDetailsProps {
   incrementQuantity: (id: string) => void;
   removeFromCart?: (id: string) => void;
   VariantDefault: VariantFormat[];
-}
+};
 
 const ProductMainSection: React.FC<ProductDetailsProps> = ({
   productsDetails,
@@ -52,10 +52,9 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   removeFromCart,
   VariantDefault,
 }) => {
+  
   const [selectedVariant, setSelectedVariant] = useState<Product | null>(null);
   const variants = productsDetails.variantObj;
-
- 
 
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
 
@@ -152,10 +151,10 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     setSelectImage(updatedVariant.mainImage);
   };
 
-  console.log("Selected Variant", selectedVariant);
+  // console.log("Selected Variant", selectedVariant);
 
-  console.log("Selected Image", selectedVariant?.mainImage);
-  console.log("Selected SubImage", selectedVariant?.subImage);
+  // console.log("Selected Image", selectedVariant?.mainImage);
+  // console.log("Selected SubImage", selectedVariant?.subImage);
 
   useEffect(() => {
     if (variants && variants.length > 0) {
@@ -164,7 +163,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   }, [variants]);
 
   const hasMultipleVariants = productsDetails.variantObj.length > 1;
-  console.log("Variant Object", productsDetails.variantObj);
+  // console.log("Variant Object", productsDetails.variantObj);
 
   const handleDecrementLogic = () => {
     if (cartItem?.quantity === 1 && removeFromCart) {
@@ -185,7 +184,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     if (!userId) {
       toast.error("Please login to add product to wishlist");
       return;
-    }
+    };
 
     try {
       const action = isFav ? "delete" : "add";
