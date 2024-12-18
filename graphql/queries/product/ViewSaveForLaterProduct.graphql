@@ -1,12 +1,7 @@
 query ViewSaveLaterProducts($channel: String!, $userId: ID!) {
   sflView(channel: $channel, userId: $userId) {
     product {
-      id
-      name
-      media {
-        url
-      }
-      slug
+      ...ProductCardDetails
     }
   }
 }

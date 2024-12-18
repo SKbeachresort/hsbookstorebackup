@@ -40,7 +40,8 @@ const ProductDetailPage = () => {
       slug: slug as string,
     },
   });
-  // console.log("Fetched Data", data);
+
+  console.log("Fetched Data", data);
 
   const productsDetails = {
     id: data?.product?.id || data?.product?.variants?.[0]?.id || "",
@@ -145,7 +146,7 @@ const ProductDetailPage = () => {
 
   if (loading) {
     return <BackDropLoader open={loading} />;
-  }
+  };
 
   return (
     <div className="w-[95%] mx-auto xl:w-[80%] p-2 py-5">

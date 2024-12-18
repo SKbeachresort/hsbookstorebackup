@@ -6,9 +6,10 @@ import CartItemUI from "@/components/Cart/CartItemUI";
 import { useParams } from "next/navigation";
 
 const CartPage = () => {
-
   const { channel, locale } = useParams();
-  const { cartItems, incrementQuantity, decrementQuantity,removeFromCart } = useCart();
+
+  const { cartItems, incrementQuantity, decrementQuantity, removeFromCart } =
+    useCart();
 
   const totalAmount = cartItems.reduce(
     (total, item) => total + (item.price ?? 0) * item.quantity,
@@ -33,31 +34,21 @@ const CartPage = () => {
               <DeliveryAddressCard />
 
               {/* Cart Items */}
-              <div className="rounded-2xl p-8 border-[1px] border-borderColor">
-                {cartItems.map((item, index) => (
-                  <CartItemUI
-                    key={index}
-                    item={item}
-                    incrementQuantity={incrementQuantity}
-                    decrementQuantity={decrementQuantity}
-                    removeFromCart={removeFromCart}
-                  />
-                ))}
+              <div className="border-[1px] border-[#e0e0e0] rounded-md p-5">
+                <CartItemUI channel={channel as string} />
               </div>
 
               {/* Save for Later  */}
-
             </div>
             <div className="md:w-[40%] lg:w-[30%] h-auto">
               <div className="sticky top-10 py-5 z-40">
-                <CheckOutWidget 
-                  totalAmount={totalAmount} 
-                  cartItems={cartItems} 
+                <CheckOutWidget
+                  totalAmount={totalAmount}
+                  cartItems={cartItems}
                   channel={channel as string}
                   locale={locale as string}
                 />
               </div>
-              
             </div>
           </div>
         </div>

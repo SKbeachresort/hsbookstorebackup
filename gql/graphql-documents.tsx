@@ -33637,7 +33637,7 @@ export type ViewSaveLaterProductsQueryVariables = Exact<{
 }>;
 
 
-export type ViewSaveLaterProductsQuery = { __typename?: 'Query', sflView?: Array<{ __typename?: 'SFLWithCategoryType', product?: { __typename?: 'Product', id: string, name: string, slug: string, media?: Array<{ __typename?: 'ProductMedia', url: string }> | null } | null } | null> | null };
+export type ViewSaveLaterProductsQuery = { __typename?: 'Query', sflView?: Array<{ __typename?: 'SFLWithCategoryType', product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null } | null> | null };
 
 export type WishlistViewQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -47391,16 +47391,48 @@ export const ViewSaveLaterProductsDocument = new TypedDocumentString(`
     query ViewSaveLaterProducts($channel: String!, $userId: ID!) {
   sflView(channel: $channel, userId: $userId) {
     product {
-      id
-      name
-      media {
-        url
-      }
-      slug
+      ...ProductCardDetails
     }
   }
 }
-    `) as unknown as TypedDocumentString<ViewSaveLaterProductsQuery, ViewSaveLaterProductsQueryVariables>;
+    fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  thumbnail {
+    url
+    alt
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+  variants {
+    id
+    name
+  }
+}`) as unknown as TypedDocumentString<ViewSaveLaterProductsQuery, ViewSaveLaterProductsQueryVariables>;
 export const WishlistViewDocument = new TypedDocumentString(`
     query WishlistView($channel: String!, $userId: ID!) {
   wishlistView(channel: $channel, userId: $userId) {

@@ -37,9 +37,11 @@ const NavigationMenu = () => {
       <div className="border-b-2 border-borderColor p-4">
         <div className="my-2 flex flex-row justify-between items-center">
           <div>
-            <p className="text-md lg:text-xl font-medium">
-              Welcome {user?.firstName}
-            </p>
+            <Link href={getRegionUrl(`/me/${user?.id}`)}>
+              <p className="text-md lg:text-xl font-medium">
+                Welcome {user?.firstName}
+              </p>
+            </Link>
           </div>
 
           <div className="hidden md:block">
@@ -47,6 +49,7 @@ const NavigationMenu = () => {
               <Link href={getRegionUrl(`/me/${user?.id}/orders`)}>
                 <p className="text-md font-medium">My Orders</p>
               </Link>
+
               <Link href={getRegionUrl(`/me/${user?.id}/wishlist`)}>
                 <p className="text-md font-medium">My Wishlist</p>
               </Link>

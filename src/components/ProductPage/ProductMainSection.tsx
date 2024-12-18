@@ -55,9 +55,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   const [selectedVariant, setSelectedVariant] = useState<Product | null>(null);
   const variants = productsDetails.variantObj;
 
-  const [selectImage, setSelectImage] = useState<string>(
-    productsDetails.mainImage
-  );
+ 
 
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
 
@@ -126,6 +124,10 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     });
   };
 
+  const [selectImage, setSelectImage] = useState<string>(
+    productsDetails.mainImage
+  );
+
   const handleVariantSelection = (variant: any) => {
     const updatedVariant = {
       ...productsDetails,
@@ -149,6 +151,8 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     setSelectedVariant(updatedVariant);
     setSelectImage(updatedVariant.mainImage);
   };
+
+  console.log("Selected Variant", selectedVariant);
 
   useEffect(() => {
     if (variants && variants.length > 0) {
@@ -175,11 +179,10 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   const [addProductToWishlist] = useAddProductToWishlistMutation();
 
   const toggleFav = async () => {
-
-    if(!userId) {
+    if (!userId) {
       toast.error("Please login to add product to wishlist");
       return;
-    };
+    }
 
     try {
       const action = isFav ? "delete" : "add";
@@ -211,7 +214,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
         <div className="flex p-2 flex-col-reverse md:flex-row justify-between md:w-[60%] gap-2">
           <div className="flex flex-row my-3 p-2 md:my-0 md:flex-col gap-4 w-[20%]">
             {selectedVariant?.subImage &&
-            selectedVariant?.subImage.length > 0 ? (
+              selectedVariant?.subImage.length > 0 ? (
               selectedVariant.subImage.map((image, index) => (
                 <Image
                   key={index}
