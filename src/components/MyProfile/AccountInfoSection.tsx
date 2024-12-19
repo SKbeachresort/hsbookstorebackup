@@ -7,7 +7,9 @@ import avatar from "../../../public/avatar.png";
 import Loader from "@/app/elements/Loader";
 import { use } from "i18next";
 import Modal from "@/app/elements/Modal";
-import AddressForm from "./AddressForm";
+import AddressFormUpdate from "./AddressFormUpdate";
+import AddressFormCreate from "./AddressFormCreate";
+import toast from "react-hot-toast";
 
 import {
   AlertDialog,
@@ -21,24 +23,60 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
+import { useAddressDeleteMutation } from "../../../gql/graphql";
+
 export const AccountInfoSection = () => {
   const { user, loading } = useUser();
-  const [addressform, setAddressForm] = useState(false);
+  const [addressformUpdate, setAddressFormUpdate] = useState(false);
+  const [addressformCreate, setAddressFormCreate] = useState(false);
 
-  const openModal = () => setAddressForm(true);
-  const closeModal = () => setAddressForm(false);
+  const [selectAddress, setSelectAddress] = useState(null);
+  const [addressToDelete, setAddressToDelete] = useState<string | null>(null);
+
+  const openModalAddressCreate = () => {
+    setAddressFormCreate(true);
+  };
+
+  const closeModalAddressCreate = () => {
+    setAddressFormCreate(false);
+  };
+
+  const openModal = (address: any = null) => {
+    setSelectAddress(address);
+    setAddressFormUpdate(true);
+  };
+
+  const closeModal = () => setAddressFormUpdate(false);
 
   const {
     userAddress,
     userAddresses,
     userDefaultBillingAddress,
     userDefaultShippingAddress,
+    refetchUserAddresses,
   } = useAddressUser();
-  console.log("User Address", userAddress);
+
+  const [addressDelete, { loading: deleteLoading }] = useAddressDeleteMutation({
+    onCompleted: (data) => {
+      if (data?.accountAddressDelete?.errors?.length === 0) {
+        toast.success("Address Deleted Successfully");
+        refetchUserAddresses();
+      } else {
+        toast.error(`${data?.accountAddressDelete?.errors[0]?.message}`);
+      }
+    },
+  });
+
+  const handleDelete = () => {
+    if (addressToDelete) {
+      addressDelete({ variables: { id: addressToDelete } });
+      setAddressToDelete(null);
+    };
+  };
 
   if (loading) {
     return <Loader />;
-  }
+  };
 
   return (
     <AlertDialog>
@@ -84,7 +122,11 @@ export const AccountInfoSection = () => {
                 </div>
               </div>
             </div>
-            <button className="my-4 w-fit hover:scale-105 transition-all duration-200 bg-secondary text-white font-medium  px-4 py-2">
+
+            <button
+              onClick={openModalAddressCreate}
+              className="my-4 w-fit hover:scale-105 transition-all duration-200 bg-secondary text-white font-medium  px-4 py-2"
+            >
               Add New Address
             </button>
           </div>
@@ -95,64 +137,102 @@ export const AccountInfoSection = () => {
                 <h1 className="text-md md:text-lg font-semibold text-textColor">
                   Default Shipping Address
                 </h1>
-                <div className="flex flex-row gap-3">
-                  <button className="text-sm bg-secondary text-white px-2 py-1 rounded-md">
-                    Edit
-                  </button>
-                  <button className="text-sm bg-red-500 text-white px-2 py-1 rounded-md">
-                    Delete
-                  </button>
-                </div>
+
+                {userDefaultShippingAddress && (
+                  <div className="flex flex-row gap-3">
+                    <button
+                      onClick={() => openModal(userDefaultShippingAddress)}
+                      className="text-sm bg-secondary text-white px-2 py-1 rounded-md"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() =>
+                        setAddressToDelete(
+                          userDefaultShippingAddress?.id ?? null
+                        )
+                      }
+                      className="text-sm bg-red-500 text-white px-2 py-1 rounded-md"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
               </div>
 
-              <p className="text-sm mt-1">
-                {userDefaultShippingAddress?.firstName}{" "}
-                {userDefaultShippingAddress?.lastName},{" "}
-                {userAddress?.companyName},
-              </p>
-              <p className="text-sm mt-1">
-                {userDefaultShippingAddress?.streetAddress1}{" "}
-                {userDefaultShippingAddress?.streetAddress2}{" "}
-                {userDefaultShippingAddress?.city}{" "}
-                {userDefaultShippingAddress?.countryArea}{" "}
-                {userDefaultShippingAddress?.country?.country}
-              </p>
-              <p className="text-sm mt-1">
-                {userDefaultShippingAddress?.postalCode} ,
-                {userDefaultShippingAddress?.phone}
-              </p>
+              {userDefaultShippingAddress ? (
+                <>
+                  <p className="text-sm mt-1">
+                    {userDefaultShippingAddress?.firstName}{" "}
+                    {userDefaultShippingAddress?.lastName},{" "}
+                    {userAddress?.companyName},
+                  </p>
+                  <p className="text-sm mt-1">
+                    {userDefaultShippingAddress?.streetAddress1}{" "}
+                    {userDefaultShippingAddress?.streetAddress2}{" "}
+                    {userDefaultShippingAddress?.city}{" "}
+                    {userDefaultShippingAddress?.countryArea}{" "}
+                    {userDefaultShippingAddress?.country?.country}
+                  </p>
+                  <p className="text-sm mt-1">
+                    {userDefaultShippingAddress?.postalCode} ,
+                    {userDefaultShippingAddress?.phone}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>You don't have any Default Address setted</p>
+                </>
+              )}
             </div>
 
             <div className="my-2">
-              <div className="flex flex-row justify-between items-center">
+              <div className="flex flex-row justify-between gap-x-4 items-center">
                 <h1 className="text-md md:text-lg font-semibold text-textColor">
                   Default Billing Address
                 </h1>
-                <div className="flex flex-row gap-3">
-                  <button className="text-sm bg-secondary text-white px-2 py-1 rounded-md">
-                    Edit
-                  </button>
-                  <button className="text-sm bg-red-500 text-white px-2 py-1 rounded-md">
-                    Delete
-                  </button>
-                </div>
+                {userDefaultBillingAddress && (
+                  <div className="flex flex-row gap-2">
+                    <button
+                      onClick={() => openModal(userDefaultBillingAddress)}
+                      className="text-sm bg-secondary text-white px-2 py-1 rounded-md"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() =>
+                        openModal(userDefaultBillingAddress?.id ?? null)
+                      }
+                      className="text-sm bg-red-500 text-white px-2 py-1 rounded-md"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
               </div>
-              <p className="text-sm mt-1">
-                {userDefaultBillingAddress?.firstName}{" "}
-                {userDefaultBillingAddress?.lastName},{" "}
-                {userDefaultBillingAddress?.companyName},
-              </p>
-              <p className="text-sm mt-1">
-                {userDefaultBillingAddress?.streetAddress1}{" "}
-                {userDefaultBillingAddress?.streetAddress2}{" "}
-                {userDefaultBillingAddress?.city}{" "}
-                {userDefaultBillingAddress?.countryArea}{" "}
-                {userDefaultBillingAddress?.country?.country}
-              </p>
-              <p className="text-sm mt-1">
-                {userDefaultBillingAddress?.postalCode} ,
-                {userDefaultBillingAddress?.phone}
-              </p>
+
+              {userDefaultBillingAddress ? (
+                <>
+                  <p className="text-sm mt-1">
+                    {userDefaultBillingAddress?.firstName}{" "}
+                    {userDefaultBillingAddress?.lastName},{" "}
+                    {userDefaultBillingAddress?.companyName},
+                  </p>
+                  <p className="text-sm mt-1">
+                    {userDefaultBillingAddress?.streetAddress1}{" "}
+                    {userDefaultBillingAddress?.streetAddress2}{" "}
+                    {userDefaultBillingAddress?.city}{" "}
+                    {userDefaultBillingAddress?.countryArea}{" "}
+                    {userDefaultBillingAddress?.country?.country}
+                  </p>
+                  <p className="text-sm mt-1">
+                    {userDefaultBillingAddress?.postalCode} ,
+                    {userDefaultBillingAddress?.phone}
+                  </p>
+                </>
+              ) : (
+                <p>You don't have any Default Address setted</p>
+              )}
             </div>
           </div>
         </div>
@@ -164,36 +244,37 @@ export const AccountInfoSection = () => {
         </h1>
 
         {userAddresses?.map((address) => (
-          <div key={address.id} className="flex flex-row my-3 justify-between items-start p-3 border-[1px] border-[#cdcdcd] bg-white shadow-sm">
+          <div
+            key={address.id}
+            className="flex flex-row my-3 justify-between items-start p-3 border-[1px] border-[#cdcdcd] bg-white shadow-sm"
+          >
             <div>
               <p className="text-sm font-medium mt-1">
-                {userDefaultBillingAddress?.firstName}{" "}
-                {userDefaultBillingAddress?.lastName},{" "}
-                {userDefaultBillingAddress?.companyName},
+                {address?.firstName} {address?.lastName}, {address?.companyName}
+                ,
               </p>
               <p className="text-sm mt-1">
-                {userDefaultBillingAddress?.streetAddress1}{" "}
-                {userDefaultBillingAddress?.streetAddress2}{" "}
-                {userDefaultBillingAddress?.city}{" "}
-                {userDefaultBillingAddress?.countryArea}{" "}
-                {userDefaultBillingAddress?.country?.country}
+                {address?.streetAddress1} {address?.streetAddress2}{" "}
+                {address?.city} {address?.countryArea}{" "}
+                {address?.country?.country}
               </p>
               <p className="text-sm mt-1">
-                {userDefaultBillingAddress?.postalCode} ,
-                {userDefaultBillingAddress?.phone}
+                {address?.postalCode} ,{address?.phone}
               </p>
             </div>
+
             <div className="flex flex-row gap-3 justify-start">
               <button
-                onClick={openModal}
+                onClick={() => openModal(address)}
                 className="text-md border-2 border-secondary text-secondary px-2 py-1 rounded-md"
               >
                 Edit
               </button>
-              <AlertDialogTrigger>
-                <button className="text-md border-2  border-red-500 text-red-500 px-2 py-1 rounded-md">
-                  Delete
-                </button>
+              <AlertDialogTrigger
+                onClick={() => setAddressToDelete(address?.id ?? null)}
+                className="border-2 border-red-400 text-red-500 px-2 py-1 rounded-md"
+              >
+                Delete
               </AlertDialogTrigger>
 
               <button className="border-2 border-success text-md px-2 py-1 text-success rounded-md">
@@ -202,21 +283,41 @@ export const AccountInfoSection = () => {
             </div>
           </div>
         ))}
+
+        {userAddresses?.length === 0 && (
+          <p className="text-center text-gray-500">No Address Found</p>
+        )}
+
       </div>
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure want to delete Address</AlertDialogTitle>
+          <AlertDialogTitle>
+            Are you sure want to delete Address
+          </AlertDialogTitle>
         </AlertDialogHeader>
+
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction
+            className="bg-red-500 text-white"
+            onClick={handleDelete}
+          >
+            Continue
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
 
       {/* Modal Open */}
-      <Modal isOpen={addressform} onClose={closeModal}>
-        <AddressForm closeModal={closeModal}/>
+      <Modal isOpen={addressformUpdate} onClose={closeModal}>
+        <AddressFormUpdate
+          closeModal={closeModal}
+          addressData={selectAddress}
+        />
+      </Modal>
+
+      <Modal isOpen={addressformCreate} onClose={closeModalAddressCreate}>
+        <AddressFormCreate closeModal={closeModalAddressCreate} />
       </Modal>
     </AlertDialog>
   );

@@ -6,7 +6,7 @@ export const useAddressUser = () => {
   
   const { currentChannel, currentLocale } = useRegions();
 
-  const { data, loading } = useAddressUserQuery({
+  const { data, loading, refetch } = useAddressUserQuery({
     fetchPolicy: "network-only",
   });
 
@@ -24,5 +24,6 @@ export const useAddressUser = () => {
     authenticated,
     userDefaultBillingAddress,
     userDefaultShippingAddress,
+    refetchUserAddresses: refetch,
   };
 };

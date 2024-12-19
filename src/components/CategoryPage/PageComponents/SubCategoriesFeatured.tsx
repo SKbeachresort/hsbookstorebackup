@@ -48,9 +48,10 @@ export const SubFeaturedCategories: React.FC<
       >
         {filteredCategories?.map(({ node }) => (
           <div
-            key={node.id}
-            className="md:w-[18%] rounded-md flex gap-y-2 justify-center flex-col items-start"
-          >
+          key={node.id}
+          className="md:w-[18%] rounded-md overflow-hidden flex flex-col items-start"
+        >
+          <div className="w-full h-full">
             <Link
               href={getRegionUrl(
                 channel,
@@ -60,7 +61,7 @@ export const SubFeaturedCategories: React.FC<
             >
               <div className="">
                 <Image
-                  src={node.backgroundImage?.url || dentistry}
+                  src={node.backgroundImage?.url || ""}
                   alt={node.name}
                   width={150}
                   height={150}
@@ -68,11 +69,12 @@ export const SubFeaturedCategories: React.FC<
                 />
               </div>
 
-              <h2 className="text-[0.6rem] md:text-xs 3xl:text-md font-semibold text-center">
+              <h2 className="text-[0.5rem] md:text-xs 3xl:text-md font-semibold text-center mt-2">
                 {node.name}
               </h2>
             </Link>
           </div>
+        </div>
         ))}
       </div>
     </div>

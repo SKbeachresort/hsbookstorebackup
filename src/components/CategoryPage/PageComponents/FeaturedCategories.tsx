@@ -10,13 +10,14 @@ interface FeaturedCategoriesProps {
   channel: string;
   locale: string;
   categoryslug: string;
-}
+};
 
 export const FeaturedCategories: React.FC<FeaturedCategoriesProps> = async ({
   channel,
   locale,
   categoryslug,
 }) => {
+
   const data = await executeGraphQL(FetchFeaturedCategoriesDocument, {
     variables: {
       first: 20,
@@ -31,7 +32,6 @@ export const FeaturedCategories: React.FC<FeaturedCategoriesProps> = async ({
 
   return (
     <div className="">
-      
       {filteredCategories.length > 0 && (
         <h1 className="text-lg font-semibold text-center my-4">
           Featured Categories
@@ -48,28 +48,31 @@ export const FeaturedCategories: React.FC<FeaturedCategoriesProps> = async ({
         {filteredCategories?.map(({ node }) => (
           <div
             key={node.id}
-            className="md:w-[18%] rounded-md flex flex-col items-start"
+            className="md:w-[18%] rounded-md overflow-hidden flex flex-col items-start"
           >
-            <Link
-              href={getRegionUrl(
-                channel,
-                locale,
-                `category/${categoryslug}/${node.slug}`
-              )}
-            >
-              <div className="">
-                <Image
-                  src={node.backgroundImage?.url || ""}
-                  alt={node.name}
-                  width={150}
-                  height={150}
-                  className="md:w-[90%] rounded-lg bg-[#EEEEF0] object-contain aspect-square mx-auto 3xl:w-full hover:scale-110 transition-all duration-300"
-                />
-              </div>
-              <h2 className="text-[0.6rem] md:text-xs 3xl:text-md font-semibold text-center mt-2">
-                {node.name}
-              </h2>
-            </Link>
+            <div className="w-full h-full">
+              <Link
+                href={getRegionUrl(
+                  channel,
+                  locale,
+                  `category/${categoryslug}/${node.slug}`
+                )}
+              >
+                <div className="">
+                  <Image
+                    src={node.backgroundImage?.url || ""}
+                    alt={node.name}
+                    width={150}
+                    height={150}
+                    className="md:w-[90%] rounded-lg bg-[#EEEEF0] object-contain aspect-square mx-auto 3xl:w-full hover:scale-110 transition-all duration-300"
+                  />
+                </div>
+
+                <h2 className="text-[0.5rem] md:text-xs 3xl:text-md font-semibold text-center mt-2">
+                  {node.name}
+                </h2>
+              </Link>
+            </div>
           </div>
         ))}
       </div>

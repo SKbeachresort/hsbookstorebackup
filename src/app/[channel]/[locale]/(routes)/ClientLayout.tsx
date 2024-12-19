@@ -22,7 +22,7 @@ export default function ClientLayout({
   useEffect(() => {
     setIsClient(true);
     setIsCategory(currentPath.includes("/category"));
-    setIsProfile(currentPath.includes("/me"));
+    setIsProfile(currentPath.includes("/me/"));
     AOS.init({
       duration: 1000,
       once: false,

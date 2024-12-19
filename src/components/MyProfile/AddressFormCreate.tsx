@@ -1,6 +1,5 @@
 "use client";
-import React, { useState, useMemo, useEffect } from "react";
-import { useCart } from "@/context/CartContext";
+import React, { useEffect, useState, useMemo } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
   Form,
@@ -12,21 +11,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import toast from "react-hot-toast";
 import Select from "react-select";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import CountryData from "@/data/CountryLabel.json";
-import { getAccessToken } from "@/utils/accessToken";
-import { Checkbox } from "../ui/checkbox";
-import { useCheckoutShippingAddressUpdateMutation } from "../../../gql/graphql";
-import { useCheckoutBillingAddressUpdateMutation } from "../../../gql/graphql";
-import { useCheckoutShippingMethodUpdateMutation } from "../../../gql/graphql";
+import { CountryCode } from "../../../gql/graphql";
 import { KuwaitAddressEN } from "@/data/KuwaitAddress";
 import { LanguageCodeEnum } from "../../../gql/graphql";
-import { useAddressUser } from "@/hooks/getUserAddress";
-
-import { CountryCode } from "../../../gql/graphql";
+import { Checkbox } from "../ui/checkbox";
+import { useAddressCreateMutation } from "../../../gql/graphql";
+import { AddressTypeEnum } from "../../../gql/graphql";
+import toast from "react-hot-toast";
+import { useAddressUpdateMutation } from "../../../gql/graphql";
 
 interface CountryOption {
   value: CountryCode;
@@ -36,18 +32,12 @@ interface CountryOption {
 interface AreaOption {
   value: string;
   label: string;
-};
+}
 
 interface CityOption {
   value: string;
   label: string;
-};
-
-type CountryDataType = typeof CountryData;
-
-interface ShippingDetailsProps {
-  onNext: () => void;
-};
+}
 
 interface ShippingFormInputs {
   country: CountryOption | null;
@@ -64,75 +54,34 @@ interface ShippingFormInputs {
   postalCode: string;
   token: string;
   agreeToTerms: boolean;
+}
+
+interface AddressFormProps {
+  closeModal: () => void;
 };
 
-const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
-  onNext,
+const AddressFormCreate: React.FC<AddressFormProps> = ({
+  closeModal,
 }) => {
-  const { userAddress } = useAddressUser();
-  // console.log("User Address", userAddress);
-
-  const { cartItems } = useCart();
-  const checkoutId = localStorage.getItem("checkoutID") || "";
-  const [isLoading, setIsLoading] = useState(false);
-  const token = getAccessToken();
-
-  // const savedShippingAddress = localStorage.getItem("shippingAddress");
-  // const initialShippingData = savedShippingAddress
-  //   ? JSON.parse(savedShippingAddress)
-  //   : null;
 
   const form = useForm<ShippingFormInputs>({
     defaultValues: {
-      country: null,
-      countryArea: null,
-      firstName: "",
-      lastName: "",
+     country:  null,
+    countryArea: null,
+      firstName:  "",
+      lastName:  "",
       phone: "",
       companyName: "",
-      streetAddress1: "",
-      streetAddress2: "",
+      streetAddress1:  "",
+      streetAddress2:  "",
       postalCode: "",
       city: null,
-      nonKuwaitCity: "",
+      nonKuwaitCity:  "",
       nonKuwaitCountry: "",
     },
   });
 
-  // Use useEffect to update form values when userAddress is loaded
-  useEffect(() => {
-    if (userAddress) {
-      form.reset({
-        country: {
-          value: userAddress.country.code as CountryCode,
-          label: userAddress.country.country,
-        },
-        countryArea: userAddress?.countryArea
-          ? { value: userAddress.countryArea, label: userAddress.countryArea }
-          : null,
-        firstName: userAddress.firstName,
-        lastName: userAddress.lastName,
-        phone: userAddress?.phone ?? undefined,
-        companyName: userAddress.companyName,
-        streetAddress1: userAddress.streetAddress1,
-        streetAddress2: userAddress.streetAddress2,
-        postalCode: userAddress.postalCode,
-        city: userAddress.city
-          ? { value: userAddress.city, label: userAddress.city }
-          : null,
-        nonKuwaitCity: userAddress.city,
-        nonKuwaitCountry: userAddress.countryArea,
-      });
-    }
-  }, [userAddress, form.reset]);
-
   const { handleSubmit, reset } = form;
-
-  const [shipping] = useCheckoutShippingAddressUpdateMutation();
-
-  const [billing] = useCheckoutBillingAddressUpdateMutation();
-
-  const [shippingMethodUpdate] = useCheckoutShippingMethodUpdateMutation();
 
   const kuwaitAreas = useMemo(() => {
     return KuwaitAddressEN.items.map((area) => ({
@@ -157,69 +106,24 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
   const selectedCountry = form.watch("country");
   const selectedArea = form.watch("countryArea");
 
+  const [addressCreate] = useAddressCreateMutation();
+  const [addressUpdate] = useAddressUpdateMutation();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [isShhipping, setIsShipping] = useState(true);
+
+  const toggleAddressType = () => {
+    setIsShipping(!isShhipping);
+  };
+
   const onSubmit: SubmitHandler<ShippingFormInputs> = async (data) => {
+    // console.log("Form Data", data);
     setIsLoading(true);
-
-    if (
-      !data.agreeToTerms &&
-      (!data.country ||
-        !data.firstName ||
-        !data.lastName ||
-        !data.phone ||
-        !data.streetAddress1 ||
-        !data.city)
-    ) {
-      toast.error("Please fill in all required fields!");
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const shippingResponse = await shipping({
-        variables: {
-          checkoutId: checkoutId,
-          shippingAddress: {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            streetAddress1: data.streetAddress1,
-            streetAddress2: data.streetAddress2,
-            city: data.city?.value || data.nonKuwaitCity,
-            postalCode: data.postalCode,
-            countryArea: data.countryArea?.value || data.nonKuwaitCountry,
-            country: data.country?.value,
-            phone: data.phone,
-            companyName: data.companyName,
-          },
-        },
-        context: {
-          headers: {
-            Authorization: token ? `Bearer ${token}` : "",
-          },
-        },
-      });
-
-      // console.log("Shipping Response", shippingResponse);
-
-      const errors =
-        shippingResponse.data?.checkoutShippingAddressUpdate?.errors;
-
-      if (errors && errors.length > 0) {
-        toast.error(`${errors[0].message}`);
-        setIsLoading(false);
-        return;
-      }
-
-      if (!data.agreeToTerms) {
-        toast.error("Please agree to the terms and conditions!");
-        setIsLoading(false);
-        return;
-      }
-
-      if (data.agreeToTerms) {
-        const billingResponse = await billing({
+      
+        const response = await addressCreate({
           variables: {
-            checkoutId: checkoutId,
-            billingAddress: {
+            input: {
               firstName: data.firstName,
               lastName: data.lastName,
               streetAddress1: data.streetAddress1,
@@ -231,91 +135,62 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
               phone: data.phone,
               companyName: data.companyName,
             },
-          },
-          context: {
-            headers: {
-              Authorization: token ? `Bearer ${token}` : "",
-            },
+            type: isShhipping
+              ? AddressTypeEnum.Shipping
+              : AddressTypeEnum.Billing,
           },
         });
-
-        // console.log("Billing Response", billingResponse);
-
-        const billingErrors =
-          billingResponse.data?.checkoutBillingAddressUpdate?.errors;
-
-        if (billingErrors && billingErrors.length > 0) {
-          toast.error(`${billingErrors[0].message}`);
-          setIsLoading(false);
-          return;
+        const errors = response.data?.accountAddressCreate?.errors;
+        if (errors && errors.length > 0) {
+          toast.error(`${errors[0].message}`);
         } else {
-          const shippingMethods =
-            shippingResponse.data?.checkoutShippingAddressUpdate?.checkout
-              ?.shippingMethods;
-
-          if (Array.isArray(shippingMethods) && shippingMethods.length > 0) {
-            const selectedShippingMethod = shippingMethods[0];
-            localStorage.setItem(
-              "shippingMethodId",
-              JSON.stringify(selectedShippingMethod)
-            );
-            localStorage.setItem(
-              "shippingAddress",
-              JSON.stringify(
-                shippingResponse.data?.checkoutShippingAddressUpdate?.checkout
-                  ?.shippingAddress
-              )
-            );
-
-            const storedShippingMethod = JSON.parse(
-              localStorage.getItem("shippingMethodId") || "{}"
-            );
-            const shippingMethodId = storedShippingMethod?.id;
-
-            if (checkoutId && shippingMethodId) {
-              const addShippingMethod = await shippingMethodUpdate({
-                variables: {
-                  id: checkoutId,
-                  deliveryMethodId: shippingMethodId,
-                  locale: "EN_US" as LanguageCodeEnum,
-                },
-              });
-
-              toast.success("Shipping details saved successfully!");
-              // console.log(
-              //   "Shipping Method Updated in Shipping",
-              //   addShippingMethod
-              // );
-
-              onNext();
-              reset();
-            }
-          }
-        }
-      }
+          toast.success("Address Saved Successfully");
+        };
     } catch (error) {
-      console.error(error);
-      if (error instanceof Error) {
-        toast.error(`${error.message}`);
-      }
+      console.log("API Error", error);
     } finally {
       setIsLoading(false);
+      closeModal();
     }
   };
 
   return (
-    <div>
-      <h1 className="text-xl font-semibold my-3">
-        Checkout ({cartItems.length} items)
-      </h1>
+    <div className="p-6 bg-white rounded-lg  relative">
+      <button
+        onClick={closeModal}
+        className="absolute top-2 right-2 text-xl text-gray-500 hover:text-black"
+      >
+        ✕
+      </button>
+
+      <div
+        className="flex flex-row w-[60%] cursor-pointer border-2 border-primary bg-white text-white drop-shadow-sm relative overflow-hidden rounded-full"
+        onClick={toggleAddressType}
+      >
+        <div
+          className={`bg-primary w-[50%] rounded-full h-full absolute top-0 left-0 -z-10 transition-transform duration-300 ease-in-out ${
+            isShhipping ? "translate-x-0" : "translate-x-full"
+          }`}
+        ></div>
+        <p
+          className={`w-[50%] flex flex-col justify-center items-center text-sm font-medium py-2 rounded-xl transition-colors duration-300 ${
+            isShhipping ? " text-white font-semibold" : "text-textColor"
+          }`}
+        >
+          Shipping
+        </p>
+        <p
+          className={`w-[50%] flex flex-col justify-center items-center text-sm font-medium py-2 rounded-xl transition-colors duration-300 ${
+            !isShhipping ? " text-white font-semibold" : "text-textColor"
+          }`}
+        >
+          Billing
+        </p>
+      </div>
 
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-[90%] md:w-[70%] lg:w-[60%]"
-        >
-          <h1 className="text-md font-semibold">1. Shipping Address</h1>
-          <div className="my-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="">
+          <div className="my-2">
             <FormField
               control={form.control}
               name="country"
@@ -338,7 +213,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                         // );
                       }}
                       getOptionLabel={(e) => e.label}
-                      getOptionValue={(e) => e.label}
+                      getOptionValue={(e) => e.value}
                       placeholder="Select Country"
                     />
                   </FormControl>
@@ -349,7 +224,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
           </div>
 
           {selectedCountry?.value === "KW" && (
-            <div className="my-4">
+            <div className="my-2">
               <FormField
                 control={form.control}
                 name="countryArea"
@@ -363,10 +238,10 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                         onChange={(selectedOption) => {
                           field.onChange(selectedOption);
                           form.setValue("city", null);
-                          // console.log(
-                          //   "Selected Area Value:",
-                          //   selectedOption?.value
-                          // );
+                          console.log(
+                            "Selected Area Value:",
+                            selectedOption?.value
+                          );
                         }}
                         getOptionLabel={(e) => e.label}
                         getOptionValue={(e) => e.label}
@@ -381,7 +256,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
           )}
 
           {selectedCountry?.value === "KW" && selectedArea && (
-            <div className="my-4">
+            <div className="my-2">
               <FormField
                 control={form.control}
                 name="city"
@@ -394,13 +269,13 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
                         {...field}
                         onChange={(selectedOption) => {
                           field.onChange(selectedOption);
-                          // console.log(
-                          //   "Selected City Value:",
-                          //   selectedOption?.value
-                          // );
+                          console.log(
+                            "Selected City Value:",
+                            selectedOption?.value
+                          );
                         }}
                         getOptionLabel={(e) => e.label}
-                        getOptionValue={(e) => e.value}
+                        getOptionValue={(e) => e.label}
                         placeholder="Select City"
                       />
                     </FormControl>
@@ -412,7 +287,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
           )}
 
           {selectedCountry?.value !== "KW" && (
-            <div className="my-4">
+            <div className="my-2">
               <FormField
                 control={form.control}
                 name="nonKuwaitCountry"
@@ -429,7 +304,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
             </div>
           )}
 
-          <div className="flex flex-row justify-between gap-4 my-4">
+          <div className="flex flex-row justify-between gap-4 my-2">
             <div className="w-[48%]">
               <FormField
                 control={form.control}
@@ -462,7 +337,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
             </div>
           </div>
 
-          <div className="my-4 w-full">
+          <div className="my-2 w-full">
             <FormField
               control={form.control}
               name="phone"
@@ -485,7 +360,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
               )}
             />
           </div>
-          <div className="my-4 w-full">
+          <div className="my-2 w-full">
             <FormField
               control={form.control}
               name="companyName"
@@ -501,7 +376,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
             />
           </div>
 
-          <div className="flex flex-row justify-between gap-4 my-4">
+          <div className="flex flex-row justify-between gap-4 my-2">
             <div className="w-[48%]">
               <FormField
                 control={form.control}
@@ -534,7 +409,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
             </div>
           </div>
 
-          <div className="flex flex-row justify-between gap-4 my-4">
+          <div className="flex flex-row justify-between gap-4 my-2">
             {selectedCountry?.value !== "KW" && (
               <div className="w-[48%]">
                 <FormField
@@ -570,31 +445,8 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
             </div>
           </div>
 
-          {/* Checkbox */}
-          <FormField
-            control={form.control}
-            name="agreeToTerms"
-            render={({ field }) => (
-              <FormItem>
-                <div className="flex items-center space-x-2 my-3">
-                  <Checkbox
-                    id="terms"
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                  <FormLabel
-                    className="font-normal text-xs text-textgray"
-                    htmlFor="terms"
-                  >
-                    Add Billing Address same as the Shipping Address
-                  </FormLabel>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" className="w-full">
-            {isLoading ? "Loading..." : "Save and Continue"}
+          <Button type="submit" className="w-full mt-3 bg-secondary text-white">
+            {isLoading ? "Saving Address" : "Save and Continue"}
           </Button>
         </form>
       </Form>
@@ -602,4 +454,4 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
   );
 };
 
-export default ShippingBillingsDetails;
+export default AddressFormCreate;

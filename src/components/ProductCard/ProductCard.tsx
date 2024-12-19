@@ -19,7 +19,7 @@ interface ProductCardProps {
   ratings?: number;
   navigate?: string;
   variantId: string;
-}
+};
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   id,

@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import toast from "react-hot-toast";
 import Select from "react-select";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -20,6 +19,10 @@ import { CountryCode } from "../../../gql/graphql";
 import { KuwaitAddressEN } from "@/data/KuwaitAddress";
 import { LanguageCodeEnum } from "../../../gql/graphql";
 import { Checkbox } from "../ui/checkbox";
+import { useAddressCreateMutation } from "../../../gql/graphql";
+import { AddressTypeEnum } from "../../../gql/graphql";
+import toast from "react-hot-toast";
+import { useAddressUpdateMutation } from "../../../gql/graphql";
 
 interface CountryOption {
   value: CountryCode;
@@ -29,12 +32,12 @@ interface CountryOption {
 interface AreaOption {
   value: string;
   label: string;
-};
+}
 
 interface CityOption {
   value: string;
   label: string;
-};
+}
 
 interface ShippingFormInputs {
   country: CountryOption | null;
@@ -51,28 +54,43 @@ interface ShippingFormInputs {
   postalCode: string;
   token: string;
   agreeToTerms: boolean;
-};
+}
 
 interface AddressFormProps {
   closeModal: () => void;
-};
+  addressData: any;
+}
 
-const AddressForm: React.FC<AddressFormProps> = ({ closeModal }) => {
-  
+const AddressFormUpdate: React.FC<AddressFormProps> = ({
+  closeModal,
+  addressData,
+}) => {
+  // console.log("Selected Address Data", addressData);
+
   const form = useForm<ShippingFormInputs>({
     defaultValues: {
-      country: null,
-      countryArea: null,
-      firstName: "",
-      lastName: "",
-      phone: "",
-      companyName: "",
-      streetAddress1: "",
-      streetAddress2: "",
-      postalCode: "",
+      country: addressData?.country
+        ? {
+            label: addressData.country.country,
+            value: addressData.country.code,
+          }
+        : null,
+      countryArea: addressData?.countryArea
+        ? {
+            label: addressData.countryArea.countryArea,
+            value: addressData.countryArea,
+          }
+        : null,
+      firstName: addressData.firstName || "",
+      lastName: addressData.lastName || "",
+      phone: addressData.phone || "",
+      companyName: addressData.companyName || "",
+      streetAddress1: addressData.streetAddress1 || "",
+      streetAddress2: addressData.streetAddress2 || "",
+      postalCode: addressData.postalCode || "",
       city: null,
-      nonKuwaitCity: "",
-      nonKuwaitCountry: "",
+      nonKuwaitCity: addressData.city || "",
+      nonKuwaitCountry: addressData.countryArea || "",
     },
   });
 
@@ -101,8 +119,77 @@ const AddressForm: React.FC<AddressFormProps> = ({ closeModal }) => {
   const selectedCountry = form.watch("country");
   const selectedArea = form.watch("countryArea");
 
-  const onSubmit: SubmitHandler<ShippingFormInputs> = async(data)=>{
-    console.log(data);
+  const [addressCreate] = useAddressCreateMutation();
+  const [addressUpdate] = useAddressUpdateMutation();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [isShhipping, setIsShipping] = useState(true);
+
+  const toggleAddressType = () => {
+    setIsShipping(!isShhipping);
+  };
+
+  const onSubmit: SubmitHandler<ShippingFormInputs> = async (data) => {
+    // console.log("Form Data", data);
+    setIsLoading(true);
+    try {
+      if (addressData) {
+        const response = await addressUpdate({
+          variables: {
+            input: {
+              firstName: data.firstName,
+              lastName: data.lastName,
+              streetAddress1: data.streetAddress1,
+              streetAddress2: data.streetAddress2,
+              city: data.city?.value || data.nonKuwaitCity,
+              postalCode: data.postalCode,
+              countryArea: data.countryArea?.value || data.nonKuwaitCountry,
+              country: data.country?.value,
+              phone: data.phone,
+              companyName: data.companyName,
+            },
+            id: addressData.id,
+          },
+        });
+        const errors = response.data?.accountAddressUpdate?.errors;
+        if (errors && errors.length > 0) {
+          toast.error(`${errors[0].message}`);
+        } else {
+          toast.success("Address Updated Successfully");
+        };
+      } else {
+        const response = await addressCreate({
+          variables: {
+            input: {
+              firstName: data.firstName,
+              lastName: data.lastName,
+              streetAddress1: data.streetAddress1,
+              streetAddress2: data.streetAddress2,
+              city: data.city?.value || data.nonKuwaitCity,
+              postalCode: data.postalCode,
+              countryArea: data.countryArea?.value || data.nonKuwaitCountry,
+              country: data.country?.value,
+              phone: data.phone,
+              companyName: data.companyName,
+            },
+            type: isShhipping
+              ? AddressTypeEnum.Shipping
+              : AddressTypeEnum.Billing,
+          },
+        });
+        const errors = response.data?.accountAddressCreate?.errors;
+        if (errors && errors.length > 0) {
+          toast.error(`${errors[0].message}`);
+        } else {
+          toast.success("Address Saved Successfully");
+        };
+      }
+    } catch (error) {
+      console.log("API Error", error);
+    } finally {
+      setIsLoading(false);
+      closeModal();
+    }
   };
 
   return (
@@ -114,11 +201,33 @@ const AddressForm: React.FC<AddressFormProps> = ({ closeModal }) => {
         ✕
       </button>
 
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className=""
+      <div
+        className="flex flex-row w-[60%] cursor-pointer border-2 border-primary bg-white text-white drop-shadow-sm relative overflow-hidden rounded-full"
+        onClick={toggleAddressType}
+      >
+        <div
+          className={`bg-primary w-[50%] rounded-full h-full absolute top-0 left-0 -z-10 transition-transform duration-300 ease-in-out ${
+            isShhipping ? "translate-x-0" : "translate-x-full"
+          }`}
+        ></div>
+        <p
+          className={`w-[50%] flex flex-col justify-center items-center text-sm font-medium py-2 rounded-xl transition-colors duration-300 ${
+            isShhipping ? " text-white font-semibold" : "text-textColor"
+          }`}
         >
+          Shipping
+        </p>
+        <p
+          className={`w-[50%] flex flex-col justify-center items-center text-sm font-medium py-2 rounded-xl transition-colors duration-300 ${
+            !isShhipping ? " text-white font-semibold" : "text-textColor"
+          }`}
+        >
+          Billing
+        </p>
+      </div>
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="">
           <div className="my-2">
             <FormField
               control={form.control}
@@ -167,13 +276,13 @@ const AddressForm: React.FC<AddressFormProps> = ({ closeModal }) => {
                         onChange={(selectedOption) => {
                           field.onChange(selectedOption);
                           form.setValue("city", null);
-                          // console.log(
-                          //   "Selected Area Value:",
-                          //   selectedOption?.value
-                          // );
+                          console.log(
+                            "Selected Area Value:",
+                            selectedOption?.value
+                          );
                         }}
                         getOptionLabel={(e) => e.label}
-                        getOptionValue={(e) => e.value}
+                        getOptionValue={(e) => e.label}
                         placeholder="Select Country Area"
                       />
                     </FormControl>
@@ -198,13 +307,13 @@ const AddressForm: React.FC<AddressFormProps> = ({ closeModal }) => {
                         {...field}
                         onChange={(selectedOption) => {
                           field.onChange(selectedOption);
-                          // console.log(
-                          //   "Selected City Value:",
-                          //   selectedOption?.value
-                          // );
+                          console.log(
+                            "Selected City Value:",
+                            selectedOption?.value
+                          );
                         }}
                         getOptionLabel={(e) => e.label}
-                        getOptionValue={(e) => e.value}
+                        getOptionValue={(e) => e.label}
                         placeholder="Select City"
                       />
                     </FormControl>
@@ -374,8 +483,8 @@ const AddressForm: React.FC<AddressFormProps> = ({ closeModal }) => {
             </div>
           </div>
 
-          <Button type="submit" className="w-full bg-secondary text-white">
-            Save and Continue
+          <Button type="submit" className="w-full mt-3 bg-secondary text-white">
+            {isLoading ? "Saving Address" : "Save and Continue"}
           </Button>
         </form>
       </Form>
@@ -383,4 +492,4 @@ const AddressForm: React.FC<AddressFormProps> = ({ closeModal }) => {
   );
 };
 
-export default AddressForm;
+export default AddressFormUpdate;
