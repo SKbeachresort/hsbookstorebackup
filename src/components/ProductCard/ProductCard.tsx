@@ -82,6 +82,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div className="relative w-32 md:w-28 lg:w-[6.5rem] xl:w-32 mx-4">
+      
       <AnimateOnScroll animationType="fade-up">
         <Link href={getRegionUrl(`product/${navigate}`)}>
           <div>
@@ -90,6 +91,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               width={120}
               height={170}
               className="object-cover aspect-[3/4] resize lg:max-h-[135px] xl:max-h-[170px] 3xl:w-[230px] 3x:h-[270px] w-full hover:scale-110 transition-all duration-300"
+              // className="object-fill"
               layout="intrinsic"
               objectFit="cover"
               alt={name}
