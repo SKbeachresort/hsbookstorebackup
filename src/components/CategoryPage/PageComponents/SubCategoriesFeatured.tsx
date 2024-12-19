@@ -61,7 +61,7 @@ export const SubFeaturedCategories: React.FC<
             >
               <div className="">
                 <Image
-                  src={node.backgroundImage?.url || ""}
+                  src={node.backgroundImage?.url || dentistry}  
                   alt={node.name}
                   width={150}
                   height={150}

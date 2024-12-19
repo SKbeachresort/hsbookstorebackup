@@ -10,6 +10,7 @@ import Modal from "@/app/elements/Modal";
 import AddressFormUpdate from "./AddressFormUpdate";
 import AddressFormCreate from "./AddressFormCreate";
 import toast from "react-hot-toast";
+import { Switch } from "@/components/ui/switch";
 
 import {
   AlertDialog,
@@ -24,6 +25,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { useAddressDeleteMutation } from "../../../gql/graphql";
+import { useAddressSetDefaultMutation } from "../../../gql/graphql";
 
 export const AccountInfoSection = () => {
   const { user, loading } = useUser();
@@ -56,6 +58,26 @@ export const AccountInfoSection = () => {
     refetchUserAddresses,
   } = useAddressUser();
 
+  const [addressSetDefault, { loading: setDefaultLoading }] = useAddressSetDefaultMutation({
+    onCompleted: (data) => {
+      if(data?.accountSetDefaultAddress?.errors?.length === 0){
+        toast.success("Default Address Setted Successfully");
+        refetchUserAddresses();
+      }else{
+        toast.error(`${data?.accountSetDefaultAddress?.errors[0]?.message}`);
+      }
+    }
+  });
+
+  // const handleSetDefault =(addressID:string, addressType: 'SHIPPING' | 'BILLING') => {
+  //   addressSetDefault({
+  //     variables: {
+  //       id: addressID,
+  //       type: addressType
+  //     }
+  //   })
+  // }
+
   const [addressDelete, { loading: deleteLoading }] = useAddressDeleteMutation({
     onCompleted: (data) => {
       if (data?.accountAddressDelete?.errors?.length === 0) {
@@ -71,12 +93,12 @@ export const AccountInfoSection = () => {
     if (addressToDelete) {
       addressDelete({ variables: { id: addressToDelete } });
       setAddressToDelete(null);
-    };
+    }
   };
 
   if (loading) {
     return <Loader />;
-  };
+  }
 
   return (
     <AlertDialog>
@@ -246,9 +268,14 @@ export const AccountInfoSection = () => {
         {userAddresses?.map((address) => (
           <div
             key={address.id}
-            className="flex flex-row my-3 justify-between items-start p-3 border-[1px] border-[#cdcdcd] bg-white shadow-sm"
+            className="flex flex-col-reverse md:flex-row my-3 justify-between items-start p-3 border-[1px] border-[#cdcdcd] bg-white shadow-sm"
           >
             <div>
+              <h1>
+                {address?.isDefaultShippingAddress
+                  ? `Shipping Address`
+                  : `Billing Address`}
+              </h1>
               <p className="text-sm font-medium mt-1">
                 {address?.firstName} {address?.lastName}, {address?.companyName}
                 ,
@@ -276,10 +303,10 @@ export const AccountInfoSection = () => {
               >
                 Delete
               </AlertDialogTrigger>
-
-              <button className="border-2 border-success text-md px-2 py-1 text-success rounded-md">
-                Set as Default
-              </button>
+              {/* <div className="flex flex-row gap-2 items-center justify-center">
+                <Switch />
+                <p>Make Default</p>
+              </div> */}
             </div>
           </div>
         ))}
@@ -287,7 +314,6 @@ export const AccountInfoSection = () => {
         {userAddresses?.length === 0 && (
           <p className="text-center text-gray-500">No Address Found</p>
         )}
-
       </div>
 
       <AlertDialogContent>

@@ -23,6 +23,7 @@ import { useAddressCreateMutation } from "../../../gql/graphql";
 import { AddressTypeEnum } from "../../../gql/graphql";
 import toast from "react-hot-toast";
 import { useAddressUpdateMutation } from "../../../gql/graphql";
+import { useAddressUser } from "@/hooks/getUserAddress";
 
 interface CountryOption {
   value: CountryCode;
@@ -95,6 +96,7 @@ const AddressFormUpdate: React.FC<AddressFormProps> = ({
   });
 
   const { handleSubmit, reset } = form;
+  const {refetchUserAddresses} = useAddressUser();
 
   const kuwaitAreas = useMemo(() => {
     return KuwaitAddressEN.items.map((area) => ({
@@ -156,6 +158,7 @@ const AddressFormUpdate: React.FC<AddressFormProps> = ({
           toast.error(`${errors[0].message}`);
         } else {
           toast.success("Address Updated Successfully");
+          refetchUserAddresses();
         };
       } else {
         const response = await addressCreate({

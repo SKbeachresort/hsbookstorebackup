@@ -23,11 +23,12 @@ import { useAddressCreateMutation } from "../../../gql/graphql";
 import { AddressTypeEnum } from "../../../gql/graphql";
 import toast from "react-hot-toast";
 import { useAddressUpdateMutation } from "../../../gql/graphql";
+import { useAddressUser } from "@/hooks/getUserAddress";
 
 interface CountryOption {
   value: CountryCode;
   label: string;
-};
+}
 
 interface AreaOption {
   value: string;
@@ -58,30 +59,28 @@ interface ShippingFormInputs {
 
 interface AddressFormProps {
   closeModal: () => void;
-};
+}
 
-const AddressFormCreate: React.FC<AddressFormProps> = ({
-  closeModal,
-}) => {
-
+const AddressFormCreate: React.FC<AddressFormProps> = ({ closeModal }) => {
   const form = useForm<ShippingFormInputs>({
     defaultValues: {
-     country:  null,
-    countryArea: null,
-      firstName:  "",
-      lastName:  "",
+      country: null,
+      countryArea: null,
+      firstName: "",
+      lastName: "",
       phone: "",
       companyName: "",
-      streetAddress1:  "",
-      streetAddress2:  "",
+      streetAddress1: "",
+      streetAddress2: "",
       postalCode: "",
       city: null,
-      nonKuwaitCity:  "",
+      nonKuwaitCity: "",
       nonKuwaitCountry: "",
     },
   });
 
   const { handleSubmit, reset } = form;
+  const { refetchUserAddresses } = useAddressUser();
 
   const kuwaitAreas = useMemo(() => {
     return KuwaitAddressEN.items.map((area) => ({
@@ -117,35 +116,34 @@ const AddressFormCreate: React.FC<AddressFormProps> = ({
   };
 
   const onSubmit: SubmitHandler<ShippingFormInputs> = async (data) => {
-    // console.log("Form Data", data);
     setIsLoading(true);
     try {
-      
-        const response = await addressCreate({
-          variables: {
-            input: {
-              firstName: data.firstName,
-              lastName: data.lastName,
-              streetAddress1: data.streetAddress1,
-              streetAddress2: data.streetAddress2,
-              city: data.city?.value || data.nonKuwaitCity,
-              postalCode: data.postalCode,
-              countryArea: data.countryArea?.value || data.nonKuwaitCountry,
-              country: data.country?.value,
-              phone: data.phone,
-              companyName: data.companyName,
-            },
-            type: isShhipping
-              ? AddressTypeEnum.Shipping
-              : AddressTypeEnum.Billing,
+      const response = await addressCreate({
+        variables: {
+          input: {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            streetAddress1: data.streetAddress1,
+            streetAddress2: data.streetAddress2,
+            city: data.city?.value || data.nonKuwaitCity,
+            postalCode: data.postalCode,
+            countryArea: data.countryArea?.value || data.nonKuwaitCountry,
+            country: data.country?.value,
+            phone: data.phone,
+            companyName: data.companyName,
           },
-        });
-        const errors = response.data?.accountAddressCreate?.errors;
-        if (errors && errors.length > 0) {
-          toast.error(`${errors[0].message}`);
-        } else {
-          toast.success("Address Saved Successfully");
-        };
+          type: isShhipping
+            ? AddressTypeEnum.Shipping
+            : AddressTypeEnum.Billing,
+        },
+      });
+      const errors = response.data?.accountAddressCreate?.errors;
+      if (errors && errors.length > 0) {
+        toast.error(`${errors[0].message}`);
+      } else {
+        toast.success("Address Saved Successfully");
+        refetchUserAddresses();
+      }
     } catch (error) {
       console.log("API Error", error);
     } finally {
