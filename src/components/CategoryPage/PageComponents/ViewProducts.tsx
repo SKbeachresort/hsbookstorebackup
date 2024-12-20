@@ -89,7 +89,7 @@ export const ViewProducts: React.FC<ViewProductsProps> = async ({
           href={getRegionUrl(
             channel,
             locale,
-            `collections/${slug}`
+            `products/${slug}`
           )}
         >
           <button className="text-sm w-fit text-center mx-auto text-textgray font-bold px-4 py-2 rounded-full border-2 border-borderColor">

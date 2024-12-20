@@ -31,12 +31,15 @@ const ProductDetailPage = () => {
 
   const [isFav, setIsFav] = useState(false);
 
-  const [showAddToCartWidget, setShowAddToCartWidget] = useState(false);
   const subsectionRef = useRef<HTMLDivElement | null>(null);
+  const mainSectionRef = useRef<HTMLDivElement | null>(null);
+  const [isSticky, setIsSticky] = useState(false);
+  const cartWidgetRef = useRef(null);
+  const bottomSectionRef = useRef(null);
 
   const { data, loading, error } = useProductBySlugQuery({
     variables: {
-      channel: (channel as string) || "default-channel",
+      channel: channel as string,
       slug: slug as string,
     },
   });
@@ -133,16 +136,17 @@ const ProductDetailPage = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (subsectionRef.current) {
-        const rect = subsectionRef.current.getBoundingClientRect();
-        setShowAddToCartWidget(rect.top <= 0);
+      if (mainSectionRef.current) {
+        const mainRect = mainSectionRef.current.getBoundingClientRect();
+        const shouldBeSticky = mainRect.bottom <= 0;
+        setIsSticky(shouldBeSticky);
       }
     };
+    window.addEventListener('scroll', handleScroll);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   if (loading) {
@@ -151,22 +155,25 @@ const ProductDetailPage = () => {
 
   return (
     <div className="w-[95%] mx-auto xl:w-[80%] p-2 py-5">
-      {/* Main Section  */}
-      <ProductMainSection
-        productsDetails={productsDetails}
-        channel={channel as string}
-        cartItem={cartItem}
-        handleAddToCart={handleAddToCart}
-        handleDecrement={handleDecrement}
-        incrementQuantity={incrementQuantity}
-        removeFromCart={removeFromCart}
-        VariantDefault={VariantDefault}
-      />
+      
+      <div ref={mainSectionRef}>
+        {/* Main Section  */}
+        <ProductMainSection
+          productsDetails={productsDetails}
+          channel={channel as string}
+          cartItem={cartItem}
+          handleAddToCart={handleAddToCart}
+          handleDecrement={handleDecrement}
+          incrementQuantity={incrementQuantity}
+          removeFromCart={removeFromCart}
+          VariantDefault={VariantDefault}
+        />
+      </div>  
 
       {/* Sub Section */}
       <div
         ref={subsectionRef}
-        className="md:relative flex flex-row justify-between my-3"
+        className="relative md:relative flex flex-row justify-between my-3"
       >
         <div className="md:w-[63%] ">
           {/* New Release Section */}
@@ -191,20 +198,27 @@ const ProductDetailPage = () => {
           {/* <CustomerReviewsRatings /> */}
         </div>
 
-        <div className="h-auto w-[33%] hidden md:block">
-          {/* Add to Cart Widget Container */}
-          <div className="sticky top-10 z-30 py-10">
-            <AnimateOnScroll animationType="zoom-in-up">
-              <AddToCartWidjet
-                productsDetails={productsDetails}
-                cartItem={cartItem}
-                handleAddToCart={handleAddToCart}
-                handleDecrement={handleDecrement}
-                incrementQuantity={incrementQuantity}
-                VariantDefault={VariantDefault}
-              />
-            </AnimateOnScroll>
-          </div>
+        <div 
+          ref={cartWidgetRef}
+          className={`hidden md:block md:w-[33%] ${
+            isSticky 
+              ? 'md:fixed md:right-[10%] md:top-4 md:w-[25%]' 
+              : 'md:relative'
+          }`}
+          style={{
+            transition: 'all 0.3s ease-in-out'
+          }}
+        >
+          <AnimateOnScroll animationType="zoom-in-up">
+            <AddToCartWidjet
+              productsDetails={productsDetails}
+              cartItem={cartItem}
+              handleAddToCart={handleAddToCart}
+              handleDecrement={handleDecrement}
+              incrementQuantity={incrementQuantity}
+              VariantDefault={VariantDefault}
+            />
+          </AnimateOnScroll>
         </div>
       </div>
 

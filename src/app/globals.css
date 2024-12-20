@@ -238,3 +238,10 @@ body {
   overflow-y: scroll;
   border-radius: 0 0 3px 3px;
 }
+
+.stickydiv{
+  position: -webkit-sticky;
+  position: sticky !important;
+  top: 0;
+  z-index: 1000;
+}
