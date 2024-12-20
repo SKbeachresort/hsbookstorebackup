@@ -40,7 +40,7 @@ interface ProductDetailsProps {
   incrementQuantity: (id: string) => void;
   removeFromCart?: (id: string) => void;
   VariantDefault: VariantFormat[];
-};
+}
 
 const ProductMainSection: React.FC<ProductDetailsProps> = ({
   productsDetails,
@@ -52,7 +52,6 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   removeFromCart,
   VariantDefault,
 }) => {
-  
   const [selectedVariant, setSelectedVariant] = useState<Product | null>(null);
   const variants = productsDetails.variantObj;
 
@@ -184,7 +183,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     if (!userId) {
       toast.error("Please login to add product to wishlist");
       return;
-    };
+    }
 
     try {
       const action = isFav ? "delete" : "add";
@@ -216,7 +215,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
         <div className="flex p-2 flex-col-reverse md:flex-row justify-between md:w-[60%] gap-2">
           <div className="flex flex-row my-3 p-2 md:my-0 md:flex-col gap-4 w-[20%]">
             {selectedVariant?.subImage &&
-              selectedVariant?.subImage.length > 0 ? (
+            selectedVariant?.subImage.length > 0 ? (
               selectedVariant.subImage.map((image, index) => (
                 <Image
                   key={index}
@@ -241,7 +240,9 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
               width={400}
               height={600}
               alt="Product Image"
-              className={`w-full md:w-[80%] ${isZoomed ? "scale-150" : ""}`}
+              className={`w-full aspect-[3/4] object-contain md:w-[80%] ${
+                isZoomed ? "scale-150" : ""
+              }`}
             />
             {/* Heart Icon */}
             <div className="absolute z-40 top-0 bg-white rounded-full p-2 shadow-lg -right-4">
@@ -261,7 +262,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
         </div>
 
         {/* Product Details */}
-        <div className="p-1 md:p-4 md:w-[35%] h-auto border-[1px] border-disableGray rounded-lg">
+        <div className="p-2 md:p-4 w-full md:w-[35%] h-auto md:border-[1px] border-disableGray rounded-lg">
           <span className="bg-[#69BBE940] mb-2 font-normal text-primary w-fit text-xs md:text-sm p-1">
             Best Seller
           </span>
@@ -295,9 +296,12 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
             <p className="text-xl font-semibold">
               {selectedVariant?.currency} {selectedVariant?.price}
             </p>
-            <p className="line-through text-textgray text-sm font-medium">
-              {selectedVariant?.currencySymbol} {selectedVariant?.cuttedPrice}
-            </p>
+            {(selectedVariant?.cuttedPrice ?? 0) >
+              (selectedVariant?.price ?? 0) && (
+              <p className="line-through text-textgray text-sm font-medium">
+                {selectedVariant?.currencySymbol} {selectedVariant?.cuttedPrice}
+              </p>
+            )}
           </div>
 
           {/* Availability */}

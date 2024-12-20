@@ -66,7 +66,7 @@ const ProductDetailPage = () => {
       data?.product?.pricing?.priceRangeUndiscounted?.start?.net?.amount ?? 0,
     cuttedPrice: data?.product?.pricing?.discount?.net?.amount ?? 0,
     ratings: data?.product?.rating ?? 0,
-    description: data?.product?.seoDescription || "N/A",
+    description: data?.product?.description || "N/A",
     ISBN_NO: data?.product?.variants?.[0]?.sku || "N/A",
     Series: "N/A",
     Cover:
@@ -94,6 +94,7 @@ const ProductDetailPage = () => {
     variantObj: data?.product?.variants || [],
     variantType: data?.product?.productType?.name || "N/A",
     newReleaseSKU: data?.product?.attributes.find((attr) => attr.attribute.slug === "new-release-sku")?.values[0]?.name || "N/A",
+    tableOfContents: data?.product?.attributes.find((attr) => attr.attribute.slug === "table-of-contents")?.values[0]?.richText || undefined,
   };
 
   const VariantDefault = [

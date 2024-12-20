@@ -9,6 +9,7 @@ import {
 import { RiSearchLine } from "react-icons/ri";
 import { redirectToSearch } from "@/server/searchRedirect";
 import Loader from "@/app/elements/Loader";
+import { useRouter } from "next/navigation";
 
 const SearchingProductResults = dynamic(
   () => import("@/components/Navbar/SearchingProductResults"),
@@ -22,14 +23,14 @@ interface SearchProductProps {
 
 const SearchProduct: React.FC<SearchProductProps> = ({ channel, locale }) => {
 
-  const [searchData, setSearchData] = useState<SearchProductsQuery | undefined>(
-    undefined
-  );
+  const [searchData, setSearchData] = useState<SearchProductsQuery>();
   const [val, setVal] = useState("");
   const [isReady, setIsReady] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
-  const [searchProducts, { loading, error }] = useSearchProductsLazyQuery({
+
+  const [searchProducts, { loading }] = useSearchProductsLazyQuery({
     fetchPolicy: "network-only",
     onCompleted(data) {
       setSearchData(data);
@@ -41,7 +42,7 @@ const SearchProduct: React.FC<SearchProductProps> = ({ channel, locale }) => {
     await searchProducts({
       variables: {
         first: 10,
-        channel: channel,
+        channel,
         where: {
           name: {
             oneOf: [val],
@@ -65,19 +66,22 @@ const SearchProduct: React.FC<SearchProductProps> = ({ channel, locale }) => {
     };
   }, [val, handleSearch]);
 
-  const handleSubmit = async (e:React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSearchData(undefined);
+    
     if (!val || val.length <= 2) {
       setIsReady(false);
       return;
     }
+    
     if (loading) return;
-    await redirectToSearch({ channel, locale, searchValue: val });
-  };
-
-  if (pathname.includes("search")) {
-    return null;
+  
+    const searchQuery = encodeURIComponent(val);
+    const searchUrl = `/${channel}/${locale}/search?query=${searchQuery}`;
+    router.push(searchUrl);
+    
+    setSearchData(undefined);
+    setIsReady(false);
   };
 
   return (

@@ -23,10 +23,27 @@ export interface Product {
   variantType: string;
   variantId: string;
   newReleaseSKU: string;
+  tableOfContents?: string;
 }
 
 export interface VariantFormat {
   label: string;
   price: number;
   currency: string;
+}
+
+interface BlockData {
+  text: string;
+}
+
+interface Block {
+  id: string;
+  data: BlockData;
+  type: string;
+}
+
+interface DescriptionJSON {
+  time: number;
+  blocks: Block[];
+  version: string;
 }

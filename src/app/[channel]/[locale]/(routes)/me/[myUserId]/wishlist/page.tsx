@@ -1,13 +1,9 @@
 import React from "react";
 import { WishlistViewDocument } from "../../../../../../../../gql/graphql-documents";
 import { executeGraphQL } from "@/lib/graphql";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { AddProductToWishlistDocument } from "../../../../../../../../gql/graphql-documents";
 import Image from "next/image";
-import { products } from "@/data/Products";
 import Link from "next/link";
-import toast from "react-hot-toast";
-import { t } from "i18next";
+import RemoveButton from "./RemoveButton";
 
 interface MyWishlistPageProps {
   params: {
@@ -15,37 +11,17 @@ interface MyWishlistPageProps {
     locale: string;
     myUserId: string;
   };
-}
+};
 
 const MyWishlistPage = async ({ params }: MyWishlistPageProps) => {
-  const { channel, locale, myUserId } = params;
+  const { channel, myUserId } = params;
 
   const data = await executeGraphQL(WishlistViewDocument, {
     variables: {
-      channel: channel,
+      channel: channel as string,
       userId: myUserId,
     },
   });
-
-  const handleRemoveFromWishList = async (productId: string) => {
-    try {
-      const response = await executeGraphQL(AddProductToWishlistDocument, {
-        variables: {
-          userId: myUserId,
-          productId: productId,
-          action: "delete",
-        },
-      });
-
-      if (response?.wishlistAdd?.success) {
-        toast.success("Product removed from wishlist");
-      } else {
-        toast.error("Failed to remove product from wishlist");
-      }
-    } catch (error) {
-      console.error("Error removing product from wishlist:", error);
-    }
-  };
 
   const wishlistItems = data?.wishlistView || [];
 
@@ -55,11 +31,11 @@ const MyWishlistPage = async ({ params }: MyWishlistPageProps) => {
       {wishlistItems.length === 0 ? (
         <p className="text-center text-gray-500">Your wishlist is empty.</p>
       ) : (
-        <div className="bg-white shadow-md border-2 border-disableGray p-4 gap-6">
+        <div className="">
           {wishlistItems.map((item) => (
             <div
               key={item?.id}
-              className="flex items-start md:items-center rounded-2xl justify-between my-10"
+              className="flex items-start md:items-center rounded-md justify-between my-10 bg-white shadow-md border-[1px] border-disableGray p-4 gap-6"
             >
               <div>
                 <Image
@@ -76,7 +52,7 @@ const MyWishlistPage = async ({ params }: MyWishlistPageProps) => {
                   <h4 className="font-medium text-lg">{item?.product?.name}</h4>
 
                   <Link href={`/product/${item?.product?.slug}`}>
-                    <button className="bg-secondary hover:scale-110 transition-all px-4 py-2 my-2 rounded">
+                    <button className="bg-secondary text-white hover:scale-110 transition-all px-4 py-2 my-2 rounded">
                       View Product
                     </button>
                   </Link>
@@ -93,9 +69,9 @@ const MyWishlistPage = async ({ params }: MyWishlistPageProps) => {
                         ?.amount ?? 0
                     ).toFixed(2)}
                   </p>
-                  <button onClick={()=> item?.id && handleRemoveFromWishList(item.id)} className="bg-red-500 hover:scale-110 transition-all text-white px-4 py-2 my-2 rounded">
-                    Remove
-                  </button>
+                  {/* {item?.id && (
+                    <RemoveButton itemId={item.id} userId={myUserId} channel={channel}/>
+                  )} */}
                 </div>
               </div>
             </div>
