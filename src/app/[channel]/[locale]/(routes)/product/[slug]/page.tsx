@@ -31,11 +31,11 @@ const ProductDetailPage = () => {
 
   const [isFav, setIsFav] = useState(false);
 
+  const [showAddToCartWidget, setShowAddToCartWidget] = useState(false);
   const subsectionRef = useRef<HTMLDivElement | null>(null);
   const mainSectionRef = useRef<HTMLDivElement | null>(null);
   const [isSticky, setIsSticky] = useState(false);
   const cartWidgetRef = useRef(null);
-  const bottomSectionRef = useRef(null);
 
   const { data, loading, error } = useProductBySlugQuery({
     variables: {
@@ -51,11 +51,10 @@ const ProductDetailPage = () => {
     name: data?.product?.name || data?.product?.variants?.[0]?.name ,
     mainImage:
       data?.product?.media?.[0]?.url ||
-      data?.product?.variants?.[0]?.media?.[0]?.url ||
-      undefined,
+      data?.product?.variants?.[0]?.media?.[0]?.url || "/placeholder.jpg",
     subImage:
       data?.product?.media?.map((media) => media.url) ||
-      data?.product?.variants?.[0]?.media?.map((media) => media.url) ,
+      data?.product?.variants?.[0]?.media?.map((media) => media.url) || [],
     Author:
       data?.product?.attributes.find(
         (attr) => attr.attribute.name === "Authors"
@@ -142,8 +141,8 @@ const ProductDetailPage = () => {
         setIsSticky(shouldBeSticky);
       }
     };
-    window.addEventListener('scroll', handleScroll);
 
+    window.addEventListener('scroll', handleScroll);
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
@@ -200,9 +199,9 @@ const ProductDetailPage = () => {
 
         <div 
           ref={cartWidgetRef}
-          className={`hidden md:block md:w-[33%] ${
+          className={`hidden md:block w-[33%] ${
             isSticky 
-              ? 'md:fixed md:right-[10%] md:top-4 md:w-[25%]' 
+              ? 'md:fixed md:right-[5%] md:top-4' 
               : 'md:relative'
           }`}
           style={{
@@ -220,9 +219,10 @@ const ProductDetailPage = () => {
             />
           </AnimateOnScroll>
         </div>
+
       </div>
 
-      <div>
+      <div className="">
         {/* Best Sellers */}
         <BestSellers channel={channel as string} />
 

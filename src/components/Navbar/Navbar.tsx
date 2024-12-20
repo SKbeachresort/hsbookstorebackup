@@ -37,7 +37,6 @@ import { CategoryNavbar } from "./CategoryNavbar";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
 import { useUser } from "@/hooks/useUser";
 
-
 export const Navbar = () => {
   const { channel, locale } = useParams();
   const { user, loading, authenticated } = useUser();
@@ -99,10 +98,9 @@ export const Navbar = () => {
         <div className="py-5 w-full max-w-[1920px] mx-auto px-[2vh] shadow-md md:shadow-none mb-1 md:mb-0 flex flex-row gap-x-3 md:gap-x-6 justify-between items-center">
           <div className="flex flex-row items-center gap-x-1">
             <div className="md:hidden rounded-sm">
-              <GiHamburgerMenu
-                onClick={handleNavbarOpen}
-                className="text-[3.5vh] text-primary cursor-pointer"
-              />
+              <SheetTrigger>
+                <GiHamburgerMenu className="text-[3.5vh] text-primary cursor-pointer" />
+              </SheetTrigger>
             </div>
             <Link href={getRegionUrl("/")}>
               <Image
@@ -225,7 +223,7 @@ export const Navbar = () => {
           </div>
         </div>
 
-        <div className="bg-primary hidden  md:flex justify-start p-[1vh]">
+        <div className="bg-primary hidden md:flex justify-start p-[1vh]">
           <div className="w-full max-w-[1920px] mx-auto">
             <div className="px-4 flex flex-row justify-start items-center space-x-4">
               <SheetTrigger asChild>

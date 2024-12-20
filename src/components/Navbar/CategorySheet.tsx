@@ -37,11 +37,20 @@ export const CategorySheet = () => {
     });
 
   const currentChildrenData = React.useMemo(() => {
-    return childrenData?.category?.children?.edges ?? [];
+    return (
+      childrenData?.category?.children?.edges?.sort((a, b) => {
+        if (a.node.name < b.node.name) {
+          return -1;
+        }
+        if (a.node.name > b.node.name) {
+          return 1;
+        }
+        return 0;
+      }) ?? []
+    );
   }, [childrenData]);
 
   const handleSubCategoryExpand = (subcategoryId: string) => {
-    // console.log("SubCategory ID", subcategoryId);
     setActiveSubCategoryId((prevId) =>
       prevId === subcategoryId ? null : subcategoryId
     );
