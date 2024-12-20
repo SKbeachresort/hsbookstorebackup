@@ -34,7 +34,7 @@ const CartPage = () => {
               <DeliveryAddressCard />
 
               {/* Cart Items */}
-              <div className="border-[1px] border-[#e0e0e0] rounded-md p-5">
+              <div className="">
                 <CartItemUI channel={channel as string} />
               </div>
 

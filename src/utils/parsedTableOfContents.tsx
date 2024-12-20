@@ -16,11 +16,11 @@ interface DescriptionJSON {
   version: string;
 }
 
-interface FormattedDescriptionProps {
+interface FormattedTableofContentsProps {
   description: string;
 }
 
-const FormattedDescription: React.FC<FormattedDescriptionProps> = ({
+const FormattedTableofContents: React.FC<FormattedTableofContentsProps> = ({
   description,
 }) => {
   const parseDescription = (jsonString: string) => {
@@ -29,27 +29,29 @@ const FormattedDescription: React.FC<FormattedDescriptionProps> = ({
 
       return parsed.blocks.map((block) => {
         const formattedText = block.data.text
-          .replace(/\\r\\n/g, "\n") // Replace escaped line breaks with newlines
-          .split("\n") // Split text into lines
+          .replace(/\\r\\n/g, "\n") 
+          .replace(/<\/b>/g, "</b>\n")
+          .replace(/<b>/g, "\n<b>")
+          .replace(/(\d+)(?=\s?[A-Za-z])/g, "\n$1") 
+          .split("\n") 
           .map((line: string, index: number) => {
             const trimmedLine = line.trim();
 
             if (!trimmedLine) {
-              // Skip empty lines
               return null;
             }
 
-            if (trimmedLine.startsWith("<li>") && trimmedLine.endsWith("</li>")) {
-              // Handle list items with <li> tags
-              const content = trimmedLine.slice(4, -5);
+            if (trimmedLine.startsWith("<b>") && trimmedLine.endsWith("</b>")) {
               return (
-                <li key={`li-${block.id}-${index}`} className="list-disc ml-6 my-1">
-                  <span dangerouslySetInnerHTML={{ __html: content }} />
-                </li>
+                <React.Fragment key={`section-${block.id}-${index}`}>
+                  <br />
+                  <strong className="text-lg font-bold">
+                    <span dangerouslySetInnerHTML={{ __html: trimmedLine }} />
+                  </strong>
+                  <br/>
+                </React.Fragment>
               );
             }
-
-            // Default case for paragraphs or strong tags
             return (
               <p
                 key={`line-${block.id}-${index}`}
@@ -58,7 +60,7 @@ const FormattedDescription: React.FC<FormattedDescriptionProps> = ({
               />
             );
           })
-          .filter((element): element is JSX.Element => element !== null); // Remove null values
+          .filter((element): element is JSX.Element => element !== null); 
 
         return (
           <div key={`block-${block.id}`} className="prose max-w-none">
@@ -75,4 +77,4 @@ const FormattedDescription: React.FC<FormattedDescriptionProps> = ({
   return <div className="space-y-4">{parseDescription(description)}</div>;
 };
 
-export default FormattedDescription;
+export default FormattedTableofContents;

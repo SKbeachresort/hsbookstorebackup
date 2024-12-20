@@ -5,6 +5,9 @@ import Image from "next/image";
 import { Product } from "@/types/product/product-types";
 import AccordionProductDetail from "@/app/elements/AccordianProductDetail";
 import FormattedDescription from "@/utils/parsedJson";
+import ProductDescription from "./ProductDescription";
+import FormattedTableofContents from "@/utils/parsedTableOfContents";
+import { formatDate } from "@/utils/formatDate";
 
 interface AdditionalContentsProps {
   productsDetails: Product;
@@ -53,7 +56,7 @@ const AdditionalContents: React.FC<AdditionalContentsProps> = ({
                 <h1 className="font-medium">
                   Publication Date:{" "}
                   <span className="font-normal">
-                    {productsDetails.PublicationDate}
+                    {formatDate(productsDetails.PublicationDate)}
                   </span>
                 </h1>
               )}
@@ -95,19 +98,11 @@ const AdditionalContents: React.FC<AdditionalContentsProps> = ({
       <div>
         {productsDetails?.tableOfContents && (
           <AccordionProductDetail title="Table of Contents">
-            {/* <div
-            className="text-sm md:text-md text-justify text-textgray"
-            dangerouslySetInnerHTML={{
-              __html: productsDetails.tableOfContents
-                .replace(/\\r\\n/g, "<br>") 
-                .replace(/^\s+/gm, "")
-                .replace(/(\r\n|\n|\r)/gm, " ") 
-                .trim(), 
-            }}
-          ></div> */}
-          <FormattedDescription
-            description={productsDetails.tableOfContents}
-          />
+            <div className="px-4">
+              <FormattedTableofContents
+                description={productsDetails.tableOfContents}
+              />
+            </div>
           </AccordionProductDetail>
         )}
       </div>

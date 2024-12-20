@@ -44,57 +44,56 @@ const ProductDetailPage = () => {
   console.log("Fetched Data", data);
 
   const productsDetails = {
-    id: data?.product?.id || data?.product?.variants?.[0]?.id || "",
-    name: data?.product?.name || data?.product?.variants?.[0]?.name || "N/A",
+    id: data?.product?.id || data?.product?.variants?.[0]?.id ,
+    name: data?.product?.name || data?.product?.variants?.[0]?.name ,
     mainImage:
       data?.product?.media?.[0]?.url ||
       data?.product?.variants?.[0]?.media?.[0]?.url ||
-      "/placeholder-image.png",
+      undefined,
     subImage:
       data?.product?.media?.map((media) => media.url) ||
-      data?.product?.variants?.[0]?.media?.map((media) => media.url) ||
-      [],
+      data?.product?.variants?.[0]?.media?.map((media) => media.url) ,
     Author:
       data?.product?.attributes.find(
         (attr) => attr.attribute.name === "Authors"
-      )?.values[0]?.name || "Unknown Author",
+      )?.values[0]?.name ,
     currency:
-      data?.product?.pricing?.priceRangeUndiscounted?.start?.currency || "KWD",
+      data?.product?.pricing?.priceRangeUndiscounted?.start?.currency ,
     currencySymbol: "$",
     available: data?.product?.isAvailableForPurchase ?? true,
     price:
       data?.product?.pricing?.priceRangeUndiscounted?.start?.net?.amount ?? 0,
     cuttedPrice: data?.product?.pricing?.discount?.net?.amount ?? 0,
     ratings: data?.product?.rating ?? 0,
-    description: data?.product?.description || "N/A",
-    ISBN_NO: data?.product?.variants?.[0]?.sku || "N/A",
-    Series: "N/A",
+    description: data?.product?.description ,
+    ISBN_NO: data?.product?.variants?.[0]?.sku ,
+    Series: data?.product?.attributes.find((attr)=> attr.attribute.slug === "book-series")?.values[0]?.name ,
     Cover:
       data?.product?.variants?.[0]?.attributes.find(
         (attr) => attr.attribute.name === "Cover"
-      )?.values[0]?.name || "N/A",
+      )?.values[0]?.name ,
     Publisher:
       data?.product?.attributes.find((attr) => attr.attribute.name === "Pub")
-        ?.values[0]?.name || "Unknown Publisher",
+        ?.values[0]?.name ,
     PublicationDate:
       data?.product?.attributes.find(
         (attr) => attr.attribute.name === "Pub Date"
-      )?.values[0]?.name || "N/A",
+      )?.values[0]?.name ,
     Pages:
       Number(
         data?.product?.attributes.find(
           (attr) => attr.attribute.name === "Pages"
         )?.values[0]?.name
-      ) || 0,
-    Weight: `${data?.product?.weight?.value || 0} ${
-      data?.product?.weight?.unit || ""
-    }`.trim(),
-    VariantType: data?.product?.productType?.name || "N/A",
-    variantId: data?.product?.variants?.[0]?.id || "",
-    variantObj: data?.product?.variants || [],
-    variantType: data?.product?.productType?.name || "N/A",
-    newReleaseSKU: data?.product?.attributes.find((attr) => attr.attribute.slug === "new-release-sku")?.values[0]?.name || "N/A",
-    tableOfContents: data?.product?.attributes.find((attr) => attr.attribute.slug === "table-of-contents")?.values[0]?.richText || undefined,
+      ) ,
+    Weight: `${data?.product?.weight?.value } ${
+      data?.product?.weight?.unit
+    }`.trim() ,
+    VariantType: data?.product?.productType?.name ,
+    variantId: data?.product?.variants?.[0]?.id ,
+    variantObj: data?.product?.variants ,
+    variantType: data?.product?.productType?.name ,
+    newReleaseSKU: data?.product?.attributes.find((attr) => attr.attribute.slug === "new-release-sku")?.values[0]?.name ,
+    tableOfContents: data?.product?.attributes.find((attr) => attr.attribute.slug === "table-of-contents")?.values[0]?.richText ,
   };
 
   const VariantDefault = [

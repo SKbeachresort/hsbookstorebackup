@@ -69,9 +69,7 @@ const MyWishlistPage = async ({ params }: MyWishlistPageProps) => {
                         ?.amount ?? 0
                     ).toFixed(2)}
                   </p>
-                  {/* {item?.id && (
-                    <RemoveButton itemId={item.id} userId={myUserId} channel={channel}/>
-                  )} */}
+                 
                 </div>
               </div>
             </div>

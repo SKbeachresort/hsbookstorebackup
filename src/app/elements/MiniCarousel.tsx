@@ -49,6 +49,7 @@ const MiniCarousel: React.FC<MiniCarouselProps> = ({ slides }) => {
   };
 
   return (
+    <>
     <div className="relative">
       {/* Previous Button */}
       <div
@@ -93,6 +94,7 @@ const MiniCarousel: React.FC<MiniCarouselProps> = ({ slides }) => {
         ))}
       </Swiper>
     </div>
+    </>
   );
 };
 

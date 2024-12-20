@@ -51,52 +51,53 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
   };
 
   return (
-    <div className="relative">
-      {/* Previous Button */}
-      <div
-        className={`absolute top-[34%] translate-y-1/2 z-30 -left-[2%] custom-prev bg-white border-2 border-textgray shadow-xl rounded-full p-4 ${
-          isAtStart ? "hidden" : "opacity-100 cursor-pointer"
-        }`}
-        onClick={() => swiperRef.current?.slidePrev()}
-      >
-        <FiChevronLeft size={20} className="text-textgray" />
+    <>
+      <div className="relative">
+        {/* Previous Button */}
+        <div
+          className={`absolute top-[34%] translate-y-1/2 z-30 -left-[2%] custom-prev bg-white border-2 border-textgray shadow-xl rounded-full p-4 ${
+            isAtStart ? "hidden" : "opacity-100 cursor-pointer"
+          }`}
+          onClick={() => swiperRef.current?.slidePrev()}
+        >
+          <FiChevronLeft size={20} className="text-textgray" />
+        </div>
+
+        {/* Next Button */}
+        <div
+          className={`absolute top-[34%] translate-y-1/2 z-30 right-0 custom-next bg-white border-2 border-textgray shadow-lg rounded-full p-4 ${
+            isAtEnd ? "hidden" : "opacity-100 cursor-pointer"
+          }`}
+          onClick={() => swiperRef.current?.slideNext()}
+        >
+          <FiChevronRight size={20} className="text-textgray" />
+        </div>
+
+        <Swiper
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+          }}
+          onSlideChange={handleSlideChange}
+          pagination={false}
+          autoplay={false}
+          loop={false}
+          modules={[Pagination, Autoplay, Navigation]}
+          breakpoints={{
+            1: { slidesPerView: 2, slidesPerGroup: 2 },
+            640: { slidesPerView: 2, slidesPerGroup: 2 },
+            768: { slidesPerView: 4, slidesPerGroup: 4 },
+            1024: { slidesPerView: 6, slidesPerGroup: 6 },
+          }}
+          className="mySwiper my-4 mx-4"
+        >
+          {slides.map((slide, index) => (
+            <SwiperSlide key={index} className="flex-shrink-0">
+              {slide}
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        {/* Progress Bar */}
       </div>
-
-      {/* Next Button */}
-      <div
-        className={`absolute top-[34%] translate-y-1/2 z-30 right-0 custom-next bg-white border-2 border-textgray shadow-lg rounded-full p-4 ${
-          isAtEnd ? "hidden" : "opacity-100 cursor-pointer"
-        }`}
-        onClick={() => swiperRef.current?.slideNext()}
-      >
-        <FiChevronRight size={20} className="text-textgray" />
-      </div>
-
-      <Swiper
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-        }}
-        onSlideChange={handleSlideChange}
-        pagination={false}
-        autoplay={false}
-        loop={false}
-        modules={[Pagination, Autoplay, Navigation]}
-        breakpoints={{
-          1: { slidesPerView: 2, slidesPerGroup: 2 },
-          640: { slidesPerView: 2, slidesPerGroup: 2 },
-          768: { slidesPerView: 4, slidesPerGroup: 4 },
-          1024: { slidesPerView: 6, slidesPerGroup: 6 },
-        }}
-        className="mySwiper my-4 mx-4"
-      >
-        {slides.map((slide, index) => (
-          <SwiperSlide key={index} className="flex-shrink-0">
-            {slide}
-          </SwiperSlide>
-        ))}
-      </Swiper>
-
-      {/* Progress Bar */}
       <div className="relative hidden lg:block w-full h-1 bg-gray-200 mt-4">
         <motion.div
           className="absolute top-0 left-0 h-full bg-secondary"
@@ -105,7 +106,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
           transition={{ duration: 0.3, ease: "easeOut" }}
         ></motion.div>
       </div>
-    </div>
+    </>
   );
 };
 
