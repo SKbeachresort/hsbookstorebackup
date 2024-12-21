@@ -10,16 +10,6 @@ query User($channel: String, $locale: LanguageCodeEnum!) {
     }
     isActive
     isConfirmed
-    addresses {
-      ...AddressDetailsFragment
-    }
-    defaultBillingAddress {
-      ...AddressDetailsFragment
-    }
-    defaultShippingAddress {
-      ...AddressDetailsFragment
-    }
-    checkoutIds(channel: $channel)
     checkouts(channel: $channel, first: 50) {
       edges {
         node {

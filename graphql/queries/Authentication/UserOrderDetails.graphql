@@ -1,0 +1,290 @@
+query UserOrderDetails($channel: String!) {
+  user: me {
+    id
+    email
+    firstName
+    lastName
+    avatar {
+      url
+      alt
+    }
+    isActive
+    isConfirmed
+    checkouts(channel: $channel, first: 50) {
+      edges {
+        node {
+          id
+          token
+          email
+          channel {
+            id
+            slug
+            __typename
+          }
+          billingAddress {
+            city
+            cityArea
+            companyName
+            country {
+              code
+              country
+              __typename
+            }
+            countryArea
+            firstName
+            id
+            isDefaultBillingAddress
+            isDefaultShippingAddress
+            lastName
+            phone
+            postalCode
+            streetAddress1
+            streetAddress2
+            metadata {
+              key
+              value
+              __typename
+            }
+            __typename
+          }
+          shippingAddress {
+            city
+            cityArea
+            companyName
+            country {
+              code
+              country
+              __typename
+            }
+            countryArea
+            firstName
+            id
+            isDefaultBillingAddress
+            isDefaultShippingAddress
+            lastName
+            phone
+            postalCode
+            streetAddress1
+            streetAddress2
+            metadata {
+              key
+              value
+              __typename
+            }
+            __typename
+          }
+          deliveryMethod {
+            ... on ShippingMethod {
+              id
+              name
+              active
+              description
+              price {
+                currency
+                amount
+                __typename
+              }
+              minimumDeliveryDays
+              maximumDeliveryDays
+              __typename
+            }
+            __typename
+          }
+          isShippingRequired
+          shippingMethods {
+            id
+            name
+            active
+            description
+            price {
+              currency
+              amount
+              __typename
+            }
+            minimumDeliveryDays
+            maximumDeliveryDays
+            __typename
+          }
+          availablePaymentGateways {
+            id
+            name
+            config {
+              field
+              value
+              __typename
+            }
+            __typename
+          }
+          lines {
+            id
+            totalPrice {
+              gross {
+                currency
+                amount
+                __typename
+              }
+              __typename
+            }
+            variant {
+              id
+              product {
+                id
+                name
+                slug
+                thumbnail {
+                  url
+                  alt
+                  __typename
+                }
+                __typename
+              }
+              pricing {
+                price {
+                  gross {
+                    currency
+                    amount
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              name
+              __typename
+            }
+            quantity
+            __typename
+          }
+          discount {
+            currency
+            amount
+            __typename
+          }
+          discountName
+          subtotalPrice {
+            net {
+              currency
+              amount
+              __typename
+            }
+            tax {
+              currency
+              amount
+              __typename
+            }
+            __typename
+          }
+          shippingPrice {
+            gross {
+              currency
+              amount
+              __typename
+            }
+            __typename
+          }
+          totalPrice {
+            gross {
+              currency
+              amount
+              __typename
+            }
+            __typename
+          }
+          user {
+            id
+            email
+            firstName
+            lastName
+            avatar {
+              url
+              alt
+              __typename
+            }
+            isActive
+            isConfirmed
+            addresses {
+              city
+              cityArea
+              companyName
+              country {
+                code
+                country
+                __typename
+              }
+              countryArea
+              firstName
+              id
+              isDefaultBillingAddress
+              isDefaultShippingAddress
+              lastName
+              phone
+              postalCode
+              streetAddress1
+              streetAddress2
+              metadata {
+                key
+                value
+                __typename
+              }
+              __typename
+            }
+            defaultBillingAddress {
+              city
+              cityArea
+              companyName
+              country {
+                code
+                country
+                __typename
+              }
+              countryArea
+              firstName
+              id
+              isDefaultBillingAddress
+              isDefaultShippingAddress
+              lastName
+              phone
+              postalCode
+              streetAddress1
+              streetAddress2
+              metadata {
+                key
+                value
+                __typename
+              }
+              __typename
+            }
+            defaultShippingAddress {
+              city
+              cityArea
+              companyName
+              country {
+                code
+                country
+                __typename
+              }
+              countryArea
+              firstName
+              id
+              isDefaultBillingAddress
+              isDefaultShippingAddress
+              lastName
+              phone
+              postalCode
+              streetAddress1
+              streetAddress2
+              metadata {
+                key
+                value
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          __typename
+        }
+      }
+    }
+  }
+}

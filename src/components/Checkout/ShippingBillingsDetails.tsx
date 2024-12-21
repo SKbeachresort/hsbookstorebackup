@@ -70,7 +70,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
   onNext,
 }) => {
   const { userAddress } = useAddressUser();
-  // console.log("User Address", userAddress);
+  console.log("User Address", userAddress);
 
   const { cartItems } = useCart();
   const checkoutId = localStorage.getItem("checkoutID") || "";
@@ -112,7 +112,7 @@ const ShippingBillingsDetails: React.FC<ShippingDetailsProps> = ({
           : null,
         firstName: userAddress.firstName,
         lastName: userAddress.lastName,
-        phone: userAddress?.phone ?? undefined,
+        phone: userAddress?.phone || "",
         companyName: userAddress.companyName,
         streetAddress1: userAddress.streetAddress1,
         streetAddress2: userAddress.streetAddress2,

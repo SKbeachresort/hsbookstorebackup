@@ -118,6 +118,7 @@ const AddressFormCreate: React.FC<AddressFormProps> = ({ closeModal }) => {
   const onSubmit: SubmitHandler<ShippingFormInputs> = async (data) => {
     setIsLoading(true);
     try {
+      console.log("Form Data", data);
       const response = await addressCreate({
         variables: {
           input: {
@@ -125,9 +126,9 @@ const AddressFormCreate: React.FC<AddressFormProps> = ({ closeModal }) => {
             lastName: data.lastName,
             streetAddress1: data.streetAddress1,
             streetAddress2: data.streetAddress2,
-            city: data.city?.value || data.nonKuwaitCity,
+            city: data.city?.label || data.nonKuwaitCity,
             postalCode: data.postalCode,
-            countryArea: data.countryArea?.value || data.nonKuwaitCountry,
+            countryArea: data.countryArea?.label || data.nonKuwaitCountry,
             country: data.country?.value,
             phone: data.phone,
             companyName: data.companyName,
@@ -137,6 +138,8 @@ const AddressFormCreate: React.FC<AddressFormProps> = ({ closeModal }) => {
             : AddressTypeEnum.Billing,
         },
       });
+
+      // console.log("Response ", response)
       const errors = response.data?.accountAddressCreate?.errors;
       if (errors && errors.length > 0) {
         toast.error(`${errors[0].message}`);
@@ -236,10 +239,11 @@ const AddressFormCreate: React.FC<AddressFormProps> = ({ closeModal }) => {
                         onChange={(selectedOption) => {
                           field.onChange(selectedOption);
                           form.setValue("city", null);
-                          console.log(
-                            "Selected Area Value:",
-                            selectedOption?.value
-                          );
+                          // console.log(
+                          //   "Selected Area Value:",
+                          //   selectedOption?.value
+                          // );
+                          // console.log("Selected Area Label:", selectedOption?.label);
                         }}
                         getOptionLabel={(e) => e.label}
                         getOptionValue={(e) => e.label}

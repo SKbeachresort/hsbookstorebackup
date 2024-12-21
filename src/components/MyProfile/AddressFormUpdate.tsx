@@ -66,7 +66,7 @@ const AddressFormUpdate: React.FC<AddressFormProps> = ({
   closeModal,
   addressData,
 }) => {
-  // console.log("Selected Address Data", addressData);
+  console.log("Selected Address Data", addressData);
 
   const form = useForm<ShippingFormInputs>({
     defaultValues: {

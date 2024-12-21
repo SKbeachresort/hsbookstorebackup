@@ -37,17 +37,7 @@ export const CategorySheet = () => {
     });
 
   const currentChildrenData = React.useMemo(() => {
-    return (
-      childrenData?.category?.children?.edges?.sort((a, b) => {
-        if (a.node.name < b.node.name) {
-          return -1;
-        }
-        if (a.node.name > b.node.name) {
-          return 1;
-        }
-        return 0;
-      }) ?? []
-    );
+    return childrenData?.category?.children?.edges ?? [];
   }, [childrenData]);
 
   const handleSubCategoryExpand = (subcategoryId: string) => {
@@ -80,7 +70,11 @@ export const CategorySheet = () => {
                             key={subCategory.node.id}
                             value={`subcategory-${index}-${subIndex}`}
                           >
-                            <Link href={getRegionUrl(`category/${category.node.slug}/${subCategory.node.slug}`)}>
+                            <Link
+                              href={getRegionUrl(
+                                `category/${category.node.slug}/${subCategory.node.slug}`
+                              )}
+                            >
                               <AccordionTrigger2
                                 onClick={() => {
                                   // e.stopPropagation();
@@ -101,7 +95,10 @@ export const CategorySheet = () => {
                                 currentChildrenData.length > 0 ? (
                                 <ul className="ml-4 list-disc">
                                   {currentChildrenData.map((child: any) => (
-                                    <li key={child.node.id} className="text-sm mt-1 text-textColor">
+                                    <li
+                                      key={child.node.id}
+                                      className="text-sm mt-1 text-textColor"
+                                    >
                                       <Link
                                         href={getRegionUrl(
                                           `category/${category.node.slug}/${subCategory.node.slug}/${child.node.slug}`
