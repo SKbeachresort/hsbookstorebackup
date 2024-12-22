@@ -53,9 +53,9 @@ const MiniCarousel: React.FC<MiniCarouselProps> = ({ slides }) => {
     <div className="relative">
       {/* Previous Button */}
       <div
-        className={`absolute top-[34%] z-30 -left-[2%] custom-prev bg-white border-2 border-textgray shadow-xl rounded-full p-4 ${
-          isAtStart ? "hidden" : "opacity-100 cursor-pointer"
-        }`}
+        className={`absolute top-[20%] translate-y-1/4 z-30 -left-[2%] custom-prev bg-white border-2 border-textgray shadow-xl rounded-full p-4 ${
+            isAtStart ? "hidden" : "opacity-100 cursor-pointer"
+          }`}
         onClick={() => swiperRef.current?.slidePrev()}
       >
         <FiChevronLeft size={20} className="text-textgray" />
@@ -63,7 +63,7 @@ const MiniCarousel: React.FC<MiniCarouselProps> = ({ slides }) => {
 
       {/* Next Button */}
       <div
-        className={`absolute top-[34%] z-30 right-0 custom-next bg-white border-2 border-textgray shadow-lg rounded-full p-4 ${
+        className={`absolute top-[20%] translate-y-1/4 z-30 right-0 custom-next bg-white border-2 border-textgray shadow-lg rounded-full p-4 ${
           isAtEnd ? "hidden" : "opacity-100 cursor-pointer"
         }`}
         onClick={() => swiperRef.current?.slideNext()}

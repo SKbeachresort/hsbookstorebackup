@@ -1,0 +1,5 @@
+query GetProductReviewByID($channel: String!, $productId: ID!) {
+  getProductReviews(channel: $channel, productId: $productId) {
+    ...ProductReviewTypeFragment
+  }
+}

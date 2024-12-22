@@ -33350,6 +33350,8 @@ export type ProductMediaFragment = { __typename?: 'ProductMedia', url: string, a
 
 export type ProductVariantDetailsFragment = { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable?: number | null, sku?: string | null, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null }, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null, richText?: string | null }> }>, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename: 'Money', currency: string, amount: number } } | null } | null };
 
+export type ProductReviewTypeFragment = { __typename?: 'ProductReviewType', createdAt?: string | null, helpful?: number | null, id?: string | null, rating?: number | null, review?: string | null, status?: boolean | null, title?: string | null, updatedAt?: string | null, media?: Array<{ __typename?: 'ReviewMediaType', mediaFile?: string | null, mediaType?: string | null, thumbnailUrl?: string | null } | null> | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null };
+
 export type SelectedAttributeDetailsFragment = { __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null, richText?: string | null }> };
 
 export type UserFragment = { __typename: 'User', id: string, email: string, firstName: string, lastName: string, isActive: boolean, isConfirmed: boolean, avatar?: { __typename: 'Image', url: string, alt?: string | null } | null, addresses: Array<{ __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> }>, defaultBillingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null, defaultShippingAddress?: { __typename: 'Address', city: string, cityArea: string, companyName: string, countryArea: string, firstName: string, id: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, lastName: string, phone?: string | null, postalCode: string, streetAddress1: string, streetAddress2: string, country: { __typename: 'CountryDisplay', code: string, country: string }, metadata: Array<{ __typename: 'MetadataItem', key: string, value: string }> } | null };
@@ -33535,6 +33537,21 @@ export type NewReleaseQueryVariables = Exact<{
 
 export type NewReleaseQuery = { __typename?: 'Query', productVariant?: { __typename?: 'ProductVariant', id: string, product: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } } | null };
 
+export type SubmitProductReviewMutationVariables = Exact<{
+  channel: Scalars['String']['input'];
+  locale: LanguageCodeEnum;
+  productId: Scalars['ID']['input'];
+  rating: Scalars['Int']['input'];
+  title: Scalars['String']['input'];
+  userId?: InputMaybe<Scalars['ID']['input']>;
+  review?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['Upload']['input']>;
+  video?: InputMaybe<Scalars['Upload']['input']>;
+}>;
+
+
+export type SubmitProductReviewMutation = { __typename?: 'Mutation', submitProductReview?: { __typename?: 'SubmitProductReview', review?: { __typename?: 'ProductReviewType', createdAt?: string | null, helpful?: number | null, id?: string | null, rating?: number | null, review?: string | null, status?: boolean | null, title?: string | null, updatedAt?: string | null, media?: Array<{ __typename?: 'ReviewMediaType', mediaFile?: string | null, mediaType?: string | null, thumbnailUrl?: string | null } | null> | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null } | null };
+
 export type AddressUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -33615,6 +33632,14 @@ export type FetchFeaturedCategoriesQueryVariables = Exact<{
 
 
 export type FetchFeaturedCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, level: number, backgroundImage?: { __typename: 'Image', url: string, alt?: string | null } | null, parent?: { __typename?: 'Category', id: string, name: string, slug: string, level: number } | null } }> } | null };
+
+export type GetProductReviewByIdQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type GetProductReviewByIdQuery = { __typename?: 'Query', getProductReviews?: Array<{ __typename?: 'ProductReviewType', createdAt?: string | null, helpful?: number | null, id?: string | null, rating?: number | null, review?: string | null, status?: boolean | null, title?: string | null, updatedAt?: string | null, media?: Array<{ __typename?: 'ReviewMediaType', mediaFile?: string | null, mediaType?: string | null, thumbnailUrl?: string | null } | null> | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null> | null };
 
 export type HomeProductsRecommendationsQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -44222,19 +44247,6 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
-export const BasicUserDetailsFragmentDoc = new TypedDocumentString(`
-    fragment BasicUserDetails on User {
-  id
-  email
-  firstName
-  lastName
-  avatar {
-    url
-  }
-  isConfirmed
-  isActive
-}
-    `, {"fragmentName":"BasicUserDetails"}) as unknown as TypedDocumentString<BasicUserDetailsFragment, unknown>;
 export const CategoryDetailsFragmentDoc = new TypedDocumentString(`
     fragment CategoryDetails on Category {
   id
@@ -45032,46 +45044,6 @@ export const PageInfoDetailsFragmentDoc = new TypedDocumentString(`
   startCursor
 }
     `, {"fragmentName":"PageInfoDetails"}) as unknown as TypedDocumentString<PageInfoDetailsFragment, unknown>;
-export const ProductCardDetailsFragmentDoc = new TypedDocumentString(`
-    fragment ProductCardDetails on Product {
-  id
-  slug
-  channel
-  name
-  media {
-    productId
-    url
-  }
-  thumbnail {
-    url
-    alt
-  }
-  pricing {
-    displayGrossPrices
-    discount {
-      currency
-      net {
-        amount
-        currency
-      }
-    }
-    priceRangeUndiscounted {
-      start {
-        currency
-        net {
-          amount
-          currency
-        }
-      }
-    }
-  }
-  rating
-  variants {
-    id
-    name
-  }
-}
-    `, {"fragmentName":"ProductCardDetails"}) as unknown as TypedDocumentString<ProductCardDetailsFragment, unknown>;
 export const CategoryBasicFragmentDoc = new TypedDocumentString(`
     fragment CategoryBasicFragment on Category {
   id
@@ -45225,6 +45197,130 @@ fragment SelectedAttributeDetailsFragment on SelectedAttribute {
     richText
   }
 }`, {"fragmentName":"ProductDetailsFragment"}) as unknown as TypedDocumentString<ProductDetailsFragment, unknown>;
+export const ProductCardDetailsFragmentDoc = new TypedDocumentString(`
+    fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  thumbnail {
+    url
+    alt
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+  variants {
+    id
+    name
+  }
+}
+    `, {"fragmentName":"ProductCardDetails"}) as unknown as TypedDocumentString<ProductCardDetailsFragment, unknown>;
+export const BasicUserDetailsFragmentDoc = new TypedDocumentString(`
+    fragment BasicUserDetails on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+  }
+  isConfirmed
+  isActive
+}
+    `, {"fragmentName":"BasicUserDetails"}) as unknown as TypedDocumentString<BasicUserDetailsFragment, unknown>;
+export const ProductReviewTypeFragmentDoc = new TypedDocumentString(`
+    fragment ProductReviewTypeFragment on ProductReviewType {
+  createdAt
+  helpful
+  id
+  media {
+    mediaFile
+    mediaType
+    thumbnailUrl
+  }
+  product {
+    ...ProductCardDetails
+  }
+  rating
+  review
+  status
+  title
+  updatedAt
+  user {
+    ...BasicUserDetails
+  }
+}
+    fragment BasicUserDetails on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+  }
+  isConfirmed
+  isActive
+}
+fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  thumbnail {
+    url
+    alt
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+  variants {
+    id
+    name
+  }
+}`, {"fragmentName":"ProductReviewTypeFragment"}) as unknown as TypedDocumentString<ProductReviewTypeFragment, unknown>;
 export const PriceFragmentUpdatedFragmentDoc = new TypedDocumentString(`
     fragment PriceFragmentUpdated on Money {
   currency
@@ -46530,6 +46626,93 @@ export const NewReleaseDocument = new TypedDocumentString(`
     name
   }
 }`) as unknown as TypedDocumentString<NewReleaseQuery, NewReleaseQueryVariables>;
+export const SubmitProductReviewDocument = new TypedDocumentString(`
+    mutation SubmitProductReview($channel: String!, $locale: LanguageCodeEnum!, $productId: ID!, $rating: Int!, $title: String!, $userId: ID, $review: String, $image: Upload, $video: Upload) {
+  submitProductReview(
+    channel: $channel
+    productId: $productId
+    rating: $rating
+    title: $title
+    userId: $userId
+    review: $review
+    image: $image
+    video: $video
+  ) {
+    review {
+      ...ProductReviewTypeFragment
+    }
+  }
+}
+    fragment BasicUserDetails on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+  }
+  isConfirmed
+  isActive
+}
+fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  thumbnail {
+    url
+    alt
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+  variants {
+    id
+    name
+  }
+}
+fragment ProductReviewTypeFragment on ProductReviewType {
+  createdAt
+  helpful
+  id
+  media {
+    mediaFile
+    mediaType
+    thumbnailUrl
+  }
+  product {
+    ...ProductCardDetails
+  }
+  rating
+  review
+  status
+  title
+  updatedAt
+  user {
+    ...BasicUserDetails
+  }
+}`) as unknown as TypedDocumentString<SubmitProductReviewMutation, SubmitProductReviewMutationVariables>;
 export const AddressUserDocument = new TypedDocumentString(`
     query AddressUser {
   user: me {
@@ -47400,6 +47583,82 @@ fragment ImageFragment on Image {
   alt
   __typename
 }`) as unknown as TypedDocumentString<FetchFeaturedCategoriesQuery, FetchFeaturedCategoriesQueryVariables>;
+export const GetProductReviewByIdDocument = new TypedDocumentString(`
+    query GetProductReviewByID($channel: String!, $productId: ID!) {
+  getProductReviews(channel: $channel, productId: $productId) {
+    ...ProductReviewTypeFragment
+  }
+}
+    fragment BasicUserDetails on User {
+  id
+  email
+  firstName
+  lastName
+  avatar {
+    url
+  }
+  isConfirmed
+  isActive
+}
+fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  thumbnail {
+    url
+    alt
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+  variants {
+    id
+    name
+  }
+}
+fragment ProductReviewTypeFragment on ProductReviewType {
+  createdAt
+  helpful
+  id
+  media {
+    mediaFile
+    mediaType
+    thumbnailUrl
+  }
+  product {
+    ...ProductCardDetails
+  }
+  rating
+  review
+  status
+  title
+  updatedAt
+  user {
+    ...BasicUserDetails
+  }
+}`) as unknown as TypedDocumentString<GetProductReviewByIdQuery, GetProductReviewByIdQueryVariables>;
 export const HomeProductsRecommendationsDocument = new TypedDocumentString(`
     query HomeProductsRecommendations($channel: String!, $includeOrderData: Boolean!, $productId: ID!, $includeSessionData: Boolean!) {
   recommendations(

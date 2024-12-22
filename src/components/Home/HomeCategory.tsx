@@ -113,15 +113,17 @@ export const HomeCategory = () => {
       id: 4,
       name: "Shop for Scrubs",
       imageUrl: scrubs,
-      slug: "scrabs",
+      slug: "scrubs",
     },
     {
       id: 5,
-      name: "Shop for Accessories",
+      name: "Shop for Clipboards",
       imageUrl: clipboards,
-      slug: "accessories-2",
+      slug: "/medical-devices/training",
     },
   ];
+  
+  // https://hsbookstore.vercel.app/default-channel/en-US/category/medical-devices/training
 
   return (
     <div className="my-10">
@@ -141,7 +143,7 @@ export const HomeCategory = () => {
                     height={150}
                     className="md:w-[90%] mx-auto 3xl:w-full hover:scale-110 transition-all duration-300"
                   />
-                  <h2 className="text-[0.6rem] md:text-xs 3xl:text-md font-semibold text-center mt-2">
+                  <h2 className="text-xs md:text-sm 3xl:text-md font-bold text-center mt-2">
                     {category.name}
                   </h2>
                 </Link>

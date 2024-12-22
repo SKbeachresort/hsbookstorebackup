@@ -19,7 +19,7 @@ import { useProductBySlugQuery } from "../../../../../../../gql/graphql";
 import BackDropLoader from "@/app/elements/BackdropLoader";
 
 const ProductDetailPage = () => {
-  const { slug, channel } = useParams();
+  const { slug, channel, locale } = useParams();
 
   const {
     addToCart,
@@ -44,58 +44,59 @@ const ProductDetailPage = () => {
     },
   });
 
-  console.log("Fetched Data", data);
+  // console.log("Fetched Data", data);
 
   const productsDetails = {
-    id: data?.product?.id || data?.product?.variants?.[0]?.id ,
-    name: data?.product?.name || data?.product?.variants?.[0]?.name ,
+    id: data?.product?.id || data?.product?.variants?.[0]?.id,
+    name: data?.product?.name || data?.product?.variants?.[0]?.name,
     mainImage:
       data?.product?.media?.[0]?.url ||
-      data?.product?.variants?.[0]?.media?.[0]?.url || "/placeholder.jpg",
+      data?.product?.variants?.[0]?.media?.[0]?.url ||
+      "/placeholder.jpg",
     subImage:
       data?.product?.media?.map((media) => media.url) ||
-      data?.product?.variants?.[0]?.media?.map((media) => media.url) || [],
-    Author:
-      data?.product?.attributes.find(
-        (attr) => attr.attribute.name === "Authors"
-      )?.values[0]?.name ,
-    currency:
-      data?.product?.pricing?.priceRangeUndiscounted?.start?.currency ,
+      data?.product?.variants?.[0]?.media?.map((media) => media.url) ||
+      [],
+    Author: data?.product?.attributes.find(
+      (attr) => attr.attribute.name === "Authors"
+    )?.values[0]?.name,
+    currency: data?.product?.pricing?.priceRangeUndiscounted?.start?.currency,
     currencySymbol: "$",
     available: data?.product?.isAvailableForPurchase ?? true,
     price:
       data?.product?.pricing?.priceRangeUndiscounted?.start?.net?.amount ?? 0,
     cuttedPrice: data?.product?.pricing?.discount?.net?.amount ?? 0,
     ratings: data?.product?.rating ?? 0,
-    description: data?.product?.description ,
-    ISBN_NO: data?.product?.variants?.[0]?.sku ,
-    Series: data?.product?.attributes.find((attr)=> attr.attribute.slug === "book-series")?.values[0]?.name ,
-    Cover:
-      data?.product?.variants?.[0]?.attributes.find(
-        (attr) => attr.attribute.name === "Cover"
-      )?.values[0]?.name ,
-    Publisher:
-      data?.product?.attributes.find((attr) => attr.attribute.name === "Pub")
-        ?.values[0]?.name ,
-    PublicationDate:
-      data?.product?.attributes.find(
-        (attr) => attr.attribute.name === "Pub Date"
-      )?.values[0]?.name ,
-    Pages:
-      Number(
-        data?.product?.attributes.find(
-          (attr) => attr.attribute.name === "Pages"
-        )?.values[0]?.name
-      ) ,
-    Weight: `${data?.product?.weight?.value } ${
-      data?.product?.weight?.unit
-    }`.trim() ,
-    VariantType: data?.product?.productType?.name ,
-    variantId: data?.product?.variants?.[0]?.id ,
-    variantObj: data?.product?.variants ,
-    variantType: data?.product?.productType?.name ,
-    newReleaseSKU: data?.product?.attributes.find((attr) => attr.attribute.slug === "new-release-sku")?.values[0]?.name ,
-    tableOfContents: data?.product?.attributes.find((attr) => attr.attribute.slug === "table-of-contents")?.values[0]?.richText ,
+    description: data?.product?.description,
+    ISBN_NO: data?.product?.variants?.[0]?.sku,
+    Series: data?.product?.attributes.find(
+      (attr) => attr.attribute.slug === "book-series"
+    )?.values[0]?.name,
+    Cover: data?.product?.variants?.[0]?.attributes.find(
+      (attr) => attr.attribute.name === "Cover"
+    )?.values[0]?.name,
+    Publisher: data?.product?.attributes.find(
+      (attr) => attr.attribute.name === "Pub"
+    )?.values[0]?.name,
+    PublicationDate: data?.product?.attributes.find(
+      (attr) => attr.attribute.name === "Pub Date"
+    )?.values[0]?.name,
+    Pages: Number(
+      data?.product?.attributes.find((attr) => attr.attribute.name === "Pages")
+        ?.values[0]?.name
+    ),
+    Weight:
+      `${data?.product?.weight?.value} ${data?.product?.weight?.unit}`.trim(),
+    VariantType: data?.product?.productType?.name,
+    variantId: data?.product?.variants?.[0]?.id,
+    variantObj: data?.product?.variants,
+    variantType: data?.product?.productType?.name,
+    newReleaseSKU: data?.product?.attributes.find(
+      (attr) => attr.attribute.slug === "new-release-sku"
+    )?.values[0]?.name,
+    tableOfContents: data?.product?.attributes.find(
+      (attr) => attr.attribute.slug === "table-of-contents"
+    )?.values[0]?.richText,
   };
 
   const VariantDefault = [
@@ -142,19 +143,18 @@ const ProductDetailPage = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     handleScroll();
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   if (loading) {
     return <BackDropLoader open={loading} />;
-  };
+  }
 
   return (
     <div className="w-[95%] mx-auto xl:w-[80%] p-2 py-5">
-      
       <div ref={mainSectionRef}>
         {/* Main Section  */}
         <ProductMainSection
@@ -167,7 +167,7 @@ const ProductDetailPage = () => {
           removeFromCart={removeFromCart}
           VariantDefault={VariantDefault}
         />
-      </div>  
+      </div>
 
       {/* Sub Section */}
       <div
@@ -176,7 +176,10 @@ const ProductDetailPage = () => {
       >
         <div className="md:w-[63%] ">
           {/* New Release Section */}
-          <NewReleaseSection productsDetails={productsDetails} channel={channel as string}/>
+          <NewReleaseSection
+            productsDetails={productsDetails}
+            channel={channel as string}
+          />
 
           {/* Product Details */}
           <AdditionalContents productsDetails={productsDetails} />
@@ -194,18 +197,20 @@ const ProductDetailPage = () => {
           <Recommended channel={channel as string} id={productsDetails.id} />
 
           {/* Customer Reviews & Ratings */}
-          {/* <CustomerReviewsRatings /> */}
+          <CustomerReviewsRatings
+            productId={productsDetails.id}
+            channel={channel as string}
+            locale={locale as string}
+          />
         </div>
 
-        <div 
+        <div
           ref={cartWidgetRef}
           className={`hidden md:block w-[33%] ${
-            isSticky 
-              ? 'md:fixed md:right-[5%] md:top-4' 
-              : 'md:relative'
+            isSticky ? "md:fixed md:right-[5%] md:top-4" : "md:relative"
           }`}
           style={{
-            transition: 'all 0.3s ease-in-out'
+            transition: "all 0.3s ease-in-out",
           }}
         >
           <AnimateOnScroll animationType="zoom-in-up">
@@ -219,7 +224,6 @@ const ProductDetailPage = () => {
             />
           </AnimateOnScroll>
         </div>
-
       </div>
 
       <div className="">

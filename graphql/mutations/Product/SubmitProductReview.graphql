@@ -1,0 +1,26 @@
+mutation SubmitProductReview(
+  $channel: String!
+  $locale: LanguageCodeEnum!
+  $productId: ID!
+  $rating: Int!
+  $title: String!
+  $userId: ID
+  $review: String
+  $image: Upload
+  $video: Upload
+) {
+  submitProductReview(
+    channel: $channel
+    productId: $productId
+    rating: $rating
+    title: $title
+    userId: $userId
+    review: $review
+    image: $image
+    video: $video
+  ) {
+    review {
+      ...ProductReviewTypeFragment
+    }
+  }
+}

@@ -1,0 +1,21 @@
+fragment ProductReviewTypeFragment on ProductReviewType {
+  createdAt
+  helpful
+  id
+  media {
+    mediaFile
+    mediaType
+    thumbnailUrl
+  }
+  product {
+    ...ProductCardDetails
+  }
+  rating
+  review
+  status
+  title
+  updatedAt
+  user {
+    ...BasicUserDetails
+  }
+}
