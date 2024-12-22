@@ -88,10 +88,33 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   };
 
   const removeFromCart = (productid: string) => {
-    setCartItems((prevItems) =>
-      prevItems.filter((item) => item.id !== productid)
-    );
+    setCartItems((prevItems) => {
+      const updatedCart = prevItems.filter((item) => item.id !== productid);
+      const cartString = JSON.stringify(updatedCart);
+      
+      setCookie("cartItems", cartString, {
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+      localStorage.setItem("cartItems", cartString);
+  
+      if (updatedCart.length === 0) {
+        setCookie("cartItems", "[]", {
+          path: "/",
+          maxAge: 0,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+        });
+        localStorage.removeItem("cartItems");
+      }
+  
+      return updatedCart;
+    });
+    toast.success("Item removed from cart");
   };
+  
 
   const incrementQuantity = (productid: string) => {
     setCartItems((prevItems) =>
