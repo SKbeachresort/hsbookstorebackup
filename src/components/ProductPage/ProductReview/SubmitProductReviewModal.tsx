@@ -1,6 +1,9 @@
 "use client";
 import React, { useState, ChangeEvent } from "react";
-import { useSubmitProductReviewMutation } from "../../../../gql/graphql";
+import {
+  LanguageCodeEnum,
+  useSubmitProductReviewMutation,
+} from "../../../../gql/graphql";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
@@ -58,7 +61,8 @@ interface SubmitProductReviewModalProps {
   userId?: string | undefined;
   locale: string;
   closeModal: () => void;
-};
+  refetch?: () => void;
+}
 
 const SubmitProductReviewModal: React.FC<SubmitProductReviewModalProps> = ({
   channel,
@@ -66,6 +70,7 @@ const SubmitProductReviewModal: React.FC<SubmitProductReviewModalProps> = ({
   locale,
   productId,
   closeModal,
+  refetch,
 }) => {
   const [imgPreview, setImgPreview] = useState("");
   const [videoPreview, setVideoPreview] = useState("");
@@ -94,17 +99,40 @@ const SubmitProductReviewModal: React.FC<SubmitProductReviewModalProps> = ({
     useSubmitProductReviewMutation();
 
   const onSubmit = async (values: NewProductReviewForm) => {
-    console.log("Values", values);
-    submitProductReviewMutation({
-      variables: values,
-    }).then((result) => {
-      console.log("Result", result);
-      if (result.errors && result.errors.length > 0) {
-        toast.error(result.errors.map((err) => err.message).join(" - "));
-        return;
+
+    if(!values.title || values.rating === 0 || !values.review) {
+      toast.error("Please write a review, give a rating and a title to submit a review");
+      return;
+    };
+
+    try {
+      const result = await submitProductReviewMutation({
+        variables: {
+          channel: channel,
+          productId: productId,
+          rating: values.rating,
+          title: values.title,
+          review: values.review,
+          userId: userId,
+          image: values.image,
+          video: values.video,
+        },
+      });
+
+      const errors = result.errors;
+      if (result.data?.submitProductReview?.review) {
+        toast.success("Review Submitted Successfully");
+        refetch && refetch();
+        closeModal();
+      } else {
+        toast.error("Failed to submit review");
+        closeModal();
       }
-      toast.success("Review submitted successfully");
-    });
+    } catch (error) {
+      console.log("Error", error);
+      toast.error("Failed to submit review")
+      closeModal();
+    }
   };
 
   const onError = (err: FieldErrors<NewProductReviewForm>) => {

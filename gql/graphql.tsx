@@ -33733,7 +33733,6 @@ export type NewReleaseQuery = { __typename?: 'Query', productVariant?: { __typen
 
 export type SubmitProductReviewMutationVariables = Exact<{
   channel: Scalars['String']['input'];
-  locale: LanguageCodeEnum;
   productId: Scalars['ID']['input'];
   rating: Scalars['Int']['input'];
   title: Scalars['String']['input'];
@@ -35657,7 +35656,7 @@ export type NewReleaseLazyQueryHookResult = ReturnType<typeof useNewReleaseLazyQ
 export type NewReleaseSuspenseQueryHookResult = ReturnType<typeof useNewReleaseSuspenseQuery>;
 export type NewReleaseQueryResult = Apollo.QueryResult<NewReleaseQuery, NewReleaseQueryVariables>;
 export const SubmitProductReviewDocument = gql`
-    mutation SubmitProductReview($channel: String!, $locale: LanguageCodeEnum!, $productId: ID!, $rating: Int!, $title: String!, $userId: ID, $review: String, $image: Upload, $video: Upload) {
+    mutation SubmitProductReview($channel: String!, $productId: ID!, $rating: Int!, $title: String!, $userId: ID, $review: String, $image: Upload, $video: Upload) {
   submitProductReview(
     channel: $channel
     productId: $productId
@@ -35690,7 +35689,6 @@ export type SubmitProductReviewMutationFn = Apollo.MutationFunction<SubmitProduc
  * const [submitProductReviewMutation, { data, loading, error }] = useSubmitProductReviewMutation({
  *   variables: {
  *      channel: // value for 'channel'
- *      locale: // value for 'locale'
  *      productId: // value for 'productId'
  *      rating: // value for 'rating'
  *      title: // value for 'title'

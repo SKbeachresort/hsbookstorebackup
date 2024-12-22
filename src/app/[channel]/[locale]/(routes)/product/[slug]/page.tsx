@@ -47,7 +47,7 @@ const ProductDetailPage = () => {
   // console.log("Fetched Data", data);
 
   const productsDetails = {
-    id: data?.product?.id || data?.product?.variants?.[0]?.id,
+    id: data?.product?.id || data?.product?.variants?.[0]?.id || "",
     name: data?.product?.name || data?.product?.variants?.[0]?.name,
     mainImage:
       data?.product?.media?.[0]?.url ||

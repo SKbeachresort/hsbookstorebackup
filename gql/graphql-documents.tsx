@@ -33539,7 +33539,6 @@ export type NewReleaseQuery = { __typename?: 'Query', productVariant?: { __typen
 
 export type SubmitProductReviewMutationVariables = Exact<{
   channel: Scalars['String']['input'];
-  locale: LanguageCodeEnum;
   productId: Scalars['ID']['input'];
   rating: Scalars['Int']['input'];
   title: Scalars['String']['input'];
@@ -46627,7 +46626,7 @@ export const NewReleaseDocument = new TypedDocumentString(`
   }
 }`) as unknown as TypedDocumentString<NewReleaseQuery, NewReleaseQueryVariables>;
 export const SubmitProductReviewDocument = new TypedDocumentString(`
-    mutation SubmitProductReview($channel: String!, $locale: LanguageCodeEnum!, $productId: ID!, $rating: Int!, $title: String!, $userId: ID, $review: String, $image: Upload, $video: Upload) {
+    mutation SubmitProductReview($channel: String!, $productId: ID!, $rating: Int!, $title: String!, $userId: ID, $review: String, $image: Upload, $video: Upload) {
   submitProductReview(
     channel: $channel
     productId: $productId

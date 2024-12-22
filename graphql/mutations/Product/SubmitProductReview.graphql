@@ -1,6 +1,5 @@
 mutation SubmitProductReview(
   $channel: String!
-  $locale: LanguageCodeEnum!
   $productId: ID!
   $rating: Int!
   $title: String!
