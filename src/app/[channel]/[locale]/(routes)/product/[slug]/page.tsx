@@ -174,7 +174,7 @@ const ProductDetailPage = () => {
         ref={subsectionRef}
         className="relative md:relative flex flex-row justify-between my-3"
       >
-        <div className="md:w-[63%] ">
+        <div className="w-full md:w-[63%] ">
           {/* New Release Section */}
           <NewReleaseSection
             productsDetails={productsDetails}

@@ -10,6 +10,19 @@ import Modal from "@/app/elements/Modal";
 import SubmitProductReviewModal from "./ProductReview/SubmitProductReviewModal";
 import { useGetProductReviewByIdQuery } from "../../../gql/graphql";
 import { formatDate } from "@/utils/formatDateTime";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import Link from "next/link";
+import { useRegionUrl } from "@/hooks/useRegionUrl";
 
 interface ReviewProps {
   productId: string;
@@ -22,17 +35,27 @@ const CustomerReviewsRatings: React.FC<ReviewProps> = ({
   channel,
   locale,
 }) => {
-  const { user } = useUser();
+  const { getRegionUrl } = useRegionUrl();
+  const { user, authenticated } = useUser();
   const userId = user?.id;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const handleModalOpen = () => {
-    setIsModalOpen(true);
+    if (authenticated) {
+      setIsModalOpen(true);
+    } else {
+      setIsAlertOpen(true);
+    }
   };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
+  };
+
+  const handleAlertClose = () => {
+    setIsAlertOpen(false);
   };
 
   const { data, loading, error, refetch } = useGetProductReviewByIdQuery({
@@ -176,6 +199,25 @@ const CustomerReviewsRatings: React.FC<ReviewProps> = ({
           refetch={refetch}
         />
       </Modal>
+
+      <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Please Login</AlertDialogTitle>
+            <AlertDialogDescription>
+              You need to login to write a review.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleAlertClose}>
+              Cancel
+            </AlertDialogCancel>
+            <Link href={getRegionUrl(`/auth/login`)}>
+              <AlertDialogAction>Continue to Login</AlertDialogAction>
+            </Link>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };

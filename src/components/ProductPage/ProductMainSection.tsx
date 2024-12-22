@@ -18,6 +18,8 @@ import { useCart } from "@/context/CartContext";
 import toast from "react-hot-toast";
 import { useAddProductToWishlistMutation } from "../../../gql/graphql";
 import { useUser } from "@/hooks/useUser";
+import { HiMagnifyingGlassPlus } from "react-icons/hi2";
+import Magnifier from "react-magnifier";
 
 const COLOR_MAP: { [key: string]: string } = {
   Black: "#000000",
@@ -27,7 +29,6 @@ const COLOR_MAP: { [key: string]: string } = {
   Champagne: "#F7E7CE",
   Rainbow:
     "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)",
-
   Smoke: "#708090",
 };
 
@@ -54,8 +55,6 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
 }) => {
   const [selectedVariant, setSelectedVariant] = useState<Product | null>(null);
   const variants = productsDetails.variantObj;
-
-  const [isZoomed, setIsZoomed] = useState<boolean>(false);
 
   const handleMagnifyClick = () => {
     setIsZoomed(!isZoomed);
@@ -125,6 +124,17 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   const [selectImage, setSelectImage] = useState<string>(
     productsDetails.mainImage
   );
+
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    setZoomPosition({ x, y });
+  };
 
   const handleVariantSelection = (variant: any) => {
     const updatedVariant = {
@@ -212,16 +222,16 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   return (
     <div className="">
       <div className="flex flex-col md:flex-row gap-4 justify-start md:justify-between items-start">
-        <div className="flex p-2 flex-col-reverse md:flex-row justify-between md:w-[60%] gap-2">
-          <div className="flex flex-row my-3 p-2 md:my-0 md:flex-col gap-4 w-[20%]">
+        <div className="flex p-2 w-full flex-col-reverse md:flex-row justify-between md:w-[60%] gap-2">
+          <div className="flex flex-row my-3 p-2 md:my-0 md:flex-col gap-4 w-full md:w-[20%]">
             {selectedVariant?.subImage &&
             selectedVariant?.subImage.length > 0 ? (
               selectedVariant.subImage.map((image, index) => (
                 <Image
                   key={index}
                   src={image}
-                  width={100}
-                  height={100}
+                  width={90}
+                  height={90}
                   alt={`Product sub-image ${index + 1}`}
                   className="cursor-pointer shadow-md shadow-slate-100"
                   onClick={() => setSelectImage(image)}
@@ -234,29 +244,57 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
           </div>
 
           {/* Main Image */}
-          <div className="relative md:w-[80%] flex flex-col items-end">
-            <Image
-              src={selectImage}
-              width={400}
-              height={600}
-              alt="Product Image"
-              className={`w-full aspect-[3/4] object-contain md:w-[80%] ${
-                isZoomed ? "scale-150" : ""
-              }`}
-            />
+          <div className="relative w-[100%] md:w-[80%] p-2 flex flex-col items-end">
+            {isZoomed ? (
+              <Magnifier
+                src={selectImage}
+                width={390}
+                zoomFactor={2}
+                mgWidth={150}
+                mgHeight={150}
+                mgBorderWidth={2}
+                mgShape="square"
+                mgShowOverflow={false}
+                className="w-full md:w-[70%] md:mr-10"
+              />
+            ) : (
+              <Image
+                src={selectImage}
+                width={500}
+                height={700}
+                alt="Product Image"
+                className="w-full md:w-[70%] md:mr-10"
+              />
+            )}
+
             {/* Heart Icon */}
-            <div className="absolute z-40 top-0 bg-white rounded-full p-2 shadow-lg -right-4">
-              {isFav ? (
-                <FaHeart
-                  className="cursor-pointer text-secondary text-2xl"
-                  onClick={toggleFav}
+            <div className="absolute z-40 top-0 -right-4">
+              <div className=" bg-white border-[1px] border-disableGray rounded-full p-2 shadow-lg">
+                {isFav ? (
+                  <FaHeart
+                    className="cursor-pointer text-secondary text-2xl"
+                    onClick={toggleFav}
+                  />
+                ) : (
+                  <FaRegHeart
+                    className="cursor-pointer text-secondary text-2xl"
+                    onClick={toggleFav}
+                  />
+                )}
+              </div>
+
+              <div
+                className={`${
+                  isZoomed ? "bg-secondary" : "bg-white"
+                } border-[1px] border-disableGray rounded-full my-2 p-2 shadow-lg`}
+              >
+                <HiMagnifyingGlassPlus
+                  className={`cursor-pointer ${
+                    isZoomed ? "text-white" : "text-secondary"
+                  } text-2xl`}
+                  onClick={() => setIsZoomed(!isZoomed)}
                 />
-              ) : (
-                <FaRegHeart
-                  className="cursor-pointer text-secondary text-2xl"
-                  onClick={toggleFav}
-                />
-              )}
+              </div>
             </div>
           </div>
         </div>
