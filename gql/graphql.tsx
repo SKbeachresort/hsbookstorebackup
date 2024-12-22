@@ -33851,6 +33851,14 @@ export type HomeRecentlyAddedQueryVariables = Exact<{
 
 export type HomeRecentlyAddedQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } }> } | null };
 
+export type ProductBundlesQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type ProductBundlesQuery = { __typename?: 'Query', allBundles?: Array<{ __typename?: 'BundleType', discount?: Array<number | null> | null, key?: string | null, products?: Array<{ __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null> | null } | null> | null };
+
 export type ProductBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
   channel: Scalars['String']['input'];
@@ -36672,6 +36680,51 @@ export type HomeRecentlyAddedQueryHookResult = ReturnType<typeof useHomeRecently
 export type HomeRecentlyAddedLazyQueryHookResult = ReturnType<typeof useHomeRecentlyAddedLazyQuery>;
 export type HomeRecentlyAddedSuspenseQueryHookResult = ReturnType<typeof useHomeRecentlyAddedSuspenseQuery>;
 export type HomeRecentlyAddedQueryResult = Apollo.QueryResult<HomeRecentlyAddedQuery, HomeRecentlyAddedQueryVariables>;
+export const ProductBundlesDocument = gql`
+    query ProductBundles($channel: String!, $productId: ID!) {
+  allBundles(channel: $channel, productId: $productId) {
+    products {
+      ...ProductCardDetails
+    }
+    discount
+    key
+  }
+}
+    ${ProductCardDetailsFragmentDoc}`;
+
+/**
+ * __useProductBundlesQuery__
+ *
+ * To run a query within a React component, call `useProductBundlesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductBundlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductBundlesQuery({
+ *   variables: {
+ *      channel: // value for 'channel'
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useProductBundlesQuery(baseOptions: Apollo.QueryHookOptions<ProductBundlesQuery, ProductBundlesQueryVariables> & ({ variables: ProductBundlesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductBundlesQuery, ProductBundlesQueryVariables>(ProductBundlesDocument, options);
+      }
+export function useProductBundlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductBundlesQuery, ProductBundlesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductBundlesQuery, ProductBundlesQueryVariables>(ProductBundlesDocument, options);
+        }
+export function useProductBundlesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ProductBundlesQuery, ProductBundlesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ProductBundlesQuery, ProductBundlesQueryVariables>(ProductBundlesDocument, options);
+        }
+export type ProductBundlesQueryHookResult = ReturnType<typeof useProductBundlesQuery>;
+export type ProductBundlesLazyQueryHookResult = ReturnType<typeof useProductBundlesLazyQuery>;
+export type ProductBundlesSuspenseQueryHookResult = ReturnType<typeof useProductBundlesSuspenseQuery>;
+export type ProductBundlesQueryResult = Apollo.QueryResult<ProductBundlesQuery, ProductBundlesQueryVariables>;
 export const ProductBySlugDocument = gql`
     query ProductBySlug($slug: String!, $channel: String!) {
   product(slug: $slug, channel: $channel) {

@@ -1,0 +1,9 @@
+query ProductBundles($channel: String!, $productId: ID!) {
+  allBundles(channel: $channel, productId: $productId) {
+    products {
+      ...ProductCardDetails
+    }
+    discount
+    key
+  }
+}

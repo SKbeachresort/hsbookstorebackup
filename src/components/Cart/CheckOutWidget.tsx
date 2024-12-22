@@ -11,13 +11,14 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { getRegionUrl } from "@/utils/regionUrl";
 import { setCookie } from "cookies-next";
+import { Button } from "../ui/button";
 
 interface CheckOutWidgetProps {
   locale: string;
   channel: string;
   totalAmount: number;
   cartItems: any[];
-};
+}
 
 export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   locale,
@@ -29,7 +30,8 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isloading, setIsLoading] = useState(false);
 
-  const [checkout, { loading: checkoutLoading, data, error }] = useCheckoutCreateMutation();
+  const [checkout, { loading: checkoutLoading, data, error }] =
+    useCheckoutCreateMutation();
 
   const { user, authenticated } = useUser();
   const router = useRouter();
@@ -50,7 +52,7 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
     if (!authenticated) {
       openModal();
       return;
-    };
+    }
 
     setIsLoading(true);
 
@@ -85,94 +87,111 @@ export const CheckOutWidget: React.FC<CheckOutWidgetProps> = ({
           setCookie("checkoutID", checkoutID, { maxAge: 7 * 24 * 60 * 60 });
           toast.success("Checkout Initiated!");
           router.push(getRegionUrl(channel, locale, `checkout`));
-        };
+        }
       }
     } catch (error) {
       console.error("Checkout Error: ", error);
-    }finally{
+    } finally {
       setIsLoading(false);
-    };
+    }
   };
 
   const CurrencyCode = currentChannel?.currencyCode;
 
   return (
     <>
-      <div className="bg-white border-[1px] border-borderColor p-4 shadow rounded-2xl">
-        <h3 className="text-xl font-semibold mb-4">Summary</h3>
-
-        <div className="mb-2">
-          <div className="flex justify-between">
-            <span className="text-md">Subtotal ({cartItems.length} items)</span>
-            <span>
-              {CurrencyCode}{" "}
-              {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-            </span>
-          </div>
-          <div className="flex justify-between my-2">
-            <span className="text-xstext-textgray">Shipping</span>
-            <span className="text-green-600 font-semibold text-xs">Free</span>
-          </div>
-          <div className="flex justify-between mb-2">
-            <span className="text-xs">Taxes</span>
-            <span className="text-xs">Calculated at checkout</span>
-          </div>
+      {cartItems.length === 0 ? (
+        <div className="bg-white border-[1px] h-48 flex flex-col justify-center items-center border-borderColor p-4 shadow rounded-2xl">
+          <h1 className="text-2xl font-semibold text-textColor my-3">
+            Your Cart is Empty
+          </h1>
+          <Link href="/">
+            <Button className="text-md hover:scale-115 text-white transition-all duration-300">
+              Continue to Shopping
+            </Button>
+          </Link>
         </div>
+      ) : (
+        <div>
+          <div className="bg-white border-[1px] border-borderColor p-4 shadow rounded-2xl">
+            <h3 className="text-xl font-semibold mb-4">Summary</h3>
 
-        <hr />
-        <div className="my-2">
-          <div className="flex justify-between font-bold text-lg">
-            <span>Total</span>
-            <span>
-              {CurrencyCode}{" "}
-              {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-            </span>
+            <div className="mb-2">
+              <div className="flex justify-between">
+                <span className="text-md">
+                  Subtotal ({cartItems.length} items)
+                </span>
+                <span>
+                  {CurrencyCode}{" "}
+                  {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </span>
+              </div>
+              <div className="flex justify-between my-2">
+                <span className="text-xstext-textgray">Shipping</span>
+                <span className="text-xs">Calculated at checkout</span>
+              </div>
+              <div className="flex justify-between mb-2">
+                <span className="text-xs">Taxes</span>
+                <span className="text-xs">Calculated at checkout</span>
+              </div>
+            </div>
+
+            <hr />
+            <div className="my-2">
+              <div className="flex justify-between font-bold text-lg">
+                <span>Total</span>
+                <span>
+                  {CurrencyCode}{" "}
+                  {totalAmount.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </span>
+              </div>
+            </div>
+            <hr />
+
+            {/* <Link href="/checkout"> */}
+            <button
+              onClick={handleProceedToCheckout}
+              className="w-full flex flex-col items-center justify-center mt-4 py-2 text-md bg-secondary text-white font-semibold rounded-full"
+            >
+              {isloading ? <Loader /> : <>Checkout</>}
+            </button>
+            {/* </Link> */}
+
+            {authenticated && user ? (
+              <>
+                <div className="text-sm mt-2">
+                  Current User Signed:{" "}
+                  <span className="ml-2 font-semibold text-secondary">
+                    {user?.firstName} {user?.lastName}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="text-sm mt-2 underline">
+                  For the best experience{" "}
+                  <span
+                    onClick={openModal}
+                    className="ml-2 font-semibold text-secondary"
+                  >
+                    Sign in
+                  </span>
+                </div>
+              </>
+            )}
           </div>
+
+          {/* Modal */}
+          {!authenticated && isModalOpen && (
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+              <CreateAccount
+                closeModal={closeModal}
+                channel={channel}
+                locale={locale}
+              />
+            </Modal>
+          )}
         </div>
-        <hr />
-
-        {/* <Link href="/checkout"> */}
-        <button
-          onClick={handleProceedToCheckout}
-          className="w-full flex flex-col items-center justify-center mt-4 py-2 text-md bg-secondary text-white font-semibold rounded-full"
-        >
-          {isloading ? <Loader /> : <>Checkout</>}
-        </button>
-        {/* </Link> */}
-
-        {authenticated && user ? (
-          <>
-            <div className="text-sm mt-2">
-              Current User Signed:{" "}
-              <span className="ml-2 font-semibold text-secondary">
-                {user?.firstName} {user?.lastName}
-              </span>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="text-sm mt-2 underline">
-              For the best experience{" "}
-              <span
-                onClick={openModal}
-                className="ml-2 font-semibold text-secondary"
-              >
-                Sign in
-              </span>
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* Modal */}
-      {!authenticated && isModalOpen && (
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <CreateAccount
-            closeModal={closeModal}
-            channel={channel}
-            locale={locale}
-          />
-        </Modal>
       )}
     </>
   );

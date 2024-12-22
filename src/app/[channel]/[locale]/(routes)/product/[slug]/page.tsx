@@ -185,7 +185,7 @@ const ProductDetailPage = () => {
           <AdditionalContents productsDetails={productsDetails} />
 
           {/* Saving Packages */}
-          {/* <SavingsPackage /> */}
+          <SavingsPackage productId={productsDetails.id} channel={channel as string}/>
 
           {/* People who bought this */}
           <PeopleWhoBoughtThis

@@ -33657,6 +33657,14 @@ export type HomeRecentlyAddedQueryVariables = Exact<{
 
 export type HomeRecentlyAddedQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } }> } | null };
 
+export type ProductBundlesQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type ProductBundlesQuery = { __typename?: 'Query', allBundles?: Array<{ __typename?: 'BundleType', discount?: Array<number | null> | null, key?: string | null, products?: Array<{ __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null> | null } | null> | null };
+
 export type ProductBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
   channel: Scalars['String']['input'];
@@ -47762,6 +47770,54 @@ export const HomeRecentlyAddedDocument = new TypedDocumentString(`
     name
   }
 }`) as unknown as TypedDocumentString<HomeRecentlyAddedQuery, HomeRecentlyAddedQueryVariables>;
+export const ProductBundlesDocument = new TypedDocumentString(`
+    query ProductBundles($channel: String!, $productId: ID!) {
+  allBundles(channel: $channel, productId: $productId) {
+    products {
+      ...ProductCardDetails
+    }
+    discount
+    key
+  }
+}
+    fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  thumbnail {
+    url
+    alt
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+  variants {
+    id
+    name
+  }
+}`) as unknown as TypedDocumentString<ProductBundlesQuery, ProductBundlesQueryVariables>;
 export const ProductBySlugDocument = new TypedDocumentString(`
     query ProductBySlug($slug: String!, $channel: String!) {
   product(slug: $slug, channel: $channel) {
