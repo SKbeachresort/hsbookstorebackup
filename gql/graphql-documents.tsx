@@ -33694,6 +33694,14 @@ export type ProductRecommendationsQueryVariables = Exact<{
 
 export type ProductRecommendationsQuery = { __typename?: 'Query', recommendations?: Array<{ __typename?: 'ProductWithViewCountType', viewCount?: number | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null } | null> | null };
 
+export type RecentlyViewedProductsQueryVariables = Exact<{
+  userId: Scalars['ID']['input'];
+  channel: Scalars['String']['input'];
+}>;
+
+
+export type RecentlyViewedProductsQuery = { __typename?: 'Query', userProductHistory?: Array<{ __typename?: 'ProductWithViewCountType', viewCount?: number | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null } | null> | null };
+
 export type SearchProductsQueryVariables = Exact<{
   channel: Scalars['String']['input'];
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -48085,6 +48093,53 @@ export const ProductRecommendationsDocument = new TypedDocumentString(`
     name
   }
 }`) as unknown as TypedDocumentString<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>;
+export const RecentlyViewedProductsDocument = new TypedDocumentString(`
+    query RecentlyViewedProducts($userId: ID!, $channel: String!) {
+  userProductHistory(userId: $userId, channel: $channel) {
+    viewCount
+    product {
+      ...ProductCardDetails
+    }
+  }
+}
+    fragment ProductCardDetails on Product {
+  id
+  slug
+  channel
+  name
+  media {
+    productId
+    url
+  }
+  thumbnail {
+    url
+    alt
+  }
+  pricing {
+    displayGrossPrices
+    discount {
+      currency
+      net {
+        amount
+        currency
+      }
+    }
+    priceRangeUndiscounted {
+      start {
+        currency
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  rating
+  variants {
+    id
+    name
+  }
+}`) as unknown as TypedDocumentString<RecentlyViewedProductsQuery, RecentlyViewedProductsQueryVariables>;
 export const SearchProductsDocument = new TypedDocumentString(`
     query SearchProducts($channel: String!, $first: Int, $last: Int, $after: String, $before: String, $sortBy: ProductOrder, $filter: ProductFilterInput, $where: ProductWhereInput, $search: String) {
   products(

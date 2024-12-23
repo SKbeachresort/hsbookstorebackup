@@ -18,7 +18,7 @@ export const ProductsRecommendations: React.FC<
     variables: {
       channel: channel,
       includeOrderData: true,
-      includeSessionData: true,
+      includeSessionData: false,
       productId: "UHJvZHVjdDoyMDQyOA==",
     },
   });

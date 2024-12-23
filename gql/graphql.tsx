@@ -33888,6 +33888,14 @@ export type ProductRecommendationsQueryVariables = Exact<{
 
 export type ProductRecommendationsQuery = { __typename?: 'Query', recommendations?: Array<{ __typename?: 'ProductWithViewCountType', viewCount?: number | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null } | null> | null };
 
+export type RecentlyViewedProductsQueryVariables = Exact<{
+  userId: Scalars['ID']['input'];
+  channel: Scalars['String']['input'];
+}>;
+
+
+export type RecentlyViewedProductsQuery = { __typename?: 'Query', userProductHistory?: Array<{ __typename?: 'ProductWithViewCountType', viewCount?: number | null, product?: { __typename?: 'Product', id: string, slug: string, channel?: string | null, name: string, rating?: number | null, media?: Array<{ __typename?: 'ProductMedia', productId?: string | null, url: string }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, pricing?: { __typename?: 'ProductPricingInfo', displayGrossPrices: boolean, discount?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null } | null> | null };
+
 export type SearchProductsQueryVariables = Exact<{
   channel: Scalars['String']['input'];
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -36882,6 +36890,50 @@ export type ProductRecommendationsQueryHookResult = ReturnType<typeof useProduct
 export type ProductRecommendationsLazyQueryHookResult = ReturnType<typeof useProductRecommendationsLazyQuery>;
 export type ProductRecommendationsSuspenseQueryHookResult = ReturnType<typeof useProductRecommendationsSuspenseQuery>;
 export type ProductRecommendationsQueryResult = Apollo.QueryResult<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>;
+export const RecentlyViewedProductsDocument = gql`
+    query RecentlyViewedProducts($userId: ID!, $channel: String!) {
+  userProductHistory(userId: $userId, channel: $channel) {
+    viewCount
+    product {
+      ...ProductCardDetails
+    }
+  }
+}
+    ${ProductCardDetailsFragmentDoc}`;
+
+/**
+ * __useRecentlyViewedProductsQuery__
+ *
+ * To run a query within a React component, call `useRecentlyViewedProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRecentlyViewedProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRecentlyViewedProductsQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      channel: // value for 'channel'
+ *   },
+ * });
+ */
+export function useRecentlyViewedProductsQuery(baseOptions: Apollo.QueryHookOptions<RecentlyViewedProductsQuery, RecentlyViewedProductsQueryVariables> & ({ variables: RecentlyViewedProductsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RecentlyViewedProductsQuery, RecentlyViewedProductsQueryVariables>(RecentlyViewedProductsDocument, options);
+      }
+export function useRecentlyViewedProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RecentlyViewedProductsQuery, RecentlyViewedProductsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RecentlyViewedProductsQuery, RecentlyViewedProductsQueryVariables>(RecentlyViewedProductsDocument, options);
+        }
+export function useRecentlyViewedProductsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<RecentlyViewedProductsQuery, RecentlyViewedProductsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<RecentlyViewedProductsQuery, RecentlyViewedProductsQueryVariables>(RecentlyViewedProductsDocument, options);
+        }
+export type RecentlyViewedProductsQueryHookResult = ReturnType<typeof useRecentlyViewedProductsQuery>;
+export type RecentlyViewedProductsLazyQueryHookResult = ReturnType<typeof useRecentlyViewedProductsLazyQuery>;
+export type RecentlyViewedProductsSuspenseQueryHookResult = ReturnType<typeof useRecentlyViewedProductsSuspenseQuery>;
+export type RecentlyViewedProductsQueryResult = Apollo.QueryResult<RecentlyViewedProductsQuery, RecentlyViewedProductsQueryVariables>;
 export const SearchProductsDocument = gql`
     query SearchProducts($channel: String!, $first: Int, $last: Int, $after: String, $before: String, $sortBy: ProductOrder, $filter: ProductFilterInput, $where: ProductWhereInput, $search: String) {
   products(

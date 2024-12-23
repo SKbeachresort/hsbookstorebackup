@@ -19,6 +19,7 @@ import { useProductBySlugQuery } from "../../../../../../../gql/graphql";
 import BackDropLoader from "@/app/elements/BackdropLoader";
 
 const ProductDetailPage = () => {
+
   const { slug, channel, locale } = useParams();
 
   const {
@@ -186,7 +187,10 @@ const ProductDetailPage = () => {
           />
 
           {/* Product Details */}
-          <AdditionalContents productsDetails={productsDetails} />
+
+          {productsDetails.variantType === "Book" && (
+            <AdditionalContents productsDetails={productsDetails} />
+          )}
 
           {/* Saving Packages */}
           <SavingsPackage productId={productsDetails.id} channel={channel as string}/>
@@ -235,7 +239,7 @@ const ProductDetailPage = () => {
         <BestSellers channel={channel as string} />
 
         {/* Recently Viewed */}
-        {/* <RecentlyViewed channel={channel as string}/> */}
+        <RecentlyViewed channel={channel as string}/>
 
         {/* More Items to Explore */}
         <MoreItemsToExplore channel={channel as string} />

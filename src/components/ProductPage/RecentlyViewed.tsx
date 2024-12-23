@@ -5,6 +5,8 @@ import { products } from "@/data/Products";
 import Carousel from "@/app/elements/Carousel";
 import ZoomInSlideUp from "../Animated/ZoomInSlideUp";
 import { useFetchProductsRecommendationQuery } from "../../../gql/graphql";
+import { useUser } from "@/hooks/useUser";
+import { useRecentlyViewedProductsQuery } from "../../../gql/graphql";
 
 // Import Swiper styles
 import "swiper/css";
@@ -13,21 +15,41 @@ import "swiper/css/autoplay";
 
 interface RecentlyViewedProps {
   channel: string;
-};
+}
 
-export const RecentlyViewed:React.FC<RecentlyViewedProps> = ({channel}) => {
+export const RecentlyViewed: React.FC<RecentlyViewedProps> = ({ channel }) => {
+  const { user, authenticated } = useUser();
+  const userId = user?.id || "";
 
-  const { data, loading, error } = useFetchProductsRecommendationQuery({
+  const { data, loading, error } = useRecentlyViewedProductsQuery({
     variables: {
       channel,
+      userId,
     },
   });
 
-  const products = data?.products?.edges || [];
-  
+  const products = data?.userProductHistory?.map((history) => {
+    const product = history?.product;
+
+    return {
+      id: product?.id,
+      name: product?.name,
+      slug: product?.slug,
+      image: product?.thumbnail?.url || "/placeholder.png",
+      currency:
+        product?.pricing?.priceRangeUndiscounted?.start?.currency || "KWD",
+      price: product?.pricing?.priceRangeUndiscounted?.start?.net?.amount || 0,
+      cuttedPrice:
+        product?.pricing?.discount?.net?.amount ||
+        product?.pricing?.priceRangeUndiscounted?.start?.net?.amount ||
+        0,
+      ratings: product?.rating || 0,
+      variantId: product?.variants?.[0]?.id || "",
+    };
+  });
+
   return (
     <div className="my-8 relative">
-
       <div className="flex flex-row justify-between items-center my-4">
         <h1 className="text-md md:text-lg font-semibold">Recently Viewed</h1>
         <p className="text-sm md:text-md font-semibold text-secondary underline">
@@ -36,29 +58,26 @@ export const RecentlyViewed:React.FC<RecentlyViewedProps> = ({channel}) => {
       </div>
 
       <div className="relative">
-      <Carousel
-          slides={products.map(({ node }, index) => {
-            // const slug = node.name.replace(/\s+/g, "-").toLowerCase();
-            const productImage = node.media?.[0]?.url || "/placeholder.png";
-            return (
+        {(products ?? []).length > 0 && (
+          <Carousel
+            slides={products.map((product, index) => (
               <ProductCard
-                id={node.id}
                 key={index}
-                name={node.name}
-                image={productImage}
-                currency={node.pricing?.priceRangeUndiscounted?.start?.currency}
+                id={product.id || ""}
+                name={product.name || "Unknown Product"}
+                image={product.image}
+                currency={product.currency}
                 currencySymbol="$"
-                price={node.pricing?.priceRangeUndiscounted?.start?.net?.amount}
-                cuttedPrice={node.pricing?.discount?.net?.amount}
-                ratings={node.rating || 0}
-                navigate={node.slug}
-                variantId={node.variants?.[0]?.id || ""}
+                price={product.price}
+                cuttedPrice={product.cuttedPrice}
+                ratings={product.ratings}
+                navigate={product.slug}
+                variantId={product.variantId}
               />
-            );
-          })}
-        />
+            ))}
+          />
+        )}
       </div>
-
     </div>
-  )
+  );
 };

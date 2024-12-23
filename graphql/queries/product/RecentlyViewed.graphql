@@ -1,0 +1,11 @@
+query RecentlyViewedProducts($userId: ID!, $channel: String!) {
+  userProductHistory(
+    userId: $userId
+    channel: $channel
+  ) {
+    viewCount
+    product {
+      ...ProductCardDetails
+    }
+  }
+}

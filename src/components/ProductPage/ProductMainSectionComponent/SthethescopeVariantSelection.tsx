@@ -72,8 +72,8 @@ const SthethescopeVariantSelection: React.FC<StethoscopeVariantProps> = ({
       </h3>
 
       {Object.entries(availableAttributes).map(([attributeName, values]) => (
-        <div key={attributeName} className="mb-4">
-          <p className="text-sm font-medium mb-2">{attributeName}:</p>
+        <div key={attributeName} className="mb-2">
+          <p className="text-sm font-medium mt-2">{attributeName}: {selectedAttributes[attributeName]}</p>
           <div className="flex flex-wrap gap-2 items-center">
             {values.map((value) => {
               const color = COLOR_MAP[value] || "#808080";
