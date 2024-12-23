@@ -88,16 +88,16 @@ const AuthRegisterUI: React.FC<AuthRegisterUIProps> = ({ channel, locale }) => {
         },
       });
 
-      const errors = response.data?.accountRegister?.errors;
+      const Errors = response.data?.accountRegister?.errors ;
       // toast.success("Testings")
 
-      if (errors && errors.length > 0) {
+      if (Errors && Errors.length > 0) {
         // Handle errors
         console.error(
           "Registration Errors:",
           response.data?.accountRegister?.errors
         );
-        toast.error(`${errors[0].message}`);
+        toast.error(`${Errors[0]?.message}`)
       } else {
         console.log(
           "User Registered Successfully:",
@@ -108,9 +108,10 @@ const AuthRegisterUI: React.FC<AuthRegisterUIProps> = ({ channel, locale }) => {
         );
         reset();
         openModal();
-      };
-    } catch (err) {
+      }
+    } catch (err:any) {
       console.error("Registration failed:", err);
+      toast.error(`${err.message}`)
     }
   };
 

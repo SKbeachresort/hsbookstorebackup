@@ -20,6 +20,7 @@ import { useAddProductToWishlistMutation } from "../../../gql/graphql";
 import { useUser } from "@/hooks/useUser";
 import { HiMagnifyingGlassPlus } from "react-icons/hi2";
 import Magnifier from "react-magnifier";
+import ProductAuthorSection from "./ProductAuthorSection";
 
 const COLOR_MAP: { [key: string]: string } = {
   Black: "#000000",
@@ -41,7 +42,7 @@ interface ProductDetailsProps {
   incrementQuantity: (id: string) => void;
   removeFromCart?: (id: string) => void;
   VariantDefault: VariantFormat[];
-}
+};
 
 const ProductMainSection: React.FC<ProductDetailsProps> = ({
   productsDetails,
@@ -307,9 +308,10 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
           <h1 className="text-xl 3xl:text-3xl my-1 font-medium">
             {productsDetails?.name}
           </h1>
-          <p className="text-xs text-textgray">
+          {/* <p className="text-xs text-textgray">
             by <span className="underline">{productsDetails.Author}</span>
-          </p>
+          </p> */}
+          <ProductAuthorSection authorName={productsDetails.Author}/>
 
           <div className="flex flex-row items-center gap-x-1">
             <StarRatings
@@ -343,10 +345,18 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
           </div>
 
           {/* Availability */}
-          <div className="flex flex-row gap-x-1 items-center">
-            <FaCircle color="#5CBD76" className="text-sm text-success" />
-            <p className="text-sm text-textgray">Available (In Stock)</p>
-          </div>
+          {productsDetails?.available ? (
+            <div className="flex flex-row gap-x-1 items-center">
+              <FaCircle color="#5CBD76" className="text-sm text-success" />
+              <p className="text-sm text-textgray">Available (In Stock)</p>
+            </div>
+          ) : (
+            <div className="flex flex-row gap-x-1 items-center">
+              <FaCircle color="#FF0000" className="text-sm text-danger" />
+              <p className="text-sm text-red-500">Out of Stock</p>
+            </div>
+          )}
+
 
           {/* Add to Cart */}
           {cartItem ? (

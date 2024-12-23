@@ -44,7 +44,7 @@ const ProductDetailPage = () => {
     },
   });
 
-  // console.log("Fetched Data", data);
+  console.log("Product Details by Slug", data);
 
   const productsDetails = {
     id: data?.product?.id || data?.product?.variants?.[0]?.id || "",
@@ -118,8 +118,12 @@ const ProductDetailPage = () => {
   const cartItem = cartItems.find((item) => item.id === productsDetails.id);
 
   const handleAddToCart = () => {
-    addToCart({ ...productsDetails, quantity: 1 });
-    toast.success("Product added to cart");
+    if(productsDetails.available){
+      addToCart({ ...productsDetails, quantity: 1 });
+      toast.success("Product added to cart");
+    }else{
+      toast.error("Product is not available");
+    }
   };
 
   const handleDecrement = () => {
