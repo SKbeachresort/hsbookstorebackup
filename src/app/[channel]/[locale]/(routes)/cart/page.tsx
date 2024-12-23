@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { useViewSaveLaterProductsQuery } from "../../../../../../gql/graphql";
 import { FaPlus, FaTrashAlt, FaMinus } from "react-icons/fa";
+import { RecentlyViewed } from "@/components/ProductPage/RecentlyViewed";
 
 const CartPage = () => {
   const { channel, locale } = useParams();
@@ -39,7 +40,6 @@ const CartPage = () => {
       )}
 
       <div className="">
-
         <h1 className="text-xl font-semibold ">
           Cart ({cartItems.length} items){" "}
         </h1>
@@ -67,6 +67,9 @@ const CartPage = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="my-4">
+        <RecentlyViewed channel={channel as string} />
       </div>
     </div>
   );

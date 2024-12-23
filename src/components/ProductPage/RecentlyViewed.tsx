@@ -28,56 +28,64 @@ export const RecentlyViewed: React.FC<RecentlyViewedProps> = ({ channel }) => {
     },
   });
 
-  const products = data?.userProductHistory?.map((history) => {
-    const product = history?.product;
+  const products =
+    data?.userProductHistory?.map((history) => {
+      const product = history?.product;
 
-    return {
-      id: product?.id,
-      name: product?.name,
-      slug: product?.slug,
-      image: product?.thumbnail?.url || "/placeholder.png",
-      currency:
-        product?.pricing?.priceRangeUndiscounted?.start?.currency || "KWD",
-      price: product?.pricing?.priceRangeUndiscounted?.start?.net?.amount || 0,
-      cuttedPrice:
-        product?.pricing?.discount?.net?.amount ||
-        product?.pricing?.priceRangeUndiscounted?.start?.net?.amount ||
-        0,
-      ratings: product?.rating || 0,
-      variantId: product?.variants?.[0]?.id || "",
-    };
-  });
+      return {
+        id: product?.id,
+        name: product?.name,
+        slug: product?.slug,
+        image: product?.thumbnail?.url || "/placeholder.png",
+        currency:
+          product?.pricing?.priceRangeUndiscounted?.start?.currency || "KWD",
+        price:
+          product?.pricing?.priceRangeUndiscounted?.start?.net?.amount || 0,
+        cuttedPrice:
+          product?.pricing?.discount?.net?.amount ||
+          product?.pricing?.priceRangeUndiscounted?.start?.net?.amount ||
+          0,
+        ratings: product?.rating || 0,
+        variantId: product?.variants?.[0]?.id || "",
+      };
+    }) || [];
 
   return (
-    <div className="my-8 relative">
-      <div className="flex flex-row justify-between items-center my-4">
-        <h1 className="text-md md:text-lg font-semibold">Recently Viewed</h1>
-        <p className="text-sm md:text-md font-semibold text-secondary underline">
-          See all
-        </p>
-      </div>
+    <>
+      {authenticated && (
+        <div className="my-8 relative">
+          <div className="flex flex-row justify-between items-center my-4">
+            <h1 className="text-md md:text-lg font-semibold">
+              Recently Viewed
+            </h1>
+            <p className="text-sm md:text-md font-semibold text-secondary underline">
+              See all
+            </p>
+          </div>
 
-      <div className="relative">
-        {(products ?? []).length > 0 && (
-          <Carousel
-            slides={products.map((product, index) => (
-              <ProductCard
-                key={index}
-                id={product.id || ""}
-                name={product.name || "Unknown Product"}
-                image={product.image}
-                currency={product.currency}
-                currencySymbol="$"
-                price={product.price}
-                cuttedPrice={product.cuttedPrice}
-                ratings={product.ratings}
-                navigate={product.slug}
-                variantId={product.variantId}
+          <div className="relative">
+            {(products ?? []).length > 0 && (
+              <Carousel
+                slides={products.map((product, index) => (
+                  <ProductCard
+                    key={index}
+                    id={product.id || ""}
+                    name={product.name || "Unknown Product"}
+                    image={product.image}
+                    currency={product.currency}
+                    currencySymbol="$"
+                    price={product.price}
+                    cuttedPrice={product.cuttedPrice}
+                    ratings={product.ratings}
+                    navigate={product.slug}
+                    variantId={product.variantId}
+                  />
+                ))}
               />
-            ))}
-          />
-        )}
-      </div>
-    </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
