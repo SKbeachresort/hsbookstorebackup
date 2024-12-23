@@ -7,17 +7,17 @@ import { Product } from "@/types/product/product-types";
 import { useNewReleaseQuery } from "../../../gql/graphql";
 import Link from "next/link";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
+import { useGetProductReviewByIdQuery } from "../../../gql/graphql";
 
 interface NewReleaseSectionProps {
   channel: string;
   productsDetails: Product;
-};
+}
 
 const NewReleaseSection: React.FC<NewReleaseSectionProps> = ({
   channel,
   productsDetails,
 }) => {
-
   const { getRegionUrl } = useRegionUrl();
   const newRelaeaseSKU = productsDetails?.newReleaseSKU;
   console.log("New Release SKU", newRelaeaseSKU);
@@ -29,8 +29,21 @@ const NewReleaseSection: React.FC<NewReleaseSectionProps> = ({
     },
   });
 
-  // console.log("New Release Data", data);
   const newReleaseProductData = data?.productVariant;
+  const productId = newReleaseProductData?.product?.id as string;
+
+  const { data: reviewData } = useGetProductReviewByIdQuery({
+    variables: { productId, channel },
+  });
+
+  const reviews = reviewData?.getProductReviews || [];
+  const totalReviews = reviews.length;
+
+  const totalRatings = reviews.reduce(
+    (sum, review) => sum + (review?.rating || 0),
+    0
+  );
+  const averageRating = totalReviews > 0 ? totalRatings / totalReviews : 0;
 
   return (
     <>
@@ -65,8 +78,14 @@ const NewReleaseSection: React.FC<NewReleaseSectionProps> = ({
               </p>
               <div className="flex flex-row justify-start gap-x-4 my-1 md:my-2 items-center">
                 <p className="text-md font-semibold">
-                  {newReleaseProductData?.product?.pricing?.priceRangeUndiscounted?.start?.currency}{" "}
-                  {newReleaseProductData?.product?.pricing?.priceRangeUndiscounted?.start?.net?.amount}
+                  {
+                    newReleaseProductData?.product?.pricing
+                      ?.priceRangeUndiscounted?.start?.currency
+                  }{" "}
+                  {
+                    newReleaseProductData?.product?.pricing
+                      ?.priceRangeUndiscounted?.start?.net?.amount
+                  }
                 </p>
               </div>
 
@@ -82,16 +101,20 @@ const NewReleaseSection: React.FC<NewReleaseSectionProps> = ({
                 </Link>
               </div>
 
-              <div className="flex items-center">
+              <div className="flex flex-row items-center gap-x-1">
                 <StarRatings
-                  rating={newReleaseProductData?.product?.rating || 0}
+                  rating={averageRating}
                   starRatedColor="#FFCE60"
                   numberOfStars={5}
                   starDimension="16px"
                   starSpacing="1px"
                   name="product-rating"
                 />
+                <p className="text-xs mt-1 text-textgray">
+                  {totalReviews} ratings
+                </p>
               </div>
+              
             </div>
           </div>
         </div>

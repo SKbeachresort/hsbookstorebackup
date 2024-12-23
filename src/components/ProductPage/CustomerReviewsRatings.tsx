@@ -9,7 +9,7 @@ import { useUser } from "@/hooks/useUser";
 import Modal from "@/app/elements/Modal";
 import SubmitProductReviewModal from "./ProductReview/SubmitProductReviewModal";
 import { useGetProductReviewByIdQuery } from "../../../gql/graphql";
-import { formatDate } from "@/utils/formatDateTime";
+import { formatDate } from "@/utils/formatDate";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,24 +23,40 @@ import {
 } from "@/components/ui/alert-dialog";
 import Link from "next/link";
 import { useRegionUrl } from "@/hooks/useRegionUrl";
+import ModalWidthless from "@/app/elements/ModalWidthless";
 
 interface ReviewProps {
   productId: string;
   channel: string;
   locale: string;
-}
+};
 
 const CustomerReviewsRatings: React.FC<ReviewProps> = ({
   productId,
   channel,
   locale,
 }) => {
+
   const { getRegionUrl } = useRegionUrl();
   const { user, authenticated } = useUser();
   const userId = user?.id;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+
+  const [viewReviewsModal, setViewReviewsModal] = useState(false);
+
+  const handleViewReviewsModalOpen = () => {
+    if (authenticated) {
+      setViewReviewsModal(true);
+    } else {
+      setIsAlertOpen(true);
+    }
+  };
+
+  const handleViewReviewsModalClose = () => {
+    setViewReviewsModal(false);
+  };
 
   const handleModalOpen = () => {
     if (authenticated) {
@@ -98,12 +114,15 @@ const CustomerReviewsRatings: React.FC<ReviewProps> = ({
 
         {/* Buttons */}
         <div className="flex gap-4 mb-6">
-          <button className="px-4 py-2 border-2 border-textgray rounded-md">
+          <button 
+            onClick={handleViewReviewsModalOpen}
+            className="px-4 py-2 border-2 border-textgray rounded-full"
+          >
             View all reviews
           </button>
           <button
             onClick={handleModalOpen}
-            className="px-4 py-2 bg-secondary text-white rounded-md"
+            className="px-4 py-2 bg-secondary text-white rounded-full"
           >
             Write a review
           </button>
@@ -148,7 +167,7 @@ const CustomerReviewsRatings: React.FC<ReviewProps> = ({
             </div>
 
             {/* Reviews List */}
-            {reviews.map((review) => (
+            {reviews.slice(0, 5).map((review) => (
               <div key={review?.id} className="pt-4 mb-4">
                 <div className="flex items-center">
                   <Image
@@ -199,6 +218,55 @@ const CustomerReviewsRatings: React.FC<ReviewProps> = ({
           refetch={refetch}
         />
       </Modal>
+
+      {/* All Reviews Modal */}
+      <ModalWidthless isOpen={viewReviewsModal} onClose={handleViewReviewsModalClose}>
+        <div className="relative">
+          <button
+            onClick={handleViewReviewsModalClose}
+            className="absolute top-0 right-4 text-3xl text-gray-500  hover:text-black"
+          >
+            ✕
+          </button>
+          <h2 className="text-xl font-medium mb-4">All Reviews</h2>
+          <div className="overflow-y-auto h-[80vh] p-4">
+            {reviews.slice(0, 5).map((review) => (
+              <div key={review?.id} className="pt-4 mb-4">
+                <div className="flex items-center">
+                  <Image
+                    src={useravatar}
+                    alt="User avatar"
+                    width={40}
+                    height={40}
+                    className="w-8 h-8 rounded-full mr-3"
+                  />
+                  <div>
+                    <p className="font-medium text-textgray text-md">
+                      {review?.user?.firstName} {review?.user?.lastName}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-row items-center gap-2">
+                  <StarRatings
+                    rating={review?.rating || 0}
+                    starRatedColor="gold"
+                    numberOfStars={5}
+                    starDimension="14px"
+                    starSpacing="1px"
+                  />
+                  <p className="text-xs text-gray-500">
+                    {formatDate(review?.createdAt || "")}
+                  </p>
+                </div>
+                <p className="font-semibold text-md mt-2 mb-1">
+                  {review?.title}
+                </p>
+                <p className="text-textgray text-sm">{review?.review || ""}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </ModalWidthless>
 
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogContent>

@@ -1,37 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import StarRatings from "react-star-ratings";
-import {
-  FaHeart,
-  FaRegHeart,
-  FaCircle,
-  FaSearchPlus,
-  FaPlus,
-  FaTrashAlt,
-  FaMinus,
-} from "react-icons/fa";
-import Image from "next/image";
 import { Product, VariantFormat } from "@/types/product/product-types";
-import { ProductBySlugDocument } from "../../../gql/graphql-documents";
-import ColorCircle from "./CustomColors";
-import { useCart } from "@/context/CartContext";
-import toast from "react-hot-toast";
-import { useAddProductToWishlistMutation } from "../../../gql/graphql";
-import { useUser } from "@/hooks/useUser";
-import { HiMagnifyingGlassPlus } from "react-icons/hi2";
-import Magnifier from "react-magnifier";
-import ProductAuthorSection from "./ProductAuthorSection";
-
-const COLOR_MAP: { [key: string]: string } = {
-  Black: "#000000",
-  Burgundy: "#800020",
-  Raspberry: "#E30B5D",
-
-  Champagne: "#F7E7CE",
-  Rainbow:
-    "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)",
-  Smoke: "#708090",
-};
+import MainImageComponent from "./ProductMainSectionComponent/MainImageComponent";
+import SthethescopeVariantSelection from "./ProductMainSectionComponent/SthethescopeVariantSelection";
+import BooksVariantSelection from "./ProductMainSectionComponent/BooksVariantSelection";
+import ProductDetailsSectionUI from "./ProductMainSectionComponent/ProductDetailsSectionUI";
 
 interface ProductDetailsProps {
   productsDetails: Product;
@@ -54,6 +27,7 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   removeFromCart,
   VariantDefault,
 }) => {
+  
   const [selectedVariant, setSelectedVariant] = useState<Product | null>(null);
   const variants = productsDetails.variantObj;
 
@@ -127,15 +101,6 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
   );
 
   const [isZoomed, setIsZoomed] = useState(false);
-  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-    setZoomPosition({ x, y });
-  };
 
   const handleVariantSelection = (variant: any) => {
     const updatedVariant = {
@@ -161,19 +126,11 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     setSelectImage(updatedVariant.mainImage);
   };
 
-  // console.log("Selected Variant", selectedVariant);
-
-  // console.log("Selected Image", selectedVariant?.mainImage);
-  // console.log("Selected SubImage", selectedVariant?.subImage);
-
   useEffect(() => {
     if (variants && variants.length > 0) {
       handleVariantSelection(variants[0]);
     }
   }, [variants]);
-
-  const hasMultipleVariants = productsDetails.variantObj.length > 1;
-  // console.log("Variant Object", productsDetails.variantObj);
 
   const handleDecrementLogic = () => {
     if (cartItem?.quantity === 1 && removeFromCart) {
@@ -183,272 +140,49 @@ const ProductMainSection: React.FC<ProductDetailsProps> = ({
     }
   };
 
-  // Wishlist Logic
-  const { user } = useUser();
-  const [isFav, setIsFav] = useState<boolean>(false);
-  const userId = user?.id;
-
-  const [addProductToWishlist] = useAddProductToWishlistMutation();
-
-  const toggleFav = async () => {
-    if (!userId) {
-      toast.error("Please login to add product to wishlist");
-      return;
-    }
-
-    try {
-      const action = isFav ? "delete" : "add";
-      const response = await addProductToWishlist({
-        variables: {
-          productId: productsDetails.id,
-          userId: userId as string,
-          action,
-        },
-      });
-      if (response?.data?.wishlistAdd?.success) {
-        setIsFav(!isFav);
-        if (action === "add") {
-          toast.success("Product added to wishlist!");
-        } else if (action === "delete") {
-          toast.success("Product removed from wishlist!");
-        }
-      } else {
-        toast.error(`${response?.data?.wishlistAdd?.message}`);
-      }
-    } catch (error) {
-      console.log("Error in adding product to wishlist", error);
-    }
-  };
-
   return (
     <div className="">
       <div className="flex flex-col md:flex-row gap-4 justify-start md:justify-between items-start">
-        <div className="flex p-2 w-full flex-col-reverse md:flex-row justify-between md:w-[60%] gap-2">
-          <div className="flex flex-row my-3 p-2 md:my-0 md:flex-col gap-4 w-full md:w-[20%]">
-            {selectedVariant?.subImage &&
-            selectedVariant?.subImage.length > 0 ? (
-              selectedVariant.subImage.map((image, index) => (
-                <Image
-                  key={index}
-                  src={image}
-                  width={90}
-                  height={90}
-                  alt={`Product sub-image ${index + 1}`}
-                  className="cursor-pointer shadow-md shadow-slate-100"
-                  onClick={() => setSelectImage(image)}
-                  onMouseEnter={() => setSelectImage(image)}
-                />
-              ))
-            ) : (
-              <p></p>
-            )}
-          </div>
-
-          {/* Main Image */}
-          <div className="relative w-[100%] md:w-[80%] p-2 flex flex-col items-end">
-            {isZoomed ? (
-              <Magnifier
-                src={selectImage}
-                width={390}
-                zoomFactor={2}
-                mgWidth={150}
-                mgHeight={150}
-                mgBorderWidth={2}
-                mgShape="square"
-                mgShowOverflow={false}
-                className="w-full md:w-[70%] md:mr-10"
-              />
-            ) : (
-              <Image
-                src={selectImage}
-                width={500}
-                height={700}
-                alt="Product Image"
-                className="w-full md:w-[70%] md:mr-10"
-              />
-            )}
-
-            {/* Heart Icon */}
-            <div className="absolute z-40 top-0 -right-4">
-              <div className=" bg-white border-[1px] border-disableGray rounded-full p-2 shadow-lg">
-                {isFav ? (
-                  <FaHeart
-                    className="cursor-pointer text-secondary text-2xl"
-                    onClick={toggleFav}
-                  />
-                ) : (
-                  <FaRegHeart
-                    className="cursor-pointer text-secondary text-2xl"
-                    onClick={toggleFav}
-                  />
-                )}
-              </div>
-
-              <div
-                className={`${
-                  isZoomed ? "bg-secondary" : "bg-white"
-                } border-[1px] border-disableGray rounded-full my-2 p-2 shadow-lg`}
-              >
-                <HiMagnifyingGlassPlus
-                  className={`cursor-pointer ${
-                    isZoomed ? "text-white" : "text-secondary"
-                  } text-2xl`}
-                  onClick={() => setIsZoomed(!isZoomed)}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        
+        {/* Main Image Component */}
+        <MainImageComponent
+          productsDetails={productsDetails}
+          selectedVariant={selectedVariant}
+        />
 
         {/* Product Details */}
         <div className="p-2 md:p-4 w-full md:w-[35%] h-auto md:border-[1px] border-disableGray rounded-lg">
-          <span className="bg-[#69BBE940] mb-2 font-normal text-primary w-fit text-xs md:text-sm p-1">
-            Best Seller
-          </span>
-          <h1 className="text-xl 3xl:text-3xl my-1 font-medium">
-            {productsDetails?.name}
-          </h1>
-          {/* <p className="text-xs text-textgray">
-            by <span className="underline">{productsDetails.Author}</span>
-          </p> */}
-          <ProductAuthorSection authorName={productsDetails.Author}/>
 
-          <div className="flex flex-row items-center gap-x-1">
-            <StarRatings
-              rating={productsDetails?.ratings}
-              starRatedColor="#FFCE60"
-              numberOfStars={5}
-              starDimension="16px"
-              starSpacing="1px"
-              name="product-rating"
-            />
-            <p className="text-xs mt-1 text-textgray">
-              {productsDetails?.ratings} ratings
-            </p>
-          </div>
-
-          <p className="text-sm my-1 text-textgray">
-            Ships from and sold by hsbookstore.com
-          </p>
-
-          {/* Price Section */}
-          <div className="flex flex-row gap-x-2 my-2">
-            <p className="text-xl font-semibold">
-              {selectedVariant?.currency} {selectedVariant?.price}
-            </p>
-            {(selectedVariant?.cuttedPrice ?? 0) >
-              (selectedVariant?.price ?? 0) && (
-              <p className="line-through text-textgray text-sm font-medium">
-                {selectedVariant?.currencySymbol} {selectedVariant?.cuttedPrice}
-              </p>
-            )}
-          </div>
-
-          {/* Availability */}
-          {productsDetails?.available ? (
-            <div className="flex flex-row gap-x-1 items-center">
-              <FaCircle color="#5CBD76" className="text-sm text-success" />
-              <p className="text-sm text-textgray">Available (In Stock)</p>
-            </div>
-          ) : (
-            <div className="flex flex-row gap-x-1 items-center">
-              <FaCircle color="#FF0000" className="text-sm text-danger" />
-              <p className="text-sm text-red-500">Out of Stock</p>
-            </div>
-          )}
-
-
-          {/* Add to Cart */}
-          {cartItem ? (
-            <div className="flex bg-secondary w-fit px-4 py-2 rounded-full items-center gap-4 my-3">
-              <button
-                onClick={handleDecrementLogic}
-                className="text-white text-sm font-medium flex items-center gap-1"
-              >
-                {cartItem.quantity === 1 ? (
-                  <FaTrashAlt className="text-white" />
-                ) : (
-                  <FaMinus />
-                )}
-              </button>
-
-              <span className="text-sm text-white font-medium">
-                {cartItem.quantity} Added
-              </span>
-
-              <button
-                onClick={() => incrementQuantity(productsDetails.id)}
-                className="text-white text-sm font-medium"
-              >
-                <FaPlus />
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={handleAddToCart}
-              className="text-white text-sm font-medium bg-secondary rounded-full px-6 py-2 my-3"
-            >
-              + Add to Cart
-            </button>
-          )}
+          {/* Product Details Section UI */}
+          <ProductDetailsSectionUI
+            channel={channel}
+            productsDetails={productsDetails}
+            selectedVariant={selectedVariant}
+            cartItem={cartItem}
+            handleAddToCart={handleAddToCart}
+            handleDecrement={handleDecrementLogic}
+            incrementQuantity={incrementQuantity}
+            removeFromCart={removeFromCart}
+          />
 
           {/* Variant Selection only for Books */}
           {productsDetails?.variantType === "Book" && (
-            <div>
-              <p className="text-sm font-medium">
-                {productsDetails?.variantType === "Book"
-                  ? `Bookformat`
-                  : `Variant`}
-                : {selectedVariant?.name}
-              </p>
-              <div className="flex flex-wrap gap-4 mt-2">
-                {productsDetails.variantObj.map((variant) => (
-                  <button
-                    key={variant.id}
-                    onClick={() => handleVariantSelection(variant)}
-                    className={`px-4 py-2 rounded-md text-sm font-medium ${
-                      selectedVariant?.id === variant.id
-                        ? "border-2 border-secondary text-black"
-                        : "border-2 border-disableGray text-[#cccccc]"
-                    }`}
-                  >
-                    {variant.name}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <BooksVariantSelection
+              productsDetails={productsDetails}
+              selectedVariant={selectedVariant}
+              onVariantSelect={handleVariantSelection}
+            />
           )}
 
           {/* Variant Selection for Sthethoscopes */}
           {productsDetails?.variantType === "Stethoscopes" && (
-            <div className="mt-2">
-              <p>Selected Variant: {selectedVariant?.name}</p>
-              {Object.entries(availableAttributes).map(
-                ([attributeName, values]) => (
-                  <div key={attributeName} className="my-2">
-                    <p className="text-sm font-medium mb-2">{attributeName}:</p>
-                    <div className="flex flex-wrap gap-1 items-center">
-                      {values.map((value) => {
-                        const color = COLOR_MAP[value] || "#808080";
-
-                        return (
-                          <ColorCircle
-                            key={value}
-                            color={color}
-                            isSelected={
-                              selectedAttributes[attributeName] === value
-                            }
-                            onClick={() =>
-                              handleAttributeSelection(attributeName, value)
-                            }
-                          />
-                        );
-                      })}
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
+            <SthethescopeVariantSelection
+              productsDetails={productsDetails}
+              selectedVariant={selectedVariant}
+              availableAttributes={availableAttributes}
+              selectedAttributes={selectedAttributes}
+              onVariantSelect={handleAttributeSelection}
+            />
           )}
 
           {/* Quantity Selection */}

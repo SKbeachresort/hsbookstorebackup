@@ -223,7 +223,7 @@ export const Navbar = () => {
           </div>
         </div>
 
-        <div className="bg-primary hidden md:flex justify-start p-[1vh]">
+        <div className="bg-primary hidden md:flex justify-start p-2">
           <div className="w-full max-w-[1920px] mx-auto">
             <div className="px-4 flex flex-row justify-start items-center space-x-4">
               <SheetTrigger asChild>

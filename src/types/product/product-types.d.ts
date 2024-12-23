@@ -27,6 +27,8 @@ export interface Product {
 }
 
 export interface VariantFormat {
+  mainImage: string;
+  subImage: string[];
   label: string;
   price: number;
   currency: string;
