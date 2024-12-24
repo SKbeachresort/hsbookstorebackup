@@ -33364,12 +33364,30 @@ export type AccountConfirmMutationVariables = Exact<{
 
 export type AccountConfirmMutation = { __typename?: 'Mutation', confirmAccount?: { __typename?: 'ConfirmAccount', errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
 
+export type RequestPasswordChangeMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  redirectUrl: Scalars['String']['input'];
+  channel?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type RequestPasswordChangeMutation = { __typename?: 'Mutation', requestPasswordReset?: { __typename?: 'RequestPasswordReset', errors: Array<{ __typename?: 'AccountError', message?: string | null, code: AccountErrorCode, addressType?: AddressTypeEnum | null, field?: string | null }>, accountErrors: Array<{ __typename?: 'AccountError', message?: string | null, code: AccountErrorCode, addressType?: AddressTypeEnum | null, field?: string | null }> } | null };
+
 export type AccountRegisterMutationVariables = Exact<{
   input: AccountRegisterInput;
 }>;
 
 
 export type AccountRegisterMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, accountErrors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, errors: Array<{ __typename?: 'AccountError', code: AccountErrorCode, field?: string | null, message?: string | null }>, user?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, isConfirmed: boolean, isActive: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+
+export type SetPasswordMutationVariables = Exact<{
+  token: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type SetPasswordMutation = { __typename?: 'Mutation', setPassword?: { __typename?: 'SetPassword', errors: Array<{ __typename?: 'AccountError', field?: string | null, code: AccountErrorCode, message?: string | null }> } | null };
 
 export type AddressCreateMutationVariables = Exact<{
   input: AddressInput;
@@ -45618,6 +45636,28 @@ export const AccountConfirmDocument = new TypedDocumentString(`
   isConfirmed
   isActive
 }`) as unknown as TypedDocumentString<AccountConfirmMutation, AccountConfirmMutationVariables>;
+export const RequestPasswordChangeDocument = new TypedDocumentString(`
+    mutation RequestPasswordChange($email: String!, $redirectUrl: String!, $channel: String) {
+  requestPasswordReset(
+    email: $email
+    redirectUrl: $redirectUrl
+    channel: $channel
+  ) {
+    errors {
+      message
+      code
+      addressType
+      field
+    }
+    accountErrors {
+      message
+      code
+      addressType
+      field
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RequestPasswordChangeMutation, RequestPasswordChangeMutationVariables>;
 export const AccountRegisterDocument = new TypedDocumentString(`
     mutation AccountRegister($input: AccountRegisterInput!) {
   accountRegister(input: $input) {
@@ -45648,6 +45688,17 @@ export const AccountRegisterDocument = new TypedDocumentString(`
   isConfirmed
   isActive
 }`) as unknown as TypedDocumentString<AccountRegisterMutation, AccountRegisterMutationVariables>;
+export const SetPasswordDocument = new TypedDocumentString(`
+    mutation SetPassword($token: String!, $email: String!, $password: String!) {
+  setPassword(token: $token, email: $email, password: $password) {
+    errors {
+      field
+      code
+      message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SetPasswordMutation, SetPasswordMutationVariables>;
 export const AddressCreateDocument = new TypedDocumentString(`
     mutation AddressCreate($input: AddressInput!, $type: AddressTypeEnum) {
   accountAddressCreate(input: $input, type: $type) {
