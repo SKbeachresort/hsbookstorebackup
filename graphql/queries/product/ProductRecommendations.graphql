@@ -3,7 +3,7 @@ query ProductRecommendations($channel: String!, $productId: ID!) {
     channel: $channel
     productId: $productId
     includeOrderData: true
-    includeSessionData: true
+    includeSessionData: false
   ) {
     viewCount
     product {

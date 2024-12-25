@@ -6,6 +6,7 @@ fragment ProductDetailsFragment on Product {
   seoDescription
   description
   seoTitle
+  isAvailable
   isAvailableForPurchase
   rating
   attributes {

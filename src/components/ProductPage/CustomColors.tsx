@@ -2,10 +2,12 @@ const ColorCircle = ({
   color,
   isSelected,
   onClick,
+  className,
 }: {
   color: string;
   isSelected: boolean;
   onClick: () => void;
+  className?: string;
 }) => {
   // Determine border style based on selection
   const borderStyle = isSelected
@@ -15,7 +17,7 @@ const ColorCircle = ({
   return (
     <div
       onClick={onClick}
-      className={`w-8 h-8 rounded-full cursor-pointer ${borderStyle}`}
+      className={`w-8 h-8 rounded-full cursor-pointer ${className} ${borderStyle}`}
       style={{
         background: color,
         backgroundImage: color.includes("gradient") ? color : "none",

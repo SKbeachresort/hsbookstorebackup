@@ -17,6 +17,7 @@ import { Recommended } from "@/components/ProductPage/Recommended";
 import AnimateOnScroll from "@/components/Animated/AnimateOnScroll";
 import { useProductBySlugQuery } from "../../../../../../../gql/graphql";
 import BackDropLoader from "@/app/elements/BackdropLoader";
+import AdditionalContentSthethoscope from "@/components/ProductPage/AdditionalContentSthethoscope";
 
 const ProductDetailPage = () => {
 
@@ -63,7 +64,7 @@ const ProductDetailPage = () => {
     )?.values[0]?.name,
     currency: data?.product?.pricing?.priceRangeUndiscounted?.start?.currency,
     currencySymbol: "$",
-    available: data?.product?.isAvailableForPurchase ?? true,
+    available: data?.product?.isAvailable ?? true,
     price:
       data?.product?.pricing?.priceRangeUndiscounted?.start?.net?.amount ?? 0,
     cuttedPrice: data?.product?.pricing?.discount?.net?.amount ?? 0,
@@ -187,9 +188,13 @@ const ProductDetailPage = () => {
           />
 
           {/* Product Details */}
-
           {productsDetails.variantType === "Book" && (
             <AdditionalContents productsDetails={productsDetails} />
+          )}
+
+          {/* Product Details Sthethoscope */}
+          {productsDetails.variantType === "Stethoscopes" && (
+            <AdditionalContentSthethoscope productsDetails={productsDetails} />
           )}
 
           {/* Saving Packages */}

@@ -105,7 +105,7 @@ const MainImageComponent: React.FC<MainImageComponentProps> = ({
             width={500}
             height={700}
             alt="Product Image"
-            className="w-full md:w-[70%] md:mr-10"
+            className="w-full md:w-[90%] h-full lg:w-[70%] md:mr-10"
           />
         )}
 

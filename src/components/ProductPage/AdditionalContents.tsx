@@ -11,7 +11,7 @@ import { formatDate } from "@/utils/formatDate";
 
 interface AdditionalContentsProps {
   productsDetails: Product;
-}
+};
 
 const AdditionalContents: React.FC<AdditionalContentsProps> = ({
   productsDetails,
@@ -22,65 +22,68 @@ const AdditionalContents: React.FC<AdditionalContentsProps> = ({
     setOpen(!open);
   };
 
+  const bookDetails = [
+    {
+      label: "ISBN-13",
+      value: productsDetails.ISBN_NO,
+    },
+    {
+      label: "Series",
+      value: productsDetails.Series,
+    },
+    {
+      label: "Publisher",
+      value: productsDetails.Publisher,
+    },
+    {
+      label: "Publication Date",
+      value: productsDetails.PublicationDate
+        ? formatDate(productsDetails.PublicationDate)
+        : null,
+    },
+    {
+      label: "Cover",
+      value: productsDetails.Cover,
+    },
+    {
+      label: "Pages",
+      value: productsDetails.Pages,
+    },
+    {
+      label: "Weight",
+      value: productsDetails.Weight,
+    },
+  ];
+
+  const column1 = bookDetails.slice(0, 4);
+  const column2 = bookDetails.slice(4);
+
   return (
     <div>
       <div>
         <hr />
         <AccordionProductDetail title="Book Details" isOpenByDefault={true}>
-          <div className="flex flex-col px-4 md:flex-row md:gap-x-[4vh]">
-            <div className="text-md">
-              {productsDetails.ISBN_NO && (
-                <h1 className="font-medium">
-                  ISBN-13:{" "}
-                  <span className="font-normal">{productsDetails.ISBN_NO}</span>
-                </h1>
-              )}
-
-              {productsDetails.Series && (
-                <h1 className="font-medium">
-                  Series:{" "}
-                  <span className="font-normal">{productsDetails.Series}</span>
-                </h1>
-              )}
-
-              {productsDetails.Publisher && (
-                <h1 className="font-medium">
-                  Publisher:{" "}
-                  <span className="font-normal">
-                    {productsDetails.Publisher}
-                  </span>
-                </h1>
-              )}
-
-              {productsDetails.PublicationDate && (
-                <h1 className="font-medium">
-                  Publication Date:{" "}
-                  <span className="font-normal">
-                    {formatDate(productsDetails.PublicationDate)}
-                  </span>
-                </h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div className="flex flex-col gap-2">
+              {column1.map(
+                (item, index) =>
+                  item.value && (
+                    <h1 key={index} className="font-bold text-sm">
+                      {item.label}:{" "}
+                      <span className="font-normal">{item.value}</span>
+                    </h1>
+                  )
               )}
             </div>
-            <div>
-              {productsDetails.Cover && (
-                <h1 className="font-medium text-md">
-                  Cover:{" "}
-                  <span className="font-normal">{productsDetails.Cover}</span>
-                </h1>
-              )}
-
-              {productsDetails.Pages && (
-                <h1 className="font-medium">
-                  Pages:{" "}
-                  <span className="font-normal">{productsDetails.Pages}</span>
-                </h1>
-              )}
-
-              {productsDetails.Weight && (
-                <h1 className="font-medium">
-                  Weight:{" "}
-                  <span className="font-normal">{productsDetails.Weight}</span>
-                </h1>
+            <div className="flex flex-col gap-2">
+              {column2.map(
+                (item, index) =>
+                  item.value && (
+                    <h1 key={index} className="font-bold text-sm">
+                      {item.label}:{" "}
+                      <span className="font-normal">{item.value}</span>
+                    </h1>
+                  )
               )}
             </div>
           </div>
@@ -98,7 +101,7 @@ const AdditionalContents: React.FC<AdditionalContentsProps> = ({
       <div>
         {productsDetails?.tableOfContents && (
           <AccordionProductDetail title="Table of Contents">
-            <div className="px-4">
+            <div className="">
               <FormattedTableofContents
                 description={productsDetails.tableOfContents}
               />

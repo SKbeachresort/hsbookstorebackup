@@ -109,7 +109,7 @@ const CustomerReviewsRatings: React.FC<ReviewProps> = ({
   return (
     <>
       <div className="my-4">
-        <hr />
+        {/* <hr /> */}
         <h2 className="text-xl font-medium my-4">Customer Ratings & Reviews</h2>
 
         {/* Buttons */}

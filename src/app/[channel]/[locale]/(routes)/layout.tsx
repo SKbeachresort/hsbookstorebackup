@@ -51,7 +51,7 @@ export default async function RootLayout(props: LayoutProps) {
         <Provider locale={locale} channel={channel}>
           <Navbar />
           <ClientLayout>{children}</ClientLayout>
-          {/* <Footer /> */}
+          <Footer />
         </Provider>
       </body>
     </html>

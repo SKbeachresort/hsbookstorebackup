@@ -62,12 +62,6 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
   const callbackUrl = getCookie("redirectTo") as string | undefined;
   const [loading, setIsLoading] = useState(false);
 
-  const targetUrl =
-    callbackUrl &&
-    (!callbackUrl.includes("login") || !callbackUrl.includes("register"))
-      ? callbackUrl
-      : "/";
-
   const [
     checkout,
     { loading: checkoutLoading, data: checkoutData, error: checkoutError },
@@ -128,7 +122,7 @@ export const AuthLoginUI: React.FC<AuthLoginUIProps> = ({
       };
   
       toast.success("Login Successful");
-      router.replace(targetUrl);
+      router.push(getRegionUrl(channel, locale, `/`));
     } catch (error) {
       console.error("Error during login:", error);
       toast.error("Something went wrong, please try again.");

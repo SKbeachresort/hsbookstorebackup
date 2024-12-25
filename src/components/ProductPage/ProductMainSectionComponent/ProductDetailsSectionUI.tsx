@@ -15,7 +15,7 @@ interface ProductDetailsProps {
   handleDecrement: () => void;
   incrementQuantity: (id: string) => void;
   removeFromCart?: (id: string) => void;
-}
+};
 
 const ProductDetailsSectionUI: React.FC<ProductDetailsProps> = ({
   channel,
@@ -27,6 +27,7 @@ const ProductDetailsSectionUI: React.FC<ProductDetailsProps> = ({
   incrementQuantity,
   removeFromCart,
 }) => {
+
   const handleDecrementLogic = () => {
     if (cartItem?.quantity === 1 && removeFromCart) {
       removeFromCart(productsDetails.id);
@@ -48,17 +49,18 @@ const ProductDetailsSectionUI: React.FC<ProductDetailsProps> = ({
     (sum, review) => sum + (review?.rating || 0),
     0
   );
+  
   const averageRating = totalReviews > 0 ? totalRatings / totalReviews : 0;
 
   return (
     <div className="flex flex-col">
       {/* Best Seller Badge */}
-      <span className="bg-[#69BBE940] mb-2 font-normal text-primary w-fit text-xs md:text-sm p-1">
+      <span className="bg-[#69BBE940] mb-1 lg:mb-2 font-normal text-primary w-fit text-xs md:text-sm p-1">
         Best Seller
       </span>
 
       {/* Product Name */}
-      <h1 className="text-xl 3xl:text-3xl my-1 font-medium">
+      <h1 className="text-lg xl:text-xl 3xl:text-3xl my-1 font-medium">
         {productsDetails?.name}
       </h1>
 
@@ -89,13 +91,13 @@ const ProductDetailsSectionUI: React.FC<ProductDetailsProps> = ({
 
       {/* Price Section */}
       <div className="flex flex-row gap-x-2 mt-2 mb-1">
-        <p className="text-2xl font-semibold">
+        <p className="text-xl xl:text-2xl font-semibold">
           {selectedVariant?.currency} {selectedVariant?.price}
         </p>
         {(selectedVariant?.cuttedPrice ?? 0) >
           (selectedVariant?.price ?? 0) && (
           <p className="line-through text-textgray text-sm font-medium">
-            {selectedVariant?.currencySymbol} {selectedVariant?.cuttedPrice}
+            {selectedVariant?.currencySymbol} {selectedVariant?.cuttedPrice.toFixed(3)}
           </p>
         )}
       </div>
